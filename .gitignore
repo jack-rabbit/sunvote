@@ -1,0 +1,5 @@
+/.settings
+/WebRoot/WEB-INF/classes/com/fh/controller/app/appuser/*.class
+*.class
+*.scss
+classes
