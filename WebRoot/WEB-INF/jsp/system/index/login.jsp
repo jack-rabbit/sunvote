@@ -84,7 +84,7 @@
 			<form action="" method="post" name="loginForm" id="loginForm">
 				<div class="control-group normal_text">
 					<h3>
-						<img src="static/login/logo.png" alt="Logo" />
+						中天电子-后台教育管理系统
 					</h3>
 				</div>
 				<div class="control-group">
@@ -136,7 +136,7 @@
 			</form>
 			<div class="controls">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright © FHqq313596790 2100</span></font>
+					<font color="white"><span id="nameerr">Copyright 中天电子（需备案）</span></font>
 				</div>
 			</div>
 		</div>
