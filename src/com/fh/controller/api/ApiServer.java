@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fh.controller.base.BaseController;
 import com.fh.service.sunvote.basestation.BasestationManager;
+import com.fh.service.sunvote.keypad.KeypadManager;
 import com.fh.service.sunvote.school.SchoolManager;
-import com.fh.util.Jurisdiction;
 import com.fh.util.PageData;
-import com.google.gson.Gson;
 
 @Controller
 @RequestMapping(value="/api")
@@ -25,26 +24,80 @@ public class ApiServer extends BaseController {
 	@Resource(name="basestationService")
 	private BasestationManager basestationService;
 	
+	@Resource(name="keypadService")
+	private KeypadManager keypadService;
 	
-	@RequestMapping(value="/school" ,produces="application/json;charset=UTF-8")
+	
+	@RequestMapping(value="/school/list" ,produces="application/json;charset=UTF-8")
 	@ResponseBody
-	public Object school() throws Exception{
+	public Object schoolList() throws Exception{
 		PageData pd = this.getPageData();
 		String id = pd.getString("id");
 		if(id != null && !"".equals(id)){
 			pd.put("SCHOOL_ID", pd.getString("id"));
 			PageData ret = schoolService.findById(pd);
-			Gson gson = new Gson();
-			return gson.toJson(ret);
+			ResponseGson<PageData> res = new ResponseGson();
+			res.setData(ret);
+			return res.toJson();
 		}else{
 			List<PageData> ret = schoolService.listAll(pd);
-			Gson gson = new Gson();
-			return gson.toJson(ret);
+			ResponseGson<List<PageData>> res = new ResponseGson();
+			res.setData(ret);
+			return res.toJson();
 		}
-		
+	}
+	@RequestMapping(value="/school/add" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object schoolAdd() throws Exception{
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		try {
+			if (pd.get("name") != null) {
+				schoolService.save(pd);
+				res.setData(pd);
+			} else {
+				res.setDataError();
+			}
+		}catch(Exception e){
+			res.setDataError();
+		}
+		return res.toJson();
 	}
 	
-	@RequestMapping(value="/basestation" ,produces="application/json;charset=UTF-8")
+	@RequestMapping(value="/school/delete" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object schoolDelete() throws Exception{
+		ResponseGson<PageData> res = new ResponseGson();
+		PageData pd = this.getPageData();
+		String id = pd.getString("id");
+		if(id != null && !"".equals(id)){
+			pd.put("SCHOOL_ID", pd.getString("id"));
+			schoolService.delete(pd);
+			res.setData(pd);
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	@RequestMapping(value="/school/update" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object schoolUpdate() throws Exception{
+		ResponseGson<PageData> res = new ResponseGson();
+		PageData pd = this.getPageData();
+		String id = pd.getString("id");
+		if(id != null && !"".equals(id)){
+			pd.put("SCHOOL_ID", pd.getString("id"));
+			schoolService.edit(pd);
+			res.setData(pd);
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	
+	@RequestMapping(value="/basestation/list" ,produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Object basestation() throws Exception{
 		PageData pd = this.getPageData();
@@ -52,12 +105,34 @@ public class ApiServer extends BaseController {
 		if(id != null && !"".equals(id)){
 			pd.put("BASESTATION_ID", pd.getString("id"));
 			PageData ret = basestationService.findById(pd);
-			Gson gson = new Gson();
-			return gson.toJson(ret);
+			ResponseGson<PageData> res = new ResponseGson();
+			res.setData(ret);
+			return res.toJson();
 		}else{
 			List<PageData> ret = basestationService.listAll(pd);
-			Gson gson = new Gson();
-			return gson.toJson(ret);
+			ResponseGson<List<PageData>> res = new ResponseGson();
+			res.setData(ret);
+			return res.toJson();
+		}
+		
+	}
+	
+	@RequestMapping(value="/keypad/list" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object keypad() throws Exception{
+		PageData pd = this.getPageData();
+		String id = pd.getString("id");
+		if(id != null && !"".equals(id)){
+			pd.put("KEYPAD_ID", pd.getString("id"));
+			PageData ret = keypadService.findById(pd);
+			ResponseGson<PageData> res = new ResponseGson();
+			res.setData(ret);
+			return res.toJson();
+		}else{
+			List<PageData> ret = keypadService.listAll(pd);
+			ResponseGson<List<PageData>> res = new ResponseGson();
+			res.setData(ret);
+			return res.toJson();
 		}
 		
 	}

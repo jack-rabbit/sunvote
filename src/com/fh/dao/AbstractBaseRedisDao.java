@@ -7,7 +7,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**  
  * redis Dao 
- * @author FH Q313596790 
+ * @author Elvis 
  * 修改时间：2016、5、2
  */   
 public abstract class AbstractBaseRedisDao<K, V> {  
