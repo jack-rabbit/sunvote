@@ -232,11 +232,11 @@
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
-					<div data-src="static/login/images/banner_slide_01.jpg"></div>
-					<div data-src="static/login/images/banner_slide_02.jpg"></div>
+					 <div data-src="static/login/images/banner_slide_02.jpg"></div>
+					<!--<div data-src="static/login/images/banner_slide_01.jpg"></div>
 					<div data-src="static/login/images/banner_slide_03.jpg"></div>
 					<div data-src="static/login/images/banner_slide_04.jpg"></div>
-					<div data-src="static/login/images/banner_slide_05.jpg"></div>
+					<div data-src="static/login/images/banner_slide_05.jpg"></div> -->
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -249,7 +249,7 @@
 			if(check()){
 				var loginname = $("#loginname").val();
 				var password = $("#password").val();
-				var code = "qq313596790fh"+loginname+",fh,"+password+"QQ978336446fh"+",fh,"+$("#code").val();
+				var code = "elvis"+loginname+",fh,"+password+"elvis"+",fh,"+$("#code").val();
 				$.ajax({
 					type: "POST",
 					url: 'login_login',

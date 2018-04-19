@@ -1,4 +1,4 @@
-package com.fh.service.${packageName}.${objectNameLower}.impl;
+package com.fh.service.sunvote.school.impl;
 
 import java.util.List;
 import javax.annotation.Resource;
@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
-import com.fh.service.${packageName}.${objectNameLower}.${objectName}Manager;
+import com.fh.service.sunvote.school.SchoolManager;
 
 /** 
- * 说明： ${TITLE}
- * 创建人：Elvis
- * 创建时间：${nowDate?string("yyyy-MM-dd")}
+ * 说明： 学校
+ * 创建人：FH Q313596790
+ * 创建时间：2018-04-18
  * @version
  */
-@Service("${objectNameLower}Service")
-public class ${objectName}Service implements ${objectName}Manager{
+@Service("schoolService")
+public class SchoolService implements SchoolManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -25,7 +25,7 @@ public class ${objectName}Service implements ${objectName}Manager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception{
-		dao.save("${objectName}Mapper.save", pd);
+		dao.save("SchoolMapper.save", pd);
 	}
 	
 	/**删除
@@ -33,7 +33,7 @@ public class ${objectName}Service implements ${objectName}Manager{
 	 * @throws Exception
 	 */
 	public void delete(PageData pd)throws Exception{
-		dao.delete("${objectName}Mapper.delete", pd);
+		dao.delete("SchoolMapper.delete", pd);
 	}
 	
 	/**修改
@@ -41,7 +41,7 @@ public class ${objectName}Service implements ${objectName}Manager{
 	 * @throws Exception
 	 */
 	public void edit(PageData pd)throws Exception{
-		dao.update("${objectName}Mapper.edit", pd);
+		dao.update("SchoolMapper.edit", pd);
 	}
 	
 	/**列表
@@ -50,7 +50,7 @@ public class ${objectName}Service implements ${objectName}Manager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("${objectName}Mapper.datalistPage", page);
+		return (List<PageData>)dao.findForList("SchoolMapper.datalistPage", page);
 	}
 	
 	/**列表(全部)
@@ -59,7 +59,7 @@ public class ${objectName}Service implements ${objectName}Manager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("${objectName}Mapper.listAll", pd);
+		return (List<PageData>)dao.findForList("SchoolMapper.listAll", pd);
 	}
 	
 	/**通过id获取数据
@@ -67,7 +67,7 @@ public class ${objectName}Service implements ${objectName}Manager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("${objectName}Mapper.findById", pd);
+		return (PageData)dao.findForObject("SchoolMapper.findById", pd);
 	}
 	
 	/**批量删除
@@ -75,7 +75,7 @@ public class ${objectName}Service implements ${objectName}Manager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.delete("${objectName}Mapper.deleteAll", ArrayDATA_IDS);
+		dao.delete("SchoolMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
 }

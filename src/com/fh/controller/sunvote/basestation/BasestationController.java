@@ -1,4 +1,4 @@
-package com.fh.controller.${packageName}.${objectNameLower};
+package com.fh.controller.sunvote.basestation;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -23,20 +23,20 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
-import com.fh.service.${packageName}.${objectNameLower}.${objectName}Manager;
+import com.fh.service.sunvote.basestation.BasestationManager;
 
 /** 
- * 说明：${TITLE}
+ * 说明：基站管理
  * 创建人：Elvis
- * 创建时间：${nowDate?string("yyyy-MM-dd")}
+ * 创建时间：2018-04-19
  */
 @Controller
-@RequestMapping(value="/${objectNameLower}")
-public class ${objectName}Controller extends BaseController {
+@RequestMapping(value="/basestation")
+public class BasestationController extends BaseController {
 	
-	String menuUrl = "${objectNameLower}/list.do"; //菜单地址(权限用)
-	@Resource(name="${objectNameLower}Service")
-	private ${objectName}Manager ${objectNameLower}Service;
+	String menuUrl = "basestation/list.do"; //菜单地址(权限用)
+	@Resource(name="basestationService")
+	private BasestationManager basestationService;
 	
 	/**保存
 	 * @param
@@ -44,26 +44,12 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"新增${objectName}");
+		logBefore(logger, Jurisdiction.getUsername()+"新增Basestation");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("${objectNameUpper}_ID", this.get32UUID());	//主键
-<#list fieldList as var>
-	<#if var[3] == "否">
-		<#if var[1] == 'Date'>
-		pd.put("${var[0]}", Tools.date2Str(new Date()));	//${var[2]}
-		<#elseif var[1] == 'Integer'>
-		pd.put("${var[0]}", "${var[4]?replace("无",0)}");	//${var[2]}
-		<#elseif var[1] == 'Double'>
-		pd.put("${var[0]}", "${var[4]?replace("无",0)}");	//${var[2]}
-		<#else>
-		pd.put("${var[0]}", "${var[4]?replace("无","")}");	//${var[2]}
-		</#if>
-	</#if>
-</#list>
-		${objectNameLower}Service.save(pd);
+		basestationService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -75,11 +61,11 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"删除${objectName}");
+		logBefore(logger, Jurisdiction.getUsername()+"删除Basestation");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		${objectNameLower}Service.delete(pd);
+		basestationService.delete(pd);
 		out.write("success");
 		out.close();
 	}
@@ -90,12 +76,12 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"修改${objectName}");
+		logBefore(logger, Jurisdiction.getUsername()+"修改Basestation");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		${objectNameLower}Service.edit(pd);
+		basestationService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -107,7 +93,7 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"列表${objectName}");
+		logBefore(logger, Jurisdiction.getUsername()+"列表Basestation");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
@@ -117,8 +103,8 @@ public class ${objectName}Controller extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		List<PageData>	varList = ${objectNameLower}Service.list(page);	//列出${objectName}列表
-		mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_list");
+		List<PageData>	varList = basestationService.list(page);	//列出Basestation列表
+		mv.setViewName("sunvote/basestation/basestation_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
@@ -134,7 +120,7 @@ public class ${objectName}Controller extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_edit");
+		mv.setViewName("sunvote/basestation/basestation_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -149,8 +135,8 @@ public class ${objectName}Controller extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd = ${objectNameLower}Service.findById(pd);	//根据ID读取
-		mv.setViewName("${packageName}/${objectNameLower}/${objectNameLower}_edit");
+		pd = basestationService.findById(pd);	//根据ID读取
+		mv.setViewName("sunvote/basestation/basestation_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;
@@ -163,7 +149,7 @@ public class ${objectName}Controller extends BaseController {
 	@RequestMapping(value="/deleteAll")
 	@ResponseBody
 	public Object deleteAll() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"批量删除${objectName}");
+		logBefore(logger, Jurisdiction.getUsername()+"批量删除Basestation");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -172,7 +158,7 @@ public class ${objectName}Controller extends BaseController {
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
-			${objectNameLower}Service.deleteAll(ArrayDATA_IDS);
+			basestationService.deleteAll(ArrayDATA_IDS);
 			pd.put("msg", "ok");
 		}else{
 			pd.put("msg", "no");
@@ -188,30 +174,34 @@ public class ${objectName}Controller extends BaseController {
 	 */
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"导出${objectName}到excel");
+		logBefore(logger, Jurisdiction.getUsername()+"导出Basestation到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-<#list fieldList as var>
-		titles.add("${var[2]}");	//${var_index+1}
-</#list>
+		titles.add("基站名称");	//1
+		titles.add("基站编号");	//2
+		titles.add("配对码");	//3
+		titles.add("键盘模式");	//4
+		titles.add("工作模式");	//5
+		titles.add("生产时间");	//6
+		titles.add("是否正常");	//7
+		titles.add("备注");	//8
 		dataMap.put("titles", titles);
-		List<PageData> varOList = ${objectNameLower}Service.listAll(pd);
+		List<PageData> varOList = basestationService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
-<#list fieldList as var>
-		<#if var[1] == 'Integer'>
-			vpd.put("var${var_index+1}", varOList.get(i).get("${var[0]}").toString());	//${var_index+1}
-		<#elseif var[1] == 'Double'>
-			vpd.put("var${var_index+1}", varOList.get(i).get("${var[0]}").toString());	//${var_index+1}
-		<#else>
-			vpd.put("var${var_index+1}", varOList.get(i).getString("${var[0]}"));	    //${var_index+1}
-		</#if>
-</#list>
+			vpd.put("var1", varOList.get(i).getString("NAME"));	    //1
+			vpd.put("var2", varOList.get(i).getString("NO"));	    //2
+			vpd.put("var3", varOList.get(i).getString("MATCH_CODE"));	    //3
+			vpd.put("var4", varOList.get(i).getString("KEYPAD_MODE"));	    //4
+			vpd.put("var5", varOList.get(i).getString("WORK_MODE"));	    //5
+			vpd.put("var6", varOList.get(i).getString("PRODUCTION_TIME"));	    //6
+			vpd.put("var7", varOList.get(i).get("IS_OK").toString());	//7
+			vpd.put("var8", varOList.get(i).getString("REMARK"));	    //8
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);

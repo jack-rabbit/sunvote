@@ -84,7 +84,8 @@ public class SecCodeController {
 	
 	private char randomChar(){
 		Random r = new Random();
-		String s = "ABCDEFGHJKLMNPRSTUVWXYZ0123456789";
+//		String s = "ABCDEFGHJKLMNPRSTUVWXYZ0123456789";
+		String s = "0123456789";
 		return s.charAt(r.nextInt(s.length()));
 	}
 }

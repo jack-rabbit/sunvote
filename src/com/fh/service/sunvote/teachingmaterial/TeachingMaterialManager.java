@@ -1,16 +1,16 @@
-package com.fh.service.${packageName}.${objectNameLower};
+package com.fh.service.sunvote.teachingmaterial;
 
 import java.util.List;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
 /** 
- * 说明： ${TITLE}接口
- * 创建人：Elvis
- * 创建时间：${nowDate?string("yyyy-MM-dd")}
+ * 说明： 教材接口
+ * 创建人：FH Q313596790
+ * 创建时间：2018-04-18
  * @version
  */
-public interface ${objectName}Manager{
+public interface TeachingMaterialManager{
 
 	/**新增
 	 * @param pd
@@ -53,12 +53,6 @@ public interface ${objectName}Manager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
-	
-	/**查询明细总数
-	 * @param pd
-	 * @throws Exception
-	 */
-	public PageData findCount(PageData pd)throws Exception;
 	
 }
 

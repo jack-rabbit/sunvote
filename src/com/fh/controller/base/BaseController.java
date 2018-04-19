@@ -3,11 +3,15 @@ package com.fh.controller.base;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.session.Session;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.entity.Page;
+import com.fh.entity.system.User;
+import com.fh.util.Const;
+import com.fh.util.Jurisdiction;
 import com.fh.util.Logger;
 import com.fh.util.PageData;
 import com.fh.util.UuidUtil;
@@ -69,4 +73,13 @@ public class BaseController {
 		logger.info("");
 	}
 	
+	
+	public String getUsername(){
+		Session session = Jurisdiction.getSession();
+		User user = (User)session.getAttribute(Const.SESSION_USER);
+		if(user != null){
+			return user.getUSERNAME();
+		}
+		return "ERROR";
+	}
 }
