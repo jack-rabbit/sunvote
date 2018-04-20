@@ -79,7 +79,7 @@
 									<c:forEach items="${r"${varList}"}" var="var" varStatus="vs">
 										<tr>
 											<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
-											<td class='center'><a href="javascript:goSondict('${r"${var."}${objectNameUpper}_ID${r"}"}')"><i class="ace-icon fa fa-share bigger-100"></i>&nbsp;${r"${var.NAME}"}</a></td>
+											<td class='center'><a href="javascript:goSondict('${r"${var."}${ID${r"}"}')"><i class="ace-icon fa fa-share bigger-100"></i>&nbsp;${r"${var.NAME}"}</a></td>
 										<#list fieldList as var>
 											<td class='center'>${r"${var."}${var[0]}${r"}"}</td>
 										</#list>
@@ -89,12 +89,12 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${r"${QX.edit == 1 }"}">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${r"${var."}${objectNameUpper}_ID${r"}"}');">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${r"${var."}${ID${r"}"}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${r"${QX.del == 1 }"}">
-													<a class="btn btn-xs btn-danger" onclick="del('${r"${var."}${objectNameUpper}_ID${r"}"}');">
+													<a class="btn btn-xs btn-danger" onclick="del('${r"${var."}${ID${r"}"}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -108,7 +108,7 @@
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 															<c:if test="${r"${QX.edit == 1 }"}">
 															<li>
-																<a style="cursor:pointer;" onclick="edit('${r"${var."}${objectNameUpper}_ID${r"}"}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="edit('${r"${var."}${ID${r"}"}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
@@ -117,7 +117,7 @@
 															</c:if>
 															<c:if test="${r"${QX.del == 1 }"}">
 															<li>
-																<a style="cursor:pointer;" onclick="del('${r"${var."}${objectNameUpper}_ID${r"}"}');" class="tooltip-error" data-rel="tooltip" title="删除">
+																<a style="cursor:pointer;" onclick="del('${r"${var."}${ID${r"}"}');" class="tooltip-error" data-rel="tooltip" title="删除">
 																	<span class="red">
 																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																	</span>
@@ -151,9 +151,9 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<c:if test="${r"${QX.add == 1 }"}">
-									<a class="btn btn-mini btn-success" onclick="add('${r"${"}${objectNameUpper}_ID${r"}"}');">新增</a>
+									<a class="btn btn-mini btn-success" onclick="add('${r"${"}${ID${r"}"}');">新增</a>
 									</c:if>
-									<c:if test="${r"${null != pd."}${objectNameUpper}_ID${r" && pd."}${objectNameUpper}_ID${r" != ''}"}">
+									<c:if test="${r"${null != pd."}${ID${r" && pd."}${ID${r" != ''}"}">
 									<a class="btn btn-mini btn-success" onclick="goSondict('${r"${pd.PARENT_ID}"}');">返回</a>
 									</c:if>
 								</td>
@@ -203,9 +203,9 @@
 		}
 		
 		//去此ID下子级列表
-		function goSondict(${objectNameUpper}_ID){
+		function goSondict(${ID){
 			top.jzts();
-			window.location.href="<%=basePath%>${objectNameLower}/list.do?${objectNameUpper}_ID="+${objectNameUpper}_ID;
+			window.location.href="<%=basePath%>${objectNameLower}/list.do?${ID="+${ID;
 		};
 		
 		$(function() {
@@ -245,12 +245,12 @@
 		});
 		
 		//新增
-		function add(${objectNameUpper}_ID){
+		function add(${ID){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>${objectNameLower}/goAdd.do?${objectNameUpper}_ID='+${objectNameUpper}_ID;
+			 diag.URL = '<%=basePath%>${objectNameLower}/goAdd.do?${ID='+${ID;
 			 diag.Width = 800;
 			 diag.Height = 600;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -258,7 +258,7 @@
 		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 parent.location.href="<%=basePath%>${objectNameLower}/listTree.do?${objectNameUpper}_ID=${r"${"}${objectNameUpper}_ID${r"}"}&dnowPage=${r"${page.currentPage}"}";
+					 parent.location.href="<%=basePath%>${objectNameLower}/listTree.do?${ID=${r"${"}${ID${r"}"}&dnowPage=${r"${page.currentPage}"}";
 				}
 				diag.close();
 			 };
@@ -270,7 +270,7 @@
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${objectNameLower}/delete.do?${objectNameUpper}_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>${objectNameLower}/delete.do?${ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						tosearch();
 					});
@@ -283,10 +283,10 @@
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${objectNameLower}/delete.do?${objectNameUpper}_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>${objectNameLower}/delete.do?${ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if("success" == data.result){
-							parent.location.href="<%=basePath%>${objectNameLower}/listTree.do?${objectNameUpper}_ID=${r"${"}${objectNameUpper}_ID${r"}"}&dnowPage=${r"${page.currentPage}"}";
+							parent.location.href="<%=basePath%>${objectNameLower}/listTree.do?${ID=${r"${"}${ID${r"}"}&dnowPage=${r"${page.currentPage}"}";
 						}else if("false" == data.result){
 							top.hangge();
 							bootbox.dialog({
@@ -313,7 +313,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>${objectNameLower}/goEdit.do?${objectNameUpper}_ID='+Id;
+			 diag.URL = '<%=basePath%>${objectNameLower}/goEdit.do?${ID='+Id;
 			 diag.Width = 800;
 			 diag.Height = 600;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -321,7 +321,7 @@
 		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 parent.location.href="<%=basePath%>${objectNameLower}/listTree.do?${objectNameUpper}_ID=${r"${"}${objectNameUpper}_ID${r"}"}&dnowPage=${r"${page.currentPage}"}";
+					 parent.location.href="<%=basePath%>${objectNameLower}/listTree.do?${ID=${r"${"}${ID${r"}"}&dnowPage=${r"${page.currentPage}"}";
 				}
 				diag.close();
 			 };

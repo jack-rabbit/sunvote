@@ -6,7 +6,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `${tabletop}${objectNameUpper}`;
 CREATE TABLE `${tabletop}${objectNameUpper}` (
- 		`$ID` int(100) NOT NULL AUTO_INCREMENT,
+ 		`ID` int(11) NOT NULL AUTO_INCREMENT,
 	<#list fieldList as var>
 		<#if var[1] == 'Integer'>
 		`${var[0]}` int(${var[5]}) NOT NULL COMMENT '${var[2]}',

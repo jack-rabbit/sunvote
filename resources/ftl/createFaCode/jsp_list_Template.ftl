@@ -87,12 +87,12 @@
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${r"${QX.edit == 1 }"}">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${r"${var."}${objectNameUpper}_ID${r"}"}');">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${r"${var."}${ID${r"}"}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${r"${QX.del == 1 }"}">
-													<a class="btn btn-xs btn-danger" onclick="del('${r"${var."}${objectNameUpper}_ID${r"}"}');">
+													<a class="btn btn-xs btn-danger" onclick="del('${r"${var."}${ID${r"}"}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -106,7 +106,7 @@
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 															<c:if test="${r"${QX.edit == 1 }"}">
 															<li>
-																<a style="cursor:pointer;" onclick="edit('${r"${var."}${objectNameUpper}_ID${r"}"}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="edit('${r"${var."}${ID${r"}"}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
@@ -115,7 +115,7 @@
 															</c:if>
 															<c:if test="${r"${QX.del == 1 }"}">
 															<li>
-																<a style="cursor:pointer;" onclick="del('${r"${var."}${objectNameUpper}_ID${r"}"}');" class="tooltip-error" data-rel="tooltip" title="删除">
+																<a style="cursor:pointer;" onclick="del('${r"${var."}${ID${r"}"}');" class="tooltip-error" data-rel="tooltip" title="删除">
 																	<span class="red">
 																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																	</span>
@@ -273,7 +273,7 @@
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${objectNameLower}/delete.do?${objectNameUpper}_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>${objectNameLower}/delete.do?${ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if("success" == data.result){
 							tosearch();
@@ -302,7 +302,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>${objectNameLower}/goEdit.do?${objectNameUpper}_ID='+Id;
+			 diag.URL = '<%=basePath%>${objectNameLower}/goEdit.do?${ID='+Id;
 			 diag.Width = 800;
 			 diag.Height = 600;
 			 diag.Modal = true;				//有无遮罩窗口

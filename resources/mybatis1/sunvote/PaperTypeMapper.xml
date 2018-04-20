@@ -11,14 +11,14 @@
 	<sql id="Field">
 		NAME,	
 		REMARK,	
-		$ID
+		ID
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
 		#{NAME},	
 		#{REMARK},	
-		#{$ID}
+		#{ID}
 	</sql>
 	
 	<!-- 新增-->
@@ -37,7 +37,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			$ID = #{$ID}
+			ID = #{ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -47,9 +47,9 @@
 		set 
 			NAME = #{NAME},
 			REMARK = #{REMARK},
-		$ID = $ID
+		ID = ID
 		where 
-		$ID = #{$ID}
+		ID = #{ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -59,7 +59,7 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			$ID = #{$ID}
+			ID = #{ID}
 	</select>
 	
 	<!-- 列表 -->
@@ -94,7 +94,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			$ID in
+			ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>

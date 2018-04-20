@@ -28,7 +28,7 @@
 					<div class="col-xs-12">
 					
 					<form action="papertype/${msg }.do" name="Form" id="Form" method="post">
-						<input type="hidden" name="PAPERTYPE_ID" id="PAPERTYPE_ID" value="${pd.PAPERTYPE_ID}"/>
+						<input type="hidden" name="ID" id="ID" value="${pd.ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
