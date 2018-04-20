@@ -32,9 +32,8 @@ public class ApiServer extends BaseController {
 	@ResponseBody
 	public Object schoolList() throws Exception{
 		PageData pd = this.getPageData();
-		String id = pd.getString("id");
+		String id = pd.getString("ID");
 		if(id != null && !"".equals(id)){
-			pd.put("SCHOOL_ID", pd.getString("id"));
 			PageData ret = schoolService.findById(pd);
 			ResponseGson<PageData> res = new ResponseGson();
 			res.setData(ret);
@@ -50,11 +49,11 @@ public class ApiServer extends BaseController {
 	@ResponseBody
 	public Object schoolAdd() throws Exception{
 		PageData pd = this.getPageData();
-		ResponseGson<PageData> res = new ResponseGson();
+		ResponseGson<Integer> res = new ResponseGson();
 		try {
-			if (pd.get("name") != null) {
-				schoolService.save(pd);
-				res.setData(pd);
+			if (pd.get("NAME") != null) {
+				Integer id = schoolService.save(pd);
+				res.setData(id);
 			} else {
 				res.setDataError();
 			}
@@ -69,11 +68,13 @@ public class ApiServer extends BaseController {
 	public Object schoolDelete() throws Exception{
 		ResponseGson<PageData> res = new ResponseGson();
 		PageData pd = this.getPageData();
-		String id = pd.getString("id");
+		String id = pd.getString("ID");
 		if(id != null && !"".equals(id)){
-			pd.put("SCHOOL_ID", pd.getString("id"));
-			schoolService.delete(pd);
-			res.setData(pd);
+			try {
+				schoolService.delete(pd);
+			} catch (Exception e) {
+				res.setDataError();
+			}
 		}else{
 			res.setDataError();
 		}
@@ -85,11 +86,13 @@ public class ApiServer extends BaseController {
 	public Object schoolUpdate() throws Exception{
 		ResponseGson<PageData> res = new ResponseGson();
 		PageData pd = this.getPageData();
-		String id = pd.getString("id");
+		String id = pd.getString("ID");
 		if(id != null && !"".equals(id)){
-			pd.put("SCHOOL_ID", pd.getString("id"));
-			schoolService.edit(pd);
-			res.setData(pd);
+			try {
+				schoolService.edit(pd);
+			} catch (Exception e) {
+				res.setDataError();
+			}
 		}else{
 			res.setDataError();
 		}
@@ -101,7 +104,7 @@ public class ApiServer extends BaseController {
 	@ResponseBody
 	public Object basestation() throws Exception{
 		PageData pd = this.getPageData();
-		String id = pd.getString("id");
+		String id = pd.getString("ID");
 		if(id != null && !"".equals(id)){
 			pd.put("BASESTATION_ID", pd.getString("id"));
 			PageData ret = basestationService.findById(pd);
@@ -117,13 +120,65 @@ public class ApiServer extends BaseController {
 		
 	}
 	
+	@RequestMapping(value="/basestation/add" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object basestationAdd() throws Exception {
+		ResponseGson<PageData> res = new ResponseGson();
+		PageData pd = this.getPageData();
+		if (pd.getString("NAME") != null) {
+			try {
+				basestationService.edit(pd);
+			} catch (Exception ex) {
+				res.setDataError();
+			}
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	@RequestMapping(value="/basestation/delete" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object basestationDelete() throws Exception{
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		String id = pd.getString("ID");
+		if(id != null && !"".equals(id)){
+			try {
+				basestationService.delete(pd);
+			} catch (Exception e) {
+				res.setDataError();
+			}
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	@RequestMapping(value="/basestation/update" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object basestationUpdate() throws Exception{
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		String id = pd.getString("ID");
+		if(id != null && !"".equals(id)){
+			try {
+				basestationService.edit(pd);
+			} catch (Exception e) {
+				res.setDataError();
+			}
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
 	@RequestMapping(value="/keypad/list" ,produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Object keypad() throws Exception{
 		PageData pd = this.getPageData();
-		String id = pd.getString("id");
+		String id = pd.getString("ID");
 		if(id != null && !"".equals(id)){
-			pd.put("KEYPAD_ID", pd.getString("id"));
 			PageData ret = keypadService.findById(pd);
 			ResponseGson<PageData> res = new ResponseGson();
 			res.setData(ret);
@@ -134,6 +189,55 @@ public class ApiServer extends BaseController {
 			res.setData(ret);
 			return res.toJson();
 		}
-		
 	}
+	
+	@RequestMapping(value="/keypad/add" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object keypadAdd() throws Exception {
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		try {
+			keypadService.save(pd);
+		} catch (Exception ex) {
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	@RequestMapping(value="/keypad/delete" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object keypadDelete() throws Exception{
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		String id = pd.getString("ID");
+		if(id != null && !"".equals(id)){
+			try {
+				keypadService.delete(pd);
+			} catch (Exception e) {
+				res.setDataError();
+			}
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	@RequestMapping(value="/keypad/update" ,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public Object keypadUpdate() throws Exception{
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		String id = pd.getString("ID");
+		if(id != null && !"".equals(id)){
+			try{
+				keypadService.edit(pd);
+			}catch(Exception ex){
+				res.setDataError();
+			}
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
 }

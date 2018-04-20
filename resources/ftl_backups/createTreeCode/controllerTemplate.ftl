@@ -51,7 +51,6 @@ public class ${objectName}Controller extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("${objectNameUpper}_ID", this.get32UUID());	//主键
 <#list fieldList as var>
 	<#if var[3] == "否">
 		<#if var[1] == 'Date'>

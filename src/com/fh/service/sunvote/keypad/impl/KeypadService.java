@@ -1,4 +1,4 @@
-package com.fh.service.sunvote.school.impl;
+package com.fh.service.sunvote.keypad.impl;
 
 import java.util.List;
 import javax.annotation.Resource;
@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
-import com.fh.service.sunvote.school.SchoolManager;
+import com.fh.service.sunvote.keypad.KeypadManager;
 
 /** 
- * 说明： 学校
- * 创建人：FH Q313596790
- * 创建时间：2018-04-18
+ * 说明： 键盘管理
+ * 创建人：Elvis
+ * 创建时间：2018-04-19
  * @version
  */
-@Service("schoolService")
-public class SchoolService implements SchoolManager{
+@Service("keypadService")
+public class KeypadService implements KeypadManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -24,8 +24,8 @@ public class SchoolService implements SchoolManager{
 	 * @param pd
 	 * @throws Exception
 	 */
-	public Integer save(PageData pd)throws Exception{
-		return (Integer)dao.save("SchoolMapper.save", pd);
+	public void save(PageData pd)throws Exception{
+		dao.save("KeypadMapper.save", pd);
 	}
 	
 	/**删除
@@ -33,7 +33,7 @@ public class SchoolService implements SchoolManager{
 	 * @throws Exception
 	 */
 	public void delete(PageData pd)throws Exception{
-		dao.delete("SchoolMapper.delete", pd);
+		dao.delete("KeypadMapper.delete", pd);
 	}
 	
 	/**修改
@@ -41,7 +41,7 @@ public class SchoolService implements SchoolManager{
 	 * @throws Exception
 	 */
 	public void edit(PageData pd)throws Exception{
-		dao.update("SchoolMapper.edit", pd);
+		dao.update("KeypadMapper.edit", pd);
 	}
 	
 	/**列表
@@ -50,7 +50,7 @@ public class SchoolService implements SchoolManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("SchoolMapper.datalistPage", page);
+		return (List<PageData>)dao.findForList("KeypadMapper.datalistPage", page);
 	}
 	
 	/**列表(全部)
@@ -59,7 +59,7 @@ public class SchoolService implements SchoolManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("SchoolMapper.listAll", pd);
+		return (List<PageData>)dao.findForList("KeypadMapper.listAll", pd);
 	}
 	
 	/**通过id获取数据
@@ -67,7 +67,7 @@ public class SchoolService implements SchoolManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("SchoolMapper.findById", pd);
+		return (PageData)dao.findForObject("KeypadMapper.findById", pd);
 	}
 	
 	/**批量删除
@@ -75,7 +75,7 @@ public class SchoolService implements SchoolManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.delete("SchoolMapper.deleteAll", ArrayDATA_IDS);
+		dao.delete("KeypadMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
 }

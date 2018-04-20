@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="TeachingMaterialMapper">
+<mapper namespace="KeypadMapper">
 	
 	<!--表名 -->
 	<sql id="tableName">
-		SV_TEACHINGMATERIAL
+		SV_KEYPAD
 	</sql>
 	
 	<!-- 字段 -->
 	<sql id="Field">
-		NAME,	
-		SUBJECT_ID,	
-		GRADE_ID,	
-		VERSION_CODE,	
-		VERSION_NAME,	
+		NO,	
+		SN,	
+		IS_OK,	
+		WORK_MODE,	
+		PRODUCT_DATE,	
 		ID
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
-		#{NAME},	
-		#{SUBJECT_ID},	
-		#{GRADE_ID},	
-		#{VERSION_CODE},	
-		#{VERSION_NAME},	
+		#{NO},	
+		#{SN},	
+		#{IS_OK},	
+		#{WORK_MODE},	
+		#{PRODUCT_DATE},	
 		#{ID}
 	</sql>
 	
@@ -32,9 +32,17 @@
 		insert into 
 	<include refid="tableName"></include>
 		(
-	<include refid="Field"></include>
+		NO,	
+		SN,	
+		IS_OK,	
+		WORK_MODE,	
+		PRODUCT_DATE
 		) values (
-	<include refid="FieldValue"></include>
+		#{NO},	
+		#{SN},	
+		#{IS_OK},	
+		#{WORK_MODE},	
+		#{PRODUCT_DATE}
 		)
 	</insert>
 	
@@ -51,11 +59,11 @@
 		update
 		<include refid="tableName"></include>
 		set 
-			NAME = #{NAME},
-			SUBJECT_ID = #{SUBJECT_ID},
-			GRADE_ID = #{GRADE_ID},
-			VERSION_CODE = #{VERSION_CODE},
-			VERSION_NAME = #{VERSION_NAME},
+			NO = #{NO},
+			SN = #{SN},
+			IS_OK = #{IS_OK},
+			WORK_MODE = #{WORK_MODE},
+			PRODUCT_DATE = #{PRODUCT_DATE},
 		ID = ID
 		where 
 		ID = #{ID}

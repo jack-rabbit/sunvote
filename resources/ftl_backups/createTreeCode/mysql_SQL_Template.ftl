@@ -6,7 +6,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `${tabletop}${objectNameUpper}`;
 CREATE TABLE `${tabletop}${objectNameUpper}` (
- 		`${objectNameUpper}_ID` varchar(100) NOT NULL,
+ 		`$ID` int(100) NOT NULL AUTO_INCREMENT,
  		`PARENT_ID` varchar(100) NOT NULL,
 		`NAME` varchar(100) NOT NULL,
 	<#list fieldList as var>
@@ -18,5 +18,5 @@ CREATE TABLE `${tabletop}${objectNameUpper}` (
 		`${var[0]}` varchar(${var[5]}) DEFAULT NULL COMMENT '${var[2]}',
 		</#if>
 	</#list>
-  		PRIMARY KEY (`${objectNameUpper}_ID`)
+  		PRIMARY KEY (`$ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

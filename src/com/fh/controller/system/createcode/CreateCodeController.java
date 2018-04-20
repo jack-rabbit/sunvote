@@ -102,21 +102,21 @@ public class CreateCodeController extends BaseController {
 		pd = this.getPageData();
 		save(pd);	//保存到数据库
 		/* ============================================================================================= */
-		String faobject = pd.getString("faobject");  				//主表名				========参数0-1 主附结构用
+		String faobject = pd.getString("FAOBJECT");  				//主表名				========参数0-1 主附结构用
 		String FHTYPE = pd.getString("FHTYPE");  					//模块类型			========参数0-2 类型，单表、树形结构、主表明细表
 		String TITLE = pd.getString("TITLE");  						//说明				========参数0
-		String packageName = pd.getString("packageName");  			//包名				========参数1
-		String objectName = pd.getString("objectName");	   			//类名				========参数2
-		String tabletop = pd.getString("tabletop");	   				//表前缀				========参数3
+		String packageName = pd.getString("PACKAGENAME");  			//包名				========参数1
+		String objectName = pd.getString("OBJECTNAME");	   			//类名				========参数2
+		String tabletop = pd.getString("TABLETOP");	   				//表前缀				========参数3
 		tabletop = null == tabletop?"":tabletop.toUpperCase();		//表前缀转大写
-		String zindext = pd.getString("zindex");	   	   			//属性总数
+		String zindext = pd.getString("ZINDEX");	   	   			//属性总数
 		int zindex = 0;
 		if(null != zindext && !"".equals(zindext)){
 			zindex = Integer.parseInt(zindext);
 		}
 		List<String[]> fieldList = new ArrayList<String[]>();   	//属性集合			========参数4
 		for(int i=0; i< zindex; i++){
-			fieldList.add(pd.getString("field"+i).split(",fh,"));	//属性放到集合里面
+			fieldList.add(pd.getString("FIELD"+i).split(",fh,"));	//属性放到集合里面
 		}
 		Map<String,Object> root = new HashMap<String,Object>();		//创建数据模型
 		root.put("fieldList", fieldList);
@@ -175,9 +175,9 @@ public class CreateCodeController extends BaseController {
 	 * @throws Exception
 	 */
 	public void save(PageData pd) throws Exception{
-		pd.put("PACKAGENAME", pd.getString("packageName"));	//包名
-		pd.put("OBJECTNAME", pd.getString("objectName"));	//类名
-		pd.put("TABLENAME", pd.getString("tabletop")+",fh,"+pd.getString("objectName").toUpperCase());	//表名
+		pd.put("PACKAGENAME", pd.getString("PACKAGENAME"));	//包名
+		pd.put("OBJECTNAME", pd.getString("OBJECTNAME"));	//类名
+		pd.put("TABLENAME", pd.getString("TABLETOP")+",fh,"+pd.getString("OBJECTNAME").toUpperCase());	//表名
 		pd.put("FIELDLIST", pd.getString("FIELDLIST"));		//属性集合
 		pd.put("CREATETIME", DateUtil.getTime());			//创建时间
 		pd.put("TITLE", pd.getString("TITLE"));				//说明

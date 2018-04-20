@@ -17,7 +17,7 @@
 		PRODUCTION_TIME,	
 		IS_OK,	
 		REMARK,	
-		BASESTATION_ID
+		ID
 	</sql>
 	
 	<!-- 字段值 -->
@@ -30,11 +30,15 @@
 		#{PRODUCTION_TIME},	
 		#{IS_OK},	
 		#{REMARK},	
-		#{BASESTATION_ID}
+		#{ID}
 	</sql>
 	
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
+	 	<selectKey keyProperty="ID" order="AFTER" resultType="pd">  
+            <!-- SELECT LAST_INSERT_ID()：得到刚insert到数据表中的记录的主键值，只适用于自增主键 -->  
+            SELECT LAST_INSERT_ID()  
+        </selectKey>  
 		insert into 
 	<include refid="tableName"></include>
 		(
@@ -63,7 +67,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			BASESTATION_ID = #{BASESTATION_ID}
+			ID = #{ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -79,9 +83,9 @@
 			PRODUCTION_TIME = #{PRODUCTION_TIME},
 			IS_OK = #{IS_OK},
 			REMARK = #{REMARK},
-		BASESTATION_ID = BASESTATION_ID
+		ID = ID
 		where 
-		BASESTATION_ID = #{BASESTATION_ID}
+		ID = #{ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -91,7 +95,7 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			BASESTATION_ID = #{BASESTATION_ID}
+			ID = #{ID}
 	</select>
 	
 	<!-- 列表 -->
@@ -126,11 +130,10 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			BASESTATION_ID in
+			ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>
 	</delete>
 	
-	<!-- fh313596790qq(青苔) -->
 </mapper>

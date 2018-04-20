@@ -14,7 +14,7 @@
 		PRESIDENT,	
 		PHONE,	
 		REMARK,	
-		SCHOOL_ID
+		ID
 	</sql>
 	
 	<!-- 字段值 -->
@@ -24,7 +24,7 @@
 		#{PRESIDENT},	
 		#{PHONE},	
 		#{REMARK},	
-		#{SCHOOL_ID}
+		#{ID}
 	</sql>
 	
 	<!-- 新增-->
@@ -51,7 +51,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			SCHOOL_ID = #{SCHOOL_ID}
+			ID = #{ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -64,9 +64,9 @@
 			PRESIDENT = #{PRESIDENT},
 			PHONE = #{PHONE},
 			REMARK = #{REMARK},
-		SCHOOL_ID = SCHOOL_ID
+		ID = ID
 		where 
-		SCHOOL_ID = #{SCHOOL_ID}
+		ID = #{ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -76,7 +76,7 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			SCHOOL_ID = #{SCHOOL_ID}
+			ID = #{ID}
 	</select>
 	
 	<!-- 列表 -->
@@ -111,11 +111,19 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			SCHOOL_ID in
+			ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>
 	</delete>
+	
+	<!-- max(id) -->
+	<select id="maxID" parameterType="pd" resultType="pd">
+		select
+		max(ID) as ID
+		from 
+		<include refid="tableName"></include>
+	</select>
 	
 	<!-- fh313596790qq(青苔) -->
 </mapper>

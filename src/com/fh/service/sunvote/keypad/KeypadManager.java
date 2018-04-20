@@ -1,22 +1,22 @@
-package com.fh.service.sunvote.school;
+package com.fh.service.sunvote.keypad;
 
 import java.util.List;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
 /** 
- * 说明： 学校接口
- * 创建人：FH Q313596790
- * 创建时间：2018-04-18
+ * 说明： 键盘管理接口
+ * 创建人：Elvis
+ * 创建时间：2018-04-19
  * @version
  */
-public interface SchoolManager{
+public interface KeypadManager{
 
 	/**新增
 	 * @param pd
 	 * @throws Exception
 	 */
-	public Integer save(PageData pd)throws Exception;
+	public void save(PageData pd)throws Exception;
 	
 	/**删除
 	 * @param pd

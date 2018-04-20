@@ -3,7 +3,7 @@
 <mapper namespace="${objectName}Mapper">
 	
 	<resultMap type="${objectName}" id="${objectNameLower}ResultMap">
-		<id column="${objectNameUpper}_ID" property="${objectNameUpper}_ID"/>
+		<id column="$ID" property="$ID"/>
 		<result column="NAME" property="NAME"/>
 		<result column="PARENT_ID" property="PARENT_ID"/>
 	</resultMap>
@@ -18,7 +18,7 @@
 	<#list fieldList as var>
 		${var[0]},	
 	</#list>
-		${objectNameUpper}_ID,
+		$ID,
 		PARENT_ID,
 		NAME
 	</sql>
@@ -28,7 +28,7 @@
 	<#list fieldList as var>
 		${r"#{"}${var[0]}${r"}"},	
 	</#list>
-		${r"#{"}${objectNameUpper}_ID${r"}"},
+		${r"#{"}$ID${r"}"},
 		${r"#{"}PARENT_ID${r"}"},
 		${r"#{"}NAME${r"}"}
 	</sql>
@@ -49,7 +49,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			${objectNameUpper}_ID = ${r"#{"}${objectNameUpper}_ID${r"}"}
+			$ID = ${r"#{"}$ID${r"}"}
 	</delete>
 	
 	<!-- 修改 -->
@@ -63,9 +63,9 @@
 		</#if>
 	</#list>
 		NAME = ${r"#{"}NAME${r"}"},
-		${objectNameUpper}_ID = ${objectNameUpper}_ID
+		$ID = $ID
 		where 
-		${objectNameUpper}_ID = ${r"#{"}${objectNameUpper}_ID${r"}"}
+		$ID = ${r"#{"}$ID${r"}"}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -75,7 +75,7 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			${objectNameUpper}_ID = ${r"#{"}${objectNameUpper}_ID${r"}"}
+			$ID = ${r"#{"}$ID${r"}"}
 	</select>
 	
 	<!-- 列表 -->
@@ -85,8 +85,8 @@
 		from 
 		<include refid="tableName"></include>
 		where 1=1
-		<if test="pd.${objectNameUpper}_ID!= null and pd.${objectNameUpper}_ID != ''"><!-- 检索 -->
-		and PARENT_ID = ${r"#{"}pd.${objectNameUpper}_ID${r"}"}
+		<if test="pd.$ID!= null and pd.$ID != ''"><!-- 检索 -->
+		and PARENT_ID = ${r"#{"}pd.$ID${r"}"}
 		</if>
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
