@@ -38,9 +38,17 @@
 		insert into 
 	<include refid="tableName"></include>
 		(
-	<include refid="Field"></include>
+		<#list fieldList as var>
+			${var[0]},	
+		</#list>
+			PARENT_ID,
+			NAME
 		) values (
-	<include refid="FieldValue"></include>
+	<#list fieldList as var>
+		${r"#{"}${var[0]}${r"}"},	
+	</#list>
+		${r"#{"}PARENT_ID${r"}"},
+		${r"#{"}NAME${r"}"}
 		)
 	</insert>
 	

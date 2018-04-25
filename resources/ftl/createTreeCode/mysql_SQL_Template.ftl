@@ -18,5 +18,5 @@ CREATE TABLE `${tabletop}${objectNameUpper}` (
 		`${var[0]}` varchar(${var[5]}) DEFAULT NULL COMMENT '${var[2]}',
 		</#if>
 	</#list>
-  		PRIMARY KEY (`$ID`)
+  		PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

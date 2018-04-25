@@ -28,7 +28,7 @@ import com.fh.service.sunvote.teachingmaterial.TeachingMaterialManager;
 /** 
  * 说明：教材
  * 创建人：Elvis
- * 创建时间：2018-04-18
+ * 创建时间：2018-04-25
  */
 @Controller
 @RequestMapping(value="/teachingmaterial")
@@ -49,7 +49,6 @@ public class TeachingMaterialController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("TEACHINGMATERIAL_ID", this.get32UUID());	//主键
 		teachingmaterialService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");

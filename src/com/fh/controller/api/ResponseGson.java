@@ -56,8 +56,43 @@ public class ResponseGson<T> {
 		message = "net error" ;
 	}
 	
-	public void setDataError(){
+	public void setPathError(){
 		code = "-2" ;
+		message = "Path error" ;
+	}
+	
+	public void setDataError(){
+		code = "-3" ;
 		message = "Data error" ;
 	}
+	public void setParmError(){
+		code = "-4" ;
+		message = "Parm error" ;
+	}
+	public void setError(){
+		code = "-5" ;
+		message = "server error" ;
+	}
+	
+	public void set1Error(){
+		code = "1" ;
+		message = "分别对错误进行描述，1 具体到某个参数值问题的描述" ;
+	}
+	
+	public void set2Error(){
+		code = "2" ;
+		message = "分别对错误进行描述，1 具体到某个参数值问题的描述" ;
+	}
+	
+	public void set3Error(){
+		code = "3" ;
+		message = "分别对错误进行描述，1 具体到某个参数值问题的描述" ;
+	}
+	
+	public void set4Error(){
+		code = "4" ;
+		message = "分别对错误进行描述，1 具体到某个参数值问题的描述" ;
+	}
+	
+	
 }

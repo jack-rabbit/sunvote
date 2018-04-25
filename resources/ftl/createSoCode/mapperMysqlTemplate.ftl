@@ -30,9 +30,15 @@
 		insert into 
 	<include refid="tableName"></include>
 		(
-	<include refid="Field"></include>
+		<#list fieldList as var>
+			${var[0]},	
+		</#list>
+			${faobject}_ID
 		) values (
-	<include refid="FieldValue"></include>
+		<#list fieldList as var>
+			${r"#{"}${var[0]}${r"}"},	
+		</#list>
+		${r"#{"}${faobject}_ID${r"}"}
 		)
 	</insert>
 	

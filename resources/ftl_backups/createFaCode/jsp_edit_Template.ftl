@@ -28,7 +28,7 @@
 					<div class="col-xs-12">
 					
 					<form action="${objectNameLower}/${r"${msg }"}.do" name="Form" id="Form" method="post">
-						<input type="hidden" name="${objectNameUpper}_ID" id="${objectNameUpper}_ID" value="${r"${pd."}${objectNameUpper}_ID${r"}"}"/>
+						<input type="hidden" name="ID" id="ID" value="${r"${pd."}ID${r"}"}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 				<#list fieldList as var>
@@ -74,7 +74,7 @@
 
 <c:if test="${r"${'edit' == msg }"}">
 	<div>
-		<iframe name="treeFrame" id="treeFrame" frameborder="0" src="<%=basePath%>/${objectNameLower}mx/list.do?${objectNameUpper}_ID=${r"${pd."}${objectNameUpper}_ID${r"}"}" style="margin:0 auto;width:805px;height:368px;;"></iframe>
+		<iframe name="treeFrame" id="treeFrame" frameborder="0" src="<%=basePath%>/${objectNameLower}mx/list.do?ID=${r"${pd."}ID${r"}"}" style="margin:0 auto;width:805px;height:368px;;"></iframe>
 	</div>
 </c:if>
 
