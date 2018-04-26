@@ -12,6 +12,7 @@
 		NAME,	
 		CDESCRIPTION,	
 		REMARK,	
+		TEACHINGMATERIAL_ID,	
 		ID
 	</sql>
 	
@@ -20,6 +21,7 @@
 		#{NAME},	
 		#{CDESCRIPTION},	
 		#{REMARK},	
+		#{TEACHINGMATERIAL_ID},	
 		#{ID}
 	</sql>
 	
@@ -30,11 +32,13 @@
 		(
 			NAME,	
 			CDESCRIPTION,	
-			REMARK
+			REMARK,	
+			TEACHINGMATERIAL_ID	
 		) values (
 		#{NAME},	
 		#{CDESCRIPTION},	
-		#{REMARK}
+		#{REMARK},	
+		#{TEACHINGMATERIAL_ID}
 		)
 	</insert>
 	
@@ -54,6 +58,7 @@
 			NAME = #{NAME},
 			CDESCRIPTION = #{CDESCRIPTION},
 			REMARK = #{REMARK},
+			TEACHINGMATERIAL_ID = #{TEACHINGMATERIAL_ID},
 		ID = #{ID}
 		where 
 		ID = #{ID}

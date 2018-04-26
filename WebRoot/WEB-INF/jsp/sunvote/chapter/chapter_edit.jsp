@@ -44,6 +44,10 @@
 								<td><input type="text" name="REMARK" id="REMARK" value="${pd.REMARK}" maxlength="255" placeholder="这里输入备注" title="备注" style="width:98%;"/></td>
 							</tr>
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">所属教材:</td>
+								<td><input type="number" name="TEACHINGMATERIAL_ID" id="TEACHINGMATERIAL_ID" value="${pd.TEACHINGMATERIAL_ID}" maxlength="32" placeholder="这里输入所属教材" title="所属教材" style="width:98%;"/></td>
+							</tr>
+							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
 									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
@@ -106,6 +110,16 @@
 		            time:2
 		        });
 				$("#REMARK").focus();
+			return false;
+			}
+			if($("#TEACHINGMATERIAL_ID").val()==""){
+				$("#TEACHINGMATERIAL_ID").tips({
+					side:3,
+		            msg:'请输入所属教材',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#TEACHINGMATERIAL_ID").focus();
 			return false;
 			}
 			$("#Form").submit();

@@ -69,6 +69,7 @@
 									<th class="center">章节名称</th>
 									<th class="center">章节描述</th>
 									<th class="center">备注</th>
+									<th class="center">所属教材</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -87,6 +88,7 @@
 											<td class='center'>${var.NAME}</td>
 											<td class='center'>${var.CDESCRIPTION}</td>
 											<td class='center'>${var.REMARK}</td>
+											<td class='center'>${var.TEACHINGMATERIAL_ID}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
