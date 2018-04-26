@@ -1,4 +1,4 @@
-package com.fh.controller.sunvote.sclass;
+package com.fh.controller.sunvote.teacher;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -8,9 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
@@ -26,52 +23,33 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
-import com.fh.service.sunvote.basestation.BasestationManager;
-import com.fh.service.sunvote.classtype.ClassTypeManager;
-import com.fh.service.sunvote.grade.GradeManager;
-import com.fh.service.sunvote.school.SchoolManager;
-import com.fh.service.sunvote.sclass.SClassManager;
-import com.fh.service.system.fhlog.FHlogManager;
+import com.fh.service.sunvote.teacher.TeacherManager;
 
 /** 
- * 说明：班级
+ * 说明：教师
  * 创建人：Elvis
- * 创建时间：2018-04-25
+ * 创建时间：2018-04-26
  */
 @Controller
-@RequestMapping(value="/sclass")
-public class SClassController extends BaseController {
+@RequestMapping(value="/teacher")
+public class TeacherController extends BaseController {
 	
-	String menuUrl = "sclass/list.do"; //菜单地址(权限用)
-	@Resource(name="sclassService")
-	private SClassManager sclassService;
+	String menuUrl = "teacher/list.do"; //菜单地址(权限用)
+	@Resource(name="teacherService")
+	private TeacherManager teacherService;
 	
-	@Resource(name="schoolService")
-	private SchoolManager schoolService;
-	
-	@Resource(name="fhlogService")
-	private FHlogManager FHLOG;
-	
-	@Resource(name="gradeService")
-	private GradeManager gradeService;
-	
-	@Resource(name="classtypeService")
-	private ClassTypeManager classtypeService;
-	
-	@Resource(name="basestationService")
-	private BasestationManager basestationService;
 	/**保存
 	 * @param
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"新增SClass");
+		logBefore(logger, Jurisdiction.getUsername()+"新增Teacher");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		sclassService.save(pd);
+		teacherService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -83,11 +61,11 @@ public class SClassController extends BaseController {
 	 */
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"删除SClass");
+		logBefore(logger, Jurisdiction.getUsername()+"删除Teacher");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		sclassService.delete(pd);
+		teacherService.delete(pd);
 		out.write("success");
 		out.close();
 	}
@@ -98,12 +76,12 @@ public class SClassController extends BaseController {
 	 */
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"修改SClass");
+		logBefore(logger, Jurisdiction.getUsername()+"修改Teacher");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		sclassService.edit(pd);
+		teacherService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -115,7 +93,7 @@ public class SClassController extends BaseController {
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"列表SClass");
+		logBefore(logger, Jurisdiction.getUsername()+"列表Teacher");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
@@ -125,8 +103,8 @@ public class SClassController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		List<PageData>	varList = sclassService.list(page);	//列出SClass列表
-		mv.setViewName("sunvote/sclass/sclass_list");
+		List<PageData>	varList = teacherService.list(page);	//列出Teacher列表
+		mv.setViewName("sunvote/teacher/teacher_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
@@ -142,7 +120,7 @@ public class SClassController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		mv.setViewName("sunvote/sclass/sclass_edit");
+		mv.setViewName("sunvote/teacher/teacher_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -157,8 +135,8 @@ public class SClassController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd = sclassService.findById(pd);	//根据ID读取
-		mv.setViewName("sunvote/sclass/sclass_edit");
+		pd = teacherService.findById(pd);	//根据ID读取
+		mv.setViewName("sunvote/teacher/teacher_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;
@@ -171,7 +149,7 @@ public class SClassController extends BaseController {
 	@RequestMapping(value="/deleteAll")
 	@ResponseBody
 	public Object deleteAll() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"批量删除SClass");
+		logBefore(logger, Jurisdiction.getUsername()+"批量删除Teacher");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -180,7 +158,7 @@ public class SClassController extends BaseController {
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
-			sclassService.deleteAll(ArrayDATA_IDS);
+			teacherService.deleteAll(ArrayDATA_IDS);
 			pd.put("msg", "ok");
 		}else{
 			pd.put("msg", "no");
@@ -196,30 +174,38 @@ public class SClassController extends BaseController {
 	 */
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"导出SClass到excel");
+		logBefore(logger, Jurisdiction.getUsername()+"导出Teacher到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("所属学校");	//1
-		titles.add("所属年级");	//2
-		titles.add("班级类型");	//3
-		titles.add("班级名称");	//4
-		titles.add("班级编码");	//5
-		titles.add("班级基站");	//6
+		titles.add("所在学校");	//1
+		titles.add("姓名");	//2
+		titles.add("电话");	//3
+		titles.add("座机电话");	//4
+		titles.add("证件号");	//5
+		titles.add("账号");	//6
+		titles.add("密码");	//7
+		titles.add("性别");	//8
+		titles.add("科目列表");	//9
+		titles.add("教师卡编号");	//10
 		dataMap.put("titles", titles);
-		List<PageData> varOList = sclassService.listAll(pd);
+		List<PageData> varOList = teacherService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
-			vpd.put("var1", varOList.get(i).getString("SCHOOL_ID"));	    //1
-			vpd.put("var2", varOList.get(i).getString("GRADE_ID"));	    //2
-			vpd.put("var3", varOList.get(i).getString("CLASS_TYPE"));	    //3
-			vpd.put("var4", varOList.get(i).getString("CLASS_NAME"));	    //4
-			vpd.put("var5", varOList.get(i).getString("CLASS_CODE"));	    //5
-			vpd.put("var6", varOList.get(i).getString("BASESTATION_ID"));	    //6
+			vpd.put("var1", varOList.get(i).get("SCHOOL_ID").toString());	//1
+			vpd.put("var2", varOList.get(i).getString("NAME"));	    //2
+			vpd.put("var3", varOList.get(i).getString("PHONE"));	    //3
+			vpd.put("var4", varOList.get(i).getString("SEAT_PHONE"));	    //4
+			vpd.put("var5", varOList.get(i).getString("CARD_NO"));	    //5
+			vpd.put("var6", varOList.get(i).getString("ACCOUT"));	    //6
+			vpd.put("var7", varOList.get(i).getString("PASSWORD"));	    //7
+			vpd.put("var8", varOList.get(i).get("SEX").toString());	//8
+			vpd.put("var9", varOList.get(i).getString("SUBJECT_IDS"));	    //9
+			vpd.put("var10", varOList.get(i).getString("KEYPAD_ID"));	    //10
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);
