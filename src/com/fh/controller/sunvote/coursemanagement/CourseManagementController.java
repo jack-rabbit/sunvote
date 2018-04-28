@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
@@ -24,6 +27,9 @@ import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
+import com.fh.service.sunvote.sclass.SClassManager;
+import com.fh.service.sunvote.subject.SubjectManager;
+import com.fh.service.sunvote.teacher.TeacherManager;
 
 /** 
  * 说明：任课管理
@@ -37,6 +43,15 @@ public class CourseManagementController extends BaseController {
 	String menuUrl = "coursemanagement/list.do"; //菜单地址(权限用)
 	@Resource(name="coursemanagementService")
 	private CourseManagementManager coursemanagementService;
+	
+	@Resource(name="teacherService")
+	private TeacherManager teacherService;
+	
+	@Resource(name="sclassService")
+	private SClassManager sclassService;
+	
+	@Resource(name="subjectService")
+	private SubjectManager subjectService;
 	
 	/**保存
 	 * @param
@@ -121,6 +136,14 @@ public class CourseManagementController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("sunvote/coursemanagement/coursemanagement_edit");
+		
+		List<PageData> teachers = teacherService.listAll(pd);
+		mv.addObject("teachers",teachers);
+		List<PageData> classs = sclassService.listAll(pd);
+		mv.addObject("classs",classs);
+		List<PageData> subjects = subjectService.listAll(pd);
+		mv.addObject("subjects", subjects);
+		
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -137,6 +160,13 @@ public class CourseManagementController extends BaseController {
 		pd = this.getPageData();
 		pd = coursemanagementService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/coursemanagement/coursemanagement_edit");
+		List<PageData> teachers = teacherService.listAll(pd);
+		mv.addObject("teachers",teachers);
+		List<PageData> classs = sclassService.listAll(pd);
+		mv.addObject("classs",classs);
+		List<PageData> subjects = subjectService.listAll(pd);
+		mv.addObject("subjects", subjects);
+		
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;

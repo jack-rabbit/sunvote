@@ -41,11 +41,22 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">是否正常:</td>
-								<td><input type="number" name="IS_OK" id="IS_OK" value="${pd.IS_OK}" maxlength="32" placeholder="这里输入是否正常" title="是否正常" style="width:98%;"/></td>
+								<td>
+								<select class="chosen-select form-control" name="IS_OK" id="IS_OK" data-placeholder="这里输入所属年级">
+									<option value="1"  <c:if test="${pd.IS_OK== 1}">selected="true"</c:if>>正常</option>
+									<option value="0"  <c:if test="${pd.IS_OK== 0}">selected="true"</c:if>>损坏</option>
+								</select>
+								</td>
+								<%-- <input type="number" name="IS_OK" id="IS_OK" value="${pd.IS_OK}" maxlength="32" placeholder="这里输入是否正常" title="是否正常" style="width:98%;"/></td> --%>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">工作模式:</td>
-								<td><input type="number" name="WORK_MODE" id="WORK_MODE" value="${pd.WORK_MODE}" maxlength="32" placeholder="这里输入工作模式" title="工作模式" style="width:98%;"/></td>
+								<td>
+								<%-- <input type="number" name="WORK_MODE" id="WORK_MODE" value="${pd.WORK_MODE}" maxlength="32" placeholder="这里输入工作模式" title="工作模式" style="width:98%;"/></td> --%>
+								<select class="chosen-select form-control" name="WORK_MODE" id="WORK_MODE" data-placeholder="这里输入所属年级">
+									<option value="1"  <c:if test="${pd.WORK_MODE== 1}">selected="true"</c:if>>RF模式</option>
+									<option value="2"  <c:if test="${pd.WORK_MODE== 2}">selected="true"</c:if>>433模式</option>
+								</select>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">生产时间:</td>

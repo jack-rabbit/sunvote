@@ -33,7 +33,14 @@
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">所在学校:</td>
-								<td><input type="number" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}" maxlength="32" placeholder="这里输入所在学校" title="所在学校" style="width:98%;"/></td>
+								<td>
+								<select class="chosen-select form-control" name="SCHOOL_ID" id="SCHOOL_ID" data-placeholder="这里输入所属学校">
+									<c:forEach var="item" items="${schools}">
+										<option value="${item.ID}"  <c:if test="${pd.SCHOOL_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
+									</c:forEach>
+								</select>
+								</td>
+								<%-- <input type="number" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}" maxlength="32" placeholder="这里输入所在学校" title="所在学校" style="width:98%;"/></td> --%>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">姓名:</td>
@@ -57,11 +64,17 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">密码:</td>
-								<td><input type="text" name="PASSWORD" id="PASSWORD" value="${pd.PASSWORD}" maxlength="255" placeholder="这里输入密码" title="密码" style="width:98%;"/></td>
+								<td><input type="password" name="PASSWORD" id="PASSWORD" value="${pd.PASSWORD}" maxlength="255" placeholder="这里输入密码" title="密码" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">性别:</td>
-								<td><input type="number" name="SEX" id="SEX" value="${pd.SEX}" maxlength="32" placeholder="这里输入性别" title="性别" style="width:98%;"/></td>
+								<td>
+								<select class="chosen-select form-control" name="SEX" id="SEX" data-placeholder="选择性别">
+										<option value="1"  <c:if test="${pd.SEX==1}">selected="true"</c:if>>男</option>
+										<option value="2"  <c:if test="${pd.SEX==2}">selected="true"</c:if>>女</option>
+								</select>
+								</td>
+								<%-- <input type="number" name="SEX" id="SEX" value="${pd.SEX}" maxlength="32" placeholder="这里输入性别" title="性别" style="width:98%;"/></td> --%>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">科目列表:</td>

@@ -88,8 +88,8 @@
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.NO}</td>
 											<td class='center'>${var.SN}</td>
-											<td class='center'>${var.IS_OK}</td>
-											<td class='center'>${var.WORK_MODE}</td>
+											<td class='center'>${var.IS_OK == 1 ? "正常":"损坏"}</td>
+											<td class='center'>${var.WORK_MODE == 1 ? "RF模式" : "433模式"}</td>
 											<td class='center'>${var.PRODUCT_DATE}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">

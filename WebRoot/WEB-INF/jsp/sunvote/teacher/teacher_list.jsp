@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -72,7 +73,6 @@
 									<th class="center">座机电话</th>
 									<th class="center">证件号</th>
 									<th class="center">账号</th>
-									<th class="center">密码</th>
 									<th class="center">性别</th>
 									<th class="center">科目列表</th>
 									<th class="center">教师卡编号</th>
@@ -91,14 +91,13 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.SCHOOL_ID}</td>
+											<td class='center'>${myelfun:findSchoolName(var.SCHOOL_ID)}</td>
 											<td class='center'>${var.NAME}</td>
 											<td class='center'>${var.PHONE}</td>
 											<td class='center'>${var.SEAT_PHONE}</td>
 											<td class='center'>${var.CARD_NO}</td>
 											<td class='center'>${var.ACCOUT}</td>
-											<td class='center'>${var.PASSWORD}</td>
-											<td class='center'>${var.SEX}</td>
+											<td class='center'>${var.SEX == 1? "男":"女"}</td>
 											<td class='center'>${var.SUBJECT_IDS}</td>
 											<td class='center'>${var.KEYPAD_ID}</td>
 											<td class="center">

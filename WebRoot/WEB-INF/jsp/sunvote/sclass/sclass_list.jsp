@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -87,12 +89,12 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.SCHOOL_ID}</td>
-											<td class='center'>${var.GRADE_ID}</td>
-											<td class='center'>${var.CLASS_TYPE}</td>
+											<td class='center'>${myelfun:findSchoolName(var.SCHOOL_ID)}</td>
+											<td class='center'>${myelfun:findGradeName(var.GRADE_ID)}</td>
+											<td class='center'>${myelfun:findClassTypeName(var.CLASS_TYPE)}</td>
 											<td class='center'>${var.CLASS_NAME}</td>
 											<td class='center'>${var.CLASS_CODE}</td>
-											<td class='center'>${var.BASESTATION_ID}</td>
+											<td class='center'>${myelfun:findBasestationName(var.BASESTATION_ID)}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

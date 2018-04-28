@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -88,7 +89,7 @@
 											<td class='center'>${var.NAME}</td>
 											<td class='center'>${var.CDESCRIPTION}</td>
 											<td class='center'>${var.REMARK}</td>
-											<td class='center'>${var.TEACHINGMATERIAL_ID}</td>
+											<td class='center'>${myelfun:findTeachingmaterialName(var.TEACHINGMATERIAL_ID)}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

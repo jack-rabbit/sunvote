@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
@@ -24,6 +27,7 @@ import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.sunvote.chapter.ChapterManager;
+import com.fh.service.sunvote.teachingmaterial.TeachingMaterialManager;
 
 /** 
  * 说明：章节管理
@@ -37,6 +41,9 @@ public class ChapterController extends BaseController {
 	String menuUrl = "chapter/list.do"; //菜单地址(权限用)
 	@Resource(name="chapterService")
 	private ChapterManager chapterService;
+	
+	@Resource(name="teachingmaterialService")
+	private TeachingMaterialManager teachingmaterialService;
 	
 	/**保存
 	 * @param
@@ -121,6 +128,10 @@ public class ChapterController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("sunvote/chapter/chapter_edit");
+		
+		List<PageData>	teachings = teachingmaterialService.listAll(pd);	
+		mv.addObject("teachings", teachings);
+		
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -137,6 +148,10 @@ public class ChapterController extends BaseController {
 		pd = this.getPageData();
 		pd = chapterService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/chapter/chapter_edit");
+		
+		List<PageData>	teachings = teachingmaterialService.listAll(pd);	
+		mv.addObject("teachings", teachings);
+		
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;

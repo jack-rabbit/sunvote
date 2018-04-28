@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
@@ -23,6 +26,8 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
+import com.fh.service.sunvote.grade.GradeManager;
+import com.fh.service.sunvote.subject.SubjectManager;
 import com.fh.service.sunvote.teachingmaterial.TeachingMaterialManager;
 
 /** 
@@ -38,6 +43,11 @@ public class TeachingMaterialController extends BaseController {
 	@Resource(name="teachingmaterialService")
 	private TeachingMaterialManager teachingmaterialService;
 	
+	@Resource(name="gradeService")
+	private GradeManager gradeService;
+	
+	@Resource(name="subjectService")
+	private SubjectManager subjectService;
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -121,6 +131,13 @@ public class TeachingMaterialController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("sunvote/teachingmaterial/teachingmaterial_edit");
+		
+		List<PageData>	grades = gradeService.listAll(pd);	
+		mv.addObject("grades", grades);
+		
+		List<PageData>	subjects = subjectService.listAll(pd);
+		mv.addObject("subjects", subjects);
+		
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -137,6 +154,10 @@ public class TeachingMaterialController extends BaseController {
 		pd = this.getPageData();
 		pd = teachingmaterialService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/teachingmaterial/teachingmaterial_edit");
+		List<PageData>	grades = gradeService.listAll(pd);	
+		mv.addObject("grades", grades);
+		List<PageData>	subjects = subjectService.listAll(pd);
+		mv.addObject("subjects", subjects);
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;

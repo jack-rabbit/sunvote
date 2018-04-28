@@ -125,8 +125,8 @@ public class SClassController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		List<PageData>	varList = sclassService.list(page);	//列出SClass列表
 		mv.setViewName("sunvote/sclass/sclass_list");
+		List<PageData>	varList = sclassService.list(page);	//列出SClass列表
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
@@ -143,6 +143,14 @@ public class SClassController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("sunvote/sclass/sclass_edit");
+		List<PageData> schools = schoolService.listAll(pd);
+		mv.addObject("schools",schools);
+		List<PageData> basestations = basestationService.listAll(pd);
+		mv.addObject("basestations",basestations);
+		List<PageData> grades = gradeService.listAll(pd);
+		mv.addObject("grades", grades);
+		List<PageData> classTypes = classtypeService.listAll(pd);
+		mv.addObject("classTypes", classTypes);
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -159,6 +167,14 @@ public class SClassController extends BaseController {
 		pd = this.getPageData();
 		pd = sclassService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/sclass/sclass_edit");
+		List<PageData> schools = schoolService.listAll(pd);
+		mv.addObject("schools",schools);
+		List<PageData> basestations = basestationService.listAll(pd);
+		mv.addObject("basestations",basestations);
+		List<PageData> grades = gradeService.listAll(pd);
+		mv.addObject("grades", grades);
+		List<PageData> classTypes = classtypeService.listAll(pd);
+		mv.addObject("classTypes", classTypes);
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;

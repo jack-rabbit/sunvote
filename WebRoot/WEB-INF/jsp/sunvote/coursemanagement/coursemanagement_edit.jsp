@@ -33,15 +33,36 @@
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">老师:</td>
-								<td><input type="number" name="TEACHER_ID" id="TEACHER_ID" value="${pd.TEACHER_ID}" maxlength="32" placeholder="这里输入老师" title="老师" style="width:98%;"/></td>
+								<td>
+								<%-- <input type="number" name="TEACHER_ID" id="TEACHER_ID" value="${pd.TEACHER_ID}" maxlength="32" placeholder="这里输入老师" title="老师" style="width:98%;"/></td> --%>
+								<select class="chosen-select form-control" name="TEACHER_ID" id="TEACHER_ID" data-placeholder="这里输入班级类型">
+									<c:forEach var="item" items="${teachers}">
+										<option value="${item.ID}"  <c:if test="${pd.TEACHER_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
+									</c:forEach>
+								</select>
+								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">班级ID:</td>
-								<td><input type="number" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}" maxlength="32" placeholder="这里输入班级ID" title="班级ID" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">班级:</td>
+								<td>
+								<%-- <input type="number" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}" maxlength="32" placeholder="这里输入班级ID" title="班级ID" style="width:98%;"/></td> --%>
+								<select class="chosen-select form-control" name="CLASS_ID" id="CLASS_ID" data-placeholder="这里输入班级类型">
+									<c:forEach var="item" items="${classs}">
+										<option value="${item.ID}"  <c:if test="${pd.CLASS_ID==item.ID}">selected="true"</c:if>>${item.CLASS_NAME}</option>
+									</c:forEach>
+								</select>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">科目:</td>
-								<td><input type="number" name="SUBJECT_ID" id="SUBJECT_ID" value="${pd.SUBJECT_ID}" maxlength="32" placeholder="这里输入科目" title="科目" style="width:98%;"/></td>
+								<td>
+								<%-- <input type="number" name="SUBJECT_ID" id="SUBJECT_ID" value="${pd.SUBJECT_ID}" maxlength="32" placeholder="这里输入科目" title="科目" style="width:98%;"/></td> --%>
+								<select class="chosen-select form-control" name="SUBJECT_ID" id="SUBJECT_ID" data-placeholder="这里输入班级类型">
+									<c:forEach var="item" items="${subjects}">
+										<option value="${item.ID}"  <c:if test="${pd.SUBJECT_ID==item.ID}">selected="true"</c:if>>${item.CNAME}</option>
+									</c:forEach>
+								</select>
+								</td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">开始时间:</td>

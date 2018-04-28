@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -87,8 +88,8 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.NAME}</td>
-											<td class='center'>${var.SUBJECT_ID}</td>
-											<td class='center'>${var.GRADE_ID}</td>
+											<td class='center'>${myelfun:findSubjectCName(var.SUBJECT_ID)}</td>
+											<td class='center'>${myelfun:findGradeName(var.GRADE_ID)}</td>
 											<td class='center'>${var.VERSION_CODE}</td>
 											<td class='center'>${var.VERSION_NAME}</td>
 											<td class="center">

@@ -28,14 +28,6 @@ public class ApiServer extends BaseController {
 	private KeypadManager keypadService;
 	
 	
-	@RequestMapping(value="/*" ,produces="application/json;charset=UTF-8")
-	@ResponseBody
-	public Object Default() throws Exception{
-		ResponseGson<Void> respone = new ResponseGson();
-		respone.setPathError();
-		return respone.toJson();
-	}
-	
 	@RequestMapping(value="/school" ,produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Object schoolDefault() throws Exception{

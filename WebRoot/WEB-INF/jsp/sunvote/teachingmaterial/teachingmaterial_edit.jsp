@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -37,11 +38,25 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">所属科目:</td>
-								<td><input type="text" name="SUBJECT_ID" id="SUBJECT_ID" value="${pd.SUBJECT_ID}" maxlength="255" placeholder="这里输入所属科目" title="所属科目" style="width:98%;"/></td>
+								<td>
+								<select class="chosen-select form-control" name="SUBJECT_ID" id="SUBJECT_ID" data-placeholder="这里输入所属科目">
+									<c:forEach var="item" items="${subjects}">
+										<option value="${item.ID}"  <c:if test="${pd.SUBJECT_ID==item.ID}">selected="true"</c:if>>${item.CNAME}</option>
+									</c:forEach>
+								</select>
+								</td>
+								<%-- <input type="text" name="SUBJECT_ID" id="SUBJECT_ID" value="${pd.SUBJECT_ID}" maxlength="255" placeholder="这里输入所属科目" title="所属科目" style="width:98%;"/></td> --%>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">所属年级:</td>
-								<td><input type="text" name="GRADE_ID" id="GRADE_ID" value="${pd.GRADE_ID}" maxlength="255" placeholder="这里输入所属年级" title="所属年级" style="width:98%;"/></td>
+								<td>
+								<select class="chosen-select form-control" name="GRADE_ID" id="GRADE_ID" data-placeholder="这里输入所属科目">
+									<c:forEach var="item" items="${grades}">
+										<option value="${item.ID}"  <c:if test="${pd.GRADE_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
+									</c:forEach>
+								</select>
+								</td>
+								<%-- <input type="text" name="GRADE_ID" id="GRADE_ID" value="${pd.GRADE_ID}" maxlength="255" placeholder="这里输入所属年级" title="所属年级" style="width:98%;"/></td> --%>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">教材版本号:</td>

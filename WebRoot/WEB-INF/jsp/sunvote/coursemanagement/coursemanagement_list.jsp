@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -67,7 +68,7 @@
 									</th>
 									<th class="center" style="width:50px;">序号</th>
 									<th class="center">老师</th>
-									<th class="center">班级ID</th>
+									<th class="center">班级</th>
 									<th class="center">科目</th>
 									<th class="center">开始时间</th>
 									<th class="center">结束时间</th>
@@ -87,9 +88,9 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.TEACHER_ID}</td>
-											<td class='center'>${var.CLASS_ID}</td>
-											<td class='center'>${var.SUBJECT_ID}</td>
+											<td class='center'>${myelfun:findTeacherName(var.TEACHER_ID)}</td>
+											<td class='center'>${myelfun:findClassName(var.CLASS_ID)}</td>
+											<td class='center'>${myelfun:findSubjectCName(var.SUBJECT_ID)}</td>
 											<td class='center'>${var.START_DATE}</td>
 											<td class='center'>${var.END_DATE}</td>
 											<td class='center'>${var.REMARK}</td>
