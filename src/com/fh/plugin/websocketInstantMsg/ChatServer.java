@@ -14,12 +14,6 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 
-/**
- * 即时通讯
- * @author FH
- * QQ 313596790
- * 2015-5-16
- */
 public class ChatServer extends WebSocketServer{
 
 	public ChatServer(int port) throws UnknownHostException {

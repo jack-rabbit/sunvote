@@ -12,10 +12,6 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 
-/**	文件处理
-*  创建人：FH Q313596790
- * 创建时间：2014年12月23日
- */
 public class FileUtil {
 
 	

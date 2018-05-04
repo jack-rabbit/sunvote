@@ -18,7 +18,6 @@ import com.fh.controller.base.BaseController;
 
 /**   
  * 邮件发送器   
- * @author FH QQ 313596790[青苔]
  */    
 public class SimpleMailSender extends BaseController {    
 /**   

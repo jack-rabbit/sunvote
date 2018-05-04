@@ -1,10 +1,5 @@
 package com.fh.entity.weixin;
 
-/** 二级菜单
- * @author FH
- * Q: 3 13596 79 0
- * 2016.11.1
- */
 public class CommonButton extends Button{
 	
 	private String type;		//菜单类型

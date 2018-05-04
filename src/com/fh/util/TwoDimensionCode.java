@@ -16,12 +16,6 @@ import jp.sourceforge.qrcode.exception.DecodingFailedException;
 import com.swetake.util.Qrcode;
 
 
-/**
- * 二维码
- * 创建人：FH  313596790QQ
- * 创建时间：2015年4月10日
- * @version
- */
 public class TwoDimensionCode {
 
 	/**

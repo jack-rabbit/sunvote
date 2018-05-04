@@ -4,11 +4,6 @@ import com.fh.util.Const;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
 
-/**
- * 分页类
- * @author FH QQ 313596790[青苔]
- * 创建时间：2014年6月28日
- */
 public class Page {
 	
 	private int showCount; //每页显示记录数

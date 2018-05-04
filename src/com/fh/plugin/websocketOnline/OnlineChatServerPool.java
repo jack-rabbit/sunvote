@@ -9,12 +9,6 @@ import java.util.Set;
 
 import org.java_websocket.WebSocket;
 
-/**
- * 在线管理
- * @author FH
- * QQ 313596790
- * 2015-5-25
- */
 public class OnlineChatServerPool {
 
 	private static final Map<WebSocket,String> userconnections = new HashMap<WebSocket,String>();

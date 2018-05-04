@@ -6,10 +6,6 @@ import com.fh.entity.Page;
 import com.fh.util.PageData;
 
 
-/** 会员接口类
- * @author fh313596790qq(青苔)
- * 修改时间：2015.11.2
- */
 public interface AppuserManager {
 	
 	/**列出某角色下的所有会员

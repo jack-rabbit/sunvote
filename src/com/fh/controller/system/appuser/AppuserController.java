@@ -31,8 +31,6 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 
 /** 
- * 类名称：会员管理
- * 创建人：FH Q313596790
  * 修改时间：2014年11月17日
  * @version
  */

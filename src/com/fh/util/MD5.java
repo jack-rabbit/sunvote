@@ -1,12 +1,6 @@
 package com.fh.util;
 
 import java.security.MessageDigest;
-/** 
- * 说明：MD5处理
- * 创建人：FH Q313596790
- * 修改时间：2014年9月20日
- * @version
- */
 public class MD5 {
 
 	public static String md5(String str) {

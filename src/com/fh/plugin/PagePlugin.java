@@ -34,16 +34,7 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 import com.fh.entity.Page;
 import com.fh.util.ReflectHelper;
 import com.fh.util.Tools;
-/**
- * 
-* 类名称：分页插件
-* 类描述： 
-* @author FH
-* 作者单位： 
-* 联系方式：
-* 修改时间：2016年2月1日
-* @version 1.0
- */
+
 @Intercepts({@Signature(type=StatementHandler.class,method="prepare",args={Connection.class})})
 public class PagePlugin implements Interceptor {
 

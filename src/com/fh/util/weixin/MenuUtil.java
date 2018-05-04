@@ -18,15 +18,6 @@ import com.fh.entity.weixin.Menu;
 import com.fh.entity.weixin.ViewButton;
 import com.fh.util.PageData;
 
-/**
- * 
-* 类描述： 微信自定义菜单
-* @author FH  31 35 96790
-* 作者单位： 
-* 联系方式：
-* 创建时间：206年11月1日
-* @version 1.0
- */
 public class MenuUtil {
 	/**
 	 * 	创建自定义菜单(每天限制1000次)

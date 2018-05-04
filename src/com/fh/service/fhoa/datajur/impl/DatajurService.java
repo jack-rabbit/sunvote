@@ -8,12 +8,6 @@ import com.fh.dao.DaoSupport;
 import com.fh.util.PageData;
 import com.fh.service.fhoa.datajur.DatajurManager;
 
-/** 
- * 说明： 组织数据权限表
- * 创建人：FH Q313596790
- * 创建时间：2016-04-26
- * @version
- */
 @Service("datajurService")
 public class DatajurService implements DatajurManager{
 

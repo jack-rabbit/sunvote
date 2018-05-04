@@ -12,12 +12,6 @@ import java.net.URL;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * 上传文件
- * 创建人：FH Q313596790
- * 创建时间：2014年12月23日
- * @version
- */
 public class FileUpload {
 
 	/**上传文件

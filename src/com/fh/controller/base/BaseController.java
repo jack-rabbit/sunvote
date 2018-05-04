@@ -17,7 +17,6 @@ import com.fh.util.PageData;
 import com.fh.util.UuidUtil;
 
 /**
- * @author Elvis
  * 修改时间：2015、12、11
  */
 public class BaseController {

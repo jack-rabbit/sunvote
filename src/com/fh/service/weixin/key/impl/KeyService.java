@@ -11,12 +11,6 @@ import com.fh.entity.Page;
 import com.fh.util.PageData;
 import com.fh.service.weixin.key.KeyManager;
 
-/** 
- * 说明： 公众平台Key信息
- * 创建人：FH Q313596790
- * 创建时间：2016-10-30
- * @version
- */
 @Service("keyService")
 public class KeyService implements KeyManager{
 

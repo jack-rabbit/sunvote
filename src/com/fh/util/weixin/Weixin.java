@@ -17,12 +17,6 @@ import javax.net.ssl.X509TrustManager;
 
 import net.sf.json.JSONObject;
 
-/**
- * 类描述： 微信公众平台工具类
- * 
- * @author FH 31 35 96790 作者单位： 联系方式： 创建时间：206年11月1日
- * @version 1.0
- */
 public class Weixin {
 
 	public final static String access_token_url = "https://api.weixin.qq.com/cgi-bin/token?" + "grant_type=client_credential&appid=APPID&secret=APPSECRET";

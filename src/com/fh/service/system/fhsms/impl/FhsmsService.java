@@ -8,12 +8,6 @@ import com.fh.entity.Page;
 import com.fh.util.PageData;
 import com.fh.service.system.fhsms.FhsmsManager;
 
-/** 
- * 说明： 站内信
- * 创建人：FH Q313596790
- * 创建时间：2016-01-17
- * @version
- */
 @Service("fhsmsService")
 public class FhsmsService implements FhsmsManager{
 

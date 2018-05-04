@@ -35,8 +35,6 @@ import com.fh.util.TwoDimensionCode;
 import com.fh.util.express.GetExpressMsg;
 
 /** 
- * 类名称：ToolController 系统工具
- * 创建人：FH Q313596790
  * 修改时间：2017年2月13日
  * @version
  */

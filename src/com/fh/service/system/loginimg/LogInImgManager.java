@@ -3,13 +3,6 @@ package com.fh.service.system.loginimg;
 import java.util.List;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
-
-/** 
- * 说明： 登录页面背景图片接口
- * 创建人：FH Q313596790
- * 创建时间：2016-06-03
- * @version
- */
 public interface LogInImgManager{
 
 	/**新增

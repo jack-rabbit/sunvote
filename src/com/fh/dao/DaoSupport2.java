@@ -10,8 +10,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 /**
- * 第2数据源
- * @author FH Q 31 359 6790
  * 修改时间：2016、04、29
  */
 @Repository("daoSupport2")

@@ -1,6 +1,5 @@
 package com.fh.dao;
 /**
- * @author Elvis
  * 修改时间：2015、12、11
  */
 public interface DAO {

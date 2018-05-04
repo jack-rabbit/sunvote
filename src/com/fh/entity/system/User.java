@@ -2,16 +2,7 @@ package com.fh.entity.system;
 
 import com.fh.entity.Page;
 
-/**
- * 
-* 类名称：用户
-* 类描述： 
-* @author FH QQ 313596790[青苔]
-* 作者单位： 
-* 联系方式：
-* 创建时间：2014年6月28日
-* @version 1.0
- */
+
 public class User {
 	private String USER_ID;		//用户id
 	private String USERNAME;	//用户名

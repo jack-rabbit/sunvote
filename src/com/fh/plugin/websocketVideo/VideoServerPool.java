@@ -6,12 +6,6 @@ import java.util.Set;
 
 import org.java_websocket.WebSocket;
 
-/**
- * 视频弹幕服务端
- * @author FH
- * QQ 313596790
- * 2017-11-24
- */
 public class VideoServerPool {
 
 	private static final Map<WebSocket,String> userconnections = new HashMap<WebSocket,String>();

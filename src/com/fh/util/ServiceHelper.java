@@ -5,10 +5,6 @@ import com.fh.service.system.role.impl.RoleService;
 import com.fh.service.system.user.UserManager;
 
 
-/**
- * @author Administrator
- * 获取Spring容器中的service bean
- */
 public final class ServiceHelper {
 	
 	public static Object getService(String serviceName){

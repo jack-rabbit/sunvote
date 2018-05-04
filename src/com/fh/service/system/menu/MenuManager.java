@@ -5,10 +5,6 @@ import java.util.List;
 import com.fh.entity.system.Menu;
 import com.fh.util.PageData;
 
-
-/**说明：MenuService 菜单处理接口
- * @author fh 313596790
- */
 public interface MenuManager {
 
 	/**

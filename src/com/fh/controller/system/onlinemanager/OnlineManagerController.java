@@ -15,7 +15,6 @@ import com.fh.util.Jurisdiction;
 
 /** 
  * 类名称：在线管理列表
- * 创建人：FH 
  * 创建时间：2015-05-25
  */
 @Controller

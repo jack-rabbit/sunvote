@@ -5,10 +5,6 @@ import java.util.List;
 import com.fh.entity.system.Role;
 import com.fh.util.PageData;
 
-/**	角色接口类
- * @author FHadmin QQ313596790
- * 修改日期：2015.11.6
- */
 public interface RoleManager {
 	
 	/**列出此组下级角色

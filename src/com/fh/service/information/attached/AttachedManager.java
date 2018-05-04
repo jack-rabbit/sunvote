@@ -4,12 +4,6 @@ import java.util.List;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
-/** 
- * 说明： 主附结构接口
- * 创建人：FH Q313596790
- * 创建时间：2016-04-17
- * @version
- */
 public interface AttachedManager{
 
 	/**新增

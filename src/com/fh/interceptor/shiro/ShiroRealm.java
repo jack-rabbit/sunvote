@@ -10,10 +10,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 
-/**
- * @author fh
- *  2015-3-6
- */
 public class ShiroRealm extends AuthorizingRealm {
 
 	/*

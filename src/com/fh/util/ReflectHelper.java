@@ -2,12 +2,6 @@ package com.fh.util;
 
 import java.lang.reflect.Field;
 
-/** 
- * 说明：反射工具
- * 创建人：FH Q313596790
- * 修改时间：2014年9月20日
- * @version
- */
 public class ReflectHelper {
 	/**
 	 * 获取obj对象fieldName的Field

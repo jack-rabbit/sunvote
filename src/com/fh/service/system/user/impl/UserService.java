@@ -13,10 +13,6 @@ import com.fh.service.system.user.UserManager;
 import com.fh.util.PageData;
 
 
-/** 系统用户
- * @author fh313596790qq(青苔)
- * 修改时间：2015.11.2
- */
 @Service("userService")
 public class UserService implements UserManager{
 

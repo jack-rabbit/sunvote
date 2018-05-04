@@ -11,12 +11,6 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 
-/**
- * 视频弹幕服务端
- * @author FH
- * QQ 313596790
- * 2017-11-24
- */
 public class VideoServer extends WebSocketServer{
 
 	public VideoServer(int port) throws UnknownHostException {

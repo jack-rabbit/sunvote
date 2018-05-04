@@ -19,7 +19,6 @@ import com.fh.util.AppUtil;
 import com.fh.util.PageData;
 
 /** RedisDemo
- * @author Elvis
  * 2016.5.8
  */
 @Controller

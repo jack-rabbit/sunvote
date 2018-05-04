@@ -14,12 +14,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-/**
- * Freemarker 模版引擎类
- * 创建人：FH Q313596790
- * 创建时间：2015年2月8日
- * @version
- */
 public class Freemarker {
 
 	/**

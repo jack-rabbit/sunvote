@@ -28,8 +28,6 @@ import com.fh.util.Jurisdiction;
 import com.fh.service.system.fhsms.FhsmsManager;
 
 /** 
- * 说明：站内信
- * 创建人：FH Q313596790
  * 创建时间：2016-01-17
  */
 @Controller

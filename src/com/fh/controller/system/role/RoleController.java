@@ -33,7 +33,6 @@ import com.fh.util.RightsHelper;
 import com.fh.util.Tools;
 /** 
  * 类名称：RoleController 角色权限管理
- * 创建人：FH Q313596790
  * 修改时间：2015年11月6日
  * @version
  */
@@ -115,6 +114,9 @@ public class RoleController extends BaseController {
 		try{
 			pd = this.getPageData();
 			String parent_id = pd.getString("PARENT_ID");		//父类角色id
+			if("".equals(parent_id)){
+				parent_id = "1" ;
+			}
 			pd.put("ROLE_ID", parent_id);			
 			if("0".equals(parent_id)){
 				pd.put("RIGHTS", "");							//菜单权限

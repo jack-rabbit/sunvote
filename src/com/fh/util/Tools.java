@@ -15,12 +15,6 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** 
- * 说明：常用工具
- * 创建人：FH Q313596790
- * 修改时间：2015年11月24日
- * @version
- */
 public class Tools {
 	
 	/**

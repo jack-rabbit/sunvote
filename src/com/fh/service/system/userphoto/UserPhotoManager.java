@@ -4,12 +4,6 @@ import java.util.List;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
-/** 
- * 说明： 用户头像接口
- * 创建人：FH Q313596790
- * 创建时间：2016-06-05
- * @version
- */
 public interface UserPhotoManager{
 
 	/**新增

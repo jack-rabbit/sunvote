@@ -10,12 +10,6 @@ import com.fh.dao.DaoSupport;
 import com.fh.util.PageData;
 import com.fh.service.system.buttonrights.ButtonrightsManager;
 
-/** 
- * 说明： 按钮权限
- * 创建人：FH Q313596790
- * 创建时间：2016-01-16
- * @version
- */
 @Service("buttonrightsService")
 public class ButtonrightsService implements ButtonrightsManager{
 

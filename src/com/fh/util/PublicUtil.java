@@ -3,12 +3,6 @@ package com.fh.util;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-/** 
- * 说明：IP处理
- * 创建人：FH Q313596790
- * 修改时间：2014年9月20日
- * @version
- */
 public class PublicUtil {
 	
 	public static void main(String[] args) {

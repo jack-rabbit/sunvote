@@ -8,12 +8,6 @@ import com.fh.entity.Page;
 import com.fh.util.PageData;
 import com.fh.service.fhoa.fhfile.FhfileManager;
 
-/** 
- * 说明： 文件管理
- * 创建人：FH Q313596790
- * 创建时间：2016-05-27
- * @version
- */
 @Service("fhfileService")
 public class FhfileService implements FhfileManager{
 
