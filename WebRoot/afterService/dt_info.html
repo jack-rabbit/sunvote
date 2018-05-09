@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>填写资料</title>
+	<link rel="stylesheet" href="http://lib.sinaapp.com/js/bootstrap/3.0.0/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<style>
+    body{ background-color: #fff }
+    </style>
+	<!--[if IE]>
+		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://lib.sinaapp.com/js/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="js/data.js"></script>
+    <script src="js/require.min.js"></script>
+
+</head>
+<body>
+	<div class="container column" >		
+		<div class="col-md-8">
+			<div class="header">
+				<div class="row">
+				  <div class="col-xs-3"><img src="" width="140px" id="model_pic"/></div>
+				  <div class="col-xs-9"><p><span id="model">答题器</span>问题反馈</p></div>
+				  <div class="col-xs-9"><p>请填写以下信息反馈问题，我们会在24小时内响应。或直接拨打售后电话您也可以根据问题的现象参照常见问题，自行排查问题。</p></div>
+				</div>
+			</div>
+			<div class="content">
+				<form class="form-inline" id="list">
+				  <div class="form-group col-md-6">
+					<label ><span class="red">*</span>校区名称：</label>
+					<div class="control-group xq">
+						<div class="controls col-md-6" style="padding-left:0;">
+							<select id="province" class="form-control">
+								<option value="请选择"></option>
+							</select>
+							
+						</div>
+						<div class="controls col-md-6" style="padding-right:0;">
+							<select id="city" class="form-control">
+								<option value="请选择">请选择</option>
+							</select>
+						</div>
+					</div>
+					
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="name"><span class="red">*</span>联系人：</label>
+					<input type="text" class="form-control" id="name" placeholder="">
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="tel"><span class="red">*</span>联系电话：</label>
+					<input type="text" class="form-control" id="tel" placeholder="">
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="sn"><span class="red">*</span>产品序列号：</label>
+					<input type="text" class="form-control" id="sn" placeholder="">
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="question"><span class="red">*</span>问题现象：</label>
+					<div class="controls col-md-12" style="padding:0;">
+						<select id="question" class="form-control">
+							<option value="请选择" id="question1">请选择</option>
+						</select>
+					</div>
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="system"><span class="red">*</span>操作系统：</label>
+					<div class="controls col-md-12" style="padding:0;">
+						<select id="system" class="form-control">
+							<option value="请选择">请选择</option>
+							<option value="Windows">Windows</option>
+							<option value="Mac">Mac</option>
+							<option value="IOS">IOS</option>
+						</select>
+					</div>
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="softname"><span class="red">*</span>软件名称：</label>
+					<div class="controls col-md-12" style="padding:0;">
+						<select id="softname" class="form-control">
+							<option value="请选择">请选择</option>
+							<option value="互动课堂">互动课堂</option>
+							<option value="配对工具Match Tool">配对工具Match Tool</option>
+						</select>
+					</div>
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="version">软件版本：</label>
+					<input type="text" class="form-control" id="version" placeholder="">
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="num"><span class="red">*</span>异常数量：</label>
+					<input type="text" class="form-control" id="num" placeholder="">
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="station"><span class="red">*</span>配套基站：</label>
+					<div class="controls col-md-12" style="padding:0;">
+						<select id="station" class="form-control">
+							<option value="请选择">请选择</option>
+							<option value="EA1000">EA1000</option>
+							<option value="EA4200W">EA4200W</option>
+						</select>
+					</div>
+				  </div>
+				  <div class="form-group col-md-12">
+					<label for="dec"><span class="red">*</span>详细描述：</label>
+					 <textarea class="form-control" rows="5" id="dec"></textarea>
+				  </div>
+				  <div class="form-group col-md-12">
+					<label for="pic">问题图片：</label>
+					<input type="file" class="form-control" id="pic" placeholder="">
+				  </div>
+				 
+					
+				</form>
+				<input type="button" value="提交" class="btn btn-primary btn-lg" style="margin:0 auto;display:block;margin-top:5%;" onclick="submit();"/>
+			</div>
+		</div>
+		<div class="col-md-4" style="border-left:1px solid #ccc;height:740px;padding:30px 20px;overflow-y:auto;">
+		  <div class="rightBox">
+			<div class="qaList">
+				<div class="list_top">
+					<img src="images/dt_q1.png" width="100%"/>
+					<img src="images/dt_q1.png" width="100%"/>
+					<h4><span class="k"></span>R-接收标志</h4>
+					<p>键盘接收到基站发送的指令时显示。用于判断键盘是否进入反馈状态。</p>
+					<h4><span class="k"></span>T-发送标志</h4>
+					<p>键盘提交数据给基站时显示，用于判断键盘是否发送了数据。</p>
+					<h4><span class="k"></span>OK-发送成功标志</h4>
+					<p>基站收到键盘发送的数据时显示，用于判断键盘数据是否发送成功。</p>
+				</div>
+				<div class="list_content">
+					<li>
+						<p class="q_title">问题现象1：无法开机</p>
+						<p>可能键盘没有电导致，更换电池后再次尝试是否可以开机。若更换电池后仍无法开机，请联系技术支持。</p>
+					</li>
+					<li>
+						<p class="q_title">问题现象2：无信号</p>
+						<p>确认基站连接成功后，键盘仍显示无信号，可能是未进行配对导致。使用配对工具SunVote Match Tool V1.0.0.1配对后再尝试。开启配对后，S52Plus同时按住配对键“”和“”，直到键盘屏幕上有数字滚动。若无法配对，请参考问题“5.为什么答题器无法与基站配对成功”</p>
+					
+					</li>
+					<li>
+						<p class="q_title">问题现象3：有信号，无法进入反馈（不显示R）</p>
+						<p>① 所有键盘无法进入反馈，可能是基站未开始反馈。确保基站连接成功，并且已经进入答题状态。</p>
+						<p>② 个别键盘无法进入反馈，可能是受到其他基站干扰。确保周围没有相邻频点基站或免配对基站正在使用。可把当前基站拔了，确认答题器上是否仍然有信号，如果有信号，可确认该答题器与其他基站匹配了。可将该答题器与基站重新配对。</p>
+						
+					</li>
+					<li>
+						<p class="q_title">问题现象4：进入反馈（显示R），无法提交（不显示OK），或提交慢</p>
+						<p>可能是由于信号不好导致，干扰信号的因素：2.4G设备，信号屏蔽仪，同频点或免配对基站，人或其他物体的阻挡。避免信号干扰的方法如下：</p>
+						<p>① 确保附近没有其他基站干扰</p>
+						<p>② 确保键盘和基站之间没有障碍物阻挡</p>
+						<p>③ 确保未开启信号屏蔽议</p>
+						<p>④ 尝试更换频道，一般情况下频道1和7效果会较好。</p>
+						<p> 可能是按键磨损导致按键不灵。观察按键上的文字是否脱落，是否能看到答题器的线路板（示例如下）。如果确定按键有磨损，可将异常产品数量统计，并联系厂家技术支持安排售后处理。</p>
+						<img src="images/dt_q3.png" width="30%" />
+						
+					</li>
+					<li>
+						<p class="q_title">问题现象5：为什么键盘有时需按Send键提交，有时候自动提交？</p>
+						<p>基站的提交模式决定</p>
+						<p>基站支持自动提交和按键提交两种提交模式，设置成自动提交时，单选、判断输入选项后即可自动提交。多选、排序、数字类型的题目，不支持自动提交模式，需要按Send键提交。出厂默认为自动提交模式。</p>
+					</li>
+					<li>
+						<p class="q_title">问题现象6：什么情况下耗电快？</p>
+						<p>离线开机</p>
+						<p>离线开机时，键盘需要搜索基站，无线模块一直处于发射信号中，耗电比正常工作时要大很多。</p>
+						<p>保管不当</p>
+						<p>装有电池的键盘，宜要存放在干燥通风的地方。温差太大或者太潮湿的环境都不适宜存放。</p>
+					</li>
+					<li>
+						<p class="q_title">问题现象7：如何单独保管电池？</p>
+						<p>电池单独存放时，须存放在厂家发货的托盘中，禁止堆积存放，否则放电极快造成电池发热，甚至可能会引起电池破裂或起火的危险 。</p>
+						<p>电池宜存放在阴凉通风的地方，禁止在太阳下暴晒。温差太大或者太潮湿的环境都不适宜存放。</p>
+					</li>
+					<li>
+						<p class="q_title">问题现象8：为什么答题器无法与基站配对成功？</p>
+						<p>在确认配对工具版本（SunVote Match Tool V1.0.0.1）正常，且其他答题器可正常配对的情况下，可能是由于基站和答题器的频点范围不一致造成的。基站是80个频点的版本，答题器是32个频点的版本。基站的频点设置超过了32，因此答题器无法与基站匹配。</p>
+						<p>如何确认这个问题：</p>
+						<p>① 检查基站的频点是否超过了32</p>
+						<p>② 检查答题器配对时，是否频点数字跳动到32后，就再次重1开始。</p>
+						<p>如果确定是由于该原因导致，可以将旧版本的答题器发回升级。或者将基站的频点更改为32以内范围。</p>
+						<p>排除频点范围的原因，可用多只答题器作对比测试，同样的基站，同样的软件，同时操作，仅特定的某只答题器无法配对，可能是答题的版本</p>
+					</li>
+				</div>
+				
+			</div>
+			
+			
+		  </div>
+		</div>
+		<div class="mb" style="position:absolute;top:0%;left:35%;background:#fff;display:none;">
+			<img src="images/sn.png" width="300" />
+		</div>
+	</div>
+
+	<script type="text/javascript" id="main">
+
+</script>
+	<script>
+		var picBase;
+		var url="http://120.78.57.84:8888/SunvoteEducation";
+		var type=parseInt(getQueryString("type"));
+		var model=getQueryString("model");
+		var product_type="";
+		// 根据自己情况配置loader config
+		requirejs({
+			paths: {
+				"city.select": "js/jquery.city.select.min"
+			}
+		});
+		// 使用jQuery City Select插件方式
+		require(['city.select'], function ($) {
+			$(function () {
+				
+				$('#province, #city').citylist({
+					data    : data,
+					id      : 'id',
+					children: 'cities',
+					name    : 'name',
+					metaTag : 'name'
+				});
+
+				$('#all').citylist({
+					data    : data,
+					id      : 'id',
+					children: 'cities',
+					name    : 'name',
+					metaTag : 'name'
+				});
+
+				$('#pre-province, #pre-city').citylist({
+					data    : data,
+					id      : 'id',
+					children: 'cities',
+					name    : 'name',
+					metaTag : 'name',
+					selected: [14, 1401]
+				});
+
+				$('#pre-all').citylist({
+					data    : data,
+					id      : 'id',
+					children: 'cities',
+					name    : 'name',
+					metaTag : 'name',
+					idVal   : true,
+					selected: 1401
+				});
+				
+				//$("#model").html(model);
+				switch(model){					
+					case "dtq":$("#model_pic").attr("src","images/u30.png");$(".qaList").css("display","block");break;
+					default:break;
+				}
+				
+				$.ajax({
+					type:'get',
+					dataType: "json",
+					url:url+"/api/problem?type="+type,
+					async:false,
+					success:function(data){
+						//console.log(data.data[0].REMARK);
+						$.each(data.data,function(i,n){				
+							$("#question").append('<option value="'+n.REMARK+'">'+n.REMARK+'</option>');
+						})
+						
+					}
+				});
+				
+				
+			});
+		});
+		$("#pic").change(function(){
+			var file = this.files[0];
+			var reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload=function(e){
+				picBase=this.result;
+				//console.log(picBase);
+			}
+			
+		})
+		
+		function getQueryString(name) {
+		  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		  var r = window.location.search.substr(1).match(reg);
+		  if (r != null) return unescape(r[2]); return null;
+		}
+		
+		function submit(){
+			if($("#name").val()==''){
+				alert("请填写联系人姓名");
+				return;
+			}else if($("#tel").val()==''){
+				alert("请填写联系电话");
+				return;
+			}else if($("#sn").val()==''){
+				alert("请填写产品序列号");
+				return;
+			}else if($("#question").val()=='请选择'){
+				alert("请选择问题现象");
+				return;
+			}else if($("#system").val()=='请选择'){
+				alert("请选择操作系统");
+				return;
+			}else if($("#softname").val()=='请选择'){
+				alert("请选择软件名称");
+				return;
+			}else if($("#num").val()==''){
+				alert("请填写异常数量");
+				return;
+			}else if($("#dec").val()==''){
+				alert("请详细描述问题现象");
+				return;
+			}
+			
+			
+			switch(type){
+				case 1:product_type="基站";break;
+				case 2:product_type="答题器";break;
+				case 3:product_type="配件";break;
+				default:product_type="其他";break;
+			}
+			
+			var data={
+				SCHOOL_ADDRESS1:$("#province").val(),
+				SCHOOL_ADDRESS2:$("#city").val(),
+				CONTACT_PHONE:$("#name").val(),
+				PHONE_CONTACT:$("#tel").val(),
+				PRODUCT_SEQ:$("#sn").val(),
+				QUESTION_NAME:$("#question").val(),
+				OS:$("#system").val(),
+				SOFTWARE_VERSION:$("#version").val(),
+				SOFTWARE_NAME:$("#softname").val(),
+				EXCEPTION_NUM:$("num").val(),
+				DESCRIPTION:$("#dec").val(),
+				PROBLEM_PATH:picBase,
+				PRODUCT_TYPE:product_type,
+				PRODUCT_MODEL:model,
+				BASE_STATION:$("#station").val(),
+				CUSTOMER_CODE:"2396"				
+			};
+			$.ajax({
+				type:'post',
+				dataType: "json",
+				url:url+"/api/feedback/add",
+				data:data,
+				success:function(data){
+					alert("提交成功！");
+				}
+			})
+		}
+		
+		$("#sn").focus(function(){
+			//alert(1);
+			$(".mb").css("display","block");
+		});
+		$("#sn").blur(function(){
+			//alert(1);
+			$(".mb").css("display","none");
+		});
+		$(".mb").click(function(){
+			//alert(1);
+			$(".mb").css("display","none");
+		});
+	
+
+	
+</script>
+
+</body>
+</html>

@@ -27,7 +27,7 @@
   </filter-mapping>
   <context-param>
     <param-name>webAppRootKey</param-name>
-    <param-value>www.fhadmin.org</param-value>
+    <param-value>www.zhongtianjiaoyu.org</param-value>
   </context-param>
   <filter>
     <filter-name>DruidWebStatFilter</filter-name>

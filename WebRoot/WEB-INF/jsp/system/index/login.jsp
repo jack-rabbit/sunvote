@@ -345,7 +345,7 @@
 				$("#password").focus();
 				return false;
 			}
-			if ($("#code").val() == "") {
+			/* if ($("#code").val() == "") {
 				$("#code").tips({
 					side : 1,
 					msg : '验证码不得为空',
@@ -355,7 +355,7 @@
 				showfh();
 				$("#code").focus();
 				return false;
-			}
+			} */
 			$("#loginbox").tips({
 				side : 1,
 				msg : '正在登录 , 请稍后 ...',
@@ -479,7 +479,7 @@
 			$("#EMAIL").focus();
 			return false;
 		}
-		if ($("#rcode").val() == "") {
+		/* if ($("#rcode").val() == "") {
 			$("#rcode").tips({
 				side : 1,
 				msg : '验证码不得为空',
@@ -488,7 +488,7 @@
 			});
 			$("#rcode").focus();
 			return false;
-		}
+		} */
 		return true;
 	}
 	

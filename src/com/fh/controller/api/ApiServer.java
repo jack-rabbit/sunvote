@@ -1,6 +1,8 @@
 package com.fh.controller.api;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import Decoder.BASE64Decoder;
+
 import com.fh.controller.base.BaseController;
 import com.fh.service.feedback.feedback.FeedbackManager;
+import com.fh.service.feedback.problemphenomenon.ProblemPhenomenonManager;
 import com.fh.service.sunvote.basestation.BasestationManager;
 import com.fh.service.sunvote.keypad.KeypadManager;
 import com.fh.service.sunvote.school.SchoolManager;
@@ -35,6 +40,9 @@ public class ApiServer extends BaseController {
 
 	@Resource(name = "feedbackService")
 	private FeedbackManager feedbackService;
+
+	@Resource(name = "problemphenomenonService")
+	private ProblemPhenomenonManager problemphenomenonService;
 
 	@RequestMapping(value = "/school", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -262,6 +270,11 @@ public class ApiServer extends BaseController {
 		ResponseGson<PageData> res = new ResponseGson();
 		String path = request.getSession().getServletContext()
 				.getRealPath("/images");
+		File pathFile = new File(path);
+		if(!pathFile.exists()){
+			pathFile.mkdirs();
+		}
+		logger.info(path);
 		if (file != null) {
 			String fileName = file.getOriginalFilename();
 			File dir = new File(path, Tools.date2Str(new Date()) + fileName);
@@ -269,12 +282,32 @@ public class ApiServer extends BaseController {
 				dir.mkdirs();
 			}
 			file.transferTo(dir);
-		
+
 			pd.put("PROBLEM_PATH", dir.getAbsolutePath());
+			logger.info(dir.getAbsolutePath());
+		} else {
+			if (pd.get("PROBLEM_PATH") != null) {
+				String imgStr = pd.getString("PROBLEM_PATH");
+				String[] content = imgStr.split(";base64,");
+				if (content.length >= 2) {
+					String fileType = ".file";
+					if (content[0].contains("image")) {
+						fileType = content[0].substring(11,content[0].length());
+					}
+					File dir = new File(path + File.separator +  "fb_"
+							+ System.currentTimeMillis() + "." + fileType);
+					if (!dir.exists()) {
+						dir.createNewFile();
+					}
+					generateImage(content[1], dir.getAbsolutePath());
+					pd.put("PROBLEM_PATH", dir.getAbsolutePath());
+				}
+			}
 		}
 		String id = pd.getString("ID");
 		if (id != null && !"".equals(id)) {
 			try {
+				logger.info(pd);
 				feedbackService.edit(pd);
 			} catch (Exception ex) {
 				res.setDataError();
@@ -288,5 +321,42 @@ public class ApiServer extends BaseController {
 			}
 		}
 		return res.toJson();
+	}
+
+	@RequestMapping(value = "/problem", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object problem() throws Exception {
+		PageData pd = getPageData();
+		List<PageData> ret = null;
+		if (pd.get("TYPE") != null && !"".equals(pd.get("TYPE"))) {
+			ret = problemphenomenonService.listAllByType(pd);
+		} else {
+			ret = problemphenomenonService.listAll(pd);
+		}
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		res.setData(ret);
+		return res.toJson();
+	}
+
+	public static boolean generateImage(String imgStr, String path) {
+		if (imgStr == null)
+			return false;
+		BASE64Decoder decoder = new BASE64Decoder();
+		try {
+			byte[] b = decoder.decodeBuffer(imgStr);
+			// 处理数据
+			for (int i = 0; i < b.length; ++i) {
+				if (b[i] < 0) {
+					b[i] += 256;
+				}
+			}
+			OutputStream out = new FileOutputStream(path);
+			out.write(b);
+			out.flush();
+			out.close();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

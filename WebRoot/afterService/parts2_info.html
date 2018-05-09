@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>填写资料</title>
+	<link rel="stylesheet" href="http://lib.sinaapp.com/js/bootstrap/3.0.0/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<style>
+    body{ background-color: #fff }
+    </style>
+	<!--[if IE]>
+		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://lib.sinaapp.com/js/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="js/data.js"></script>
+    <script src="js/require.min.js"></script>
+
+</head>
+<body>
+	<div class="container column" >		
+		<div class="col-md-8">
+			<div class="header">
+				<div class="row">
+				  <div class="col-xs-3"><img src="" width="140px" id="model_pic"/></div>
+				  <div class="col-xs-9"><p><span id="model"></span>问题反馈</p></div>
+				  <div class="col-xs-9"><p>请填写以下信息反馈问题，我们会在24小时内响应。或直接拨打售后电话您也可以根据问题的现象参照EA1000常见问题，自行排查问题。</p></div>
+				</div>
+			</div>
+			<div class="content">
+				<form class="form-inline" id="list">
+				  <div class="form-group col-md-6">
+					<label ><span class="red">*</span>校区名称：</label>
+					<div class="control-group xq">
+						<div class="controls col-md-6" style="padding-left:0;">
+							<select id="province" class="form-control">
+								<option value="请选择"></option>
+							</select>
+							
+						</div>
+						<div class="controls col-md-6" style="padding-right:0;">
+							<select id="city" class="form-control">
+								<option value="请选择">请选择</option>
+							</select>
+						</div>
+					</div>
+					
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="name"><span class="red">*</span>联系人：</label>
+					<input type="text" class="form-control" id="name" placeholder="">
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="tel"><span class="red">*</span>联系电话：</label>
+					<input type="text" class="form-control" id="tel" placeholder="">
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="question"><span class="red">*</span>问题现象：</label>
+					<div class="controls col-md-12" style="padding:0;">
+						<select id="question" class="form-control">
+							<option value="请选择" id="question1">请选择</option>
+						</select>
+					</div>
+				  </div> 
+				  <div class="form-group col-md-6">
+					<label for="version"><span class="red">*</span>购买时间：</label>
+					<input type="text" class="form-control" id="time" placeholder="">
+				  </div>
+				  <div class="form-group col-md-6">
+					<label for="num"><span class="red">*</span>异常数量：</label>
+					<input type="text" class="form-control" id="num" placeholder="">
+				  </div>
+				  <div class="form-group col-md-12">
+					<label for="dec"><span class="red">*</span>详细描述：</label>
+					 <textarea class="form-control" rows="5" id="dec"></textarea>
+				  </div>
+				  <div class="form-group col-md-12">
+					<label for="pic">问题图片：</label>
+					<input type="file" class="form-control" id="pic" placeholder="">
+				  </div>
+				 
+					
+				</form>
+				<input type="button" value="提交" class="btn btn-primary btn-lg" style="margin:0 auto;display:block;margin-top:5%;" onclick="submit();"/>
+			</div>
+		</div>
+		<div class="col-md-4" style="border-left:1px solid #ccc;height:740px;padding:30px 20px;overflow-y:auto;">
+		  <div class="rightBox">
+			
+		  </div>
+		</div>
+	</div>
+
+	<script type="text/javascript" id="main">
+
+</script>
+	<script>
+		var picBase;
+		var url="http://120.78.57.84:8888/SunvoteEducation";
+		var type=parseInt(getQueryString("type"));
+		var model=getQueryString("model");
+		var product_type="";
+		// 根据自己情况配置loader config
+		requirejs({
+			paths: {
+				"city.select": "js/jquery.city.select.min"
+			}
+		});
+		// 使用jQuery City Select插件方式
+		require(['city.select'], function ($) {
+			$(function () {
+				
+				$('#province, #city').citylist({
+					data    : data,
+					id      : 'id',
+					children: 'cities',
+					name    : 'name',
+					metaTag : 'name'
+				});
+
+				$('#all').citylist({
+					data    : data,
+					id      : 'id',
+					children: 'cities',
+					name    : 'name',
+					metaTag : 'name'
+				});
+
+				$('#pre-province, #pre-city').citylist({
+					data    : data,
+					id      : 'id',
+					children: 'cities',
+					name    : 'name',
+					metaTag : 'name',
+					selected: [14, 1401]
+				});
+
+				$('#pre-all').citylist({
+					data    : data,
+					id      : 'id',
+					children: 'cities',
+					name    : 'name',
+					metaTag : 'name',
+					idVal   : true,
+					selected: 1401
+				});
+				
+				$("#model").html("配件");
+				switch(model){
+					case "sma":$("#model_pic").attr("src","images/EA1000_line.jpg");break;
+					case "big":$("#model_pic").attr("src","images/EA4200W_line.jpg");break;
+					case "bag":$("#model_pic").attr("src","images/bag.png");break;
+					default:break;
+				}
+				
+				$.ajax({
+					type:'get',
+					dataType: "json",
+					url:url+"/api/problem?type="+type,
+					async:false,
+					success:function(data){
+						//console.log(data.data[0].REMARK);
+						$.each(data.data,function(i,n){	
+							
+							$("#question").append('<option value="'+n.REMARK+'">'+n.REMARK+'</option>');
+						})
+						
+					}
+				});
+				
+				
+			});
+		});
+		$("#pic").change(function(){
+			var file = this.files[0];
+			var reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload=function(e){
+				picBase=this.result;
+				//console.log(picBase);
+			}
+			
+		})
+		
+		function getQueryString(name) {
+		  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		  var r = window.location.search.substr(1).match(reg);
+		  if (r != null) return unescape(r[2]); return null;
+		}
+		
+		function submit(){
+			if($("#name").val()==''){
+				alert("请填写联系人姓名");
+				return;
+			}else if($("#tel").val()==''){
+				alert("请填写联系电话");
+				return;
+			}else if($("#sn").val()==''){
+				alert("请填写产品序列号");
+				return;
+			}else if($("#question").val()=='请选择'){
+				alert("请选择问题现象");
+				return;
+			}else if($("#system").val()=='请选择'){
+				alert("请选择操作系统");
+				return;
+			}else if($("#softname").val()=='请选择'){
+				alert("请选择软件名称");
+				return;
+			}else if($("#num").val()==''){
+				alert("请填写异常数量");
+				return;
+			}else if($("#dec").val()==''){
+				alert("请详细描述问题现象");
+				return;
+			}
+			
+			
+			switch(type){
+				case 1:product_type="基站";break;
+				case 2:product_type="答题器";break;
+				case 3:product_type="配件";break;
+				default:product_type="其他";break;
+			}
+			
+			var data={
+				SCHOOL_ADDRESS1:$("#province").val(),
+				SCHOOL_ADDRESS2:$("#city").val(),
+				CONTACT_PHONE:$("#name").val(),
+				PHONE_CONTACT:$("#tel").val(),
+				//PRODUCT_SEQ:$("#sn").val(),
+				QUESTION_NAME:$("#question").val(),
+				//OS:$("#system").val(),
+				//SOFTWARE_VERSION:$("#version").val(),
+				//SOFTWARE_NAME:$("#softname").val(),
+				EXCEPTION_NUM:$("num").val(),
+				DESCRIPTION:$("#dec").val(),
+				TIME_PURCHASE:$("#time").val(),
+				PROBLEM_PATH:picBase,
+				PRODUCT_TYPE:product_type,
+				PRODUCT_MODEL:model,
+				CUSTOMER_CODE:"2396"
+			};
+			$.ajax({
+				type:'post',
+				dataType: "json",
+				url:url+"/api/feedback/add",
+				data:data,
+				success:function(data){
+					alert("提交成功！");
+				}
+			})
+		}
+	
+
+	
+</script>
+
+</body>
+</html>
