@@ -96,7 +96,7 @@ public class LoginController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		String errInfo = "";
-		String KEYDATA[] = pd.getString("KEYDATA").replaceAll("elvis", "").split(",fh,");
+		String KEYDATA[] = pd.getString("KEYDATA").split(";;;");
 		if(null != KEYDATA && KEYDATA.length >= 2){
 			Session session = Jurisdiction.getSession();
 			String sessionCode = (String)session.getAttribute(Const.SESSION_SECURITY_CODE);		//获取session中的验证码

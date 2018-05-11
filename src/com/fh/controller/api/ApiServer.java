@@ -294,13 +294,13 @@ public class ApiServer extends BaseController {
 					if (content[0].contains("image")) {
 						fileType = content[0].substring(11,content[0].length());
 					}
-					File dir = new File(path + File.separator +  "fb_"
-							+ System.currentTimeMillis() + "." + fileType);
+					String filename = "fb_"	+ System.currentTimeMillis() + "." + fileType ;
+					File dir = new File(path + File.separator + filename );
 					if (!dir.exists()) {
 						dir.createNewFile();
 					}
 					generateImage(content[1], dir.getAbsolutePath());
-					pd.put("PROBLEM_PATH", dir.getAbsolutePath());
+					pd.put("PROBLEM_PATH", filename);
 				}
 			}
 		}

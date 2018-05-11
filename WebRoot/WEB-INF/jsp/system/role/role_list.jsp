@@ -53,7 +53,7 @@
 							
 							<table>
 								<tr height="7px;"><td colspan="100"></td></tr>
-								<tr>
+								<tr style="display:none">
 								<td><font color="#808080">本组：</font></td>
 								<td>
 								<c:if test="${QX.edit == 1 }">
@@ -64,10 +64,10 @@
 										</c:when>
 										<c:otherwise>
 										<c:if test="${QX.edit == 1 }">
-										<a class="btn btn-mini btn-purple" onclick="editRights('${pd.ROLE_ID }');">
+										<a  class="btn btn-mini btn-purple" onclick="editRights('${pd.ROLE_ID }');">
 											<i class="icon-pencil"></i>
-											<c:if test="${pd.ROLE_ID == '1'}">Admin 菜单权限</c:if>
-											<c:if test="${pd.ROLE_ID != '1'}">组菜单权限</c:if>
+											<c:if test="${pd.ROLE_ID == '12121221'}">Admin 菜单权限</c:if>
+											<c:if test="${pd.ROLE_ID == '112121221'}">组菜单权限</c:if>
 										</a>
 										</c:if>
 										</c:otherwise>
