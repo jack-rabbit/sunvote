@@ -92,7 +92,7 @@
 											<td class='center'>${var.EXCEPTION_NUM}</td>
 											<td class='center'>${var.DESCRIPTION}</td>
 											<%-- <td class='center'>${var.PROBLEM_PATH}</td> --%>
-											<td><img src="../../../../SunvoteEducation/images/${var.PROBLEM_PATH}" class="img-responsive" alt="Responsive image"></td>
+											<td><img style="width:60px;height:auto" src="../../../../SunvoteEducation/images/${var.PROBLEM_PATH}" class="img-responsive" alt="Responsive image"></td>
 											<td class='center'>${var.CUSTOMER_CODE}</td>
 											<td class='center'>${var.PERSON_LIABLE}</td>
 											<td class='center'>${var.CREATE_DATE}</td>

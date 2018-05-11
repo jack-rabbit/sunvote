@@ -32,6 +32,20 @@
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">问题类型:</td>
+								<td>
+								<select class="chosen-select form-control" name="TYPE" id="TYPE" data-placeholder="这里选择类型">
+									<option value="1"  selected="true">EA1000</option>
+									<option value="2"  >EA4200W</option>
+									<option value="3"  >答题器</option>
+									<option value="4"  >纽扣电池</option>
+									<option value="5"  >小基站连接线</option>
+									<option value="6"  >大基站连接线</option>
+									<option value="7"  >设备包</option>
+								</select>
+								</td>
+							</tr>
+							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">问题描述:</td>
 								<td><input type="text" name="DESC1" id="DESC1" value="${pd.DESC1}" maxlength="255" placeholder="这里输入问题描述" title="问题描述" style="width:98%;"/></td>
 							</tr>

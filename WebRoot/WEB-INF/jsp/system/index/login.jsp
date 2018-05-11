@@ -101,11 +101,11 @@
 						<div class="main_input_box">
 							<span class="add-on bg_ly">
 							<i><img height="37" src="static/login/suo.png" /></i>
-							</span><input type="password" name="password" id="password" placeholder="请输入密码" class="keypad" keypadMode="full" allowKeyboard="true" value=""/>
+							</span><input type="password" name="password" id="password" placeholder="请输入密码"  keypadMode="full" allowKeyboard="true" value=""/>
 						</div>
 					</div>
 				</div>
-				<div style="float:right;padding-right:10%;">
+				<div style="float:right;padding-right:10%; display:none">
 					<div style="float: left;margin-top:3px;margin-right:2px;">
 						<font color="white">记住密码</font>
 					</div>
@@ -117,14 +117,14 @@
 				<div class="form-actions">
 					<div style="width:86%;padding-left:8%;">
 
-						<div style="float: left;padding-top:2px;">
+						<div style="float: left;padding-top:2px;display:none;">
 							<i><img src="static/login/yan.png" /></i>
 						</div>
-						<div style="float: left;" class="codediv">
+						<div style="float: left;display:none;" class="codediv">
 							<input type="text" name="code" id="code" class="login_code"
 								style="height:16px; padding-top:4px;" />
 						</div>
-						<div style="float: left;">
+						<div style="float: left;display:none;">
 							<i><img style="height:22px;" id="codeImg" alt="点击更换" title="点击更换" src="" /></i>
 						</div>
 						<c:if test="${pd.isZhuce == 'yes' }">

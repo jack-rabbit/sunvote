@@ -26,7 +26,7 @@
 				<div class="row">
 				  <div class="col-xs-3"><img src="" width="140px" id="model_pic"/></div>
 				  <div class="col-xs-9"><p><span id="model">EA1000</span>问题反馈</p></div>
-				  <div class="col-xs-9"><p>请填写以下信息反馈问题，我们会在24小时内响应。或直接拨打售后电话您也可以根据问题的现象参照EA1000常见问题，自行排查问题。</p></div>
+				  <div class="col-xs-9"><p>请填写以下信息反馈问题，我们会在24小时内响应。或直接拨打售后电话您也可以根据问题的现象参照<span id="model1">EA1000</span>常见问题，自行排查问题。</p></div>
 				</div>
 			</div>
 			<div class="content">
@@ -54,11 +54,11 @@
 				  </div>
 				  <div class="form-group col-md-6">
 					<label for="tel"><span class="red">*</span>联系电话：</label>
-					<input type="text" class="form-control" id="tel" placeholder="">
+					<input type="text" class="form-control" id="tel" placeholder="" onkeyup="this.value=this.value.replace(/\D/g,'')" />
 				  </div>
 				  <div class="form-group col-md-6">
 					<label for="sn"><span class="red">*</span>产品序列号：</label>
-					<input type="text" class="form-control" id="sn" placeholder="">
+					<input type="text" class="form-control" id="sn" placeholder="" onkeyup="this.value=this.value.replace(/\D/g,'')" />
 				  </div>
 				  <div class="form-group col-md-6">
 					<label for="exampleInputName2"><span class="red">*</span>问题现象：</label>
@@ -95,7 +95,7 @@
 				  </div>
 				  <div class="form-group col-md-6">
 					<label for="num"><span class="red">*</span>异常数量：</label>
-					<input type="text" class="form-control" id="num" placeholder="">
+					<input type="text" class="form-control" id="num" placeholder="" onkeyup="this.value=this.value.replace(/\D/g,'')" />
 				  </div>
 				  <div class="form-group col-md-12">
 					<label for="dec"><span class="red">*</span>详细描述：</label>
@@ -249,6 +249,7 @@ PS：建议老师使用手动连接的方式，不要选择自动连接。</p>
 				});
 				
 				$("#model").html(model);
+				$("#model1").html(model);
 				switch(model){
 					case "EA1000":$("#model_pic").attr("src","images/EA1000.jpg");$(".qaList").css("display","none");$(".EA1000").css("display","block");break;
 					case "EA4200W":$("#model_pic").attr("src","images/EA4200W.png");$(".qaList").css("display","none");$(".EA4200W").css("display","block");break;
@@ -334,7 +335,7 @@ PS：建议老师使用手动连接的方式，不要选择自动连接。</p>
 				OS:$("#system").val(),
 				SOFTWARE_VERSION:$("#version").val(),
 				SOFTWARE_NAME:$("#softname").val(),
-				EXCEPTION_NUM:$("num").val(),
+				EXCEPTION_NUM:$("#num").val(),
 				DESCRIPTION:$("#dec").val(),
 				PROBLEM_PATH:picBase,
 				PRODUCT_TYPE:product_type,

@@ -41,6 +41,7 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
+									<th class="center">类型</th>
 									<th class="center">问题描述</th>
 									<th class="center">备注</th>
 									<th class="center">操作</th>
@@ -58,6 +59,7 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
+											<td class='center'>${var.TYPE == 1 ? "EA1000":var.TYPE == 2? "EA4200W" :var.TYPE == 3?"答题器":var.TYPE == 4?"纽扣电池":var.TYPE == 5?"小基站连接线":var.TYPE == 6?"大基站连接线":"设备包" }</td>
 											<td class='center'>${var.DESC1}</td>
 											<td class='center'>${var.REMARK}</td>
 											<td class="center">

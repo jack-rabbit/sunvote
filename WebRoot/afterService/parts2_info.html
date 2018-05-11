@@ -26,7 +26,7 @@
 				<div class="row">
 				  <div class="col-xs-3"><img src="" width="140px" id="model_pic"/></div>
 				  <div class="col-xs-9"><p><span id="model"></span>问题反馈</p></div>
-				  <div class="col-xs-9"><p>请填写以下信息反馈问题，我们会在24小时内响应。或直接拨打售后电话您也可以根据问题的现象参照EA1000常见问题，自行排查问题。</p></div>
+				  <div class="col-xs-9"><p>请填写以下信息反馈问题，我们会在24小时内响应。或直接拨打售后电话您也可以根据问题的现象参照<span id="model1">EA1000</span>常见问题，自行排查问题。</p></div>
 				</div>
 			</div>
 			<div class="content">
@@ -54,7 +54,7 @@
 				  </div>
 				  <div class="form-group col-md-6">
 					<label for="tel"><span class="red">*</span>联系电话：</label>
-					<input type="text" class="form-control" id="tel" placeholder="">
+					<input type="text" class="form-control" id="tel" placeholder="" onkeyup="this.value=this.value.replace(/\D/g,'')" />
 				  </div>
 				  <div class="form-group col-md-6">
 					<label for="question"><span class="red">*</span>问题现象：</label>
@@ -70,7 +70,7 @@
 				  </div>
 				  <div class="form-group col-md-6">
 					<label for="num"><span class="red">*</span>异常数量：</label>
-					<input type="text" class="form-control" id="num" placeholder="">
+					<input type="text" class="form-control" id="num" placeholder="" onkeyup="this.value=this.value.replace(/\D/g,'')">
 				  </div>
 				  <div class="form-group col-md-12">
 					<label for="dec"><span class="red">*</span>详细描述：</label>
@@ -148,6 +148,7 @@
 				});
 				
 				$("#model").html("配件");
+				$("#model1").html("配件");
 				switch(model){
 					case "sma":$("#model_pic").attr("src","images/EA1000_line.jpg");break;
 					case "big":$("#model_pic").attr("src","images/EA4200W_line.jpg");break;
@@ -235,7 +236,7 @@
 				//OS:$("#system").val(),
 				//SOFTWARE_VERSION:$("#version").val(),
 				//SOFTWARE_NAME:$("#softname").val(),
-				EXCEPTION_NUM:$("num").val(),
+				EXCEPTION_NUM:$("#num").val(),
 				DESCRIPTION:$("#dec").val(),
 				TIME_PURCHASE:$("#time").val(),
 				PROBLEM_PATH:picBase,
