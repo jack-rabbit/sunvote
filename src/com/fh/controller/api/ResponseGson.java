@@ -74,14 +74,19 @@ public class ResponseGson<T> {
 		message = "server error" ;
 	}
 	
+	public void setOtherError(){
+		code = "-6" ;
+		message = "未定义，需补充" ;
+	}
+	
 	public void set1Error(){
 		code = "1" ;
-		message = "分别对错误进行描述，1 具体到某个参数值问题的描述" ;
+		message = "登录失败，用户名或者密码错误" ;
 	}
 	
 	public void set2Error(){
 		code = "2" ;
-		message = "分别对错误进行描述，1 具体到某个参数值问题的描述" ;
+		message = "没有找到对应的班级信息" ;
 	}
 	
 	public void set3Error(){

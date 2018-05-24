@@ -1,0 +1,42 @@
+SELECT
+	*
+FROM
+	sv_coursemanagement
+LEFT JOIN sv_sclass ON sv_coursemanagement.CLASS_ID = sv_sclass.ID
+WHERE
+	sv_coursemanagement.START_DATE < NOW()
+AND sv_coursemanagement.END_DATE > NOW();
+
+
+SELECT
+	*
+FROM
+	sv_coursemanagement
+LEFT JOIN sv_subject ON sv_coursemanagement.SUBJECT_ID = sv_subject.ID
+WHERE
+	sv_coursemanagement.START_DATE < NOW()
+AND sv_coursemanagement.END_DATE > NOW()
+and TEACHER_ID = '1'
+
+
+根据班级名称查找该学期学生名单
+SELECT
+	STUDENT_ID,
+	sv_student.`NAME`
+FROM
+	sv_classroster
+LEFT JOIN sv_term ON sv_classroster.TEAMID = sv_term.TERM_ID
+LEFT JOIN sv_student ON sv_classroster.STUDENT_ID = sv_student.ID
+WHERE
+	sv_term.START_DATE < NOW()
+AND sv_term.END_DATE > NOW()
+ where sclass_id = ?
+ 
+ 
+ SELECT
+	*
+FROM
+	sv_paper
+LEFT JOIN sv_paperquestion ON sv_paper.PAPER_ID = sv_paperquestion.PAPER_ID
+LEFT JOIN sv_question ON sv_paperquestion.QUESTION_ID = sv_question.QUESTION_ID;
+

@@ -42,6 +42,7 @@
 		insert into 
 	<include refid="tableName"></include>
 		(
+			ID,
 			SCHOOL_ID,	
 			NAME,	
 			PHONE,	
@@ -53,6 +54,7 @@
 			SUBJECT_IDS,	
 			KEYPAD_ID
 		) values (
+		#{ID},
 		#{SCHOOL_ID},	
 		#{NAME},	
 		#{PHONE},	
@@ -102,6 +104,22 @@
 		<include refid="tableName"></include>
 		where 
 			ID = #{ID}
+	</select>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="getUserInfo" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1 = 1 
+		<if test="ACCOUT !=null and PASSWORD!=null">
+			and ACCOUT = #{ACCOUT} and PASSWORD=#{PASSWORD}
+		</if>
+		<if test="KEYPAD_ID !=null">
+		and KEYPAD_ID = #{KEYPAD_ID}
+		</if>
+		limit 1
 	</select>
 	
 	<!-- 列表 -->

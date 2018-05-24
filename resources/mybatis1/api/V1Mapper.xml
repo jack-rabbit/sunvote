@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="V1Mapper">
+	
+	<!-- 通过教师ID获取班级数据 -->
+	<select id="getTeacherClassInfo" parameterType="pd" resultType="pd">
+		SELECT
+			CLASS_ID,CLASS_NAME,CLASS_CODE
+		FROM
+			sv_coursemanagement
+		LEFT JOIN sv_term ON sv_term.TERM_ID = sv_coursemanagement.TERM_ID
+		LEFT JOIN sv_sclass ON sv_coursemanagement.CLASS_ID = sv_sclass.ID
+		WHERE
+			sv_term.START_DATE &lt; NOW()
+		AND sv_term.END_DATE &gt; NOW()
+		AND TEACHER_ID = #{TEACHER_ID}
+	</select>
+	
+	<!-- 通过教师ID获取科目数据 -->
+	<select id="getTeacherSubjectInfo" parameterType="pd" resultType="pd">
+		SELECT
+		SUBJECT_ID,CNAME,ENAME
+		FROM
+			sv_coursemanagement
+		LEFT JOIN sv_term ON sv_term.TERM_ID = sv_coursemanagement.TERM_ID
+		LEFT JOIN sv_subject ON sv_coursemanagement.SUBJECT_ID = sv_subject.ID
+		WHERE
+			sv_term.START_DATE &lt; NOW()
+			AND sv_term.END_DATE &gt; NOW()
+			AND TEACHER_ID = #{TEACHER_ID}
+	</select>
+	
+	<!-- 通过教师ID获取科目数据 -->
+	<select id="getClassStudent" parameterType="pd" resultType="pd">
+		SELECT
+			STUDENT_ID,
+			sv_student.`NAME`
+			FROM
+				sv_classroster
+			LEFT JOIN sv_term ON sv_classroster.TEAMID = sv_term.TERM_ID
+			LEFT JOIN sv_student ON sv_classroster.STUDENT_ID = sv_student.ID
+			WHERE
+				sv_term.START_DATE &lt; NOW()
+			AND sv_term.END_DATE &gt; NOW()
+			AND SCLASS_ID = #{SCLASS_ID}
+	</select>
+	
+	<!-- 通过教师ID获取科目数据 -->
+	<select id="getTestPaperInfo" parameterType="pd" resultType="pd">
+		 	SELECT
+			*
+			FROM
+				sv_paper
+			LEFT JOIN sv_paperquestion ON sv_paper.PAPER_ID = sv_paperquestion.PAPER_ID
+			LEFT JOIN sv_question ON sv_paperquestion.QUESTION_ID = sv_question.QUESTION_ID
+			where 1 = 1
+			<if test="PAPER_ID != null and PAPER_ID != ''">
+				and sv_paper.PAPER_ID = #{PAPER_ID}
+			</if>
+		
+	</select>
+	
+</mapper>

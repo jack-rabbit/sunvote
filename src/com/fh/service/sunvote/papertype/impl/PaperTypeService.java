@@ -10,7 +10,6 @@ import com.fh.service.sunvote.papertype.PaperTypeManager;
 
 /** 
  * 说明： 试卷类型管理
- * 创建人：FH Q313596790
  * 创建时间：2018-04-20
  * @version
  */

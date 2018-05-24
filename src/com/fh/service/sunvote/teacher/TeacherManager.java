@@ -48,6 +48,12 @@ public interface TeacherManager{
 	 */
 	public PageData findById(PageData pd)throws Exception;
 	
+	/**通过username&password获取数据
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData getUserInfo(PageData pd)throws Exception;
+	
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

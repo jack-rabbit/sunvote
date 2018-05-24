@@ -1,8 +1,11 @@
 package com.fh.service.sunvote.teacher.impl;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
@@ -68,6 +71,14 @@ public class TeacherService implements TeacherManager{
 	 */
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("TeacherMapper.findById", pd);
+	}
+	
+	/**通过id获取数据
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData getUserInfo(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("TeacherMapper.getUserInfo", pd);
 	}
 	
 	/**批量删除

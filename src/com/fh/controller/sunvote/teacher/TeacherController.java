@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -21,13 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.util.AppUtil;
-import com.fh.util.ObjectExcelView;
-import com.fh.util.PageData;
-import com.fh.util.Jurisdiction;
-import com.fh.util.Tools;
 import com.fh.service.sunvote.school.SchoolManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
+import com.fh.service.system.fhlog.FHlogManager;
+import com.fh.service.system.user.UserManager;
+import com.fh.util.AppUtil;
+import com.fh.util.Jurisdiction;
+import com.fh.util.ObjectExcelView;
+import com.fh.util.PageData;
 
 /** 
  * 说明：教师
@@ -45,6 +47,13 @@ public class TeacherController extends BaseController {
 	@Resource(name="schoolService")
 	private SchoolManager schoolService;
 	
+	
+	@Resource(name="userService")
+	private UserManager userService;
+	
+	@Resource(name="fhlogService")
+	private FHlogManager FHLOG;
+	
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -55,8 +64,25 @@ public class TeacherController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
+		pd.put("ID", this.get32UUID());
 		pd = this.getPageData();
 		teacherService.save(pd);
+		
+		pd.put("USER_ID", pd.getString("ID"));	//ID 主键
+		pd.put("LAST_LOGIN", "");				//最后登录时间
+		pd.put("IP", "");						//IP
+		pd.put("STATUS", "0");					//状态
+		pd.put("SKIN", "default");
+		pd.put("RIGHTS", "");		
+		pd.put("USERNAME", pd.getString("ACCOUT"));
+		pd.put("ROLE_ID", "57bb1e6f138247a0b05cc721a5da1b64");		
+		pd.put("PASSWORD", new SimpleHash("SHA-1", pd.getString("ACCOUT"), pd.getString("PASSWORD")).toString());	//密码加密
+		
+		if(null == userService.findByUsername(pd)){	//判断用户名是否存在
+			userService.saveU(pd); 					//执行保存
+			FHLOG.save(Jurisdiction.getUsername(), "新增系统用户："+pd.getString("USERNAME"));
+		}
+		
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -72,7 +98,9 @@ public class TeacherController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("USER_ID", pd.get("ID"));
 		teacherService.delete(pd);
+		userService.deleteU(pd);
 		out.write("success");
 		out.close();
 	}

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.fh.service.sunvote.basestation.impl.BasestationService;
 import com.fh.service.sunvote.classtype.impl.ClassTypeService;
 import com.fh.service.sunvote.grade.impl.GradeService;
+import com.fh.service.sunvote.questiontype.QuestionTypeManager;
 import com.fh.service.sunvote.school.impl.SchoolService;
 import com.fh.service.sunvote.sclass.impl.SClassService;
 import com.fh.service.sunvote.subject.impl.SubjectService;
@@ -171,6 +172,24 @@ public class Myelfun {
 		PageData pageData = new PageData();
 		pageData.put("ID", id);
 		pageData = teachingmaterialService.findById(pageData);
+		if(pageData != null){
+			return pageData.getString("NAME");
+		}else{
+			return "" ;
+		}
+	}
+	
+	/**
+	 * 根据ID查找题目类型
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public static String findQuestionTypeName(int id) throws Exception {
+		QuestionTypeManager questiontypeService = (QuestionTypeManager)SpringBeanFactoryUtils.getBean("questiontypeService");
+		PageData pageData = new PageData();
+		pageData.put("QUESTIONTYPE_ID", id);
+		pageData = questiontypeService.findById(pageData);
 		if(pageData != null){
 			return pageData.getString("NAME");
 		}else{

@@ -10,7 +10,6 @@ import com.fh.service.sunvote.school.SchoolManager;
 
 /** 
  * 说明： 学校
- * 创建人：FH Q313596790
  * 创建时间：2018-04-18
  * @version
  */
