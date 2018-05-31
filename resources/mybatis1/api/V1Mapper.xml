@@ -34,7 +34,8 @@
 	<select id="getClassStudent" parameterType="pd" resultType="pd">
 		SELECT
 			STUDENT_ID,
-			sv_student.`NAME`
+			sv_student.`NAME`,
+			sv_student.`KEYPAD_ID`
 			FROM
 				sv_classroster
 			LEFT JOIN sv_term ON sv_classroster.TEAMID = sv_term.TERM_ID
@@ -45,10 +46,20 @@
 			AND SCLASS_ID = #{SCLASS_ID}
 	</select>
 	
-	<!-- 通过教师ID获取科目数据 -->
+	<!--  通过教师ID获取科目数据
 	<select id="getTestPaperInfo" parameterType="pd" resultType="pd">
 		 	SELECT
-			*
+			sv_question.OPTION_NUM,
+			sv_paperquestion.SCORE,
+			sv_paperquestion.PART_SCORE,
+			sv_paperquestion.RANK,
+			sv_paperquestion.NO_NAME,
+			sv_question.ANALYSIS,
+			sv_question.DIFFICULTY,
+			sv_question.QUESTION_ID,
+			sv_question.CONTENT,
+			sv_question.ANSWER,
+			sv_question.OPTION_CONTENT
 			FROM
 				sv_paper
 			LEFT JOIN sv_paperquestion ON sv_paper.PAPER_ID = sv_paperquestion.PAPER_ID
@@ -58,6 +69,85 @@
 				and sv_paper.PAPER_ID = #{PAPER_ID}
 			</if>
 		
+	</select> -->
+	
+	
+	<!-- 通过教师ID获取科目数据 -->
+	<select id="getTestPaperInfo" parameterType="pd" resultType="pd">
+		 	SELECT
+			sv_question.OPTION_NUM,
+			sv_paperquestion.SCORE,
+			sv_paperquestion.PART_SCORE,
+			sv_paperquestion.RANK,
+			sv_paperquestion.NO_NAME,
+			sv_question.ANALYSIS,
+			sv_question.DIFFICULTY,
+			sv_question.QUESTION_ID,
+			sv_question.CONTENT,
+			sv_question.ANSWER,
+			sv_question.OPTION_CONTENT,
+			sv_question.P_ID
+			FROM
+				sv_paperquestion
+			LEFT JOIN sv_question ON sv_paperquestion.QUESTION_ID = sv_question.QUESTION_ID
+			where 1 = 1 and (sv_question.P_ID = '-1' or sv_question.P_ID = '0')
+			<if test="PAPER_ID != null and PAPER_ID != ''">
+				and sv_paperquestion.PAPER_ID = #{PAPER_ID}
+			</if>
+		
 	</select>
+	
+	
+	<!-- 通过教师ID获取科目数据 -->
+	<select id="getQuestionsByPID" parameterType="pd" resultType="pd">
+		 	SELECT
+			sv_question.OPTION_NUM,
+			sv_paperquestion.SCORE,
+			sv_paperquestion.PART_SCORE,
+			sv_paperquestion.RANK,
+			sv_paperquestion.NO_NAME,
+			sv_question.ANALYSIS,
+			sv_question.DIFFICULTY,
+			sv_question.QUESTION_ID,
+			sv_question.CONTENT,
+			sv_question.ANSWER,
+			sv_question.OPTION_CONTENT
+			FROM
+				sv_paperquestion
+			LEFT JOIN sv_question ON sv_paperquestion.QUESTION_ID = sv_question.QUESTION_ID
+			where 1 = 1
+			<if test="PID != null and PID != ''">
+				and sv_question.P_ID = #{PID}
+			</if>
+		
+	</select>
+	
+	<!-- 通过教师ID获取科目数据 -->
+	<select id="getTeacherInfo" parameterType="pd" resultType="pd">
+		 	SELECT
+				sv_teacher.`NAME` AS TEACHER_NAME,
+				sv_grade.`NAME` AS GRADE_NAME,
+				sv_sclass.CLASS_NAME AS CLASS_NAME,
+				sv_subject.CNAME AS SUBJECT_NAME,
+			  	sv_school.`NAME` as SCHOOL_NAME
+			FROM
+				sv_coursemanagement AS couse
+			LEFT JOIN sv_term AS term ON couse.TERM_ID = term.TERM_ID
+			LEFT JOIN sv_grade ON couse.GRADE_ID = sv_grade.ID
+			LEFT JOIN sv_teacher ON sv_teacher.ID = couse.TEACHER_ID
+			LEFT JOIN sv_sclass ON couse.CLASS_ID = sv_sclass.ID
+			LEFT JOIN sv_subject ON couse.SUBJECT_ID = sv_subject.ID
+			LEFT JOIN sv_school ON sv_teacher.SCHOOL_ID = sv_school.ID
+			WHERE
+				TEACHER_ID = #{ID}
+			AND term.START_DATE &lt; now() 
+			AND term.END_DATE &gt; now();
+		
+	</select>
+	
+	
+	
+	
+	
 	
 </mapper>

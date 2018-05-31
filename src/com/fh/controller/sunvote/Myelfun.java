@@ -9,6 +9,7 @@ import com.fh.service.sunvote.questiontype.QuestionTypeManager;
 import com.fh.service.sunvote.school.impl.SchoolService;
 import com.fh.service.sunvote.sclass.impl.SClassService;
 import com.fh.service.sunvote.subject.impl.SubjectService;
+import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.sunvote.teacher.impl.TeacherService;
 import com.fh.service.sunvote.teachingmaterial.impl.TeachingMaterialService;
 import com.fh.util.PageData;
@@ -192,6 +193,22 @@ public class Myelfun {
 		pageData = questiontypeService.findById(pageData);
 		if(pageData != null){
 			return pageData.getString("NAME");
+		}else{
+			return "" ;
+		}
+	}
+	
+	public static String getUserID(String user_id){
+		TeacherManager teacherService = (TeacherManager)SpringBeanFactoryUtils.getBean("teacherService");
+		PageData pd = new PageData();
+		pd.put("ID", user_id);
+		try {
+			pd = teacherService.findById(pd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(pd != null){
+			return pd.getString("SCHOOL_ID");
 		}else{
 			return "" ;
 		}

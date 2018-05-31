@@ -1,0 +1,13 @@
+﻿input[type="number"]{-moz-appearance:textfield;}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance: none !important;}
+.page-header{margin-top:0;background:#fff;position:fixed;top:0;width:100%;}
+.page-header .time .bg-primary{padding:5px 10px;}
+.content{padding-top:180px;padding-bottom:60px;}
+.content .section .title{border-bottom:1px dashed #ccc;padding:10px 0;}
+.content .section h3{display:inline-block;margin: 0;line-height:34px;vertical-align: bottom;}
+.content .section .title input[type="button"]{margin-left:10px;}
+.content .question_list .question{margin:10px 0;}
+.content .question_list .question li{margin:0 20px;}
+.content .question_list .question .on{background:#5cb85c;color:#fff;}
+.content .question_list .question span{float:left;display:inline-block;line-height:34px;font-size:20px;}
+.modal-body label{line-height:34px;}

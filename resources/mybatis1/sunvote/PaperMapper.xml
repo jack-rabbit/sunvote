@@ -20,6 +20,7 @@
 		EXAM_TIME,	
 		PAPER_STATE,	
 		REMARK,	
+		SCORE,	
 		PAPER_ID
 	</sql>
 	
@@ -36,6 +37,7 @@
 		#{EXAM_TIME},	
 		#{PAPER_STATE},	
 		#{REMARK},	
+		#{SCORE},	
 		#{PAPER_ID}
 	</sql>
 	
@@ -74,6 +76,7 @@
 			EXAM_TIME = #{EXAM_TIME},
 			PAPER_STATE = #{PAPER_STATE},
 			REMARK = #{REMARK},
+			SCORE = #{SCORE},
 		PAPER_ID = PAPER_ID
 		where 
 		PAPER_ID = #{PAPER_ID}
@@ -96,9 +99,10 @@
 		from 
 		<include refid="tableName"></include>
 		where 1=1
-		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+		<if test="pd.LASTSTART != null and pd.LASTSTARt != ''"><!-- 关键词检索 -->
 			and
 				(
+				CREATE_DATE &gt; #{pd.LASTSTART}
 				<!--	根据需求自己加检索条件
 					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 					 or 
@@ -106,6 +110,19 @@
 				-->
 				)
 		</if>
+		<if test="pd.LASTEND != null and pd.LASTEND != ''"><!-- 关键词检索 -->
+			and
+				(
+				CREATE_DATE &lt; CONCAT(#{pd.LASTEND},'A')
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				-->
+				)
+		</if>
+		
+		order by CREATE_DATE DESC
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -114,10 +131,12 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		
+		order by CREATE_DATE DESC
 	</select>
 	
 	<!-- 指定类型列表(全部) -->
-	<select id="listAllByType" parameterType="page" resultType="pd">
+	<select id="listAllByTypelistPage" parameterType="page" resultType="pd">
 		select
 		<include refid="Field"></include>
 		from 
@@ -131,6 +150,7 @@
 			and USER_ID = #{pd.USER_ID}
 		</if>
 		
+		order by CREATE_DATE DESC
 	</select>
 	
 	<!-- 批量删除 -->

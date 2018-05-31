@@ -77,5 +77,13 @@ public class PaperQuestionService implements PaperQuestionManager{
 		dao.delete("PaperQuestionMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
+	/**批量删除
+	 * @param ArrayDATA_IDS
+	 * @throws Exception
+	 */
+	public void deleteAllPaper(String[] ArrayDATA_IDS)throws Exception{
+		dao.delete("PaperQuestionMapper.deleteAllPaper", ArrayDATA_IDS);
+	}
+	
 }
 

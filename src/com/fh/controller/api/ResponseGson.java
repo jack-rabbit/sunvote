@@ -8,7 +8,7 @@ public class ResponseGson<T> {
 
 	private String message = "success";
 
-	private T data;
+	private Object data;
 
 	public String getCode() {
 		return code;
@@ -26,7 +26,7 @@ public class ResponseGson<T> {
 		this.message = message;
 	}
 
-	public T getData() {
+	public Object getData() {
 		return data;
 	}
 
@@ -35,6 +35,9 @@ public class ResponseGson<T> {
 	}
 	
 	public String toJson(){
+		if(data == null){
+			data = new Object();
+		}
 		Gson gson = new Gson();
 		return gson.toJson(this);
 	}

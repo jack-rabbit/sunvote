@@ -1,6 +1,7 @@
 package com.fh.service.sunvote.paperquestion;
 
 import java.util.List;
+
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
@@ -52,6 +53,13 @@ public interface PaperQuestionManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	
+	/**
+	 * 
+	 * @param ArrayDATA_IDS
+	 * @throws Exception
+	 */
+	public void deleteAllPaper(String[] ArrayDATA_IDS)throws Exception;
 	
 }
 

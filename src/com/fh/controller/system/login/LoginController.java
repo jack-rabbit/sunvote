@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
+import com.fh.service.api.V1Manager;
 import com.fh.service.fhoa.datajur.DatajurManager;
+import com.fh.service.sunvote.school.SchoolManager;
+import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.system.appuser.AppuserManager;
 import com.fh.service.system.buttonrights.ButtonrightsManager;
 import com.fh.service.system.fhbutton.FhbuttonManager;
@@ -70,6 +73,13 @@ public class LoginController extends BaseController {
 	private FHlogManager FHLOG;
 	@Resource(name = "loginimgService")
 	private LogInImgManager loginimgService;
+	@Resource(name="teacherService")
+	private TeacherManager teacherService;
+	@Resource(name="schoolService")
+	private SchoolManager schoolService;
+	
+	@Resource(name = "v1Service")
+	private V1Manager v1Service ;
 
 	/**
 	 * 访问登录页
@@ -124,6 +134,9 @@ public class LoginController extends BaseController {
 				user.setNAME(pd.getString("NAME"));
 				user.setRIGHTS(pd.getString("RIGHTS"));
 				user.setROLE_ID(pd.getString("ROLE_ID"));
+				if("57bb1e6f138247a0b05cc721a5da1b64".equals(pd.getString("ROLE_ID"))){
+					map.put("teacher", pd.getString("RIGHTS"));
+				}
 				user.setLAST_LOGIN(pd.getString("LAST_LOGIN"));
 				user.setIP(pd.getString("IP"));
 				user.setSTATUS(pd.getString("STATUS"));
@@ -166,6 +179,7 @@ public class LoginController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+
 		try {
 			Session session = Jurisdiction.getSession();
 			User user = (User) session.getAttribute(Const.SESSION_USER); // 读取session中的用户信息(单独用户信息)
@@ -189,16 +203,25 @@ public class LoginController extends BaseController {
 				allmenuList = this.getAttributeMenu(session, USERNAME,
 						roleRights, getArrayRoleRights(ROLE_IDS)); // 菜单缓存
 				List<Menu> menuList = new ArrayList<Menu>();
-				menuList = this.changeMenuF(allmenuList, session, USERNAME,
-						changeMenu); // 切换菜单
-				if (null == session.getAttribute(USERNAME + Const.SESSION_QX)) {
+				if (null == session.getAttribute(USERNAME
+						+ Const.SESSION_QX)) {
 					session.setAttribute(USERNAME + Const.SESSION_QX,
 							this.getUQX(USERNAME)); // 主职角色按钮权限放到session中
 					session.setAttribute(USERNAME + Const.SESSION_QX2,
 							this.getUQX2(USERNAME)); // 副职角色按钮权限放到session中
 				}
 				this.getRemortIP(USERNAME); // 更新登录IP
-				mv.setViewName("system/index/main");
+				menuList = this.changeMenuF(allmenuList, session, USERNAME,
+						changeMenu); // 切换菜单
+				if (!"teacher".equals(changeMenu)) {
+					mv.setViewName("system/index/main");
+				} else {
+					PageData tpd = new PageData();
+					tpd.put("ID", user.getUSER_ID());
+					List<PageData> teacherInfos = v1Service.getTeacherInfo(tpd);
+					pd.put("TEACHER", teacherInfos);
+					mv.setViewName("sunvote/teacher/teacher_main");
+				}
 				mv.addObject("user", user);
 				mv.addObject("menuList", menuList);
 			} else {
@@ -358,6 +381,11 @@ public class LoginController extends BaseController {
 				session.removeAttribute("changeMenu");
 				session.setAttribute("changeMenu", "4");
 				menuList = menuList4;
+			}else if("teacher".equals(changeMenu)){
+				session.setAttribute(USERNAME + Const.SESSION_menuList,
+						menuList2);
+				session.removeAttribute("changeMenu");
+				session.setAttribute("changeMenu", "index");
 			}
 		} else {
 			menuList = (List<Menu>) session.getAttribute(USERNAME

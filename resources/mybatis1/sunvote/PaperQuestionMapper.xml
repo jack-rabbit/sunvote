@@ -112,5 +112,16 @@
 		</foreach>
 	</delete>
 	
+	<!-- 批量删除 -->
+	<delete id="deleteAllPaper" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			PAPER_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
 	<!-- fh313596790qq(青苔) -->
 </mapper>

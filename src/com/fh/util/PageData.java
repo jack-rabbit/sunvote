@@ -1,6 +1,7 @@
 package com.fh.util;
 
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.druid.proxy.jdbc.ClobProxyImpl;
+import com.alibaba.fastjson.JSONObject;
 public class PageData extends HashMap implements Map{
 	
 	private static final long serialVersionUID = 1L;
@@ -18,7 +20,7 @@ public class PageData extends HashMap implements Map{
 	Map map = null;
 	HttpServletRequest request;
 	public PageData(HttpServletRequest request){
-		this.request = request;
+ 		this.request = request;
 		Map properties = request.getParameterMap();
 		Map returnMap = new HashMap(); 
 		Iterator entries = properties.entrySet().iterator(); 
@@ -42,11 +44,34 @@ public class PageData extends HashMap implements Map{
 			}
 			returnMap.put(name.toUpperCase(), value); 
 		}
+        try {  
+            BufferedReader streamReader = new BufferedReader( new InputStreamReader(request.getInputStream(), "UTF-8"));  
+            StringBuilder responseStrBuilder = new StringBuilder();  
+            String body = "";  
+            while ((body = streamReader.readLine()) != null){
+            	responseStrBuilder.append(body);  
+            }
+            if(!returnMap.containsKey("JSON")){
+            	returnMap.put("JSON",responseStrBuilder.toString());
+            }
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }  
 		map = returnMap;
 	}
 	
 	public PageData() {
 		map = new HashMap();
+	}
+	
+
+	public String getJsonString(){
+		Object obj = "";
+		if(map != null){
+			 obj = map.get("JSON");
+		}
+		
+		return obj.toString() ;
 	}
 	
 	@Override

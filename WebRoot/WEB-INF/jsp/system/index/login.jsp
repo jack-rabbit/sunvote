@@ -259,7 +259,11 @@
 					success: function(data){
 						if("success" == data.result){
 							saveCookie();
-							window.location.href="main/index";
+							if(data.teacher != null){
+								window.location.href="main/teacher";
+							}else{
+								window.location.href="main/index";
+							}
 						}else if("usererror" == data.result){
 							$("#loginname").tips({
 								side : 1,

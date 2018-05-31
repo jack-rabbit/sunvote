@@ -15,4 +15,9 @@ public interface V1Manager {
 	public List<PageData> getTestPaperInfo(PageData pd) throws Exception;
 	
 	
+	public List<PageData> getQuestionsByPID(PageData pd) throws Exception;
+	
+	public List<PageData> getTeacherInfo(PageData pd) throws Exception;
+	
+	
 }
