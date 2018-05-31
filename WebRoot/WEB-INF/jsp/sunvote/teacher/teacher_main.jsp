@@ -60,10 +60,15 @@
 	src="plugins/websocketInstantMsg/ext4/ext-all-debug.js"></script>
 <script type="text/javascript"
 	src="plugins/websocketInstantMsg/websocket.js"></script>
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script type="text/javascript" src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- 即时通讯 -->
+<!-- 
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+ <script type="text/javascript" src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+ -->
+
+
+
 
 </head>
 <body class="no-skin">
@@ -191,10 +196,10 @@
 	</div><!-- /.modal -->
 	<script>
 		$("#time_submit").click(function(){
-			$(".title_time").modal("hide");
 			var name = $("#enter_title").val();
 			var time = $("#enter_time").val();
 			window.open("<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time);
+			$(".title_time").hide();
 		});
 	</script>
 	

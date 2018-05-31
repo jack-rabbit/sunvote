@@ -1,5 +1,16 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+
+<html lang="en">
 <head>
 	<title>创建试卷</title>
 	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -201,6 +212,7 @@
 </div><!-- /.modal -->
 <script>
 	var testData = ${pd.JSON};
+	var URL = "<%=basePath%>api/v1/uploadpaper";
 	//var testData={"title":"TEST1","exam_time":46,"paper_type":"1","subject_id":"1","grade_id":"1","user_id":"1","score":5,"questions":[{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"单选","option_num":"","option_content":"","answer":"","difficulty":"","analysis":"","question_from":"","score":1,"part_score":"","remark":"","rank":"1","no_name":"一、","questions":[{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"A","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.1"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"B","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.2"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"C","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.3"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"D","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.4"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"A","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.5"}]}]};
 	//var testData={"title":"TEST1","exam_time":46,"paper_type":"1","subject_id":"1","grade_id":"1","user_id":"1","score":5,"questions":[]};
 </script>

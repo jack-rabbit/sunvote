@@ -208,7 +208,7 @@
 	})
 	/*提交保存数据*/
 	$("#save").click(function(){
-		var url="http://192.168.0.240:8080/SunvoteEducation/api/v1/uploadpaper";
+		var url= URL;
 		var data={
 			title: $(".text-center").text(),
 		    exam_time: parseInt($("#time").text()),
