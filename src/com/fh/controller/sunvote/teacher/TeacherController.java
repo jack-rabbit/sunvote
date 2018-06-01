@@ -64,8 +64,8 @@ public class TeacherController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		pd.put("ID", this.get32UUID());
 		pd = this.getPageData();
+		pd.put("ID", this.get32UUID());
 		teacherService.save(pd);
 		
 		pd.put("USER_ID", pd.getString("ID"));	//ID 主键

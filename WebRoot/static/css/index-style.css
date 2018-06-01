@@ -1,12 +1,93 @@
-﻿.content_l{width:30%;min-width:400px;}
-.info_box{width:100%;height:300px;background:#36c345;color:#fff;position:relative;}
-.info{display:table;width:70%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;}
-.info_l{width:120px;height:120px;float:left;border-radius:100px;overflow:hidden;position:relative;}
-.info_l img{width:100%;position:absolute;top:0;min-height:100%;}
-.info_r{margin-left:150px;}
-.info_r p{width:100%;text-align:left;}
-.info_r p:first-child{font-size:24px;}
-.class{background:#36c333;color:#fff;margin-top:12px;}
-.class p{margin:0;line-height:3em;box-sizing:border-box;padding-left:3em;font-size:20px;}
-.test{background:#36b733;font-size:32px;text-align:center;color:#fff;padding:3% 0;letter-spacing:1em;margin-top:12px;}
-.analysis{background:#36a733;font-size:32px;text-align:center;color:#fff;padding:3% 0;letter-spacing:1em;margin-top:12px;}
+.content_l {
+	width: 30%;
+	min-width: 400px;
+}
+
+.info_box {
+	width: 100%;
+	height: 300px;
+	background: #36c345;
+	color: #fff;
+	position: relative;
+}
+
+.info {
+	display: table;
+	width: 70%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.info_l {
+	width: 120px;
+	height: 120px;
+	float: left;
+	border-radius: 100px;
+	overflow: hidden;
+	position: relative;
+}
+
+.info_l img {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	min-height: 100%;
+}
+
+.info_r {
+	margin-left: 150px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	left: 150px;
+	right: 0;
+	display: table;
+}
+
+.info_r p {
+	width: 100%;
+	text-align: left;
+}
+
+.info_r p:first-child {
+	font-size: 24px;
+}
+
+.class {
+	background: #36c333;
+	color: #fff;
+	margin-top: 12px;
+}
+
+.class p {
+	margin: 0;
+	line-height: 3em;
+	box-sizing: border-box;
+	text-align:center;
+	font-size: 20px;
+}
+
+.test {
+	background: #36b733;
+	font-size: 32px;
+	text-align: center;
+	color: #fff;
+	padding: 3% 0;
+	letter-spacing: 1em;
+	margin-top: 12px;
+}
+
+.analysis {
+	background: #36a733;
+	font-size: 32px;
+	text-align: center;
+	color: #fff;
+	padding: 3% 0;
+	letter-spacing: 1em;
+	margin-top: 12px;
+}

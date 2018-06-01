@@ -82,5 +82,55 @@ public class BaseController {
 		return "ERROR";
 	}
 	
+	public String getUserID(){
+		Session session = Jurisdiction.getSession();
+		User user = (User)session.getAttribute(Const.SESSION_USER);
+		if(user != null){
+			return user.getUSER_ID();
+		}
+		return "ERROR";
+	}
+	
+	
+	public String getSchoolID(){
+		Session session = Jurisdiction.getSession();
+		String schoolName = (String)session.getAttribute(getUsername() + Const.SCHOOL_ID);
+		return schoolName;
+	}
+	public String getSchoolName(){
+		Session session = Jurisdiction.getSession();
+		String schoolName = (String)session.getAttribute(getUsername() + Const.SCHOOL_NAME);
+		return schoolName;
+	}
+	public String getGradeID(){
+		Session session = Jurisdiction.getSession();
+		String schoolName = (String)session.getAttribute(getUsername() + Const.GRADE_ID);
+		return schoolName;
+	}
+	public String getGradeName(){
+		Session session = Jurisdiction.getSession();
+		String schoolName = (String)session.getAttribute(getUsername() + Const.GRADE_NAME);
+		return schoolName;
+	}
+	public String getSubjectId(){
+		Session session = Jurisdiction.getSession();
+		String schoolName = (String)session.getAttribute(getUsername() + Const.SUBJECT_ID);
+		return schoolName;
+	}
+	public String getSubjectName(){
+		Session session = Jurisdiction.getSession();
+		String schoolName = (String)session.getAttribute(getUsername() + Const.SUBJECT_NAME);
+		return schoolName;
+	}
+	public String getClassId(){
+		Session session = Jurisdiction.getSession();
+		String schoolName = (String)session.getAttribute(getUsername() + Const.CLASS_ID);
+		return schoolName;
+	}
+	public String getClassName(){
+		Session session = Jurisdiction.getSession();
+		String schoolName = (String)session.getAttribute(getUsername() + Const.CLASS_NAME);
+		return schoolName;
+	}
 	
 }

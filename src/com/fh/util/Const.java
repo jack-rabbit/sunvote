@@ -16,6 +16,16 @@ public class Const {
 	public static final String DEPARTMENT_IDS = "DEPARTMENT_IDS";			//当前用户拥有的最高部门权限集合
 	public static final String DEPARTMENT_ID = "DEPARTMENT_ID";				//当前用户拥有的最高部门权限
 	public static final String TRUE = "T";
+	
+	public static final String SCHOOL_ID = "SCHOOL_ID";
+	public static final String SCHOOL_NAME = "SCHOOL_NAME";
+	public static final String GRADE_ID = "GRADE_ID";
+	public static final String GRADE_NAME = "GRADE_NAME";
+	public static final String CLASS_ID = "CLASS_ID";
+	public static final String CLASS_NAME = "CLASS_NAME";
+	public static final String SUBJECT_ID = "SUBJECT_ID";
+	public static final String SUBJECT_NAME = "SUBJECT_NAME";
+	
 	public static final String FALSE = "F";
 	public static final String LOGIN = "/login_toLogin.do";					//登录地址
 	public static final String SYSNAME = "admin/config/SYSNAME.txt";		//系统名称路径

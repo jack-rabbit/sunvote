@@ -127,9 +127,13 @@
 		 	SELECT
 				sv_teacher.`NAME` AS TEACHER_NAME,
 				sv_grade.`NAME` AS GRADE_NAME,
+				sv_grade.ID AS GRADE_ID,
 				sv_sclass.CLASS_NAME AS CLASS_NAME,
+				sv_sclass.ID AS CLASS_ID,
 				sv_subject.CNAME AS SUBJECT_NAME,
-			  	sv_school.`NAME` as SCHOOL_NAME
+				sv_subject.ID AS SUBJECT_ID,
+			  	sv_school.`NAME` as SCHOOL_NAME,
+			  	sv_school.ID AS SCHOOL_ID
 			FROM
 				sv_coursemanagement AS couse
 			LEFT JOIN sv_term AS term ON couse.TERM_ID = term.TERM_ID

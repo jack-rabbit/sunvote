@@ -98,7 +98,7 @@
 		<div class="test">测验</div>
 		<div class="analysis">分析</div>
 	</div>
-	<div style="width:70%;height:100%;margin-left:30%;">
+	<div style="width:70%;height:100%;margin-left:30%;" class="content_r">
 		<iframe name="mainFrame" id="mainFrame" frameborder="0" src="paper/list2.do?" ></iframe>
 	</div>
 </div>
@@ -198,9 +198,16 @@
 		$("#time_submit").click(function(){
 			var name = $("#enter_title").val();
 			var time = $("#enter_time").val();
-			window.open("<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time);
+			//window.open("<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time);
+			self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time ;
 			$(".title_time").modal("hide");
 		});
+		$(".test").click(function(){
+			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" src="paper/list2.do?" style="width:100%;height:'+$(".content_l").height()+'px;"></iframe>');
+		})
+		$(".analysis").click(function(){
+			$(".content_r").html('<img src="static/images/analysis.png" width="100%" />');
+		})
 	</script>
 	
 </body>

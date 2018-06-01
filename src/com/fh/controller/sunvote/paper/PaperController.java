@@ -243,8 +243,8 @@ public class PaperController extends BaseController {
 		User user = (User)session.getAttribute(Const.SESSION_USER);
 		paper.setUser_id(user.getUSER_ID());
 		paper.setPaper_type("1");
-		paper.setSubject_id("1");
-		paper.setGrade_id("1");
+		paper.setSubject_id(getSubjectId());
+		paper.setGrade_id(getGradeID());
 		paper.setQuestions(new ArrayList<Question>());
 		pd.put("JSON", paper.toJson());
 		logger.info(paper.toJson());
@@ -272,6 +272,8 @@ public class PaperController extends BaseController {
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
 		}
+		String userID = getUserID();
+		pd.put("USER_ID", userID);
 		page.setPd(pd);
 		List<PageData>	varList = paperService.list(page);	//列出Paper列表
 		mv.setViewName("sunvote/paper/paper_list2");

@@ -220,6 +220,25 @@ public class LoginController extends BaseController {
 					tpd.put("ID", user.getUSER_ID());
 					List<PageData> teacherInfos = v1Service.getTeacherInfo(tpd);
 					pd.put("TEACHER", teacherInfos);
+					if (teacherInfos != null && teacherInfos.size() > 0) {
+						PageData sData = teacherInfos.get(0);
+						session.setAttribute(USERNAME + Const.SCHOOL_ID,
+								sData.get("SCHOOL_ID"));
+						session.setAttribute(USERNAME + Const.SCHOOL_NAME,
+								sData.get("SCHOOL_NAME"));
+						session.setAttribute(USERNAME + Const.GRADE_ID,
+								sData.get("GRADE_ID"));
+						session.setAttribute(USERNAME + Const.GRADE_NAME,
+								sData.get("GRADE_NAME"));
+						session.setAttribute(USERNAME + Const.CLASS_ID,
+								sData.get("CLASS_ID"));
+						session.setAttribute(USERNAME + Const.CLASS_NAME,
+								sData.get("CLASS_NAME"));
+						session.setAttribute(USERNAME + Const.SUBJECT_ID,
+								sData.get("SUBJECT_ID"));
+						session.setAttribute(USERNAME + Const.SUBJECT_NAME,
+								sData.get("SUBJECT_NAME"));
+					}
 					mv.setViewName("sunvote/teacher/teacher_main");
 				}
 				mv.addObject("user", user);

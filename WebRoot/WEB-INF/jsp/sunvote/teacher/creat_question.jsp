@@ -216,6 +216,7 @@
 <script>
 	var testData = ${pd.JSON};
 	var URL = "<%=basePath%>api/v1/uploadpaper";
+	var JUMP_URL = "<%=basePath%>/main/teacher";
 	if(testData.questions.length>0){
 		$("title").html("浏览试卷");
 	}

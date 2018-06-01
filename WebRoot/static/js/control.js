@@ -212,10 +212,10 @@
 		var data={
 			title: $(".text-center").html(),
 		    exam_time: parseInt($("#time").text()),
-		    paper_type: "1",
-		    subject_id: "1",
-		    grade_id: "1",
-		    user_id: "1",
+		    paper_type: testData.paper_type,
+		    subject_id: testData.subject_id,
+		    grade_id: testData.grade_id,
+		    user_id: testData.user_id,
 		    score:score,
 		    questions:[]
 		}
@@ -292,8 +292,9 @@ function ajax_submit(url,data){
 		success:function(data){
 			flag=1;
 			$(".loading").css("display","none");
-			alert("保存成功");
-			window.close();
+//			alert("保存成功");
+//			window.close();
+			window.location.href = JUMP_URL ;
 		}
 	})
 	return flag;
@@ -340,6 +341,7 @@ function fastSort(array,head,tail){
 function creatHtml(data){	
 		console.log(data);
 		if(data.questions.length>0){
+			$(".time").removeAttr("data-target");
 			$(".btn_box").remove();
 		}
 		$(".header_box h1").html(data.title);	
