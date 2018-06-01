@@ -210,7 +210,7 @@
 	$("#save").click(function(){
 		var url= URL;
 		var data={
-			title: $(".text-center").text(),
+			title: $(".text-center").html(),
 		    exam_time: parseInt($("#time").text()),
 		    paper_type: "1",
 		    subject_id: "1",
@@ -268,9 +268,8 @@
 			data=JSON.stringify(data);
 			dataJson={"json":data};
 			console.log(data);
-			ajax_submit(url,dataJson);
+//			ajax_submit(url,dataJson);
 			var suc=ajax_submit(url,dataJson);
-//			alert(suc);
 			if(suc==1){
 				
 			}			
@@ -282,23 +281,61 @@
 
 /*ajax封装函数*/
 function ajax_submit(url,data){
+	$(".loading").css("display","block");
 	var flag=0;
 	$.ajax({
 		url:url,
 		type:"POST",
-		async:false, 
+		//async:false, 
 		data:data,
 		dataType:"json",
 		success:function(data){
 			flag=1;
+			$(".loading").css("display","none");
 			alert("保存成功");
 			window.close();
 		}
 	})
 	return flag;
 }
+function fastSort(array,head,tail){
+    //考虑到给每个分区操作的时候都是在原有的数组中进行操作的，所以这里head,tail来确定分片的位置
+    /*生成随机项*/
+    var randomnum = parseInt((head + tail) / 2 );
+    var random = array[randomnum];
+    /*将小于random的项放置在其左边  策略就是通过一个临时的数组来储存分好区的结果，再到原数组中替换*/
+    var arrayTemp = [];
+    var unshiftHead = 0;
+    for(var i = head;i <= tail;i++){
+      if(parseInt(array[i].rank)<parseInt(random.rank)){
+        arrayTemp.unshift(array[i]);
+        unshiftHead++;
+      }else if(parseInt(array[i].rank)>parseInt(random.rank)){
+        arrayTemp.push(array[i]);
+      }
+      /*当它等于的时候放哪，这里我想选择放到队列的前面，也就是从unshift后的第一个位置放置*/
+      if(parseInt(array[i].rank)===parseInt(random.rank)){
+        arrayTemp.splice(unshiftHead,0,array[i]);
+      }
+    }
+    /*将对应项覆盖原来的记录*/
+    for(var j = head , u=0;j <= tail;j++,u++){
+      array.splice(j,1,arrayTemp[u]);
+    }
+    /*寻找中间项所在的index*/
+    var nowIndex = array.indexOf(random);
 
-
+    /*设置出口，当要放进去的片段只有2项的时候就可以收工了*/
+    if(arrayTemp.length <= 2){
+      return;
+    }
+    /*递归，同时应用其左右两个区域*/
+    fastSort(array,head,nowIndex);
+    fastSort(array,nowIndex+1,tail);
+  }
+	if(testData.questions.length > 0 && testData.questions[0].questions.length > 1){
+		fastSort(testData.questions[0].questions,0,testData.questions[0].questions.length-1);
+	}
 	creatHtml(testData);
 function creatHtml(data){	
 		console.log(data);

@@ -199,7 +199,7 @@
 			var name = $("#enter_title").val();
 			var time = $("#enter_time").val();
 			window.open("<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time);
-			$(".title_time").hide();
+			$(".title_time").modal("hide");
 		});
 	</script>
 	
