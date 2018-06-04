@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -84,13 +85,13 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.CLASSROSTER_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.SCLASS_ID}</td>
-											<td class='center'>${var.STUDENT_ID}</td>
-											<td class='center'>${var.TEAMID}</td>
+											<td class='center'>${myelfun:findClassName(var.SCLASS_ID)}</td>
+											<td class='center'>${myelfun:findStudentName(var.STUDENT_ID)}</td>
+											<td class='center'>${myelfun:findTermName(var.TEAMID)}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
-												</c:if>
+												</c:if>	
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${QX.edit == 1 }">
 													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.CLASSROSTER_ID}');">

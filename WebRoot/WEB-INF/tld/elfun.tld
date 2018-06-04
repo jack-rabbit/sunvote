@@ -11,7 +11,7 @@
       <description>根据ID 获取学校名称</description><!-- 对该标签的说明 -->  
       <name>findSchoolName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findSchoolName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findSchoolName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findSchoolName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
@@ -20,7 +20,7 @@
       <description>根据ID获取年级名称</description><!-- 对该标签的说明 -->  
       <name>findGradeName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findGradeName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findGradeName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findGradeName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
@@ -28,7 +28,7 @@
       <description>根据ID获取班级类型名称</description><!-- 对该标签的说明 -->  
       <name>findClassTypeName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findClassTypeName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findClassTypeName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findClassTypeName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
@@ -36,7 +36,7 @@
       <description>获取科目英文名称</description><!-- 对该标签的说明 -->  
       <name>findSubjectEName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findSubjectEName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findSubjectEName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findSubjectEName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
@@ -44,7 +44,7 @@
       <description>根据ID获取科目中文名称</description><!-- 对该标签的说明 -->  
       <name>findSubjectCName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findSubjectCName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findSubjectCName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findSubjectCName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
@@ -52,7 +52,7 @@
       <description>根据ID查找基站名称</description><!-- 对该标签的说明 -->  
       <name>findBasestationName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findBasestationName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findBasestationName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findBasestationName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
@@ -60,7 +60,7 @@
       <description>根据ID查找老师姓名</description><!-- 对该标签的说明 -->  
       <name>findTeacherName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findTeacherName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findTeacherName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findTeacherName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
@@ -68,15 +68,29 @@
       <description>根据ID查找班级姓名</description><!-- 对该标签的说明 -->  
       <name>findClassName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findClassName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findClassName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findClassName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
+   </function>
+   <function>  
+      <description>根据ID查找学生姓名</description><!-- 对该标签的说明 -->  
+      <name>findStudentName</name><!-- 定义标签名，放在短标签之后 -->  
+      <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
+      <function-signature>java.lang.String findStudentName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <example>${myelfun:findStudentName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
+   </function>
+   <function>  
+      <description>根据ID查找学期名称</description><!-- 对该标签的说明 -->  
+      <name>findTermName</name><!-- 定义标签名，放在短标签之后 -->  
+      <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
+      <function-signature>java.lang.String findTermName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <example>${myelfun:findTermName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
    <function>  
       <description>根据ID查找教材名称</description><!-- 对该标签的说明 -->  
       <name>findTeachingmaterialName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findTeachingmaterialName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findTeachingmaterialName(String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findTeachingmaterialName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
@@ -84,7 +98,7 @@
       <description>根据ID查找题目类型</description><!-- 对该标签的说明 -->  
       <name>findQuestionTypeName</name><!-- 定义标签名，放在短标签之后 -->  
       <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
-      <function-signature>java.lang.String findQuestionTypeName(int)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <function-signature>java.lang.String findQuestionTypeName(String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
       <example>${myelfun:findQuestionTypeName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    

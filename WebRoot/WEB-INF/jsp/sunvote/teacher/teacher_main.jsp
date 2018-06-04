@@ -92,9 +92,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="class">
-			<p>${pd.TEACHER[0].GRADE_NAME}${pd.TEACHER[0].SUBJECT_NAME} <span>${pd.TEACHER[0].CLASS_NAME}</span></p>
-		</div>
+		<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
+			<div class="class">
+				<p>${var.GRADE_NAME}${var.SUBJECT_NAME} <span>${var.CLASS_NAME}</span></p>
+			</div>
+		</c:forEach>
 		<div class="test">测验</div>
 		<div class="analysis">分析</div>
 	</div>

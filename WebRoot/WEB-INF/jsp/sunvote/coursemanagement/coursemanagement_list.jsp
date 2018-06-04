@@ -70,9 +70,10 @@
 									<th class="center">老师</th>
 									<th class="center">班级</th>
 									<th class="center">科目</th>
-									<th class="center">开始时间</th>
+									<th class="center">学期</th>
+									<!-- <th class="center">开始时间</th>
 									<th class="center">结束时间</th>
-									<th class="center">备注</th>
+									<th class="center">备注</th> -->
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -91,9 +92,7 @@
 											<td class='center'>${myelfun:findTeacherName(var.TEACHER_ID)}</td>
 											<td class='center'>${myelfun:findClassName(var.CLASS_ID)}</td>
 											<td class='center'>${myelfun:findSubjectCName(var.SUBJECT_ID)}</td>
-											<td class='center'>${var.START_DATE}</td>
-											<td class='center'>${var.END_DATE}</td>
-											<td class='center'>${var.REMARK}</td>
+											<td class='center'>${myelfun:findTermName(var.TERM_ID)}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

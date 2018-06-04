@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
@@ -24,6 +27,9 @@ import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.sunvote.classroster.ClassRosterManager;
+import com.fh.service.sunvote.sclass.SClassManager;
+import com.fh.service.sunvote.student.StudentManager;
+import com.fh.service.sunvote.term.TermManager;
 
 /** 
  * 说明：班级名册
@@ -36,6 +42,15 @@ public class ClassRosterController extends BaseController {
 	String menuUrl = "classroster/list.do"; //菜单地址(权限用)
 	@Resource(name="classrosterService")
 	private ClassRosterManager classrosterService;
+	
+	@Resource(name="sclassService")
+	private SClassManager sclassService;
+	
+	@Resource(name="termService")
+	private TermManager termService;
+	
+	@Resource(name="studentService")
+	private StudentManager studentService;
 	
 	/**保存
 	 * @param
@@ -103,6 +118,7 @@ public class ClassRosterController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
+		
 		List<PageData>	varList = classrosterService.list(page);	//列出ClassRoster列表
 		mv.setViewName("sunvote/classroster/classroster_list");
 		mv.addObject("varList", varList);

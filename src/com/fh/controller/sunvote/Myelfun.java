@@ -8,10 +8,12 @@ import com.fh.service.sunvote.grade.impl.GradeService;
 import com.fh.service.sunvote.questiontype.QuestionTypeManager;
 import com.fh.service.sunvote.school.impl.SchoolService;
 import com.fh.service.sunvote.sclass.impl.SClassService;
+import com.fh.service.sunvote.student.StudentManager;
 import com.fh.service.sunvote.subject.impl.SubjectService;
 import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.sunvote.teacher.impl.TeacherService;
 import com.fh.service.sunvote.teachingmaterial.impl.TeachingMaterialService;
+import com.fh.service.sunvote.term.TermManager;
 import com.fh.util.PageData;
 import com.fh.util.SpringBeanFactoryUtils;
 
@@ -24,7 +26,7 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findSchoolName(int type) throws Exception{
+	public static String findSchoolName(String type) throws Exception{
 		SchoolService schoolService = (SchoolService)SpringBeanFactoryUtils.getBean("schoolService");
 		PageData pageData = new PageData();
 		pageData.put("ID", type);
@@ -42,7 +44,7 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findGradeName(int type) throws Exception{
+	public static String findGradeName(String type) throws Exception{
 		GradeService gradeService = (GradeService)SpringBeanFactoryUtils.getBean("gradeService");
 		PageData pageData = new PageData();
 		pageData.put("ID", type);
@@ -60,7 +62,7 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findClassTypeName(int type) throws Exception{
+	public static String findClassTypeName(String type) throws Exception{
 		ClassTypeService classTypeService = (ClassTypeService)SpringBeanFactoryUtils.getBean("classtypeService");
 		PageData pageData = new PageData();
 		pageData.put("ID", type);
@@ -78,7 +80,7 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findSubjectEName(int type) throws Exception{
+	public static String findSubjectEName(String type) throws Exception{
 		SubjectService subjectService = (SubjectService)SpringBeanFactoryUtils.getBean("subjectService");
 		PageData pageData = new PageData();
 		pageData.put("ID", type);
@@ -96,7 +98,7 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findSubjectCName(int type) throws Exception{
+	public static String findSubjectCName(String type) throws Exception{
 		SubjectService subjectService = (SubjectService)SpringBeanFactoryUtils.getBean("subjectService");
 		PageData pageData = new PageData();
 		pageData.put("ID", type);
@@ -114,7 +116,7 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findBasestationName(int type) throws Exception{
+	public static String findBasestationName(String type) throws Exception{
 		BasestationService basestationService = (BasestationService)SpringBeanFactoryUtils.getBean("basestationService");
 		PageData pageData = new PageData();
 		pageData.put("ID", type);
@@ -132,7 +134,7 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findTeacherName(int id) throws Exception {
+	public static String findTeacherName(String id) throws Exception {
 		TeacherService teacherService = (TeacherService)SpringBeanFactoryUtils.getBean("teacherService");
 		PageData pageData = new PageData();
 		pageData.put("ID", id);
@@ -150,13 +152,49 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findClassName(int id) throws Exception {
+	public static String findClassName(String id) throws Exception {
 		SClassService sclassService = (SClassService)SpringBeanFactoryUtils.getBean("sclassService");
 		PageData pageData = new PageData();
 		pageData.put("ID", id);
 		pageData = sclassService.findById(pageData);
 		if(pageData != null){
 			return pageData.getString("CLASS_NAME");
+		}else{
+			return "" ;
+		}
+	}
+	
+	/**
+	 * 根据ID学生
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public static String findStudentName(String id) throws Exception {
+		StudentManager studentService = (StudentManager)SpringBeanFactoryUtils.getBean("studentService");
+		PageData pageData = new PageData();
+		pageData.put("ID", id);
+		pageData = studentService.findById(pageData);
+		if(pageData != null){
+			return pageData.getString("NAME");
+		}else{
+			return "" ;
+		}
+	}
+	
+	/**
+	 * 根据学期名称
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public static String findTermName(String id) throws Exception {
+		TermManager termService = (TermManager)SpringBeanFactoryUtils.getBean("termService");
+		PageData pageData = new PageData();
+		pageData.put("TERM_ID", id);
+		pageData = termService.findById(pageData);
+		if(pageData != null){
+			return pageData.getString("NAME");
 		}else{
 			return "" ;
 		}
