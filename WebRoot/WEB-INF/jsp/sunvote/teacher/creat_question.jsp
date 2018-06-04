@@ -29,7 +29,7 @@
 			<div class="btn_box pull-right">
 				<input type="button" class="btn btn-success btn-lg" name="save" value="保存" id="save"/>
 				<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".fast" id="fast">快速出题</button>
-				<!-- <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".addQuestion" id="addQuestion">添加试题</button> -->	
+				 <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".addQuestion" id="addQuestion">添加试题</button> 	
 				<div class="clearfix"></div>
 			</div>
 		</div>
@@ -147,13 +147,6 @@
 		    <div class="clearfix"></div>
 		</div>
 		<div class="form-group">
-		    <label for="answer_2" class="col-sm-2 control-label">试题答案</label>
-		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="answer_2" placeholder="输入题目答案，以分号隔开">
-		    </div>
-		    <div class="clearfix"></div>
-		</div>
-		<div class="form-group">
 		    <label for="num_ans_2" class="col-sm-2 control-label">选项个数</label>
 		    <div class="col-sm-10">
 		      <select class="form-control" id="num_ans_2">
@@ -223,7 +216,7 @@
 	//var testData={"title":"TEST1","exam_time":46,"paper_type":"1","subject_id":"1","grade_id":"1","user_id":"1","score":5,"questions":[{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"单选","option_num":"","option_content":"","answer":"","difficulty":"","analysis":"","question_from":"","score":1,"part_score":"","remark":"","rank":"1","no_name":"一、","questions":[{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"A","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.1"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"B","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.2"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"C","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.3"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"D","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.4"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"A","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.5"}]}]};
 	//var testData={"title":"TEST1","exam_time":46,"paper_type":"1","subject_id":"1","grade_id":"1","user_id":"1","score":5,"questions":[]};
 </script>
-<script type="text/javascript" src="../static/js/control.js"></script>
+<script type="text/javascript" src="../static/js/control-604.js"></script>
 
 
 </body>

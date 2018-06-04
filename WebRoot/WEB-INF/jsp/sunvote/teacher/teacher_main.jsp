@@ -94,7 +94,7 @@
 		</div>
 		<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
 			<div class="class">
-				<p>${var.GRADE_NAME}${var.SUBJECT_NAME} <span>${var.CLASS_NAME}</span></p>
+				<p><a href="javascript:;">${var.GRADE_NAME}${var.SUBJECT_NAME} <span>${var.CLASS_NAME}</span></a></p>
 			</div>
 		</c:forEach>
 		<div class="test">测验</div>

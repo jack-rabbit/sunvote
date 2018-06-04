@@ -65,6 +65,14 @@
 								</td>
 							</tr>
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">学期:</td>
+								<select class="chosen-select form-control" name="TERM_ID" id="TERM_ID" data-placeholder="学期">
+									<c:forEach var="item" items="${subjects}">
+										<option value="${item.ID}"  <c:if test="${pd.TERM_ID==item.TERM_ID}">selected="true"</c:if>>${item.NAME}</option>
+									</c:forEach>
+								</select>
+							</tr>
+							<%-- <tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">开始时间:</td>
 								<td><input class="span10 date-picker" name="START_DATE" id="START_DATE" value="${pd.START_DATE}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="开始时间" title="开始时间" style="width:98%;"/></td>
 							</tr>
@@ -75,7 +83,7 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">备注:</td>
 								<td><input type="text" name="REMARK" id="REMARK" value="${pd.REMARK}" maxlength="255" placeholder="这里输入备注" title="备注" style="width:98%;"/></td>
-							</tr>
+							</tr> --%>
 							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>

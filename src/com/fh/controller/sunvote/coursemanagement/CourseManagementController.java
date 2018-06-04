@@ -30,6 +30,7 @@ import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
 import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.sunvote.subject.SubjectManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
+import com.fh.service.sunvote.term.TermManager;
 
 /** 
  * 说明：任课管理
@@ -52,6 +53,9 @@ public class CourseManagementController extends BaseController {
 	
 	@Resource(name="subjectService")
 	private SubjectManager subjectService;
+	
+	@Resource(name="termService")
+	private TermManager termService;
 	
 	/**保存
 	 * @param
@@ -96,6 +100,7 @@ public class CourseManagementController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		
 		coursemanagementService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -144,6 +149,9 @@ public class CourseManagementController extends BaseController {
 		List<PageData> subjects = subjectService.listAll(pd);
 		mv.addObject("subjects", subjects);
 		
+		List<PageData> terms = termService.listAll(pd);
+		mv.addObject("terms", terms);
+		
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -166,6 +174,8 @@ public class CourseManagementController extends BaseController {
 		mv.addObject("classs",classs);
 		List<PageData> subjects = subjectService.listAll(pd);
 		mv.addObject("subjects", subjects);
+		List<PageData> terms = termService.listAll(pd);
+		mv.addObject("terms", terms);
 		
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
