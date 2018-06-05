@@ -29,10 +29,12 @@
 					
 					<form action="student/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="ID" id="ID" value="${pd.ID}"/>
+						<input type="hidden" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}"/>
+						<input type="hidden" name="TERM_ID" id="TERM_ID" value="${pd.TERM_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">学生姓名:</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">姓名:</td>
 								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="255" placeholder="这里输入学生姓名" title="学生姓名" style="width:98%;"/></td>
 							</tr>
 							<tr>
@@ -122,96 +124,7 @@
 				$("#NAME").focus();
 			return false;
 			}
-			if($("#SNO").val()==""){
-				$("#SNO").tips({
-					side:3,
-		            msg:'请输入学籍号',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#SNO").focus();
-			return false;
-			}
-			if($("#NUMBER").val()==""){
-				$("#NUMBER").tips({
-					side:3,
-		            msg:'请输入学号',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#NUMBER").focus();
-			return false;
-			}
-			if($("#SEX").val()==""){
-				$("#SEX").tips({
-					side:3,
-		            msg:'请输入性别',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#SEX").focus();
-			return false;
-			}
-			if($("#GROUPID").val()==""){
-				$("#GROUPID").tips({
-					side:3,
-		            msg:'请输入组号',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#GROUPID").focus();
-			return false;
-			}
-			if($("#SIGN_NO").val()==""){
-				$("#SIGN_NO").tips({
-					side:3,
-		            msg:'请输入签到码',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#SIGN_NO").focus();
-			return false;
-			}
-			if($("#PARENT_NAME").val()==""){
-				$("#PARENT_NAME").tips({
-					side:3,
-		            msg:'请输入家长姓名',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#PARENT_NAME").focus();
-			return false;
-			}
-			if($("#PARENT_PHONE").val()==""){
-				$("#PARENT_PHONE").tips({
-					side:3,
-		            msg:'请输入家长手机号',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#PARENT_PHONE").focus();
-			return false;
-			}
-			if($("#KEYPAD_ID").val()==""){
-				$("#KEYPAD_ID").tips({
-					side:3,
-		            msg:'请输入键盘ID',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#KEYPAD_ID").focus();
-			return false;
-			}
-			if($("#REMARK").val()==""){
-				$("#REMARK").tips({
-					side:3,
-		            msg:'请输入备注',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#REMARK").focus();
-			return false;
-			}
+			
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

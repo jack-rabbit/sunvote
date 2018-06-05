@@ -72,16 +72,16 @@ public class StudentController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
+		pd = this.getPageData();
 		String studentID = this.get32UUID();
 		pd.put("ID", studentID);
-		pd = this.getPageData();
+		pd.put("STUDENT_ID", studentID);
 		studentService.save(pd);
 		
 		String termID = pd.getString("TERM_ID");
 		String classID = pd.getString("CLASS_ID");
 		pd.put("CLASSROSTER_ID", get32UUID());
-		pd.put("STUDENT_ID", studentID);
-		pd.put("TERM_ID", termID);
+		pd.put("TEAMID", termID);
 		pd.put("SCLASS_ID", classID);
 		classrosterService.save(pd);
 		
@@ -192,7 +192,7 @@ public class StudentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		mv.setViewName("sunvote/student/student_edit");
+		mv.setViewName("sunvote/student/student_edit2");
 		mv.addObject("msg", "save2");
 		mv.addObject("pd", pd);
 		return mv;

@@ -31,6 +31,8 @@
 							
 						<!-- 检索  -->
 						<form action="student/listcs.do" method="post" name="Form" id="Form">
+						<input type="hidden" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}"/>
+						<input type="hidden" name="TERM_ID" id="TERM_ID" value="${pd.TERM_ID}"/>
 						<table style="margin-top:5px;">
 							<tr>
 							</tr>
