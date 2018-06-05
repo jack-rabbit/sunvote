@@ -238,6 +238,8 @@ public class LoginController extends BaseController {
 								sData.get("SUBJECT_ID"));
 						session.setAttribute(USERNAME + Const.SUBJECT_NAME,
 								sData.get("SUBJECT_NAME"));
+						session.setAttribute(USERNAME + Const.TERM_ID,
+								sData.get("TERM_ID"));
 					}
 					mv.setViewName("sunvote/teacher/teacher_main");
 				}

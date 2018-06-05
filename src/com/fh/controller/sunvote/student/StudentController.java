@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
@@ -23,6 +26,7 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
+import com.fh.service.sunvote.classroster.ClassRosterManager;
 import com.fh.service.sunvote.student.StudentManager;
 
 /** 
@@ -38,6 +42,9 @@ public class StudentController extends BaseController {
 	@Resource(name="studentService")
 	private StudentManager studentService;
 	
+	@Resource(name="classrosterService")
+	private ClassRosterManager classrosterService;
+	
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -50,6 +57,36 @@ public class StudentController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		studentService.save(pd);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	/**保存
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/save2")
+	public ModelAndView save2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"新增Student");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		String studentID = this.get32UUID();
+		pd.put("ID", studentID);
+		pd = this.getPageData();
+		studentService.save(pd);
+		
+		String termID = pd.getString("TERM_ID");
+		String classID = pd.getString("CLASS_ID");
+		pd.put("CLASSROSTER_ID", get32UUID());
+		pd.put("STUDENT_ID", studentID);
+		pd.put("TERM_ID", termID);
+		pd.put("SCLASS_ID", classID);
+		classrosterService.save(pd);
+		
+		
+		
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -111,6 +148,26 @@ public class StudentController extends BaseController {
 		return mv;
 	}
 	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/listcs")
+	public ModelAndView listClassStudent(Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表Student");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		page.setPd(pd);
+		List<PageData>	varList = studentService.datalistclassPage(page);	//列出Student列表
+		mv.setViewName("sunvote/student/student_list2");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
+	
 	/**去新增页面
 	 * @param
 	 * @throws Exception
@@ -126,6 +183,21 @@ public class StudentController extends BaseController {
 		return mv;
 	}	
 	
+	/**去新增页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goAdd2")
+	public ModelAndView goAdd2()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/student/student_edit");
+		mv.addObject("msg", "save2");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
+	
 	 /**去修改页面
 	 * @param
 	 * @throws Exception
@@ -133,10 +205,26 @@ public class StudentController extends BaseController {
 	@RequestMapping(value="/goEdit")
 	public ModelAndView goEdit()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+		PageData pd = this.getPageData();
 		pd = studentService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/student/student_edit");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
+	/**去修改页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goEdit2")
+	public ModelAndView goEdit2()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String classID = pd.getString("CLASS_ID");
+		pd = studentService.findById(pd);	//根据ID读取
+		pd.put("CLASS_ID", classID);
+		mv.setViewName("sunvote/student/student_edit2");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;

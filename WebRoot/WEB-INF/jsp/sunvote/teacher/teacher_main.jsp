@@ -93,8 +93,8 @@
 			</div>
 		</div>
 		<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-			<div class="class">
-				<p><a href="javascript:;">${var.GRADE_NAME}${var.SUBJECT_NAME} <span>${var.CLASS_NAME}</span></a></p>
+			<div class="class" onclick="javascript:chooseClass(${var.CLASS_ID},${var.TERM_ID});">
+				<p id="classStudent"><a  href="javascript:;">${var.GRADE_NAME}${var.SUBJECT_NAME} <span>${var.CLASS_NAME}</span></a></p>
 			</div>
 		</c:forEach>
 		<div class="test">测验</div>
@@ -207,6 +207,10 @@
 		$(".test").click(function(){
 			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" src="paper/list2.do?" style="width:100%;height:'+$(".content_l").height()+'px;"></iframe>');
 		})
+		
+		function chooseClass(classID,termID){
+			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" src="student/listcs.do?class_id="' + classID + '&term_id=' + termID + ' style="width:100%;height:'+$(".content_l").height()+'px;"></iframe>');
+		}
 		$(".analysis").click(function(){
 			$(".content_r").html('<img src="static/images/analysis.png" width="100%" />');
 		})

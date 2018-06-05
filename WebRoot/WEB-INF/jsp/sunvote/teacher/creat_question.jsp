@@ -78,7 +78,7 @@
         <div class="form-group">
 		    <label for="inputEmail3" class="col-sm-2 control-label">试题答案</label>
 		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="answer" placeholder="输入题目答案，以分号隔开">
+		      <input type="text" class="form-control" id="answer" placeholder="输入题目答案">
 		    </div>
 		    <div class="clearfix"></div>
 		</div>

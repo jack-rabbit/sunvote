@@ -1,6 +1,7 @@
 package com.fh.service.sunvote.student;
 
 import java.util.List;
+
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
@@ -35,6 +36,12 @@ public interface StudentManager{
 	 * @throws Exception
 	 */
 	public List<PageData> list(Page page)throws Exception;
+	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	public List<PageData> datalistclassPage(Page page)throws Exception;
 	
 	/**列表(全部)
 	 * @param pd

@@ -53,6 +53,15 @@ public class StudentService implements StudentManager{
 		return (List<PageData>)dao.findForList("StudentMapper.datalistPage", page);
 	}
 	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> datalistclassPage(Page page)throws Exception{
+		return (List<PageData>)dao.findForList("StudentMapper.dataclasslistPage", page);
+	}
+	
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception
