@@ -38,6 +38,7 @@
 		insert into 
 	<include refid="tableName"></include>
 		(
+			ID,
 			TEACHER_ID,	
 			CLASS_ID,	
 			SUBJECT_ID,	
@@ -47,6 +48,7 @@
 			TERM_ID,
 			REMARK
 		) values (
+		#{ID},	
 		#{TEACHER_ID},	
 		#{CLASS_ID},	
 		#{SUBJECT_ID},	
@@ -79,7 +81,7 @@
 			REMARK = #{REMARK},
 			GRADE_ID = #{GRADE_ID},	
 			TERM_ID = #{TERM_ID},	
-		ID = ${ID}
+		ID = ID
 		where 
 		ID = #{ID}
 	</update>

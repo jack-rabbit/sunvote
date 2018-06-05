@@ -27,6 +27,7 @@ import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
+import com.fh.service.sunvote.grade.GradeManager;
 import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.sunvote.subject.SubjectManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
@@ -57,6 +58,9 @@ public class CourseManagementController extends BaseController {
 	@Resource(name="termService")
 	private TermManager termService;
 	
+	@Resource(name="gradeService")
+	private GradeManager gradeService;
+	
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -68,6 +72,7 @@ public class CourseManagementController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("ID", this.get32UUID());
 		coursemanagementService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -176,6 +181,8 @@ public class CourseManagementController extends BaseController {
 		mv.addObject("subjects", subjects);
 		List<PageData> terms = termService.listAll(pd);
 		mv.addObject("terms", terms);
+		List<PageData> grades =  gradeService.listAll(pd);
+		mv.addObject("grades", grades);
 		
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);

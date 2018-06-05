@@ -91,7 +91,7 @@
 			SEX = #{SEX},
 			SUBJECT_IDS = #{SUBJECT_IDS},
 			KEYPAD_ID = #{KEYPAD_ID},
-		ID = ${ID}
+		ID = ID
 		where 
 		ID = #{ID}
 	</update>

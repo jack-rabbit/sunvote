@@ -34,8 +34,7 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">老师:</td>
 								<td>
-								<%-- <input type="number" name="TEACHER_ID" id="TEACHER_ID" value="${pd.TEACHER_ID}" maxlength="32" placeholder="这里输入老师" title="老师" style="width:98%;"/></td> --%>
-								<select class="chosen-select form-control" name="TEACHER_ID" id="TEACHER_ID" data-placeholder="这里输入班级类型">
+								<select class="chosen-select form-control" name="TEACHER_ID" id="TEACHER_ID" data-placeholder="这里输入">
 									<c:forEach var="item" items="${teachers}">
 										<option value="${item.ID}"  <c:if test="${pd.TEACHER_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
 									</c:forEach>
@@ -54,6 +53,16 @@
 								</td>
 							</tr>
 							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">年级:</td>
+								<td>
+								<select class="chosen-select form-control" name="GRADE_ID" id="GRADE_ID" data-placeholder="这里输入班级类型">
+									<c:forEach var="item" items="${grades}">
+										<option value="${item.ID}"  <c:if test="${pd.GRADE_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
+									</c:forEach>
+								</select>
+								</td>
+							</tr>
+							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">科目:</td>
 								<td>
 								<%-- <input type="number" name="SUBJECT_ID" id="SUBJECT_ID" value="${pd.SUBJECT_ID}" maxlength="32" placeholder="这里输入科目" title="科目" style="width:98%;"/></td> --%>
@@ -66,24 +75,14 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">学期:</td>
+								<td>
 								<select class="chosen-select form-control" name="TERM_ID" id="TERM_ID" data-placeholder="学期">
-									<c:forEach var="item" items="${subjects}">
-										<option value="${item.ID}"  <c:if test="${pd.TERM_ID==item.TERM_ID}">selected="true"</c:if>>${item.NAME}</option>
+									<c:forEach var="item" items="${terms}">
+										<option value="${item.TERM_ID}"  <c:if test="${pd.TERM_ID==item.TERM_ID}">selected="true"</c:if>>${item.NAME}</option>
 									</c:forEach>
 								</select>
+								</td>
 							</tr>
-							<%-- <tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">开始时间:</td>
-								<td><input class="span10 date-picker" name="START_DATE" id="START_DATE" value="${pd.START_DATE}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="开始时间" title="开始时间" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">结束时间:</td>
-								<td><input class="span10 date-picker" name="END_DATE" id="END_DATE" value="${pd.END_DATE}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="结束时间" title="结束时间" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">备注:</td>
-								<td><input type="text" name="REMARK" id="REMARK" value="${pd.REMARK}" maxlength="255" placeholder="这里输入备注" title="备注" style="width:98%;"/></td>
-							</tr> --%>
 							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
