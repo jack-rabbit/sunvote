@@ -27,39 +27,29 @@
 				<div class="row">
 					<div class="col-xs-12">
 					
-					<form action="classroster/${msg }.do" name="Form" id="Form" method="post">
-						<input type="hidden" name="CLASSROSTER_ID" id="CLASSROSTER_ID" value="${pd.CLASSROSTER_ID}"/>
+					<form action="studenttest/${msg }.do" name="Form" id="Form" method="post">
+						<input type="hidden" name="STUDENTTEST_ID" id="STUDENTTEST_ID" value="${pd.STUDENTTEST_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">班级:</td>
-								<td>
-								<select class="chosen-select form-control" name="SCLASS_ID" id="SCLASS_ID" data-placeholder="这里输入所属年级">
-									<c:forEach var="item" items="${classList}">
-										<option value="${item.ID}"  <c:if test="${pd.SCLASS_ID==item.ID}">selected="true"</c:if>>${item.CLASS_NAME}</option>
-									</c:forEach>
-								</select>
-								</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">学生ID:</td>
+								<td><input type="text" name="STUDENT_ID" id="STUDENT_ID" value="${pd.STUDENT_ID}" maxlength="32" placeholder="这里输入学生ID" title="学生ID" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">学生:</td>
-								<td>
-								<select class="chosen-select form-control" name="STUDENT_ID" id="STUDENT_ID" data-placeholder="这里输入所属年级">
-									<c:forEach var="item" items="${studentList}">
-										<option value="${item.ID}"  <c:if test="${pd.STUDENT_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
-									</c:forEach>
-								</select>
-								</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">测验ID:</td>
+								<td><input type="text" name="TEST_ID" id="TEST_ID" value="${pd.TEST_ID}" maxlength="32" placeholder="这里输入测验ID" title="测验ID" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">学期名称:</td>
-								<td>
-								<select class="chosen-select form-control" name="TEAMID" id="TEAMID" data-placeholder="这里输入所属年级">
-									<c:forEach var="item" items="${termList}">
-										<option value="${item.TERM_ID}"  <c:if test="${pd.TEAMID==item.TERM_ID}">selected="true"</c:if>>${item.NAME}</option>
-									</c:forEach>
-								</select>
-								</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">试卷ID:</td>
+								<td><input type="text" name="PAPER_ID" id="PAPER_ID" value="${pd.PAPER_ID}" maxlength="32" placeholder="这里输入试卷ID" title="试卷ID" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">得分:</td>
+								<td><input type="text" name="SCORE" id="SCORE" value="${pd.SCORE}" maxlength="10" placeholder="这里输入得分" title="得分" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">班级ID:</td>
+								<td><input type="text" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}" maxlength="255" placeholder="这里输入班级ID" title="班级ID" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -96,34 +86,54 @@
 		$(top.hangge());
 		//保存
 		function save(){
-			if($("#SCLASS_ID").val()==""){
-				$("#SCLASS_ID").tips({
-					side:3,
-		            msg:'请输入班级',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#SCLASS_ID").focus();
-			return false;
-			}
 			if($("#STUDENT_ID").val()==""){
 				$("#STUDENT_ID").tips({
 					side:3,
-		            msg:'请输入学生',
+		            msg:'请输入学生ID',
 		            bg:'#AE81FF',
 		            time:2
 		        });
 				$("#STUDENT_ID").focus();
 			return false;
 			}
-			if($("#TEAMID").val()==""){
-				$("#TEAMID").tips({
+			if($("#TEST_ID").val()==""){
+				$("#TEST_ID").tips({
 					side:3,
-		            msg:'请输入学期名称',
+		            msg:'请输入测验ID',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#TEAMID").focus();
+				$("#TEST_ID").focus();
+			return false;
+			}
+			if($("#PAPER_ID").val()==""){
+				$("#PAPER_ID").tips({
+					side:3,
+		            msg:'请输入试卷ID',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#PAPER_ID").focus();
+			return false;
+			}
+			if($("#SCORE").val()==""){
+				$("#SCORE").tips({
+					side:3,
+		            msg:'请输入得分',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#SCORE").focus();
+			return false;
+			}
+			if($("#CLASS_ID").val()==""){
+				$("#CLASS_ID").tips({
+					side:3,
+		            msg:'请输入班级ID',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#CLASS_ID").focus();
 			return false;
 			}
 			$("#Form").submit();

@@ -1,4 +1,4 @@
-package com.fh.controller.sunvote.papertype;
+package com.fh.controller.sunvote.studenttest;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -23,20 +23,20 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
-import com.fh.service.sunvote.papertype.PaperTypeManager;
+import com.fh.service.sunvote.studenttest.StudentTestManager;
 
 /** 
- * 说明：试卷类型管理
- * 创建人：Elvis
- * 创建时间：2018-04-20
+ * 说明：学生报表
+ * 创建人：FH Q313596790
+ * 创建时间：2018-06-07
  */
 @Controller
-@RequestMapping(value="/papertype")
-public class PaperTypeController extends BaseController {
+@RequestMapping(value="/studenttest")
+public class StudentTestController extends BaseController {
 	
-	String menuUrl = "papertype/list.do"; //菜单地址(权限用)
-	@Resource(name="papertypeService")
-	private PaperTypeManager papertypeService;
+	String menuUrl = "studenttest/list.do"; //菜单地址(权限用)
+	@Resource(name="studenttestService")
+	private StudentTestManager studenttestService;
 	
 	/**保存
 	 * @param
@@ -44,12 +44,13 @@ public class PaperTypeController extends BaseController {
 	 */
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"新增PaperType");
+		logBefore(logger, Jurisdiction.getUsername()+"新增StudentTest");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("ID", this.get32UUID());
-		papertypeService.save(pd);
+		pd.put("STUDENTTEST_ID", this.get32UUID());	//主键
+		studenttestService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -61,10 +62,11 @@ public class PaperTypeController extends BaseController {
 	 */
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"删除PaperType");
+		logBefore(logger, Jurisdiction.getUsername()+"删除StudentTest");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		papertypeService.delete(pd);
+		studenttestService.delete(pd);
 		out.write("success");
 		out.close();
 	}
@@ -75,11 +77,12 @@ public class PaperTypeController extends BaseController {
 	 */
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"修改PaperType");
+		logBefore(logger, Jurisdiction.getUsername()+"修改StudentTest");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		papertypeService.edit(pd);
+		studenttestService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -91,7 +94,8 @@ public class PaperTypeController extends BaseController {
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"列表PaperType");
+		logBefore(logger, Jurisdiction.getUsername()+"列表StudentTest");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -100,8 +104,8 @@ public class PaperTypeController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		List<PageData>	varList = papertypeService.list(page);	//列出PaperType列表
-		mv.setViewName("sunvote/papertype/papertype_list");
+		List<PageData>	varList = studenttestService.list(page);	//列出StudentTest列表
+		mv.setViewName("sunvote/studenttest/studenttest_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
@@ -117,7 +121,7 @@ public class PaperTypeController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		mv.setViewName("sunvote/papertype/papertype_edit");
+		mv.setViewName("sunvote/studenttest/studenttest_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -132,8 +136,8 @@ public class PaperTypeController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd = papertypeService.findById(pd);	//根据ID读取
-		mv.setViewName("sunvote/papertype/papertype_edit");
+		pd = studenttestService.findById(pd);	//根据ID读取
+		mv.setViewName("sunvote/studenttest/studenttest_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;
@@ -146,7 +150,7 @@ public class PaperTypeController extends BaseController {
 	@RequestMapping(value="/deleteAll")
 	@ResponseBody
 	public Object deleteAll() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"批量删除PaperType");
+		logBefore(logger, Jurisdiction.getUsername()+"批量删除StudentTest");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -155,7 +159,7 @@ public class PaperTypeController extends BaseController {
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
-			papertypeService.deleteAll(ArrayDATA_IDS);
+			studenttestService.deleteAll(ArrayDATA_IDS);
 			pd.put("msg", "ok");
 		}else{
 			pd.put("msg", "no");
@@ -171,22 +175,28 @@ public class PaperTypeController extends BaseController {
 	 */
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"导出PaperType到excel");
+		logBefore(logger, Jurisdiction.getUsername()+"导出StudentTest到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("名称");	//1
-		titles.add("备注");	//2
+		titles.add("学生ID");	//1
+		titles.add("测验ID");	//2
+		titles.add("试卷ID");	//3
+		titles.add("得分");	//4
+		titles.add("班级ID");	//5
 		dataMap.put("titles", titles);
-		List<PageData> varOList = papertypeService.listAll(pd);
+		List<PageData> varOList = studenttestService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
-			vpd.put("var1", varOList.get(i).getString("NAME"));	    //1
-			vpd.put("var2", varOList.get(i).getString("REMARK"));	    //2
+			vpd.put("var1", varOList.get(i).getString("STUDENT_ID"));	    //1
+			vpd.put("var2", varOList.get(i).getString("TEST_ID"));	    //2
+			vpd.put("var3", varOList.get(i).getString("PAPER_ID"));	    //3
+			vpd.put("var4", varOList.get(i).getString("SCORE"));	    //4
+			vpd.put("var5", varOList.get(i).getString("CLASS_ID"));	    //5
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);

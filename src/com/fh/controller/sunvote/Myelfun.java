@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.fh.service.sunvote.basestation.impl.BasestationService;
 import com.fh.service.sunvote.classtype.impl.ClassTypeService;
 import com.fh.service.sunvote.grade.impl.GradeService;
+import com.fh.service.sunvote.paper.PaperManager;
+import com.fh.service.sunvote.papertype.PaperTypeManager;
 import com.fh.service.sunvote.questiontype.QuestionTypeManager;
 import com.fh.service.sunvote.school.impl.SchoolService;
 import com.fh.service.sunvote.sclass.impl.SClassService;
@@ -14,6 +16,7 @@ import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.sunvote.teacher.impl.TeacherService;
 import com.fh.service.sunvote.teachingmaterial.impl.TeachingMaterialService;
 import com.fh.service.sunvote.term.TermManager;
+import com.fh.service.sunvote.testpaper.TestPaperManager;
 import com.fh.util.PageData;
 import com.fh.util.SpringBeanFactoryUtils;
 
@@ -206,7 +209,7 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findTeachingmaterialName(int id) throws Exception {
+	public static String findTeachingmaterialName(String id) throws Exception {
 		TeachingMaterialService teachingmaterialService = (TeachingMaterialService)SpringBeanFactoryUtils.getBean("teachingmaterialService");
 		PageData pageData = new PageData();
 		pageData.put("ID", id);
@@ -224,7 +227,7 @@ public class Myelfun {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String findQuestionTypeName(int id) throws Exception {
+	public static String findQuestionTypeName(String id) throws Exception {
 		QuestionTypeManager questiontypeService = (QuestionTypeManager)SpringBeanFactoryUtils.getBean("questiontypeService");
 		PageData pageData = new PageData();
 		pageData.put("QUESTIONTYPE_ID", id);
@@ -251,5 +254,54 @@ public class Myelfun {
 			return "" ;
 		}
 	}
+	
+	public static String findPaperTypeName(String id){
+		PaperTypeManager papertypeService = (PaperTypeManager)SpringBeanFactoryUtils.getBean("papertypeService");
+		PageData pageData = new PageData();
+		pageData.put("ID", id);
+		try {
+			pageData = papertypeService.findById(pageData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(pageData != null){
+			return pageData.getString("NAME");
+		}else{
+			return "" ;
+		}
+	}
+	
+	public static String findPaperName(String id){
+		PaperManager paperService = (PaperManager)SpringBeanFactoryUtils.getBean("paperService");
+		PageData pageData = new PageData();
+		pageData.put("PAPER_ID", id);
+		try {
+			pageData = paperService.findById(pageData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(pageData != null){
+			return pageData.getString("TITLE");
+		}else{
+			return "" ;
+		}
+	}
+	
+	public static String findTestPaperName(String id){
+		TestPaperManager testpaperService = (TestPaperManager)SpringBeanFactoryUtils.getBean("testpaperService");
+		PageData pageData = new PageData();
+		pageData.put("TESTPAPER_ID", id);
+		try {
+			pageData = testpaperService.findById(pageData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(pageData != null){
+			return pageData.getString("NAME");
+		}else{
+			return "" ;
+		}
+	}
+	
 	
 }

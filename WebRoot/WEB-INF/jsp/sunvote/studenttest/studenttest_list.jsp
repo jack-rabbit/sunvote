@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -31,7 +30,7 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="question/list.do" method="post" name="Form" id="Form">
+						<form action="studenttest/list.do" method="post" name="Form" id="Form">
 						<table style="margin-top:5px;">
 							<tr>
 								<td>
@@ -67,24 +66,11 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">父ID</th>
-									<th class="center">所属科目</th>
-									<th class="center">所属章节</th>
-									<th class="center">题目类型</th>
-									<th class="center">出题老师</th>
-									<th class="center">所属学校</th>
-									<th class="center">知识点</th>
-									<th class="center">题目内容</th>
-									<th class="center">选项个数</th>
-									<th class="center">选项内容</th>
-									<th class="center">标准答案</th>
-									<th class="center">难度系数</th>
-									<th class="center">题目解析</th>
-									<th class="center">题目来源</th>
-									<th class="center">建议试题总分</th>
-									<th class="center">建议部分分</th>
-									<th class="center">创建时间</th>
-									<th class="center">备注</th>
+									<th class="center">学生ID</th>
+									<th class="center">测验ID</th>
+									<th class="center">试卷ID</th>
+									<th class="center">得分</th>
+									<th class="center">班级ID</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -97,39 +83,26 @@
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.QUESTION_ID}" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.STUDENTTEST_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.P_ID.equals("-1") ? "大题":""}</td>
-											<td class='center'>${myelfun:findSubjectCName(var.SUBJECT_ID)}</td>
-											<td class='center'>${var.CHAPTER_ID}</td>
-											<td class='center'>${myelfun:findQuestionTypeName(var.PROBLEM_TYPE_ID)}</td>
-											<td class='center'>${myelfun:findTeacherName(var.TEACHER_ID)}</td>
-											<td class='center'>${myelfun:findSchoolName(var.SCHOOL_ID)}</td>
-											<td class='center'>${var.KNOWLEDGE_ID}</td>
-											<td class='center'>${var.CONTENT}</td>
-											<td class='center'>${var.OPTION_NUM}</td>
-											<td class='center'>${var.OPTION_CONTENT}</td>
-											<td class='center'>${var.ANSWER}</td>
-											<td class='center'>${var.DIFFICULTY}</td>
-											<td class='center'>${var.ANALYSIS}</td>
-											<td class='center'>${var.QUESTION_FROM}</td>
-											<td class='center'>${var.SUG_SCORE}</td>
-											<td class='center'>${var.SUG_PART_SCORE}</td>
-											<td class='center'>${var.CREATE_DATE}</td>
-											<td class='center'>${var.REMARK}</td>
+											<td class='center'>${var.STUDENT_ID}</td>
+											<td class='center'>${var.TEST_ID}</td>
+											<td class='center'>${var.PAPER_ID}</td>
+											<td class='center'>${var.SCORE}</td>
+											<td class='center'>${var.CLASS_ID}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${QX.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.QUESTION_ID}');">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.STUDENTTEST_ID}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${QX.del == 1 }">
-													<a class="btn btn-xs btn-danger" onclick="del('${var.QUESTION_ID}');">
+													<a class="btn btn-xs btn-danger" onclick="del('${var.STUDENTTEST_ID}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -143,7 +116,7 @@
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 															<c:if test="${QX.edit == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="edit('${var.QUESTION_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="edit('${var.STUDENTTEST_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
@@ -152,7 +125,7 @@
 															</c:if>
 															<c:if test="${QX.del == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="del('${var.QUESTION_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
+																<a style="cursor:pointer;" onclick="del('${var.STUDENTTEST_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
 																	<span class="red">
 																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																	</span>
@@ -289,7 +262,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>question/goAdd.do';
+			 diag.URL = '<%=basePath%>studenttest/goAdd.do';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -313,7 +286,7 @@
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>question/delete.do?QUESTION_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>studenttest/delete.do?STUDENTTEST_ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						tosearch();
 					});
@@ -327,7 +300,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>question/goEdit.do?QUESTION_ID='+Id;
+			 diag.URL = '<%=basePath%>studenttest/goEdit.do?STUDENTTEST_ID='+Id;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -371,7 +344,7 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>question/deleteAll.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>studenttest/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
 								//beforeSend: validateData,
@@ -390,7 +363,7 @@
 		
 		//导出excel
 		function toExcel(){
-			window.location.href='<%=basePath%>question/excel.do';
+			window.location.href='<%=basePath%>studenttest/excel.do';
 		}
 	</script>
 

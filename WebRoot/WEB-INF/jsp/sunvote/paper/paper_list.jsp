@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -93,15 +94,15 @@
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
 											<td class='center'>${var.TITLE}</td>
-											<td class='center'>${var.USER_ID}</td>
-											<td class='center'>${var.PAPER_TYPE}</td>
-											<td class='center'>${var.SUBJECT_ID}</td>
-											<td class='center'>${var.GRADE_ID}</td>
-											<td class='center'>${var.SCHOOL_ID}</td>
+											<td class='center'>${myelfun:findTeacherName(var.USER_ID)}</td>
+											<td class='center'>${myelfun:findPaperTypeName(var.PAPER_TYPE)}</td>
+											<td class='center'>${myelfun:findSubjectCName(var.SUBJECT_ID)}</td>
+											<td class='center'>${myelfun:findGradeName(var.GRADE_ID)}</td>
+											<td class='center'>${myelfun:findSchoolName(var.SCHOOL_ID)}</td>
 											<td class='center'>${var.CREATE_DATE}</td>
 											<td class='center'>${var.MODIFY_DATE}</td>
 											<td class='center'>${var.EXAM_TIME}</td>
-											<td class='center'>${var.PAPER_STATE}</td>
+											<td class='center'>${var.PAPER_STATE == 0 ? "未考":"已考试"}</td>
 											<td class='center'>${var.REMARK}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">

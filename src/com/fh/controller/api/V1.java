@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fh.bean.Paper;
 import com.fh.bean.Question;
+import com.fh.bean.StudentAnswer;
+import com.fh.bean.TestPaper;
+import com.fh.bean.TestPaperInfo;
 import com.fh.controller.base.BaseController;
 import com.fh.controller.sunvote.Myelfun;
 import com.fh.entity.Page;
@@ -40,8 +43,10 @@ import com.fh.service.sunvote.school.SchoolManager;
 import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
 import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.sunvote.student.StudentManager;
+import com.fh.service.sunvote.studenttest.StudentTestManager;
 import com.fh.service.sunvote.subject.SubjectManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
+import com.fh.service.sunvote.testpaper.TestPaperManager;
 import com.fh.service.sunvote.testpaperinfo.TestPaperInfoManager;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
@@ -49,125 +54,134 @@ import com.fh.util.Tools;
 @Controller
 @RequestMapping(value = "/api/v1")
 public class V1 extends BaseController {
-	
+
 	@Resource(name = "schoolService")
 	private SchoolManager schoolService;
 
 	@Resource(name = "basestationService")
 	private BasestationManager basestationService;
-	
-	@Resource(name="chapterService")
+
+	@Resource(name = "chapterService")
 	private ChapterManager chapterService;
-	
-	@Resource(name="classbasetationService")
+
+	@Resource(name = "classbasetationService")
 	private ClassBasetationManager classbasetationService;
-	
-	@Resource(name="classrosterService")
+
+	@Resource(name = "classrosterService")
 	private ClassRosterManager classrosterService;
-	
-	@Resource(name="classtypeService")
+
+	@Resource(name = "classtypeService")
 	private ClassTypeManager classtypeService;
-	
-	@Resource(name="gradeService")
+
+	@Resource(name = "gradeService")
 	private GradeManager gradeService;
-	
-	@Resource(name="coursemanagementService")
+
+	@Resource(name = "coursemanagementService")
 	private CourseManagementManager coursemanagementService;
 
 	@Resource(name = "keypadService")
 	private KeypadManager keypadService;
-	
-	@Resource(name="keypadcheckService")
+
+	@Resource(name = "keypadcheckService")
 	private KeypadCheckManager keypadcheckService;
-	
-	@Resource(name="knowledgeService")
+
+	@Resource(name = "knowledgeService")
 	private KnowledgeManager knowledgeService;
-	
-	@Resource(name="knowledgechapterService")
+
+	@Resource(name = "knowledgechapterService")
 	private KnowledgeChapterManager knowledgechapterService;
-	
-	@Resource(name="paperService")
+
+	@Resource(name = "paperService")
 	private PaperManager paperService;
-	
-	@Resource(name="paperclassteacherService")
+
+	@Resource(name = "paperclassteacherService")
 	private PaperClassTeacherManager paperclassteacherService;
-	
-	@Resource(name="paperquestionService")
+
+	@Resource(name = "paperquestionService")
 	private PaperQuestionManager paperquestionService;
-	
-	@Resource(name="papertypeService")
+
+	@Resource(name = "papertypeService")
 	private PaperTypeManager papertypeService;
-	
-	@Resource(name="questionService")
+
+	@Resource(name = "questionService")
 	private QuestionManager questionService;
-	
-	@Resource(name="questiontypeService")
+
+	@Resource(name = "questiontypeService")
 	private QuestionTypeManager questiontypeService;
-	
-	@Resource(name="schoolgradesubjectService")
+
+	@Resource(name = "schoolgradesubjectService")
 	private SchoolGradeSubjectManager schoolgradesubjectService;
-	
-	@Resource(name="sclassService")
+
+	@Resource(name = "sclassService")
 	private SClassManager sclassService;
-	
-	@Resource(name="studentService")
+
+	@Resource(name = "studentService")
 	private StudentManager studentService;
-	
-	@Resource(name="subjectService")
+
+	@Resource(name = "subjectService")
 	private SubjectManager subjectService;
-	
-	@Resource(name="teacherService")
+
+	@Resource(name = "teacherService")
 	private TeacherManager teacherService;
-	
-	@Resource(name="testpaperinfoService")
+
+	@Resource(name = "testpaperinfoService")
 	private TestPaperInfoManager testpaperinfoService;
+
+	@Resource(name = "testpaperService")
+	private TestPaperManager testpaperService;
+
+	@Resource(name = "studenttestService")
+	private StudentTestManager studenttestService;
 
 	@Resource(name = "feedbackService")
 	private FeedbackManager feedbackService;
 
 	@Resource(name = "problemphenomenonService")
 	private ProblemPhenomenonManager problemphenomenonService;
-	
+
 	@Resource(name = "v1Service")
-	private V1Manager v1Service ;
-	
+	private V1Manager v1Service;
+
 	@RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object login() throws Exception {
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
-		if(!pd.containsKey("ACCOUT")){
+		if (!pd.containsKey("ACCOUT")) {
 			pd.put("ACCOUT", pd.get("USERNAME"));
 		}
-		if(((pd.containsKey("USERNAME") || pd.containsKey("ACCOUT")) && pd.containsKey("PASSWORD")) || pd.containsKey("KEYPAD_ID")){
+		if (((pd.containsKey("USERNAME") || pd.containsKey("ACCOUT")) && pd
+				.containsKey("PASSWORD")) || pd.containsKey("KEYPAD_ID")) {
 			PageData pageData = teacherService.getUserInfo(pd);
-			if(pageData != null && pageData.getString("ID") != null){
-				pageData.put("PASSWORD", "");//返回参数中不返回密码
+			if (pageData != null && pageData.getString("ID") != null) {
+				pageData.put("PASSWORD", "");// 返回参数中不返回密码
 				PageData pt = new PageData();
 				pt.put("TEACHER_ID", pageData.get("ID"));
 				// 在任课表中查找老师教哪些班级，然后查出班级信息
-				List<PageData> classInfoList = v1Service.getTeacherClassInfo(pt);
-				
+				List<PageData> classInfoList = v1Service
+						.getTeacherClassInfo(pt);
+
 				pageData.put("classInfoList", classInfoList);
 				// 在认可表中查找老师教哪些科目，然后查出科目信息
-				List<PageData> subjectList = v1Service.getTeacherSubjectInfo(pt);
+				List<PageData> subjectList = v1Service
+						.getTeacherSubjectInfo(pt);
 				// 一个sql语句完成。
 				pageData.put("subjectList", subjectList);
-				
+
 				pageData.remove("SUBJECT_IDS");
-				
+
 				res.setData(pageData);
 				// 填充数据到返回数据中
-			}else{
+			} else {
 				res.set1Error();
 			}
-		}else{
+		} else {
 			res.set1Error();
 		}
-		
+
 		return res.toJson();
 	}
-	
+
 	@RequestMapping(value = "/class", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object sclass() throws Exception {
@@ -178,193 +192,218 @@ public class V1 extends BaseController {
 			if (pageData != null && pageData.containsKey("ID")) {
 				PageData pt = new PageData();
 				pt.put("SCLASS_ID", pageData.get("ID"));
-				List<PageData> studentList = v1Service
-						.getClassStudent(pt);
+				List<PageData> studentList = v1Service.getClassStudent(pt);
 				pageData.put("studentList", studentList);
 				res.setData(pageData);
 			} else {
 				res.set2Error();
 			}
-		}else{
+		} else {
 			res.set2Error();
 		}
 		return res.toJson();
 	}
-		
+
 	@RequestMapping(value = "/keypadscan", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object keypadScan() throws Exception {
 		PageData pd = this.getPageData();
-		ResponseGson<PageData> res = new ResponseGson();
-		pd.put("KEYPADCHECK_ID", get32UUID());	//主键
-		pd.put("CREATE_DATE", Tools.date2Str(new Date()));	//创建时间
-		try{
+		ResponseGson<String> res = new ResponseGson();
+		String ID = get32UUID();
+		pd.put("KEYPADCHECK_ID", ID); // 主键
+		pd.put("CREATE_DATE", Tools.date2Str(new Date())); // 创建时间
+		try {
 			keypadcheckService.save(pd);
+			res.setData(ID);
 			res.setSuccess();
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			res.setDataError();
 		}
 		return res.toJson();
 	}
-	
+
 	@RequestMapping(value = "/paper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paper() throws Exception {
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
-		if(pd.containsKey("PAPER_TYPE") && pd.containsKey("USER_ID")){
+		if (pd.containsKey("PAPER_TYPE") && pd.containsKey("USER_ID")) {
 			Page page = new Page();
 			page.getPd().put("PAPER_TYPE", pd.get("PAPER_TYPE"));
 			page.getPd().put("USER_ID", pd.get("USER_ID"));
-			if(pd.containsKey("CURRENTPAGE")){
+			if (pd.containsKey("CURRENTPAGE")) {
 				String curpage = pd.getString("CURRENTPAGE");
-				try{
+				try {
 					page.setCurrentPage(Integer.parseInt(curpage));
-				}catch(Exception ex){}
+				} catch (Exception ex) {
+				}
 			}
-			if(pd.containsKey("SHOWCOUNT")){
+			if (pd.containsKey("SHOWCOUNT")) {
 				String showCount = pd.getString("SHOWCOUNT");
-				try{
+				try {
 					page.setShowCount(Integer.parseInt(showCount));
-				}catch(Exception ex){}
-			}else{
+				} catch (Exception ex) {
+				}
+			} else {
 				page.setShowCount(100);
 			}
 			List<PageData> pageList = paperService.listAllByType(page);
 			res.setData(pageList);
-		}else{
+		} else {
 			res.setParmError();
 		}
 		return res.toJson();
 	}
-	
-	@RequestMapping(value = "/testpaper", produces = "application/json;charset=UTF-8")
+
+	@RequestMapping(value = "/paperinfo", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Object testpaper() throws Exception {
+	public Object paperInfo() throws Exception {
 		PageData pd = this.getPageData();
 		ResponseGson<Paper> res = new ResponseGson<Paper>();
-		if(pd.containsKey("PAPER_ID")){
-			try{
-				Paper paper = new Paper();
-				PageData ppd = paperService.findById(pd);
-				if(ppd != null){
-				paper.setTitle(ppd.getString("TITLE"));
-				paper.setExam_time(ppd.getString("EXAM_TIME"));
-				paper.setTitle(ppd.getString("USER_ID"));
-				paper.setPaper_type(ppd.getString("PAPER_TYPE"));
-				paper.setSubject_id(ppd.getString("SUBJECT_ID"));
-				paper.setGrade_id(ppd.getString("GRADE_ID"));
-				paper.setScore(ppd.getString("SCORE"));
-				paper.setQuestions(new ArrayList<Question>());
-				
-				List<PageData> questList = v1Service.getTestPaperInfo(pd);
-				for(PageData qpd : questList){
-					Question question = new Question();
-					question.setAnswer(qpd.getString("ANSWER"));
-					question.setQuestion_id(qpd.getString("QUESTION_ID"));
-					question.setSubject_id(qpd.getString("SUBJECT_ID"));
-					question.setChapter_id(qpd.getString("CHAPTER_ID"));
-					question.setProblem_type_id(qpd.getString("PROBLEM_TYPE_ID"));
-					question.setKnowledge_id(qpd.getString("KNOWLEDGE_ID"));
-					question.setContent(qpd.getString("CONTENT"));
-					question.setOption_num(qpd.getString("OPTION_NUM"));
-					question.setOption_content(qpd.getString("OPTION_CONTENT"));
-					question.setDifficulty(qpd.getString("DIFFICULTY"));
-					question.setAnalysis(qpd.getString("ANALYSIS"));
-					question.setQuestion_from(qpd.getString("QUESTION_FROM"));
-					question.setSug_score(qpd.getString("SUG_SCORE"));
-					question.setSug_part_score(qpd.getString("SUG_PART_SCORE"));
-					question.setRank(qpd.getString("RANK"));
-					question.setNo_name(qpd.getString("NO_NAME"));
-					if("-1".equals(qpd.getString("PID"))){
-						PageData pidPd = new PageData();
-						pidPd.put("PID", question.getQuestion_id());
-						question.setQuestions(new ArrayList<Question>());
-						List<PageData> qs = v1Service.getQuestionsByPID(pidPd);
-						for(PageData q : qs){
-							Question qq = new Question();
-							qq.setAnswer(q.getString("ANSWER"));
-							qq.setQuestion_id(q.getString("QUESTION_ID"));
-							qq.setSubject_id(q.getString("SUBJECT_ID"));
-							qq.setChapter_id(q.getString("CHAPTER_ID"));
-							qq.setProblem_type_id(q.getString("PROBLEM_TYPE_ID"));
-							qq.setKnowledge_id(q.getString("KNOWLEDGE_ID"));
-							qq.setContent(q.getString("CONTENT"));
-							qq.setOption_num(q.getString("OPTION_NUM"));
-							qq.setOption_content(q.getString("OPTION_CONTENT"));
-							qq.setDifficulty(q.getString("DIFFICULTY"));
-							qq.setAnalysis(q.getString("ANALYSIS"));
-							qq.setQuestion_from(q.getString("QUESTION_FROM"));
-							qq.setSug_score(q.getString("SUG_SCORE"));
-							qq.setSug_part_score(q.getString("SUG_PART_SCORE"));
-							qq.setRank(q.getString("RANK"));
-							qq.setNo_name(q.getString("NO_NAME"));
-							question.getQuestions().add(qq);
+		if (pd.containsKey("PAPER_ID")) {
+			try {
+				try {
+					Paper paper = new Paper();
+					PageData ppd = paperService.findById(pd);
+					if (ppd != null) {
+						paper.setTitle(ppd.getString("TITLE"));
+						paper.setExam_time(ppd.getString("EXAM_TIME"));
+						paper.setUser_id(ppd.getString("USER_ID"));
+						paper.setPaper_type(ppd.getString("PAPER_TYPE"));
+						paper.setSubject_id(ppd.getString("SUBJECT_ID"));
+						paper.setGrade_id(ppd.getString("GRADE_ID"));
+						paper.setScore(ppd.getString("SCORE"));
+						paper.setQuestions(new ArrayList<Question>());
+
+						List<PageData> questList = v1Service
+								.getTestPaperInfo(pd);
+						for (PageData qpd : questList) {
+							Question question = new Question();
+							question.setAnswer(qpd.getString("ANSWER"));
+							question.setQuestion_id(qpd
+									.getString("QUESTION_ID"));
+							question.setSubject_id(qpd.getString("SUBJECT_ID"));
+							question.setChapter_id(qpd.getString("CHAPTER_ID"));
+							question.setProblem_type_id(qpd
+									.getString("PROBLEM_TYPE_ID"));
+							question.setKnowledge_id(qpd
+									.getString("KNOWLEDGE_ID"));
+							question.setContent(qpd.getString("CONTENT"));
+							question.setOption_num(qpd.getString("OPTION_NUM"));
+							question.setOption_content(qpd
+									.getString("OPTION_CONTENT"));
+							question.setDifficulty(qpd.getString("DIFFICULTY"));
+							question.setAnalysis(qpd.getString("ANALYSIS"));
+							question.setQuestion_from(qpd
+									.getString("QUESTION_FROM"));
+							question.setSug_score(qpd.getString("SUG_SCORE"));
+							question.setSug_part_score(qpd
+									.getString("SUG_PART_SCORE"));
+							question.setRank(qpd.getString("RANK"));
+							question.setNo_name(qpd.getString("NO_NAME"));
+							if ("-1".equals("" + qpd.getString("P_ID"))) {
+								PageData pidPd = new PageData();
+								pidPd.put("PID", question.getQuestion_id());
+								question.setQuestions(new ArrayList<Question>());
+								List<PageData> qs = v1Service
+										.getQuestionsByPID(pidPd);
+								for (PageData q : qs) {
+									Question qq = new Question();
+									qq.setAnswer(q.getString("ANSWER"));
+									qq.setQuestion_id(q
+											.getString("QUESTION_ID"));
+									qq.setSubject_id(q.getString("SUBJECT_ID"));
+									qq.setChapter_id(q.getString("CHAPTER_ID"));
+									qq.setProblem_type_id(q
+											.getString("PROBLEM_TYPE_ID"));
+									qq.setKnowledge_id(q
+											.getString("KNOWLEDGE_ID"));
+									qq.setContent(q.getString("CONTENT"));
+									qq.setOption_num(q.getString("OPTION_NUM"));
+									qq.setOption_content(q
+											.getString("OPTION_CONTENT"));
+									qq.setDifficulty(q.getString("DIFFICULTY"));
+									qq.setAnalysis(q.getString("ANALYSIS"));
+									qq.setQuestion_from(q
+											.getString("QUESTION_FROM"));
+									qq.setSug_score(q.getString("SUG_SCORE"));
+									qq.setSug_part_score(q
+											.getString("SUG_PART_SCORE"));
+									qq.setRank(q.getString("RANK"));
+									qq.setNo_name(q.getString("NO_NAME"));
+									question.getQuestions().add(qq);
+								}
+							}
+							if ("-1".equals(qpd.getString("P_ID"))
+									|| "0".equals(qpd.getString("P_ID"))) {
+								paper.getQuestions().add(question);
+							}
 						}
+						// pd.put("JSON", paper.toJson());
+						res.setData(paper);
+						logger.info(paper.toJson());
+
 					}
-					paper.getQuestions().add(question);
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
-				
-				
-				res.setData(paper);
-				}
-			}catch(Exception ex){
+			} catch (Exception ex) {
 				ex.printStackTrace();
 				res.setError();
 			}
-		}else{
+		} else {
 			res.setOtherError();
 		}
 		return res.toJson();
 	}
-	
+
 	@RequestMapping(value = "/paperquestion", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paperQuestion() throws Exception {
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
-		
+
 		return res.toJson();
 	}
 
-	
 	@RequestMapping(value = "/uploadpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadpaper() throws Exception {
 		PageData pd = this.getPageData();
 		ResponseGson<String> res = new ResponseGson();
-		
-		if(!StringUtils.isEmpty(pd.getJsonString())){
+
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
 			Paper paper = Paper.parse(pd.getJsonString());
 			PageData paperPd = new PageData();
 			String paperID = this.get32UUID();
 			res.setData(paperID);
-			paperPd.put("PAPER_ID", paperID);	
-			paperPd.put("TITLE", paper.getTitle());	
-			paperPd.put("USER_ID", paper.getUser_id());	
-			paperPd.put("PAPER_TYPE", paper.getPaper_type());	
-			paperPd.put("SUBJECT_ID", paper.getSubject_id());	
-			paperPd.put("GRADE_ID", paper.getGrade_id());	
-			paperPd.put("EXAM_TIME", paper.getExam_time());	
-			paperPd.put("SCORE", paper.getScore());	
-			paperPd.put("PAPER_STATE", "0");	
-			paperPd.put("REMARK", "");	
+			paperPd.put("PAPER_ID", paperID);
+			paperPd.put("TITLE", paper.getTitle());
+			paperPd.put("USER_ID", paper.getUser_id());
+			paperPd.put("PAPER_TYPE", paper.getPaper_type());
+			paperPd.put("SUBJECT_ID", paper.getSubject_id());
+			paperPd.put("GRADE_ID", paper.getGrade_id());
+			paperPd.put("EXAM_TIME", paper.getExam_time());
+			paperPd.put("SCORE", paper.getScore());
+			paperPd.put("PAPER_STATE", "0");
+			paperPd.put("REMARK", "");
 			String schoolID = Myelfun.getUserID(paper.getUser_id());
 			paperPd.put("SCHOOL_ID", schoolID);
-			paperPd.put("CREATE_DATE", Tools.date2Str(new Date()));	
-			paperPd.put("MODIFY_DATE", Tools.date2Str(new Date()));	
-			
+			paperPd.put("CREATE_DATE", Tools.date2Str(new Date()));
+			paperPd.put("MODIFY_DATE", Tools.date2Str(new Date()));
+
 			paperService.save(paperPd);
-			
+
 			List<Question> questions = paper.getQuestions();
-			if(questions != null){
-				for(Question question : questions){
+			if (questions != null) {
+				for (Question question : questions) {
 					String questionID = this.get32UUID();
 					PageData qPd = new PageData();
 					qPd.put("QUESTION_ID", questionID);
-					if(question.getQuestions() != null && question.getQuestions().size() > 0){
+					if (question.getQuestions() != null
+							&& question.getQuestions().size() > 0) {
 						qPd.put("P_ID", "-1");
-					}else{
+					} else {
 						qPd.put("P_ID", "0");
 					}
 					qPd.put("SUBJECT_ID", paper.getSubject_id());
@@ -386,21 +425,20 @@ public class V1 extends BaseController {
 					qPd.put("CREATE_DATE", Tools.date2Str(new Date()));
 					qPd.put("REMARK", "");
 					questionService.save(qPd);
-					
+
 					PageData pqPd = new PageData();
-					pqPd.put("PAPER_ID",paperID);
-					pqPd.put("QUESTION_ID",questionID);
-					pqPd.put("SCORE",question.getScore());
-					pqPd.put("PART_SCORE","0");
-					pqPd.put("RANK",question.getRank());
-					pqPd.put("NO_NAME",question.getNo_name());
-					pqPd.put("PAPERQUESTION_ID",this.get32UUID());
+					pqPd.put("PAPER_ID", paperID);
+					pqPd.put("QUESTION_ID", questionID);
+					pqPd.put("SCORE", question.getScore());
+					pqPd.put("PART_SCORE", "0");
+					pqPd.put("RANK", question.getRank());
+					pqPd.put("NO_NAME", question.getNo_name());
+					pqPd.put("PAPERQUESTION_ID", this.get32UUID());
 					paperquestionService.save(pqPd);
-					
-					
-					if(question.getQuestions() != null){
+
+					if (question.getQuestions() != null) {
 						List<Question> qs = question.getQuestions();
-						for(Question q : qs){
+						for (Question q : qs) {
 							String qID = this.get32UUID();
 							PageData cqPd = new PageData();
 							cqPd.put("QUESTION_ID", qID);
@@ -423,29 +461,247 @@ public class V1 extends BaseController {
 							cqPd.put("USER_ID", paper.getUser_id());
 							cqPd.put("CREATE_DATE", Tools.date2Str(new Date()));
 							cqPd.put("REMARK", "");
-							
+
 							questionService.save(cqPd);
-							
+
 							PageData cpqPd = new PageData();
-							cpqPd.put("PAPER_ID",paperID);
-							cpqPd.put("QUESTION_ID",qID);
-							cpqPd.put("SCORE",q.getScore());
-							cpqPd.put("PART_SCORE","0");
-							cpqPd.put("RANK",q.getRank());
-							cpqPd.put("NO_NAME",q.getNo_name());
-							cpqPd.put("PAPERQUESTION_ID",this.get32UUID());
-							
+							cpqPd.put("PAPER_ID", paperID);
+							cpqPd.put("QUESTION_ID", qID);
+							cpqPd.put("SCORE", q.getScore());
+							cpqPd.put("PART_SCORE", "0");
+							cpqPd.put("RANK", q.getRank());
+							cpqPd.put("NO_NAME", q.getNo_name());
+							cpqPd.put("PAPERQUESTION_ID", this.get32UUID());
+
 							paperquestionService.save(cpqPd);
 						}
 					}
 				}
 			}
-			
-		}else{
+
+		} else {
 			res.setDataError();
 		}
-		
+
 		return res.toJson();
 	}
 
+	// 上传测验成绩
+	@RequestMapping(value = "/uploadtestpaper", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object uploadTestpaper() {
+		PageData pd = this.getPageData();
+		ResponseGson<String> res = new ResponseGson();
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			TestPaper testPaper = TestPaper.parse(pd.getJsonString());
+			try {
+				PageData testPd = new PageData();
+				String testPaperId = this.get32UUID();
+				testPd.put("TESTPAPER_ID", testPaperId);
+				testPd.put("TEACHER_ID", testPaper.getTeacherId());
+				testPd.put("NAME", testPaper.getName());
+				testPd.put("PAPER_ID", testPaper.getPaperId());
+				testPd.put("SCLASS_ID", testPaper.getClassId());
+				testPd.put("START_DATE", testPaper.getStartDate());
+				testPd.put("END_DATE", testPaper.getEndDate());
+				testPd.put(
+						"CREATE_DATE",
+						testPaper.getCreateDate() == null ? Tools
+								.date2Str(new Date()) : testPaper
+								.getCreateDate());
+				testPd.put("OTHER_SCORE", testPaper.getOtherScore());
+				testPd.put("HIGHT_SCORE", testPaper.getHighScore());
+				testPd.put("LOW_SCORE", testPaper.getLowScore());
+				testPd.put("AVG_SCORE", testPaper.getAvgScore());
+				testPd.put("REMARK", testPaper.getRemark());
+				testpaperService.save(testPd);
+				if (testPaper.getStudents() != null) {
+					for (StudentAnswer studentAnswer : testPaper.getStudents()) {
+						if (studentAnswer.getQuestions() != null) {
+							PageData studentPageData = new PageData();
+							studentPageData.put("STUDENTTEST_ID", get32UUID());
+							studentPageData.put("STUDENT_ID",
+									studentAnswer.getStudentId());
+							studentPageData.put("TEST_ID", testPaperId);
+							studentPageData.put("PAPER_ID",
+									testPaper.getPaperId());
+							studentPageData.put("SCORE",
+									studentAnswer.getScore());
+							studentPageData.put("CLASS_ID",
+									testPaper.getClassId());
+							studenttestService.save(studentPageData);
+
+							for (TestPaperInfo testPaperInfo : studentAnswer
+									.getQuestions()) {
+								PageData testInfoPd = new PageData();
+								testInfoPd.put("TESTPAPERINFO_ID",
+										this.get32UUID());
+								testInfoPd.put("PAPER_ID",
+										testPaper.getPaperId());
+								testInfoPd.put("STUDENT_ID",
+										studentAnswer.getStudentId());
+								testInfoPd.put("TEST_ID", testPaperId);
+								testInfoPd.put("QUESTION_ID",
+										testPaperInfo.getQuestionId());
+								testInfoPd.put("ANSWER",
+										testPaperInfo.getAnswer());
+								testInfoPd.put("RIGHT",
+										testPaperInfo.getRight());
+								testInfoPd.put("SCORE",
+										testPaperInfo.getScore());
+								testInfoPd.put("LIKES",
+										testPaperInfo.getLikes());
+								testInfoPd.put("ANSWER_TYPE",
+										testPaperInfo.getAnswerType());
+								testInfoPd.put("PRESS_TIME",
+										testPaperInfo.getPressTime());
+								testInfoPd.put("RECEIVER_DATE",
+										testPaperInfo.getReceiverDate());
+								testInfoPd.put("SUBJECTIVE",
+										testPaperInfo.getSubjective());
+								testInfoPd.put("NOTE", testPaperInfo.getNote());
+								testInfoPd.put("MARK_NO",
+										testPaperInfo.getMarkNo());
+								testpaperinfoService.save(testInfoPd);
+							}
+						}
+					}
+				}
+				res.setData(testPaperId);
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.setError();
+				res.setMessage(e.getMessage());
+			}
+		} else {
+			res.setDataError();
+		}
+
+		return res.toJson();
+
+	}
+
+	// 下载测验成绩
+	@RequestMapping(value = "/downloadtestpaper", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object downloadTestpaper() {
+		PageData pd = this.getPageData();
+		ResponseGson<TestPaper> res = new ResponseGson();
+
+		String paperId = pd.getString("ID");
+
+		if (!StringUtils.isEmpty(paperId)) {
+			TestPaper testPaper = new TestPaper();
+			try {
+				pd.put("TESTPAPER_ID", paperId);
+				PageData testPd = testpaperService.findById(pd);
+				if (testPd != null) {
+					testPaper.setTestpaperId(paperId);
+					testPaper.setTeacherId(testPd.getString("TEACHER_ID"));
+					testPaper.setName(testPd.getString("NAME"));
+					testPaper.setPaperId(testPd.getString("PAPER_ID"));
+					testPaper.setClassId(testPd.getString("SCLASS_ID"));
+					testPaper.setStartDate(testPd.getString("START_DATE"));
+					testPaper.setEndDate(testPd.getString("END_DATE"));
+					testPaper.setCreateDate(testPd.getString("CREATE_DATE"));
+					testPaper.setOtherScore(testPd.getString("OTHER_SCORE"));
+					testPaper.setHighScore(testPd.getString("HIGHT_SCORE"));
+					testPaper.setLowScore(testPd.getString("LOW_SCORE"));
+					testPaper.setAvgScore(testPd.getString("AVG_SCORE"));
+					testPaper.setRemark(testPd.getString("REMARK"));
+					PageData testInfof = new PageData();
+					testInfof.put("TEST_ID", paperId);
+
+					List<PageData> studentList = studenttestService
+							.listAll(testInfof);
+
+					for (PageData sPageData : studentList) {
+						StudentAnswer studentAnswer = new StudentAnswer();
+						testInfof.put("STDUENT_ID",
+								sPageData.getString("STDUENT_ID"));
+						studentAnswer.setScore(sPageData.getString("SCORE"));
+						List<PageData> list = testpaperinfoService
+								.listAll(testInfof);
+						for (PageData testInfoPd : list) {
+							TestPaperInfo testPaperInfo = new TestPaperInfo();
+							testPaperInfo.setTestPaperInfoId(testInfoPd
+									.getString("TESTPAPERINFO_ID"));
+							testPaperInfo.setQuestionId(testInfoPd
+									.getString("QUESTION_ID"));
+							testPaperInfo.setAnswer(testInfoPd
+									.getString("ANSWER"));
+							testPaperInfo.setRight(testInfoPd
+									.getString("RIGHT"));
+							testPaperInfo.setScore(testInfoPd
+									.getString("SCORE"));
+							testPaperInfo.setLikes(testInfoPd
+									.getString("LIKES"));
+							testPaperInfo.setAnswerType(testInfoPd
+									.getString("ANSWER_TYPE"));
+							testPaperInfo.setPressTime(testInfoPd
+									.getString("PRESS_TIME"));
+							testPaperInfo.setReceiverDate(testInfoPd
+									.getString("RECEIVER_DATE"));
+							testPaperInfo.setSubjective(testInfoPd
+									.getString("SUBJECTIVE"));
+							testPaperInfo.setNote(testInfoPd.getString("NOTE"));
+							testPaperInfo.setMarkNo(testInfoPd
+									.getString("MARK_NO"));
+							testPaperInfo.setRank(testInfoPd.getString("RANK"));
+							studentAnswer.getQuestions().add(testPaperInfo);
+						}
+						testPaper.getStudents().add(studentAnswer);
+					}
+				}
+
+				res.setData(testPaper);
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.setError();
+			}
+		}
+
+		return res.toJson();
+
+	}
+
+	// 下载测验成绩
+	@RequestMapping(value = "/testpaper", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object testpaper() {
+		PageData pd = this.getPageData();
+		ResponseGson<List<TestPaper>> res = new ResponseGson();
+		pd.put("TEACHER_ID", pd.getString("USER_ID"));
+		try {
+			List<PageData> pageList = testpaperService.listAll(pd);
+			List<TestPaper> list = new ArrayList<TestPaper>();
+			if (pageList != null) {
+				for (PageData testPd : pageList) {
+					TestPaper testPaper = new TestPaper();
+					testPaper.setTestpaperId(testPd.getString("TESTPAPER_ID"));
+					testPaper.setTeacherId(testPd.getString("TEACHER_ID"));
+					testPaper.setName(testPd.getString("NAME"));
+					testPaper.setPaperId(testPd.getString("PAPER_ID"));
+					testPaper.setClassId(testPd.getString("SCLASS_ID"));
+					testPaper.setStartDate(testPd.getString("START_DATE"));
+					testPaper.setEndDate(testPd.getString("END_DATE"));
+					testPaper.setCreateDate(testPd.getString("CREATE_DATE"));
+					testPaper.setOtherScore(testPd.getString("OTHER_SCORE"));
+					testPaper.setHighScore(testPd.getString("HIGHT_SCORE"));
+					testPaper.setLowScore(testPd.getString("LOW_SCORE"));
+					testPaper.setAvgScore(testPd.getString("AVG_SCORE"));
+					testPaper.setRemark(testPd.getString("REMARK"));
+					list.add(testPaper);
+				}
+			}
+			res.setData(list);
+		} catch (Exception e) {
+			res.setError();
+			res.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+
+		return res.toJson();
+
+	}
 }

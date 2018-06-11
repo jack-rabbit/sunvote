@@ -137,8 +137,16 @@ public class ClassRosterController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("sunvote/classroster/classroster_edit");
+		
+		List<PageData> classList = sclassService.listAll(pd);
+		List<PageData> termList = termService.listAll(pd);
+		List<PageData> studentList = studentService.listAll(pd);
+		
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		mv.addObject("classList", classList);
+		mv.addObject("termList", termList);
+		mv.addObject("studentList", studentList);
 		return mv;
 	}	
 	
@@ -153,8 +161,15 @@ public class ClassRosterController extends BaseController {
 		pd = this.getPageData();
 		pd = classrosterService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/classroster/classroster_edit");
-		mv.addObject("msg", "edit");
+		List<PageData> classList = sclassService.listAll(pd);
+		List<PageData> termList = termService.listAll(pd);
+		List<PageData> studentList = studentService.listAll(pd);
+		
+		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
+		mv.addObject("classList", classList);
+		mv.addObject("termList", termList);
+		mv.addObject("studentList", studentList);
 		return mv;
 	}	
 	

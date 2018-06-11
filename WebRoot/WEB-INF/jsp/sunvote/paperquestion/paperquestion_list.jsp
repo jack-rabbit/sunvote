@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -87,7 +88,7 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.PAPERQUESTION_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.PAPER_ID}</td>
+											<td class='center'>${myelfun:findPaperName(var.PAPER_ID)}</td>
 											<td class='center'>${var.QUESTION_ID}</td>
 											<td class='center'>${var.SCORE}</td>
 											<td class='center'>${var.PART_SCORE}</td>
