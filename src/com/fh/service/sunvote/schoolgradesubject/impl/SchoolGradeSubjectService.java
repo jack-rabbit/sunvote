@@ -60,6 +60,22 @@ public class SchoolGradeSubjectService implements SchoolGradeSubjectManager{
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("SchoolGradeSubjectMapper.listAll", pd);
 	}
+	/**列表(年级)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllGrade(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("SchoolGradeSubjectMapper.listAllGrade", pd);
+	}
+	/**列表(科目)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllSubject(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("SchoolGradeSubjectMapper.listAllSubject", pd);
+	}
 	
 	/**通过id获取数据
 	 * @param pd

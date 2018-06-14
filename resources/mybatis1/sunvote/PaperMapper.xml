@@ -21,6 +21,7 @@
 		PAPER_STATE,	
 		REMARK,	
 		SCORE,	
+		QUESTION_NUM,	
 		PAPER_ID
 	</sql>
 	
@@ -38,6 +39,7 @@
 		#{PAPER_STATE},	
 		#{REMARK},	
 		#{SCORE},	
+		#{QUESTION_NUM},	
 		#{PAPER_ID}
 	</sql>
 	
@@ -77,6 +79,7 @@
 			PAPER_STATE = #{PAPER_STATE},
 			REMARK = #{REMARK},
 			SCORE = #{SCORE},
+			QUESTION_NUM = #{QUESTION_NUM},
 		PAPER_ID = PAPER_ID
 		where 
 		PAPER_ID = #{PAPER_ID}

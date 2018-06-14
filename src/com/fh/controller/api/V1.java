@@ -186,8 +186,8 @@ public class V1 extends BaseController {
 	@ResponseBody
 	public Object sclass() throws Exception {
 		PageData pd = this.getPageData();
-		ResponseGson<PageData> res = new ResponseGson();
 		if (pd.containsKey("ID")) {
+			ResponseGson<PageData> res = new ResponseGson();
 			PageData pageData = sclassService.findById(pd);
 			if (pageData != null && pageData.containsKey("ID")) {
 				PageData pt = new PageData();
@@ -198,11 +198,67 @@ public class V1 extends BaseController {
 			} else {
 				res.set2Error();
 			}
+			return res.toJson();
 		} else {
-			res.set2Error();
+			ResponseGson<List<PageData>> res = new ResponseGson();
+			List<PageData> list = sclassService.listAll(pd);
+			res.setData(list);
+			return res.toJson();
+			
+		}
+	}
+	
+	@RequestMapping(value = "/questiontype", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object questiontype() throws Exception {
+		PageData pd = this.getPageData();
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		List<PageData> list = questiontypeService.listAll(pd);
+		res.setData(list);
+		return res.toJson();
+	}
+	
+	@RequestMapping(value = "/classtype", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object classtype() throws Exception {
+		PageData pd = this.getPageData();
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		List<PageData> list = classtypeService.listAll(pd);
+		res.setData(list);
+		return res.toJson();
+	}
+	
+	@RequestMapping(value = "/grade", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object grade() throws Exception {
+		PageData pd = this.getPageData();
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		if (!pd.containsKey("SCHOOL_ID")) {
+			List<PageData> list = gradeService.listAll(pd);
+			res.setData(list);
+		} else {
+			List<PageData> list = schoolgradesubjectService.listAllGrade(pd);
+			res.setData(list);
 		}
 		return res.toJson();
 	}
+	
+	@RequestMapping(value = "/subject", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object subject() throws Exception {
+		PageData pd = this.getPageData();
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		if (!pd.containsKey("SCHOOL_ID")) {
+			List<PageData> list = subjectService.listAll(pd);
+			res.setData(list);
+		} else {
+			List<PageData> list = schoolgradesubjectService.listAllSubject(pd);
+			res.setData(list);
+		}
+		return res.toJson();
+	}
+	
+	
 
 	@RequestMapping(value = "/keypadscan", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -296,9 +352,10 @@ public class V1 extends BaseController {
 							question.setAnalysis(qpd.getString("ANALYSIS"));
 							question.setQuestion_from(qpd
 									.getString("QUESTION_FROM"));
-							question.setSug_score(qpd.getString("SUG_SCORE"));
-							question.setSug_part_score(qpd
-									.getString("SUG_PART_SCORE"));
+							question.setScore(qpd.getString("SCORE"));
+							question.setPart_score(qpd
+									.getString("PART_SCORE"));
+							question.setQuestionType(qpd.getString("PROBLEM_TYPE_ID"));
 							question.setRank(qpd.getString("RANK"));
 							question.setNo_name(qpd.getString("NO_NAME"));
 							if ("-1".equals("" + qpd.getString("P_ID"))) {
@@ -326,9 +383,10 @@ public class V1 extends BaseController {
 									qq.setAnalysis(q.getString("ANALYSIS"));
 									qq.setQuestion_from(q
 											.getString("QUESTION_FROM"));
-									qq.setSug_score(q.getString("SUG_SCORE"));
-									qq.setSug_part_score(q
-											.getString("SUG_PART_SCORE"));
+									qq.setScore(q.getString("SCORE"));
+									qq.setPart_score(q
+											.getString("PART_SCORE"));
+									qq.setQuestionType(qpd.getString("PROBLEM_TYPE_ID"));
 									qq.setRank(q.getString("RANK"));
 									qq.setNo_name(q.getString("NO_NAME"));
 									question.getQuestions().add(qq);
@@ -365,7 +423,32 @@ public class V1 extends BaseController {
 
 		return res.toJson();
 	}
-
+	
+	@RequestMapping(value = "/question", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object question() throws Exception {
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		if(pd.containsKey("ID")){
+			pd.put("QUESTION_ID", pd.get("ID"));
+			PageData data = questionService.findById(pd);
+			res.setData(data);
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	@RequestMapping(value = "/question/add", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object questionAdd() throws Exception {
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		pd.put("QUESTION_ID", this.get32UUID());
+		questionService.save(pd);
+		return res.toJson();
+	}
+	
 	@RequestMapping(value = "/uploadpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadpaper() throws Exception {
@@ -373,6 +456,7 @@ public class V1 extends BaseController {
 		ResponseGson<String> res = new ResponseGson();
 
 		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			logger.info(pd.getJsonString());
 			Paper paper = Paper.parse(pd.getJsonString());
 			PageData paperPd = new PageData();
 			String paperID = this.get32UUID();
@@ -392,7 +476,8 @@ public class V1 extends BaseController {
 			paperPd.put("CREATE_DATE", Tools.date2Str(new Date()));
 			paperPd.put("MODIFY_DATE", Tools.date2Str(new Date()));
 
-			paperService.save(paperPd);
+			int questionNum = 0 ;
+			
 
 			List<Question> questions = paper.getQuestions();
 			if (questions != null) {
@@ -404,11 +489,12 @@ public class V1 extends BaseController {
 							&& question.getQuestions().size() > 0) {
 						qPd.put("P_ID", "-1");
 					} else {
+						questionNum ++ ;
 						qPd.put("P_ID", "0");
 					}
 					qPd.put("SUBJECT_ID", paper.getSubject_id());
 					qPd.put("CHAPTER_ID", question.getChapter_id());
-					qPd.put("PROBLEM_TYPE_ID", question.getProblem_type_id());
+					qPd.put("PROBLEM_TYPE_ID", question.getProblem_type_id() == null ? "1" :  question.getProblem_type_id());
 					qPd.put("TEACHER_ID", paper.getUser_id());
 					qPd.put("SCHOOL_ID", schoolID);
 					qPd.put("KNOWLEDGE_ID", question.getKnowledge_id());
@@ -445,7 +531,7 @@ public class V1 extends BaseController {
 							cqPd.put("P_ID", questionID);
 							cqPd.put("SUBJECT_ID", paper.getSubject_id());
 							cqPd.put("CHAPTER_ID", q.getChapter_id());
-							cqPd.put("PROBLEM_TYPE_ID", q.getProblem_type_id());
+							cqPd.put("PROBLEM_TYPE_ID", question.getProblem_type_id() == null ? "1" :  question.getProblem_type_id());
 							cqPd.put("TEACHER_ID", paper.getUser_id());
 							cqPd.put("SCHOOL_ID", schoolID);
 							cqPd.put("KNOWLEDGE_ID", q.getKnowledge_id());
@@ -474,10 +560,13 @@ public class V1 extends BaseController {
 							cpqPd.put("PAPERQUESTION_ID", this.get32UUID());
 
 							paperquestionService.save(cpqPd);
+							questionNum ++ ;
 						}
 					}
 				}
 			}
+			paperPd.put("QUESTION_NUM", "" + questionNum);
+			paperService.save(paperPd);
 
 		} else {
 			res.setDataError();
@@ -490,9 +579,11 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/uploadtestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadTestpaper() {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<String> res = new ResponseGson();
 		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			logger.info(pd.getJsonString());
 			TestPaper testPaper = TestPaper.parse(pd.getJsonString());
 			try {
 				PageData testPd = new PageData();
@@ -576,6 +667,7 @@ public class V1 extends BaseController {
 		} else {
 			res.setDataError();
 		}
+		logger.info("uploadtestpaper cost time:" + (System.currentTimeMillis() - cur));
 
 		return res.toJson();
 
@@ -704,4 +796,15 @@ public class V1 extends BaseController {
 		return res.toJson();
 
 	}
+	
+	
+	@RequestMapping(value = "/schooladmin", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public void schoolAdmin(){
+		PageData pd = this.getPageData();
+		this.getUserID();
+		
+		
+	}
+	
 }

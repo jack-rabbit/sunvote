@@ -41,6 +41,8 @@ public class Question {
 	private String sug_score;
 	
 	private String sug_part_score;
+	
+	private String questionType = "" ;
 
 	private List<Question> questions;
 
@@ -204,4 +206,13 @@ public class Question {
 		return this.questions;
 	}
 
+	public String getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(String questionType) {
+		this.questionType = questionType;
+	}
+
+	
 }

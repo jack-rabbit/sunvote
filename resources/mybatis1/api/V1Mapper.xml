@@ -35,6 +35,11 @@
 		SELECT
 			STUDENT_ID,
 			sv_student.`NAME`,
+			sv_student.`SNO`,
+			sv_student.`NUMBER`,
+			sv_student.`GROUPID`,
+			sv_student.`SIGN_NO`,
+			sv_student.`SEX`,
 			sv_student.`KEYPAD_ID`
 			FROM
 				sv_classroster
@@ -76,8 +81,8 @@
 	<select id="getTestPaperInfo" parameterType="pd" resultType="pd">
 		 	SELECT
 			sv_question.OPTION_NUM,
-			sv_paperquestion.SCORE,
 			sv_paperquestion.PART_SCORE,
+			sv_paperquestion.SCORE,
 			sv_paperquestion.RANK,
 			sv_paperquestion.NO_NAME,
 			sv_question.ANALYSIS,
@@ -86,6 +91,7 @@
 			sv_question.CONTENT,
 			sv_question.ANSWER,
 			sv_question.OPTION_CONTENT,
+			sv_question.PROBLEM_TYPE_ID,
 			sv_question.P_ID
 			FROM
 				sv_paperquestion
@@ -110,6 +116,7 @@
 			sv_question.DIFFICULTY,
 			sv_question.QUESTION_ID,
 			sv_question.CONTENT,
+			sv_question.PROBLEM_TYPE_ID,
 			sv_question.ANSWER,
 			sv_question.OPTION_CONTENT
 			FROM
