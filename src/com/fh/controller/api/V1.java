@@ -5,9 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,6 +24,7 @@ import com.fh.entity.Page;
 import com.fh.service.api.V1Manager;
 import com.fh.service.feedback.feedback.FeedbackManager;
 import com.fh.service.feedback.problemphenomenon.ProblemPhenomenonManager;
+import com.fh.service.software.softwareversion.SoftwareVersionManager;
 import com.fh.service.sunvote.basestation.BasestationManager;
 import com.fh.service.sunvote.chapter.ChapterManager;
 import com.fh.service.sunvote.classbasetation.ClassBasetationManager;
@@ -141,6 +144,9 @@ public class V1 extends BaseController {
 
 	@Resource(name = "v1Service")
 	private V1Manager v1Service;
+	
+	@Resource(name="softwareversionService")
+	private SoftwareVersionManager softwareversionService;
 
 	@RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -185,6 +191,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/class", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object sclass() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		if (pd.containsKey("ID")) {
 			ResponseGson<PageData> res = new ResponseGson();
@@ -198,39 +205,45 @@ public class V1 extends BaseController {
 			} else {
 				res.set2Error();
 			}
+			logger.info("class cost time : " + (System.currentTimeMillis() - cur));
 			return res.toJson();
 		} else {
 			ResponseGson<List<PageData>> res = new ResponseGson();
 			List<PageData> list = sclassService.listAll(pd);
 			res.setData(list);
+			logger.info("class cost time : " + (System.currentTimeMillis() - cur));
 			return res.toJson();
-			
 		}
 	}
 	
 	@RequestMapping(value = "/questiontype", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object questiontype() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson();
 		List<PageData> list = questiontypeService.listAll(pd);
 		res.setData(list);
+		logger.info("questiontype cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 	
 	@RequestMapping(value = "/classtype", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object classtype() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson();
 		List<PageData> list = classtypeService.listAll(pd);
 		res.setData(list);
+		logger.info("classtype cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 	
 	@RequestMapping(value = "/grade", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object grade() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson();
 		if (!pd.containsKey("SCHOOL_ID")) {
@@ -240,12 +253,14 @@ public class V1 extends BaseController {
 			List<PageData> list = schoolgradesubjectService.listAllGrade(pd);
 			res.setData(list);
 		}
+		logger.info("class cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 	
 	@RequestMapping(value = "/subject", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object subject() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson();
 		if (!pd.containsKey("SCHOOL_ID")) {
@@ -255,6 +270,7 @@ public class V1 extends BaseController {
 			List<PageData> list = schoolgradesubjectService.listAllSubject(pd);
 			res.setData(list);
 		}
+		logger.info("subject cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 	
@@ -263,6 +279,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/keypadscan", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object keypadScan() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<String> res = new ResponseGson();
 		String ID = get32UUID();
@@ -275,12 +292,14 @@ public class V1 extends BaseController {
 		} catch (Exception ex) {
 			res.setDataError();
 		}
+		logger.info("keypadScan cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 
 	@RequestMapping(value = "/paper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paper() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
 		if (pd.containsKey("PAPER_TYPE") && pd.containsKey("USER_ID")) {
@@ -308,12 +327,14 @@ public class V1 extends BaseController {
 		} else {
 			res.setParmError();
 		}
+		logger.info("paper cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 
 	@RequestMapping(value = "/paperinfo", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paperInfo() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<Paper> res = new ResponseGson<Paper>();
 		if (pd.containsKey("PAPER_ID")) {
@@ -412,21 +433,24 @@ public class V1 extends BaseController {
 		} else {
 			res.setOtherError();
 		}
+		logger.info("paperInfo cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 
 	@RequestMapping(value = "/paperquestion", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paperQuestion() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
-
+		logger.info("paperquestion cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 	
 	@RequestMapping(value = "/question", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object question() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
 		if(pd.containsKey("ID")){
@@ -436,22 +460,26 @@ public class V1 extends BaseController {
 		}else{
 			res.setDataError();
 		}
+		logger.info("question cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 	
 	@RequestMapping(value = "/question/add", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object questionAdd() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
 		pd.put("QUESTION_ID", this.get32UUID());
 		questionService.save(pd);
+		logger.info("questionAdd cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 	
 	@RequestMapping(value = "/uploadpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadpaper() throws Exception {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<String> res = new ResponseGson();
 
@@ -571,7 +599,7 @@ public class V1 extends BaseController {
 		} else {
 			res.setDataError();
 		}
-
+		logger.info("uploadpaper cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 
@@ -588,18 +616,140 @@ public class V1 extends BaseController {
 			try {
 				PageData testPd = new PageData();
 				String testPaperId = this.get32UUID();
-				testPd.put("TESTPAPER_ID", testPaperId);
 				testPd.put("TEACHER_ID", testPaper.getTeacherId());
-				testPd.put("NAME", testPaper.getName());
 				testPd.put("PAPER_ID", testPaper.getPaperId());
 				testPd.put("SCLASS_ID", testPaper.getClassId());
-				testPd.put("START_DATE", testPaper.getStartDate());
-				testPd.put("END_DATE", testPaper.getEndDate());
 				testPd.put(
 						"CREATE_DATE",
 						testPaper.getCreateDate() == null ? Tools
 								.date2Str(new Date()) : testPaper
 								.getCreateDate());
+				List<PageData> listData = testpaperService.listAll(testPd);
+				if (!(listData != null && listData.size() > 0)) {
+					testPd.put("START_DATE", testPaper.getStartDate());
+					testPd.put("END_DATE", testPaper.getEndDate());
+					testPd.put("NAME", testPaper.getName());
+					testPd.put("TESTPAPER_ID", testPaperId);
+					testPd.put("OTHER_SCORE", testPaper.getOtherScore());
+					testPd.put("HIGHT_SCORE", testPaper.getHighScore());
+					testPd.put("LOW_SCORE", testPaper.getLowScore());
+					testPd.put("AVG_SCORE", testPaper.getAvgScore());
+					testPd.put("REMARK", testPaper.getRemark());
+					testpaperService.save(testPd);
+					if (testPaper.getStudents() != null) {
+						List<PageData> testInfoPdList = new ArrayList();
+						PageData testInfoPd = null;
+						for (StudentAnswer studentAnswer : testPaper
+								.getStudents()) {
+							if (studentAnswer.getQuestions() != null) {
+								PageData studentPageData = new PageData();
+								studentPageData.put("STUDENTTEST_ID",
+										get32UUID());
+								studentPageData.put("STUDENT_ID",
+										studentAnswer.getStudentId());
+								studentPageData.put("TEST_ID", testPaperId);
+								studentPageData.put("PAPER_ID",
+										testPaper.getPaperId());
+								studentPageData.put("SCORE",
+										studentAnswer.getScore());
+								studentPageData.put("CLASS_ID",
+										testPaper.getClassId());
+								studenttestService.save(studentPageData);
+
+								for (TestPaperInfo testPaperInfo : studentAnswer
+										.getQuestions()) {
+									testInfoPd = new PageData();
+									testInfoPd.put("TESTPAPERINFO_ID",
+											this.get32UUID());
+									testInfoPd.put("PAPER_ID",
+											testPaper.getPaperId());
+									testInfoPd.put("STUDENT_ID",
+											studentAnswer.getStudentId());
+									testInfoPd.put("TEST_ID", testPaperId);
+									testInfoPd.put("QUESTION_ID",
+											testPaperInfo.getQuestionId());
+									testInfoPd.put("ANSWER",
+											testPaperInfo.getAnswer());
+									testInfoPd.put("RIGHT",
+											testPaperInfo.getRight());
+									testInfoPd.put("SCORE",
+											testPaperInfo.getScore());
+									testInfoPd.put("LIKES",
+											testPaperInfo.getLikes());
+									testInfoPd
+											.put("ANSWER_TYPE",
+													testPaperInfo
+															.getAnswerType() == null ? "1"
+															: testPaperInfo
+																	.getAnswerType());
+									testInfoPd.put("PRESS_TIME",
+											testPaperInfo.getPressTime());
+									testInfoPd.put("RECEIVER_DATE",
+											testPaperInfo.getReceiverDate());
+									testInfoPd.put("SUBJECTIVE",
+											testPaperInfo.getSubjective());
+									testInfoPd.put("NOTE",
+											testPaperInfo.getNote());
+									testInfoPd.put("MARK_NO",
+											testPaperInfo.getMarkNo());
+									testInfoPdList.add(testInfoPd);
+								}
+							}
+						}
+						testpaperinfoService.batchSave(testInfoPdList);
+					}
+				}else{
+					testPaperId = listData.get(0).getString("TESTPAPER_ID");
+				}
+				res.setData(testPaperId);
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.setError();
+				res.setMessage(e.getMessage());
+			}
+		} else {
+			res.setDataError();
+		}
+		logger.info("uploadtestpaper cost time:" + (System.currentTimeMillis() - cur));
+
+		return res.toJson();
+
+	}
+	
+	
+	// 上传测验成绩
+	@RequestMapping(value = "/uploadupdatetestpaper", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object uploadupdateTestpaper() {
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<String> res = new ResponseGson();
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			logger.info(pd.getJsonString());
+			TestPaper testPaper = TestPaper.parse(pd.getJsonString());
+			try {
+				PageData testPd = new PageData();
+				String testPaperId = this.get32UUID();
+				testPd.put("TEACHER_ID", testPaper.getTeacherId());
+				testPd.put("PAPER_ID", testPaper.getPaperId());
+				testPd.put("SCLASS_ID", testPaper.getClassId());
+				testPd.put(
+						"CREATE_DATE",
+						testPaper.getCreateDate() == null ? Tools
+								.date2Str(new Date()) : testPaper
+								.getCreateDate());
+				List<PageData> listData = testpaperService.listAll(testPd);
+				if ((listData != null && listData.size() > 0)) {
+					testPaperId = listData.get(0).getString("TESTPAPER_ID");
+					testpaperService.deleteList(testPd);
+					testPd.put("TEST_ID", testPaperId);
+					testpaperinfoService.delete(testPd);
+					studenttestService.delete(testPd);
+				}
+				testPd.put("START_DATE", testPaper.getStartDate());
+				testPd.put("END_DATE", testPaper.getEndDate());
+				testPd.put("NAME", testPaper.getName());
+				testPd.put("TESTPAPER_ID", testPaperId);
 				testPd.put("OTHER_SCORE", testPaper.getOtherScore());
 				testPd.put("HIGHT_SCORE", testPaper.getHighScore());
 				testPd.put("LOW_SCORE", testPaper.getLowScore());
@@ -607,10 +757,11 @@ public class V1 extends BaseController {
 				testPd.put("REMARK", testPaper.getRemark());
 				testpaperService.save(testPd);
 				if (testPaper.getStudents() != null) {
+					List<PageData> testInfoPdList = new ArrayList();
+					PageData testInfoPd = null;
 					for (StudentAnswer studentAnswer : testPaper.getStudents()) {
 						if (studentAnswer.getQuestions() != null) {
 							PageData studentPageData = new PageData();
-							studentPageData.put("STUDENTTEST_ID", get32UUID());
 							studentPageData.put("STUDENT_ID",
 									studentAnswer.getStudentId());
 							studentPageData.put("TEST_ID", testPaperId);
@@ -620,11 +771,12 @@ public class V1 extends BaseController {
 									studentAnswer.getScore());
 							studentPageData.put("CLASS_ID",
 									testPaper.getClassId());
+							studentPageData.put("STUDENTTEST_ID", get32UUID());
 							studenttestService.save(studentPageData);
 
 							for (TestPaperInfo testPaperInfo : studentAnswer
 									.getQuestions()) {
-								PageData testInfoPd = new PageData();
+								testInfoPd = new PageData();
 								testInfoPd.put("TESTPAPERINFO_ID",
 										this.get32UUID());
 								testInfoPd.put("PAPER_ID",
@@ -642,8 +794,9 @@ public class V1 extends BaseController {
 										testPaperInfo.getScore());
 								testInfoPd.put("LIKES",
 										testPaperInfo.getLikes());
-								testInfoPd.put("ANSWER_TYPE",
-										testPaperInfo.getAnswerType());
+								testInfoPd.put("ANSWER_TYPE", testPaperInfo
+										.getAnswerType() == null ? "1"
+										: testPaperInfo.getAnswerType());
 								testInfoPd.put("PRESS_TIME",
 										testPaperInfo.getPressTime());
 								testInfoPd.put("RECEIVER_DATE",
@@ -653,10 +806,11 @@ public class V1 extends BaseController {
 								testInfoPd.put("NOTE", testPaperInfo.getNote());
 								testInfoPd.put("MARK_NO",
 										testPaperInfo.getMarkNo());
-								testpaperinfoService.save(testInfoPd);
+								testInfoPdList.add(testInfoPd);
 							}
 						}
 					}
+					testpaperinfoService.batchSave(testInfoPdList);
 				}
 				res.setData(testPaperId);
 			} catch (Exception e) {
@@ -667,7 +821,8 @@ public class V1 extends BaseController {
 		} else {
 			res.setDataError();
 		}
-		logger.info("uploadtestpaper cost time:" + (System.currentTimeMillis() - cur));
+		logger.info("uploadtestpaper cost time:"
+				+ (System.currentTimeMillis() - cur));
 
 		return res.toJson();
 
@@ -677,6 +832,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/downloadtestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object downloadTestpaper() {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<TestPaper> res = new ResponseGson();
 
@@ -752,7 +908,7 @@ public class V1 extends BaseController {
 				res.setError();
 			}
 		}
-
+		logger.info("downloadtestpaper cost time:" + (System.currentTimeMillis() - cur));
 		return res.toJson();
 
 	}
@@ -761,6 +917,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/testpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object testpaper() {
+		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<TestPaper>> res = new ResponseGson();
 		pd.put("TEACHER_ID", pd.getString("USER_ID"));
@@ -792,7 +949,7 @@ public class V1 extends BaseController {
 			res.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
-
+		logger.info("testpaper cost time:" + (System.currentTimeMillis() - cur));
 		return res.toJson();
 
 	}
@@ -803,8 +960,36 @@ public class V1 extends BaseController {
 	public void schoolAdmin(){
 		PageData pd = this.getPageData();
 		this.getUserID();
-		
-		
 	}
+	
+	@RequestMapping(value = "/newversion", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object getNewVersion(HttpServletRequest request) throws Exception{
+		PageData pd = this.getPageData();
+		String softId = pd.getString("SOFTID");
+		String path = request.getContextPath();
+		String basePath = request.getScheme() + "://"
+				+ request.getServerName() + ":" + request.getServerPort()
+				+ path + "/";
+		ResponseGson<PageData> res = new ResponseGson();
+		if(softId != null && !"".equals(softId)){
+			pd.put("SOFTWARE_ID", softId);
+			PageData result = softwareversionService.findNewVersion(pd);
+			if(result != null){
+				result.remove("SOFTWAREVERSION_ID");
+				result.remove("SOFTWARE_ID");
+				result.put("VERSION_PATH",basePath + "/uploadFiles/uploadFile/" + result.getString("VERSION_PATH"));
+				res.setData(result);
+			}else{
+				res.setDataError();
+			}
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	
+
 	
 }

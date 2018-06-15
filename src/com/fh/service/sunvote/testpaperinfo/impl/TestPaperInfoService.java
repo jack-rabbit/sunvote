@@ -27,6 +27,14 @@ public class TestPaperInfoService implements TestPaperInfoManager{
 		dao.save("TestPaperInfoMapper.save", pd);
 	}
 	
+	/**新增
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void batchSave(List<PageData> pd)throws Exception{
+		dao.save("TestPaperInfoMapper.batchSave", pd);
+	}
+	
 	/**删除
 	 * @param pd
 	 * @throws Exception

@@ -1,6 +1,7 @@
 package com.fh.service.sunvote.testpaper;
 
 import java.util.List;
+
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
@@ -52,6 +53,13 @@ public interface TestPaperManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	
+	/**
+	 * 
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void deleteList(PageData pd)throws Exception;
 	
 }
 

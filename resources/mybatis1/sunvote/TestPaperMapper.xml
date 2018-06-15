@@ -129,6 +129,9 @@
 		<if test="TEACHER_ID != null and TEACHER_ID != ''"><!-- 关键词检索 -->
 			and (TEACHER_ID = #{TEACHER_ID})
 		</if>
+		<if test="CREATE_DATE != null and CREATE_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE = #{CREATE_DATE})
+		</if>
 		<if test="NAME != null and NAME != ''"><!-- 关键词检索 -->
 			and (NAME = #{NAME})
 		</if>
@@ -144,6 +147,30 @@
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteList" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 1 =1 
+		
+		<if test="PAPER_ID != null and PAPER_ID != ''"><!-- 关键词检索 -->
+			and (PAPER_ID = #{PAPER_ID})
+		</if>
+		<if test="CLASS_ID != null and CLASS_ID != ''"><!-- 关键词检索 -->
+			and (SCLASS_ID = #{CLASS_ID})
+		</if>
+		<if test="TEACHER_ID != null and TEACHER_ID != ''"><!-- 关键词检索 -->
+			and (TEACHER_ID = #{TEACHER_ID})
+		</if>
+		<if test="CREATE_DATE != null and CREATE_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE = #{CREATE_DATE})
+		</if>
+		<if test="NAME != null and NAME != ''"><!-- 关键词检索 -->
+			and (NAME = #{NAME})
+		</if>
+			
 	</delete>
 	
 	<!-- fh313596790qq(青苔) -->

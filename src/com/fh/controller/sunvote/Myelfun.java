@@ -2,6 +2,7 @@ package com.fh.controller.sunvote;
 
 import org.springframework.stereotype.Service;
 
+import com.fh.service.software.software.SoftWareManager;
 import com.fh.service.sunvote.basestation.impl.BasestationService;
 import com.fh.service.sunvote.classtype.impl.ClassTypeService;
 import com.fh.service.sunvote.grade.impl.GradeService;
@@ -303,5 +304,19 @@ public class Myelfun {
 		}
 	}
 	
-	
+	public static String findSoftwareName(String id){
+		SoftWareManager softwareService = (SoftWareManager)SpringBeanFactoryUtils.getBean("softwareService");
+		PageData pageData = new PageData();
+		pageData.put("SOFTWARE_ID", id);
+		try {
+			pageData = softwareService.findById(pageData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(pageData != null){
+			return pageData.getString("NAME");
+		}else{
+			return "" ;
+		}
+	}
 }

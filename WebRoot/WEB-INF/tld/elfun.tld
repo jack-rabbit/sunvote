@@ -126,6 +126,14 @@
       <example>${myelfun:findTestPaperName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
    </function>
    
+   <function>  
+      <description>根据ID查找软件名称</description><!-- 对该标签的说明 -->  
+      <name>findSoftwareName</name><!-- 定义标签名，放在短标签之后 -->  
+      <function-class>com.fh.controller.sunvote.Myelfun</function-class><!-- 标签处理域值的类路径  -->  
+      <function-signature>java.lang.String findSoftwareName(java.lang.String)</function-signature><!-- 标签处理域值的具体的类方法 -->  
+      <example>${myelfun:findSoftwareName(obj1)}</example><!-- 自定义标签的使用示范 ，域参数会自动传递到具体的方法里面-->  
+   </function>
+   
    
  
 </taglib>

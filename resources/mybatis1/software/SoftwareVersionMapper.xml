@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="StudentTestMapper">
+<mapper namespace="SoftwareVersionMapper">
 	
 	<!--表名 -->
 	<sql id="tableName">
-		SV_STUDENTTEST
+		SW_SOFTWAREVERSION
 	</sql>
 	
 	<!-- 字段 -->
 	<sql id="Field">
-		STUDENT_ID,	
-		TEST_ID,	
-		PAPER_ID,	
-		SCORE,	
-		CLASS_ID,	
-		STUDENTTEST_ID
+		SOFTWARE_ID,	
+		VERSION_NAME,	
+		VERSION_CODE,	
+		VERSION_PATH,	
+		VERSION_DESC,	
+		SOFTWAREVERSION_ID
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
-		#{STUDENT_ID},	
-		#{TEST_ID},	
-		#{PAPER_ID},	
-		#{SCORE},	
-		#{CLASS_ID},	
-		#{STUDENTTEST_ID}
+		#{SOFTWARE_ID},	
+		#{VERSION_NAME},	
+		#{VERSION_CODE},	
+		#{VERSION_PATH},	
+		#{VERSION_DESC},	
+		#{SOFTWAREVERSION_ID}
 	</sql>
 	
 	<!-- 新增-->
@@ -42,22 +42,8 @@
 	<delete id="delete" parameterType="pd">
 		delete from
 		<include refid="tableName"></include>
-		where  1 =1 
-		<if test="STUDENTTEST_ID != null and STUDENTTEST_ID != ''">
-			and STUDENTTEST_ID = #{STUDENTTEST_ID}
-		</if>
-		<if test="STUDENT_ID != null and STUDENT_ID != ''">
-			and STUDENT_ID = #{STUDENT_ID}
-		</if>
-		<if test="TEST_ID != null and TEST_ID != ''">
-			and TEST_ID = #{TEST_ID}
-		</if>
-		<if test="PAPER_ID != null and PAPER_ID != ''">
-			and PAPER_ID = #{PAPER_ID}
-		</if>
-		<if test="CLASS_ID != null and CLASS_ID != ''">
-			and CLASS_ID = #{CLASS_ID}
-		</if>
+		where 
+			SOFTWAREVERSION_ID = #{SOFTWAREVERSION_ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -65,14 +51,14 @@
 		update
 		<include refid="tableName"></include>
 		set 
-			STUDENT_ID = #{STUDENT_ID},
-			TEST_ID = #{TEST_ID},
-			PAPER_ID = #{PAPER_ID},
-			SCORE = #{SCORE},
-			CLASS_ID = #{CLASS_ID},
-		STUDENTTEST_ID = STUDENTTEST_ID
+			SOFTWARE_ID = #{SOFTWARE_ID},
+			VERSION_NAME = #{VERSION_NAME},
+			VERSION_CODE = #{VERSION_CODE},
+			VERSION_PATH = #{VERSION_PATH},
+			VERSION_DESC = #{VERSION_DESC},
+		SOFTWAREVERSION_ID = SOFTWAREVERSION_ID
 		where 
-		STUDENTTEST_ID = #{STUDENTTEST_ID}
+		SOFTWAREVERSION_ID = #{SOFTWAREVERSION_ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -82,7 +68,22 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			STUDENTTEST_ID = #{STUDENTTEST_ID}
+			SOFTWAREVERSION_ID = #{SOFTWAREVERSION_ID}
+	</select>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findNewVersion" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1 = 1 
+		<if test="SOFTWARE_ID != null and SOFTWARE_ID != ''"><!-- 关键词检索 -->
+			and SOFTWARE_ID = #{SOFTWARE_ID}
+		</if>
+		
+		HAVING VERSION_CODE = max(VERSION_CODE)
+			
 	</select>
 	
 	<!-- 列表 -->
@@ -110,22 +111,6 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
-		where 1= 1
-		<if test="TEST_ID != null and TEST_ID != ''"><!-- 关键词检索 -->
-			and (TEST_ID = #{TEST_ID})
-		</if>
-		
-		<if test="PAPER_ID != null and PAPER_ID != ''"><!-- 关键词检索 -->
-			and (PAPER_ID = #{PAPER_ID})
-		</if>
-		
-		<if test="CLASS_ID != null and CLASS_ID != ''"><!-- 关键词检索 -->
-			and (CLASS_ID = #{CLASS_ID})
-		</if>
-		
-		<if test="STUDENT_ID != null and STUDENT_ID != ''"><!-- 关键词检索 -->
-			and (STUDENT_ID = #{STUDENT_ID})
-		</if>
 	</select>
 	
 	<!-- 批量删除 -->
@@ -133,7 +118,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			STUDENTTEST_ID in
+			SOFTWAREVERSION_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>

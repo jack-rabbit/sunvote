@@ -76,10 +76,10 @@
 								</td>
 								<%-- <input type="number" name="SEX" id="SEX" value="${pd.SEX}" maxlength="32" placeholder="这里输入性别" title="性别" style="width:98%;"/></td> --%>
 							</tr>
-							<tr>
+							<%-- <tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">科目列表:</td>
 								<td><input type="text" name="SUBJECT_IDS" id="SUBJECT_IDS" value="${pd.SUBJECT_IDS}" maxlength="255" placeholder="这里输入科目列表" title="科目列表" style="width:98%;"/></td>
-							</tr>
+							</tr> --%>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">教师卡编号:</td>
 								<td><input type="text" name="KEYPAD_ID" id="KEYPAD_ID" value="${pd.KEYPAD_ID}" maxlength="255" placeholder="这里输入教师卡编号" title="教师卡编号" style="width:98%;"/></td>
@@ -197,16 +197,6 @@
 		            time:2
 		        });
 				$("#SEX").focus();
-			return false;
-			}
-			if($("#SUBJECT_IDS").val()==""){
-				$("#SUBJECT_IDS").tips({
-					side:3,
-		            msg:'请输入科目列表',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#SUBJECT_IDS").focus();
 			return false;
 			}
 			if($("#KEYPAD_ID").val()==""){

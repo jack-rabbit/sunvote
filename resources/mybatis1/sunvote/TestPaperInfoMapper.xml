@@ -58,12 +58,65 @@
 		)
 	</insert>
 	
+	<!-- 新增-->
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values 
+
+	 <foreach collection="list" index="index" item="item" separator=",">
+      (
+       #{item.PAPER_ID},	
+		#{item.STUDENT_ID},	
+		#{item.TEST_ID},	
+		#{item.QUESTION_ID},	
+		#{item.ANSWER},	
+		#{item.RIGHT},	
+		#{item.SCORE},	
+		#{item.LIKES},	
+		#{item.ANSWER_TYPE},	
+		#{item.PRESS_TIME},	
+		#{item.RECEIVER_DATE},	
+		#{item.SUBJECTIVE},	
+		#{item.NOTE},	
+		#{item.MARK_NO},	
+		#{item.RANK},	
+		#{item.TESTPAPERINFO_ID}
+       )
+     </foreach>
+
+	</insert>
+	
 	<!-- 删除-->
 	<delete id="delete" parameterType="pd">
 		delete from
 		<include refid="tableName"></include>
-		where 
-			TESTPAPERINFO_ID = #{TESTPAPERINFO_ID}
+		where  1 =1 
+		<if test="TESTPAPERINFO_ID != null and TESTPAPERINFO_ID != ''">
+			and TESTPAPERINFO_ID = #{TESTPAPERINFO_ID}
+		</if>
+		<if test="TEST_ID != null and TEST_ID != ''">
+			and TEST_ID = #{TEST_ID}
+		</if>
+		<if test="STUDENT_ID != null and STUDENT_ID != ''">
+			and STUDENT_ID = #{STUDENT_ID}
+		</if>
+		<if test="PAPER_ID != null and PAPER_ID != ''">
+			and PAPER_ID = #{PAPER_ID}
+		</if>
+		<if test="QUESTION_ID != null and QUESTION_ID != ''">
+			and QUESTION_ID = #{QUESTION_ID}
+		</if>
+		
+		<if test="(TESTPAPERINFO_ID == null or TESTPAPERINFO_ID == '') 
+		and  (TEST_ID == null or TEST_ID == '') 
+		and (STUDENT_ID == null or STUDENT_ID == '')
+		and (PAPER_ID == null or PAPER_ID == '')
+		and (QUESTION_ID == null or QUESTION_ID == '')">
+			and 1 = 2
+		</if>
 	</delete>
 	
 	<!-- 修改 -->
