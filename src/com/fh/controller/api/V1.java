@@ -978,7 +978,7 @@ public class V1 extends BaseController {
 			if(result != null){
 				result.remove("SOFTWAREVERSION_ID");
 				result.remove("SOFTWARE_ID");
-				result.put("VERSION_PATH",basePath + "/uploadFiles/uploadFile/" + result.getString("VERSION_PATH"));
+				result.put("VERSION_PATH",basePath + "uploadFiles/uploadFile/" + result.getString("VERSION_PATH"));
 				res.setData(result);
 			}else{
 				res.setDataError();

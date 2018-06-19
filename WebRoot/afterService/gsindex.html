@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>产品问题反馈</title>
+	<link rel="stylesheet" href="http://lib.sinaapp.com/js/bootstrap/3.0.0/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<style>
+    body{ background-color: #fff }
+    </style>
+	<!--[if IE]>
+		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://lib.sinaapp.com/js/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container column" >
+		<h2>产品问题反馈</h2>
+		<p style="font-size:16px;color:#ccc;">点击对应产品进行反馈</p>
+		<div class="col-md-8">
+			<div class="class1">
+				<h3><img src="images/jz.png" />基站</h3>
+				<ul>
+					<li><a href="gsinfo.html?model=EA1000&type=1"><img src="images/EA1000.jpg" class="img-responsive" alt="Responsive image"><p>EA1000</p></a></li>
+					
+				</ul>
+				<div class="clearfix visible-xs-block"></div>
+			</div>
+			<div class="class2">
+				<h3><img src="images/dtq.png" />答题器</h3>
+				<ul>
+					<li><a href="gsdt_info.html?model=dtq&type=3"><img src="images/gsu30.png" style="width:140px;height:auto;" class="img-responsive" alt="Responsive image"><p>答题器</p></a></li>
+				</ul>
+				<div class="clearfix visible-xs-block"></div>
+			</div>
+			<div class="class3">
+				<h3><img src="images/pj.png" />配件</h3>
+				<ul>
+					<li><a href="gsparts_info.html?model=btr&type=4"><img src="images/battery.jpg" class="img-responsive" alt="Responsive image"><p>纽扣电池</p></a></li>
+					<li><a href="gsparts2_info.html?model=sma&type=5"><img src="images/EA1000_line.jpg" class="img-responsive" alt="Responsive image"><p>小基站连接线</p></a></li>
+					
+					<li><a href="gsparts2_info.html?model=bag&type=7"><img src="images/bag.png" class="img-responsive" alt="Responsive image"><p>设备包</p></a></li>
+				</ul>
+				<div class="clearfix visible-xs-block"></div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<ul>
+				<li>
+					<div class="row"><a href="javascript:;"  onclick="down(0)" data-toggle="modal" data-target="#myModal">
+					  <div class="col-xs-3"><img src="images/lc.png"/></div>
+					  <div class="col-xs-9"><p>售后维修流程</p></div>
+					  <div class="col-xs-9"><p>指导您如何向我们发起售后</p></div>
+					</a></div>
+				</li>
+				<li>
+					<div class="row"><a href="javascript:;" onclick="down(1)" data-toggle="modal" data-target="#myModal">
+					  <div class="col-xs-3"><img src="images/zc.png"/></div>
+					  <div class="col-xs-9"><p>售后政策一览表</p></div>
+					  <div class="col-xs-9"><p>售后政策及费用说明</p></div>
+					</a></div>
+				</li>
+				<li>
+					<div class="row"><a href="javascript:void(0);" onclick="down(2)" data-toggle="modal" data-target="#myModal">
+					  <div class="col-xs-3"><img src="images/wt.png"/></div>
+					  <div class="col-xs-9"><p>常见问题文档</p></div>
+					  <div class="col-xs-9"><p>答题器、基站常见问题文档</p></div>
+					</a></div>
+				</li>
+			</ul>
+			<div class="contact">
+				<div class="row">
+					  <div class="col-xs-12"><img src="images/timg.jpg" width="100%"/></div> 
+					  <div class="col-xs-11"><p>电话：<span>18908457700</span></p></div>
+					  <div class="col-xs-11"><p>座机：<span>0731-85125432-805</span></p></div>
+					</div>
+			</div>
+		</div>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							PDF
+						</h4>
+					</div>
+					<div class="modal-body">
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+	</div>
+	<script>
+		function down(type){
+			switch(type){
+				case 0: $(".modal-body").html('<p><a href="document/新东方产品售后维修流程.pdf" target="_blank">新东方产品售后维修流程.pdf</a></p>');break;
+				case 1: $(".modal-body").html('<p>等待更新</p>');break;
+				case 2: $(".modal-body").html('<p><a href="document/基站-EA1000-常见问题解答（新东方）V1.1-20170922.pdf" target="_blank">基站-EA1000-常见问题解答（新东方）V1.1-20170922.pdf</a></p><p><a href="document/键盘-S52Plus-常见问题解答V1.0（新东方）-20180309.pdf" target="_blank">键盘-S52Plus-常见问题解答V1.0（新东方）-20180309.pdf</a></p><p><a href="document/新东方基站-EA4200W-常见问题解答（）V1.0-20170922.pdf" target="_blank">新东方基站-EA4200W-常见问题解答（）V1.0-20170922.pdf</a></p>');break;
+			}
+		}
+	</script>
+</body>
+</html>
