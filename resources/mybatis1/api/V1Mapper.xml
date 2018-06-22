@@ -44,8 +44,8 @@
 			sv_student.`KEYPAD_ID`
 			FROM
 				sv_classroster
-			LEFT JOIN sv_term ON sv_classroster.TEAMID = sv_term.TERM_ID
-			LEFT JOIN sv_student ON sv_classroster.STUDENT_ID = sv_student.ID
+			inner JOIN sv_term ON sv_classroster.TEAMID = sv_term.TERM_ID
+			inner JOIN sv_student ON sv_classroster.STUDENT_ID = sv_student.ID
 			WHERE
 				sv_term.START_DATE &lt; NOW()
 			AND sv_term.END_DATE &gt; NOW()
