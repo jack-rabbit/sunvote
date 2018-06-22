@@ -16,15 +16,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
+import com.fh.util.Const;
+import com.fh.util.FileUpload;
+import com.fh.util.ObjectExcelRead;
 import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
+import com.fh.util.PathUtil;
 import com.fh.util.Tools;
 import com.fh.service.sunvote.classroster.ClassRosterManager;
 import com.fh.service.sunvote.student.StudentManager;
@@ -92,6 +98,78 @@ public class StudentController extends BaseController {
 		return mv;
 	}
 	
+	
+	
+	/**打开上传EXCEL页面
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goUploadExcel")
+	public ModelAndView goUploadExcel()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		mv.addObject("pd", getPageData());
+		mv.setViewName("sunvote/student/uploadexcel");
+		return mv;
+	}
+	
+	
+	/**从EXCEL导入到数据库
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/readExcel")
+	public ModelAndView readExcel(
+			@RequestParam(value="excel",required=false) MultipartFile file
+			) throws Exception{
+		logBefore(logger,Jurisdiction.getUsername() + "从EXCEL导入到数据库");
+		ModelAndView mv = this.getModelAndView();
+		PageData tpd = getPageData();
+		PageData pd = new PageData();
+		String termID = tpd.getString("TERM_ID");
+		String classID = tpd.getString("CLASS_ID");
+		if (null != file && !file.isEmpty()) {
+			String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+			String fileName =  FileUpload.fileUp(file, filePath, "userexcel");							//执行上传
+			List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 0, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+			if(listPd.size() > 0 ){
+				pd= listPd.get(0);
+				for(int i = 1 ; i < listPd.size();i++){
+					PageData savePd = new PageData();
+					PageData temp = listPd.get(i);
+					for(int j = 0 ; ;j++){
+						if(temp.get("var" + j) == null){
+							break ;
+						}
+						savePd.put(pd.getString("var" + j).toUpperCase(), temp.get("var" + j));
+					}
+					if(!savePd.containsKey("ID")){
+						String studentId = this.get32UUID();
+						savePd.put("ID", studentId);
+						studentService.save(savePd);
+						
+						
+						if (classID != null && termID != null) {
+							savePd.put("STUDENT_ID", studentId);
+							savePd.put("CLASSROSTER_ID", get32UUID());
+							savePd.put("TEAMID", termID);
+							savePd.put("SCLASS_ID", classID);
+							classrosterService.save(savePd);
+						}
+						
+					}else{
+						studentService.edit(savePd);
+					}
+				}
+				
+			}
+		}
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	
 	/**删除
 	 * @param out
 	 * @throws Exception
@@ -103,6 +181,8 @@ public class StudentController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		studentService.delete(pd);
+		pd.put("STUDENT_ID", pd.get("ID"));
+		classrosterService.delete(pd);
 		out.write("success");
 		out.close();
 	}
@@ -135,7 +215,7 @@ public class StudentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		String keywords = pd.getString("keywords");				//关键词检索条件
+		String keywords = pd.getString("KEYWORDS");				//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
 		}
@@ -247,6 +327,7 @@ public class StudentController extends BaseController {
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
 			studentService.deleteAll(ArrayDATA_IDS);
+			classrosterService.deleteAllByStudentID(ArrayDATA_IDS);
 			pd.put("msg", "ok");
 		}else{
 			pd.put("msg", "no");

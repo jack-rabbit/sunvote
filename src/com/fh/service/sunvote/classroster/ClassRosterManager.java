@@ -1,6 +1,7 @@
 package com.fh.service.sunvote.classroster;
 
 import java.util.List;
+
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
@@ -52,6 +53,9 @@ public interface ClassRosterManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	
+	
+	public void deleteAllByStudentID(String[] ArrayDATA_IDS)throws Exception;
 	
 }
 

@@ -28,6 +28,7 @@
 			sv_term.START_DATE &lt; NOW()
 			AND sv_term.END_DATE &gt; NOW()
 			AND TEACHER_ID = #{TEACHER_ID}
+			group by SUBJECT_ID
 	</select>
 	
 	<!-- 通过教师ID获取科目数据 -->

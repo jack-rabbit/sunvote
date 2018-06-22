@@ -139,6 +139,11 @@
 				-->
 				)
 		</if>
+		
+		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''"><!-- 关键词检索 -->
+			and
+				(SCHOOL_ID = #{pd.SCHOOL_ID})
+		</if>
 	</select>
 	
 	<!-- 列表(全部) -->

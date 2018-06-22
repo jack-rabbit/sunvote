@@ -141,6 +141,10 @@ public class TeacherController extends BaseController {
 		List<PageData>	varList = teacherService.list(page);	//列出Teacher列表
 		mv.setViewName("sunvote/teacher/teacher_list");
 		mv.addObject("varList", varList);
+		
+		List<PageData> schools = schoolService.listAll(pd);
+		mv.addObject("schools",schools);
+		
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;

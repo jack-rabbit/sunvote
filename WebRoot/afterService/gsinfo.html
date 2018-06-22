@@ -35,16 +35,16 @@
 					<label ><span class="red">*</span>校区名称：</label>
 					<div class="control-group xq">
 						<div class="controls col-md-6" style="padding-left:0;">
-							<select id="province" class="form-control">
+						<!-- 	<select id="province" class="form-control">
 								<option value="请选择"></option>
-							</select>
-							
+							</select> -->
+							<input type="text" class="form-control" id="province" placeholder="">
 						</div>
-						<div class="controls col-md-6" style="padding-right:0;">
+						<!-- <div class="controls col-md-6" style="padding-right:0;">
 							<select id="city" class="form-control">
 								<option value="请选择">请选择</option>
 							</select>
-						</div>
+						</div> -->
 					</div>
 					
 				  </div>
@@ -128,11 +128,8 @@
 					</li>
 					<li>
 						<p class="q_title">问题现象2：连接指示灯慢闪（1秒一次），软件显示连接断开</p>
-						<p>① 请检查答题系统的版本是否为互动课堂 2.12.1或更高版本。Match Tool的版本是否为1.0.0.1。配对工具手册及下载地址：https://shimo.im/doc/95gSPuzB1zM7bFRc</p>
-						<p>② 确认基站驱动是否正常，打开设备管理器，驱动正常时，插上基站时 “人体学输入设备”会添加一个“USB输入设备”</p>
-						<img src="images/ea1000_q1.png" width="30%" />
-						<img src="images/ea1000_q2.png" width="30%" />
-						<img src="images/ea1000_q3.png" width="30%" />
+						<p>慢闪表示基站与电脑已经成功， 请联系软件运维人员检查软件是否正常连接</p>
+						
 					</li>
 					<li>
 						<p class="q_title">问题现象3：连接指示灯快闪（1秒多次），软件显示连接断开</p>
@@ -213,13 +210,13 @@ PS：建议老师使用手动连接的方式，不要选择自动连接。</p>
 		require(['city.select'], function ($) {
 			$(function () {
 				
-				$('#province, #city').citylist({
+			/* 	$('#province, #city').citylist({
 					data    : data,
 					id      : 'id',
 					children: 'cities',
 					name    : 'name',
 					metaTag : 'name'
-				});
+				}); */
 
 				$('#all').citylist({
 					data    : data,
@@ -327,7 +324,7 @@ PS：建议老师使用手动连接的方式，不要选择自动连接。</p>
 			
 			var data={
 				SCHOOL_ADDRESS1:$("#province").val(),
-				SCHOOL_ADDRESS2:$("#city").val(),
+			/* 	SCHOOL_ADDRESS2:$("#city").val(), */
 				CONTACT_PHONE:$("#name").val(),
 				PHONE_CONTACT:$("#tel").val(),
 				PRODUCT_SEQ:$("#sn").val(),

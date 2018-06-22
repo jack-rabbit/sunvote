@@ -94,13 +94,21 @@
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
-				<!--	根据需求自己加检索条件
-					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 					 or 
-					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
-				-->
+					PARENT_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+					 or 
+					SNO LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+					 or 
+					NUMBER LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+					 or 
+					PARENT_PHONE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+					 or 
+					KEYPAD_ID LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
 				)
 		</if>
+		
+		order by sv_student.SNO
 	</select>
 	
 	<!-- 列表 -->
@@ -128,6 +136,7 @@
 		<if test="pd.CLASS_ID!= null and pd.CLASS_ID != ''"><!-- 关键词检索 -->
 			AND cr.SCLASS_ID = #{pd.CLASS_ID}
 		</if>
+		order by sv_student.SNO
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -136,6 +145,8 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		
+		order by sv_student.SNO
 	</select>
 	
 	<!-- 批量删除 -->

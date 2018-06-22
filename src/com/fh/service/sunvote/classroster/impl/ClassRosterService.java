@@ -77,5 +77,13 @@ public class ClassRosterService implements ClassRosterManager{
 		dao.delete("ClassRosterMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
+	/**批量删除
+	 * @param ArrayDATA_IDS
+	 * @throws Exception
+	 */
+	public void deleteAllByStudentID(String[] ArrayDATA_IDS)throws Exception{
+		dao.delete("ClassRosterMapper.deleteAllByStudentID", ArrayDATA_IDS);
+	}
+	
 }
 

@@ -102,6 +102,7 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<a class="btn btn-mini btn-success" onclick="add();">新增</a>
+									<a class="btn btn-mini btn-success" onclick="upload();">批量上传</a>
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
@@ -213,6 +214,28 @@
 						 tosearch();
 					 }else{
 						 tosearch();
+					 }
+				}
+				diag.close();
+			 };
+			 diag.show();
+		}
+		
+		function upload(){
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="EXCEL导入学生名单";
+			 diag.URL = '<%=basePath%>student/goUploadExcel.do?class_id=${pd.CLASS_ID}&term_id=${pd.TERM_ID}';
+			 diag.Width = 300;
+			 diag.Height = 150;
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 if('${page.currentPage}' == '0'){
+						 top.jzts();
+						 setTimeout("self.location.reload()",100);
+					 }else{
+						 nextPage(${page.currentPage});
 					 }
 				}
 				diag.close();

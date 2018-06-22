@@ -35,16 +35,18 @@
 					<label ><span class="red">*</span>校区名称：</label>
 					<div class="control-group xq">
 						<div class="controls col-md-6" style="padding-left:0;">
-							<select id="province" class="form-control">
+							<!-- <select id="province" class="form-control">
 								<option value="请选择"></option>
-							</select>
+							</select> -->
+							
+							<input type="text" class="form-control" id="province" placeholder="">
 							
 						</div>
-						<div class="controls col-md-6" style="padding-right:0;">
+						<!-- <div class="controls col-md-6" style="padding-right:0;">
 							<select id="city" class="form-control">
 								<option value="请选择">请选择</option>
 							</select>
-						</div>
+						</div> -->
 					</div>
 					
 				  </div>
@@ -116,14 +118,14 @@
 		require(['city.select'], function ($) {
 			$(function () {
 				
-				$('#province, #city').citylist({
+			/* 	$('#province, #city').citylist({
 					data    : data,
 					id      : 'id',
 					children: 'cities',
 					name    : 'name',
 					metaTag : 'name'
 				});
-
+ */
 				$('#all').citylist({
 					data    : data,
 					id      : 'id',
@@ -229,7 +231,7 @@
 			
 			var data={
 				SCHOOL_ADDRESS1:$("#province").val(),
-				SCHOOL_ADDRESS2:$("#city").val(),
+		/* 		SCHOOL_ADDRESS2:$("#city").val(), */
 				CONTACT_PHONE:$("#name").val(),
 				PHONE_CONTACT:$("#tel").val(),
 				//PRODUCT_SEQ:$("#sn").val(),

@@ -38,8 +38,22 @@
 	<delete id="delete" parameterType="pd">
 		delete from
 		<include refid="tableName"></include>
-		where 
-			CLASSROSTER_ID = #{CLASSROSTER_ID}
+		where 1 != 1 
+		<if test=" CLASSROSTER_ID != null and CLASSROSTER_ID != ''"><!-- 关键词检索 -->
+			or CLASSROSTER_ID = #{CLASSROSTER_ID}
+		</if>
+		
+		<if test=" SCLASS_ID != null and SCLASS_ID != ''"><!-- 关键词检索 -->
+			or SCLASS_ID = #{SCLASS_ID}
+		</if>
+		
+		<if test=" STUDENT_ID != null and STUDENT_ID != ''"><!-- 关键词检索 -->
+			or STUDENT_ID = #{STUDENT_ID}
+		</if>
+		<if test=" TEAMID != null and TEAMID != ''"><!-- 关键词检索 -->
+			or TEAMID = #{TEAMID}
+		</if>
+		
 	</delete>
 	
 	<!-- 修改 -->
@@ -82,6 +96,12 @@
 				-->
 				)
 		</if>
+		<if test="pd.SCLASS_ID != null and pd.SCLASS_ID != ''"><!-- 关键词检索 -->
+			and
+				(
+				SCLASS_ID = #{pd.SCLASS_ID}
+				)
+		</if>
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -98,6 +118,16 @@
 		<include refid="tableName"></include>
 		where 
 			CLASSROSTER_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	<!-- 批量删除 -->
+	<delete id="deleteAllByStudentID" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			STUDENT_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>

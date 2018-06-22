@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -156,7 +155,7 @@ public class V1 extends BaseController {
 		if (!pd.containsKey("ACCOUT")) {
 			pd.put("ACCOUT", pd.get("USERNAME"));
 		}
-		if (((pd.containsKey("USERNAME") || pd.containsKey("ACCOUT")) && pd
+		if (((pd.containsKey("USERNAME") || (pd.containsKey("ACCOUT") && pd.get("ACCOUT") != null)) && pd
 				.containsKey("PASSWORD")) || pd.containsKey("KEYPAD_ID")) {
 			PageData pageData = teacherService.getUserInfo(pd);
 			if (pageData != null && pageData.getString("ID") != null) {

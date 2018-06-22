@@ -118,7 +118,8 @@ public class ClassRosterController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		
+		List<PageData> classList = sclassService.listAll(pd);
+		mv.addObject("classList", classList);
 		List<PageData>	varList = classrosterService.list(page);	//列出ClassRoster列表
 		mv.setViewName("sunvote/classroster/classroster_list");
 		mv.addObject("varList", varList);

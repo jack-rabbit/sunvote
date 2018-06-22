@@ -156,7 +156,8 @@ public class CourseManagementController extends BaseController {
 		
 		List<PageData> terms = termService.listAll(pd);
 		mv.addObject("terms", terms);
-		
+		List<PageData> grades =  gradeService.listAll(pd);
+		mv.addObject("grades", grades);
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -170,13 +171,13 @@ public class CourseManagementController extends BaseController {
 	public ModelAndView goEdit()throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
+		List<PageData> classs = sclassService.listAll(pd);
+		mv.addObject("classs",classs);
 		pd = this.getPageData();
 		pd = coursemanagementService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/coursemanagement/coursemanagement_edit");
 		List<PageData> teachers = teacherService.listAll(pd);
 		mv.addObject("teachers",teachers);
-		List<PageData> classs = sclassService.listAll(pd);
-		mv.addObject("classs",classs);
 		List<PageData> subjects = subjectService.listAll(pd);
 		mv.addObject("subjects", subjects);
 		List<PageData> terms = termService.listAll(pd);
