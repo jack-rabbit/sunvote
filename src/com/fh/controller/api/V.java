@@ -54,6 +54,7 @@ public class V extends BaseController {
 			PageData ret = schoolService.findById(pd);
 			ResponseGson<PageData> res = new ResponseGson();
 			res.setData(ret);
+			
 			return res.toJson();
 		} else {
 			List<PageData> ret = schoolService.listAll(pd);

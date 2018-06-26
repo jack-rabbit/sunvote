@@ -348,44 +348,33 @@ public class ApiServer extends BaseController {
 
 	@RequestMapping(value = "/feedback/add", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Object feedbackAdd(CommonsMultipartFile  file, HttpServletRequest request)
-			throws Exception {
+	public Object feedbackAdd(HttpServletRequest request)
+ throws Exception {
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
 		String path = request.getSession().getServletContext()
 				.getRealPath("/images");
 		File pathFile = new File(path);
-		if(!pathFile.exists()){
+		if (!pathFile.exists()) {
 			pathFile.mkdirs();
 		}
 		logger.info(path);
-		if (file != null) {
-			String fileName = file.getOriginalFilename();
-			File dir = new File(path, Tools.date2Str(new Date()) + fileName);
-			if (!dir.exists()) {
-				dir.mkdirs();
-			}
-			file.transferTo(dir);
-
-			pd.put("PROBLEM_PATH", dir.getAbsolutePath());
-			logger.info(dir.getAbsolutePath());
-		} else {
-			if (pd.get("PROBLEM_PATH") != null) {
-				String imgStr = pd.getString("PROBLEM_PATH");
-				String[] content = imgStr.split(";base64,");
-				if (content.length >= 2) {
-					String fileType = ".file";
-					if (content[0].contains("image")) {
-						fileType = content[0].substring(11,content[0].length());
-					}
-					String filename = "fb_"	+ System.currentTimeMillis() + "." + fileType ;
-					File dir = new File(path + File.separator + filename );
-					if (!dir.exists()) {
-						dir.createNewFile();
-					}
-					generateImage(content[1], dir.getAbsolutePath());
-					pd.put("PROBLEM_PATH", filename);
+		if (pd.get("PROBLEM_PATH") != null) {
+			String imgStr = pd.getString("PROBLEM_PATH");
+			String[] content = imgStr.split(";base64,");
+			if (content.length >= 2) {
+				String fileType = ".file";
+				if (content[0].contains("image")) {
+					fileType = content[0].substring(11, content[0].length());
 				}
+				String filename = "fb_" + System.currentTimeMillis() + "."
+						+ fileType;
+				File dir = new File(path + File.separator + filename);
+				if (!dir.exists()) {
+					dir.createNewFile();
+				}
+				generateImage(content[1], dir.getAbsolutePath());
+				pd.put("PROBLEM_PATH", filename);
 			}
 		}
 		String id = pd.getString("ID");

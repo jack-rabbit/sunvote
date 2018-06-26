@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -31,16 +30,25 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="coursemanagement/list.do" method="post" name="Form" id="Form">
+						<form action="event/list.do" method="post" name="Form" id="Form">
 						<table style="margin-top:5px;">
 							<tr>
+								<td>
+									<div class="nav-search">
+										<span class="input-icon">
+											<input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
+											<i class="ace-icon fa fa-search nav-search-icon"></i>
+										</span>
+									</div>
+								</td>
+								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期" title="开始日期"/></td>
+								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期" title="结束日期"/></td>
 								<td style="vertical-align:top;padding-left:2px;">
-								 	<select class="chosen-select form-control" name="TERM_ID" id="TERM_ID" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
+								 	<select class="chosen-select form-control" name="name" id="id" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
 									<option value=""></option>
 									<option value="">全部</option>
-										<c:forEach var="item" items="${terms}">
-										<option value="${item.TERM_ID}">${item.NAME}</option>
-									</c:forEach>
+									<option value="">1</option>
+									<option value="">2</option>
 								  	</select>
 								</td>
 								<c:if test="${QX.cha == 1 }">
@@ -58,13 +66,13 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">老师</th>
-									<th class="center">班级</th>
-									<th class="center">科目</th>
-									<th class="center">学期</th>
-									<!-- <th class="center">开始时间</th>
-									<th class="center">结束时间</th>
-									<th class="center">备注</th> -->
+									<th class="center">时间名称</th>
+									<th class="center">事件人</th>
+									<th class="center">事件类型</th>
+									<th class="center">事件起始时间</th>
+									<th class="center">事件结束时间</th>
+									<th class="center">客户ID</th>
+									<th class="center">IP</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -77,25 +85,28 @@
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.ID}" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.EVENT_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${myelfun:findTeacherName(var.TEACHER_ID)}</td>
-											<td class='center'>${myelfun:findClassName(var.CLASS_ID)}</td>
-											<td class='center'>${myelfun:findSubjectCName(var.SUBJECT_ID)}</td>
-											<td class='center'>${myelfun:findTermName(var.TERM_ID)}</td>
+											<td class='center'>${var.EVENT_NAME}</td>
+											<td class='center'>${var.EVENT_USER}</td>
+											<td class='center'>${var.EVENT_TYPE}</td>
+											<td class='center'>${var.EVENT_START_TIME}</td>
+											<td class='center'>${var.EVENT_STOP_TIME}</td>
+											<td class='center'>${var.CLIENT_ID}</td>
+											<td class='center'>${var.EVENT_IP}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${QX.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.ID}');">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.EVENT_ID}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${QX.del == 1 }">
-													<a class="btn btn-xs btn-danger" onclick="del('${var.ID}');">
+													<a class="btn btn-xs btn-danger" onclick="del('${var.EVENT_ID}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -109,7 +120,7 @@
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 															<c:if test="${QX.edit == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="edit('${var.ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="edit('${var.EVENT_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
@@ -118,7 +129,7 @@
 															</c:if>
 															<c:if test="${QX.del == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="del('${var.ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
+																<a style="cursor:pointer;" onclick="del('${var.EVENT_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
 																	<span class="red">
 																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																	</span>
@@ -255,7 +266,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>coursemanagement/goAdd.do';
+			 diag.URL = '<%=basePath%>event/goAdd.do';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -279,7 +290,7 @@
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>coursemanagement/delete.do?ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>event/delete.do?EVENT_ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						tosearch();
 					});
@@ -293,7 +304,7 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>coursemanagement/goEdit.do?ID='+Id;
+			 diag.URL = '<%=basePath%>event/goEdit.do?EVENT_ID='+Id;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.Modal = true;				//有无遮罩窗口
@@ -337,7 +348,7 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>coursemanagement/deleteAll.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>event/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
 								//beforeSend: validateData,
@@ -356,7 +367,7 @@
 		
 		//导出excel
 		function toExcel(){
-			window.location.href='<%=basePath%>coursemanagement/excel.do';
+			window.location.href='<%=basePath%>event/excel.do';
 		}
 	</script>
 

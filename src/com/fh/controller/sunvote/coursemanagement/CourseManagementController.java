@@ -61,6 +61,8 @@ public class CourseManagementController extends BaseController {
 	@Resource(name="gradeService")
 	private GradeManager gradeService;
 	
+	
+	
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -131,6 +133,10 @@ public class CourseManagementController extends BaseController {
 		List<PageData>	varList = coursemanagementService.list(page);	//列出CourseManagement列表
 		mv.setViewName("sunvote/coursemanagement/coursemanagement_list");
 		mv.addObject("varList", varList);
+		
+		List<PageData> terms = termService.listAll(pd);
+		mv.addObject("terms", terms);
+		
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;

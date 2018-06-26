@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="CourseManagementMapper">
+<mapper namespace="AttachKeyboardMapper">
 	
 	<!--表名 -->
 	<sql id="tableName">
-		SV_COURSEMANAGEMENT
+		SV_ATTACHKEYBOARD
 	</sql>
 	
 	<!-- 字段 -->
 	<sql id="Field">
-		TEACHER_ID,	
 		CLASS_ID,	
-		SUBJECT_ID,	
-		START_DATE,	
-		END_DATE,	
-		REMARK,	
-		GRADE_ID,
-		TERM_ID,
-		ID
+		KEYBOARD_ID,	
+		ATTACHKEYBOARD_ID
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
-		#{TEACHER_ID},	
 		#{CLASS_ID},	
-		#{SUBJECT_ID},	
-		#{START_DATE},	
-		#{END_DATE},	
-		#{REMARK},	
-		#{GRADE_ID},	
-		#{TERM_ID},	
-		#{ID}
+		#{KEYBOARD_ID},	
+		#{ATTACHKEYBOARD_ID}
 	</sql>
 	
 	<!-- 新增-->
@@ -38,25 +26,9 @@
 		insert into 
 	<include refid="tableName"></include>
 		(
-			ID,
-			TEACHER_ID,	
-			CLASS_ID,	
-			SUBJECT_ID,	
-			START_DATE,	
-			END_DATE,	
-			GRADE_ID,
-			TERM_ID,
-			REMARK
+	<include refid="Field"></include>
 		) values (
-		#{ID},	
-		#{TEACHER_ID},	
-		#{CLASS_ID},	
-		#{SUBJECT_ID},	
-		#{START_DATE},	
-		#{END_DATE},	
-		#{GRADE_ID},	
-		#{TERM_ID},	
-		#{REMARK}
+	<include refid="FieldValue"></include>
 		)
 	</insert>
 	
@@ -65,7 +37,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			ID = #{ID}
+			ATTACHKEYBOARD_ID = #{ATTACHKEYBOARD_ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -73,17 +45,11 @@
 		update
 		<include refid="tableName"></include>
 		set 
-			TEACHER_ID = #{TEACHER_ID},
 			CLASS_ID = #{CLASS_ID},
-			SUBJECT_ID = #{SUBJECT_ID},
-			START_DATE = #{START_DATE},
-			END_DATE = #{END_DATE},
-			REMARK = #{REMARK},
-			GRADE_ID = #{GRADE_ID},	
-			TERM_ID = #{TERM_ID},	
-		ID = ID
+			KEYBOARD_ID = #{KEYBOARD_ID},
+		ATTACHKEYBOARD_ID = ATTACHKEYBOARD_ID
 		where 
-		ID = #{ID}
+		ATTACHKEYBOARD_ID = #{ATTACHKEYBOARD_ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -93,7 +59,7 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			ID = #{ID}
+			ATTACHKEYBOARD_ID = #{ATTACHKEYBOARD_ID}
 	</select>
 	
 	<!-- 列表 -->
@@ -106,14 +72,11 @@
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
-				
-				)
-		</if>
-		
-		<if test="pd.TERM_ID!= null and pd.TERM_ID != ''"><!-- 关键词检索 -->
-			and
-				(
-				TERM_ID = #{pd.TERM_ID}
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				-->
 				)
 		</if>
 	</select>
@@ -126,12 +89,24 @@
 		<include refid="tableName"></include>
 	</select>
 	
+	<!-- 列表(全部) -->
+	<select id="listAllClassId" parameterType="pd" resultType="pd">
+		select
+		KEYBOARD_ID
+		from 
+		<include refid="tableName"></include>
+		where 1 = 1 
+		<if test="CLASS_ID != null and CLASS_ID  != ''"><!-- 关键词检索 -->
+			and CLASS_ID = #{CLASS_ID}
+		</if>
+	</select>
+	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
 		<include refid="tableName"></include>
 		where 
-			ID in
+			ATTACHKEYBOARD_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>

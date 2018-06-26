@@ -1,4 +1,4 @@
-package com.fh.controller.sunvote.schoolgradesubject;
+package com.fh.controller.sunvote.event;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -8,9 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
@@ -26,46 +23,34 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
-import com.fh.service.sunvote.grade.GradeManager;
-import com.fh.service.sunvote.school.SchoolManager;
-import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
-import com.fh.service.sunvote.subject.SubjectManager;
-import com.fh.service.system.fhlog.FHlogManager;
+import com.fh.service.sunvote.event.EventManager;
 
 /** 
- * 说明：学校年级科目表
- * 创建时间：2018-05-15
+ * 说明：事件记录
+ * 创建人：FH Q313596790
+ * 创建时间：2018-06-26
  */
 @Controller
-@RequestMapping(value="/schoolgradesubject")
-public class SchoolGradeSubjectController extends BaseController {
+@RequestMapping(value="/event")
+public class EventController extends BaseController {
 	
-	String menuUrl = "schoolgradesubject/list.do"; //菜单地址(权限用)
-	@Resource(name="schoolgradesubjectService")
-	private SchoolGradeSubjectManager schoolgradesubjectService;
+	String menuUrl = "event/list.do"; //菜单地址(权限用)
+	@Resource(name="eventService")
+	private EventManager eventService;
 	
-	@Resource(name="schoolService")
-	private SchoolManager schoolService;
-	
-	@Resource(name="gradeService")
-	private GradeManager gradeService;
-	
-	@Resource(name="subjectService")
-	private SubjectManager subjectService;
-	
-	/**保存 
+	/**保存
 	 * @param
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"新增SchoolGradeSubject");
+		logBefore(logger, Jurisdiction.getUsername()+"新增Event");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("SCHOOLGRADESUBJECT_ID", this.get32UUID());	//主键
-		schoolgradesubjectService.save(pd);
+		pd.put("EVENT_ID", this.get32UUID());	//主键
+		eventService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -77,11 +62,11 @@ public class SchoolGradeSubjectController extends BaseController {
 	 */
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"删除SchoolGradeSubject");
+		logBefore(logger, Jurisdiction.getUsername()+"删除Event");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		schoolgradesubjectService.delete(pd);
+		eventService.delete(pd);
 		out.write("success");
 		out.close();
 	}
@@ -92,12 +77,12 @@ public class SchoolGradeSubjectController extends BaseController {
 	 */
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"修改SchoolGradeSubject");
+		logBefore(logger, Jurisdiction.getUsername()+"修改Event");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		schoolgradesubjectService.edit(pd);
+		eventService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -109,7 +94,7 @@ public class SchoolGradeSubjectController extends BaseController {
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page) throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"列表SchoolGradeSubject");
+		logBefore(logger, Jurisdiction.getUsername()+"列表Event");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
@@ -119,15 +104,9 @@ public class SchoolGradeSubjectController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		List<PageData>	varList = schoolgradesubjectService.list(page);	//列出SchoolGradeSubject列表
-		mv.setViewName("sunvote/schoolgradesubject/schoolgradesubject_list");
+		List<PageData>	varList = eventService.list(page);	//列出Event列表
+		mv.setViewName("sunvote/event/event_list");
 		mv.addObject("varList", varList);
-		
-		List<PageData> schools = schoolService.listAll(pd);
-		mv.addObject("schools",schools);
-		List<PageData> grades = gradeService.listAll(pd);
-		mv.addObject("grades", grades);
-		
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
@@ -142,14 +121,8 @@ public class SchoolGradeSubjectController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		mv.setViewName("sunvote/schoolgradesubject/schoolgradesubject_edit");
+		mv.setViewName("sunvote/event/event_edit");
 		mv.addObject("msg", "save");
-		List<PageData> schools = schoolService.listAll(pd);
-		mv.addObject("schools",schools);
-		List<PageData> grades = gradeService.listAll(pd);
-		mv.addObject("grades", grades);
-		List<PageData> subjects = subjectService.listAll(pd);
-		mv.addObject("subjects", subjects);
 		mv.addObject("pd", pd);
 		return mv;
 	}	
@@ -163,17 +136,9 @@ public class SchoolGradeSubjectController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd = schoolgradesubjectService.findById(pd);	//根据ID读取
-		mv.setViewName("sunvote/schoolgradesubject/schoolgradesubject_edit");
+		pd = eventService.findById(pd);	//根据ID读取
+		mv.setViewName("sunvote/event/event_edit");
 		mv.addObject("msg", "edit");
-		List<PageData> schools = schoolService.listAll(pd);
-		mv.addObject("schools",schools);
-		List<PageData> grades = gradeService.listAll(pd);
-		mv.addObject("grades", grades);
-		List<PageData> subjects = subjectService.listAll(pd);
-		mv.addObject("subjects", subjects);
-		
-		
 		mv.addObject("pd", pd);
 		return mv;
 	}	
@@ -185,7 +150,7 @@ public class SchoolGradeSubjectController extends BaseController {
 	@RequestMapping(value="/deleteAll")
 	@ResponseBody
 	public Object deleteAll() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"批量删除SchoolGradeSubject");
+		logBefore(logger, Jurisdiction.getUsername()+"批量删除Event");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -194,7 +159,7 @@ public class SchoolGradeSubjectController extends BaseController {
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
-			schoolgradesubjectService.deleteAll(ArrayDATA_IDS);
+			eventService.deleteAll(ArrayDATA_IDS);
 			pd.put("msg", "ok");
 		}else{
 			pd.put("msg", "no");
@@ -210,24 +175,32 @@ public class SchoolGradeSubjectController extends BaseController {
 	 */
 	@RequestMapping(value="/excel")
 	public ModelAndView exportExcel() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"导出SchoolGradeSubject到excel");
+		logBefore(logger, Jurisdiction.getUsername()+"导出Event到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
-		titles.add("学校");	//1
-		titles.add("年级");	//2
-		titles.add("科目");	//3
+		titles.add("时间名称");	//1
+		titles.add("事件人");	//2
+		titles.add("事件类型");	//3
+		titles.add("事件起始时间");	//4
+		titles.add("事件结束时间");	//5
+		titles.add("客户ID");	//6
+		titles.add("IP");	//7
 		dataMap.put("titles", titles);
-		List<PageData> varOList = schoolgradesubjectService.listAll(pd);
+		List<PageData> varOList = eventService.listAll(pd);
 		List<PageData> varList = new ArrayList<PageData>();
 		for(int i=0;i<varOList.size();i++){
 			PageData vpd = new PageData();
-			vpd.put("var1", varOList.get(i).get("SCHOOL_ID").toString());	//1
-			vpd.put("var2", varOList.get(i).get("GRADE_ID").toString());	//2
-			vpd.put("var3", varOList.get(i).get("SUBJECT_ID").toString());	//3
+			vpd.put("var1", varOList.get(i).getString("EVENT_NAME"));	    //1
+			vpd.put("var2", varOList.get(i).getString("EVENT_USER"));	    //2
+			vpd.put("var3", varOList.get(i).getString("EVENT_TYPE"));	    //3
+			vpd.put("var4", varOList.get(i).getString("EVENT_START_TIME"));	    //4
+			vpd.put("var5", varOList.get(i).getString("EVENT_STOP_TIME"));	    //5
+			vpd.put("var6", varOList.get(i).getString("CLIENT_ID"));	    //6
+			vpd.put("var7", varOList.get(i).getString("EVENT_IP"));	    //7
 			varList.add(vpd);
 		}
 		dataMap.put("varList", varList);

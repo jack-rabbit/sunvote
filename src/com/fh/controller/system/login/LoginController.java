@@ -1,6 +1,7 @@
 package com.fh.controller.system.login;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
+import com.fh.entity.system.Menu;
+import com.fh.entity.system.Role;
+import com.fh.entity.system.User;
 import com.fh.service.api.V1Manager;
 import com.fh.service.fhoa.datajur.DatajurManager;
+import com.fh.service.sunvote.event.EventManager;
 import com.fh.service.sunvote.school.SchoolManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.system.appuser.AppuserManager;
@@ -31,9 +36,6 @@ import com.fh.service.system.fhbutton.FhbuttonManager;
 import com.fh.service.system.fhlog.FHlogManager;
 import com.fh.service.system.loginimg.LogInImgManager;
 import com.fh.service.system.menu.MenuManager;
-import com.fh.entity.system.Menu;
-import com.fh.entity.system.Role;
-import com.fh.entity.system.User;
 import com.fh.service.system.role.RoleManager;
 import com.fh.service.system.user.UserManager;
 import com.fh.util.AppUtil;
@@ -81,6 +83,8 @@ public class LoginController extends BaseController {
 	@Resource(name = "v1Service")
 	private V1Manager v1Service ;
 
+	@Resource(name="eventService")
+	private EventManager eventService;
 	/**
 	 * 访问登录页
 	 * 
@@ -134,6 +138,17 @@ public class LoginController extends BaseController {
 				user.setNAME(pd.getString("NAME"));
 				user.setRIGHTS(pd.getString("RIGHTS"));
 				user.setROLE_ID(pd.getString("ROLE_ID"));
+				
+				PageData eventPd = new PageData();
+				eventPd.put("EVENT_ID", get32UUID());
+				eventPd.put("EVENT_NAME", "login");
+				eventPd.put("EVENT_USER", pd.getString("USER_ID"));
+				eventPd.put("EVENT_TYPE", "0");
+				eventPd.put("EVENT_START_TIME",Tools.date2Str(new Date()));
+				eventPd.put("CLIENT_ID", "SERVER");
+				eventPd.put("EVENT_IP",pd.getString("IP"));
+				eventService.save(eventPd);
+				
 				if("57bb1e6f138247a0b05cc721a5da1b64".equals(pd.getString("ROLE_ID"))){
 					map.put("teacher", pd.getString("RIGHTS"));
 				}

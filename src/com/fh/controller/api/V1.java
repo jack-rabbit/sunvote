@@ -24,6 +24,7 @@ import com.fh.service.api.V1Manager;
 import com.fh.service.feedback.feedback.FeedbackManager;
 import com.fh.service.feedback.problemphenomenon.ProblemPhenomenonManager;
 import com.fh.service.software.softwareversion.SoftwareVersionManager;
+import com.fh.service.sunvote.attachkeyboard.AttachKeyboardManager;
 import com.fh.service.sunvote.basestation.BasestationManager;
 import com.fh.service.sunvote.chapter.ChapterManager;
 import com.fh.service.sunvote.classbasetation.ClassBasetationManager;
@@ -146,6 +147,9 @@ public class V1 extends BaseController {
 	
 	@Resource(name="softwareversionService")
 	private SoftwareVersionManager softwareversionService;
+	
+	@Resource(name="attachkeyboardService")
+	private AttachKeyboardManager attachkeyboardService;
 
 	@RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -200,6 +204,9 @@ public class V1 extends BaseController {
 				pt.put("SCLASS_ID", pageData.get("ID"));
 				List<PageData> studentList = v1Service.getClassStudent(pt);
 				pageData.put("studentList", studentList);
+				pt.put("CLASS_ID", pageData.get("ID"));
+				List<PageData> keyboards = attachkeyboardService.listAllClassId(pt);
+				pageData.put("keyboards", keyboards);
 				res.setData(pageData);
 			} else {
 				res.set2Error();
