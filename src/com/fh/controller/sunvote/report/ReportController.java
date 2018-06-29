@@ -124,7 +124,7 @@ public class ReportController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"学生报表数据");
 		PageData pd = getPageData();
 		ResponseGson<List<PageData>> ret = new ResponseGson();
-		pd.put("CLASS_ID", pd.get("CLASSID"));
+//		pd.put("CLASS_ID", pd.get("CLASSID"));
 		List<PageData> studentList = studentService.listAllClass(pd);
 		List<PageData> testpaperList = testpaperService.listAll(pd);
 		

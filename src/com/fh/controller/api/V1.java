@@ -782,6 +782,7 @@ public class V1 extends BaseController {
 				testPd.put("HIGHT_SCORE", testPaper.getHighScore());
 				testPd.put("LOW_SCORE", testPaper.getLowScore());
 				testPd.put("AVG_SCORE", testPaper.getAvgScore());
+				testPd.put("TOTAL_SCORE", testPaper.getTotalScore());
 				testPd.put("REMARK", testPaper.getRemark());
 				testpaperService.save(testPd);
 				if (testPaper.getStudents() != null) {

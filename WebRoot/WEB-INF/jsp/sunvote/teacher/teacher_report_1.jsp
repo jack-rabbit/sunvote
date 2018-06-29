@@ -100,8 +100,11 @@
 						<c:when test="${not empty studentList}">
 							<c:forEach items="${studentList}" var="var" varStatus="vs">
 								<tr>
-									<td class="center"><a
+									<%-- <td class="center"><a
 										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
+									</td> --%>
+									<td class="center"><a
+										href="report/student_report_data?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
 									</td>
 									<td class="center"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"

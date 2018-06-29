@@ -43,6 +43,7 @@ public class TestPaper {
 	// 平均分
 	private String avgScore ;
 	
+	private String totalScore;
 	// 备注
 	private String remark ;
 	
@@ -161,6 +162,14 @@ public class TestPaper {
 
 	public void setStudents(List<StudentAnswer> students) {
 		this.students = students;
+	}
+
+	public String getTotalScore() {
+		return totalScore;
+	}
+
+	public void setTotalScore(String totalScore) {
+		this.totalScore = totalScore;
 	}
 
 	public static TestPaper parse(String json){

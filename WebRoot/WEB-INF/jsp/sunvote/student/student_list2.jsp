@@ -34,9 +34,6 @@
 						<input type="hidden" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}"/>
 						<input type="hidden" name="TERM_ID" id="TERM_ID" value="${pd.TERM_ID}"/>
 						<table style="margin-top:5px;">
-							<tr>
-								<th class="center" style="float:right"><a href="javascript:;">查看成绩报表</a></th>
-							</tr>
 						</table>
 						<!-- 检索  -->
 					
