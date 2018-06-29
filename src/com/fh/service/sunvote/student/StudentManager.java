@@ -61,5 +61,21 @@ public interface StudentManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
 	
+	/**
+	 * 列出当前班级学生名单
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PageData> listAllClass(PageData pd)throws Exception;
+	
+	/**
+	 * 查询班级学期的学生名单
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PageData> listAllClassByTerm(PageData pd)throws Exception;
+	
 }
 

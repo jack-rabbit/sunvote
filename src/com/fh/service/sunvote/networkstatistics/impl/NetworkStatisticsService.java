@@ -1,24 +1,21 @@
-package com.fh.service.sunvote.studenttest.impl;
+package com.fh.service.sunvote.networkstatistics.impl;
 
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
-import com.fh.service.sunvote.studenttest.StudentTestManager;
+import com.fh.service.sunvote.networkstatistics.NetworkStatisticsManager;
 
 /** 
- * 说明： 学生报表
+ * 说明： 网络统计
  * 创建人：FH Q313596790
- * 创建时间：2018-06-07
+ * 创建时间：2018-06-26
  * @version
  */
-@Service("studenttestService")
-public class StudentTestService implements StudentTestManager{
+@Service("networkstatisticsService")
+public class NetworkStatisticsService implements NetworkStatisticsManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -28,7 +25,7 @@ public class StudentTestService implements StudentTestManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception{
-		dao.save("StudentTestMapper.save", pd);
+		dao.save("NetworkStatisticsMapper.save", pd);
 	}
 	
 	/**删除
@@ -36,7 +33,7 @@ public class StudentTestService implements StudentTestManager{
 	 * @throws Exception
 	 */
 	public void delete(PageData pd)throws Exception{
-		dao.delete("StudentTestMapper.delete", pd);
+		dao.delete("NetworkStatisticsMapper.delete", pd);
 	}
 	
 	/**修改
@@ -44,7 +41,7 @@ public class StudentTestService implements StudentTestManager{
 	 * @throws Exception
 	 */
 	public void edit(PageData pd)throws Exception{
-		dao.update("StudentTestMapper.edit", pd);
+		dao.update("NetworkStatisticsMapper.edit", pd);
 	}
 	
 	/**列表
@@ -53,7 +50,7 @@ public class StudentTestService implements StudentTestManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("StudentTestMapper.datalistPage", page);
+		return (List<PageData>)dao.findForList("NetworkStatisticsMapper.datalistPage", page);
 	}
 	
 	/**列表(全部)
@@ -62,7 +59,7 @@ public class StudentTestService implements StudentTestManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("StudentTestMapper.listAll", pd);
+		return (List<PageData>)dao.findForList("NetworkStatisticsMapper.listAll", pd);
 	}
 	
 	/**通过id获取数据
@@ -70,7 +67,15 @@ public class StudentTestService implements StudentTestManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("StudentTestMapper.findById", pd);
+		return (PageData)dao.findForObject("NetworkStatisticsMapper.findById", pd);
+	}
+	
+	/**通过id获取数据
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData findByClientID(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("NetworkStatisticsMapper.findByClientID", pd);
 	}
 	
 	/**批量删除
@@ -78,12 +83,7 @@ public class StudentTestService implements StudentTestManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.delete("StudentTestMapper.deleteAll", ArrayDATA_IDS);
-	}
-
-	@Override
-	public List<PageData> reportListData(PageData pd) throws Exception {
-		return (List<PageData>)dao.findForList("StudentTestMapper.reportListData", pd);
+		dao.delete("NetworkStatisticsMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
 }

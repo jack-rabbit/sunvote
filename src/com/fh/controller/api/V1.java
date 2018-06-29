@@ -31,11 +31,13 @@ import com.fh.service.sunvote.classbasetation.ClassBasetationManager;
 import com.fh.service.sunvote.classroster.ClassRosterManager;
 import com.fh.service.sunvote.classtype.ClassTypeManager;
 import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
+import com.fh.service.sunvote.event.EventManager;
 import com.fh.service.sunvote.grade.GradeManager;
 import com.fh.service.sunvote.keypad.KeypadManager;
 import com.fh.service.sunvote.keypadcheck.KeypadCheckManager;
 import com.fh.service.sunvote.knowledge.KnowledgeManager;
 import com.fh.service.sunvote.knowledgechapter.KnowledgeChapterManager;
+import com.fh.service.sunvote.networkstatistics.NetworkStatisticsManager;
 import com.fh.service.sunvote.paper.PaperManager;
 import com.fh.service.sunvote.paperclassteacher.PaperClassTeacherManager;
 import com.fh.service.sunvote.paperquestion.PaperQuestionManager;
@@ -150,6 +152,12 @@ public class V1 extends BaseController {
 	
 	@Resource(name="attachkeyboardService")
 	private AttachKeyboardManager attachkeyboardService;
+	
+	@Resource(name="networkstatisticsService")
+	private NetworkStatisticsManager networkstatisticsService;
+	
+	@Resource(name="eventService")
+	private EventManager eventService;
 
 	@RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -178,6 +186,20 @@ public class V1 extends BaseController {
 				pageData.put("subjectList", subjectList);
 
 				pageData.remove("SUBJECT_IDS");
+				
+				PageData eventPd = new PageData();
+				eventPd.put("EVENT_ID", get32UUID());
+				eventPd.put("EVENT_NAME", "login");
+				eventPd.put("EVENT_USER", pageData.getString("ID"));
+				eventPd.put("EVENT_TYPE", "0");
+				eventPd.put("EVENT_START_TIME",Tools.date2Str(new Date()));
+				if(pd.getString("CLIENT_ID") != null){
+					eventPd.put("CLIENT_ID", pd.getString("CLIENT_ID"));
+				}else{
+					eventPd.put("CLIENT_ID", "CLIENT");
+				}
+				eventPd.put("EVENT_IP",getRemoteIp());
+				eventService.save(eventPd);
 
 				res.setData(pageData);
 				// 填充数据到返回数据中
@@ -966,6 +988,66 @@ public class V1 extends BaseController {
 	public void schoolAdmin(){
 		PageData pd = this.getPageData();
 		this.getUserID();
+	}
+	
+	
+	@RequestMapping(value = "/network", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object network() throws Exception{
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		PageData spd = networkstatisticsService.findByClientID(pd);
+		String seqStr = pd.getString("SEQ");
+		if (seqStr != null && pd.getString("CLIENT_ID") != null
+				&& pd.getString("SESSION_ID") != null) {
+			int seq = Integer.parseInt(seqStr);
+			if (spd != null) {
+				int successCount = Integer.parseInt(spd
+						.getString("SUCCESS_COUNT"));
+				spd.put("SUCCESS_COUNT", ++successCount + "");
+				int fail = seq - successCount;
+				if(fail < 0 ){
+					fail = 0;
+				}
+				spd.put("FAIL_COUNT", fail + "");
+				networkstatisticsService.edit(spd);
+				spd.remove("NETWORKSTATISTICS_ID");
+				spd.remove("CLIENT_ID");
+				spd.remove("SESSION_ID");
+				res.setData(spd);
+			} else {
+				pd.put("NETWORKSTATISTICS_ID", get32UUID());
+				pd.put("SUCCESS_COUNT", "1");
+				pd.put("CLIENT_IP", getRemoteIp());
+				int fail = seq - 1;
+				if(fail < 0 ){
+					fail = 0;
+				}
+				pd.put("FAIL_COUNT", fail + "");
+				networkstatisticsService.save(pd);
+				pd.remove("JSON");
+				pd.remove("CLIENT_ID");
+				pd.remove("SESSION_ID");
+				pd.remove("SEQ");
+				pd.remove("NETWORKSTATISTICS_ID");
+				res.setData(pd);
+			}
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	
+	public String getRemoteIp(){
+		HttpServletRequest request = getRequest();
+		String ip = "";
+		if (request.getHeader("x-forwarded-for") == null) {
+			ip = request.getRemoteAddr();
+		} else {
+			ip = request.getHeader("x-forwarded-for");
+		}
+		return ip;
 	}
 	
 	@RequestMapping(value = "/newversion", produces = "application/json;charset=UTF-8")

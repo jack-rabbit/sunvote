@@ -20,6 +20,7 @@
 		HIGHT_SCORE,	
 		LOW_SCORE,	
 		AVG_SCORE,	
+		TOTAL_SCORE,	
 		REMARK,	
 		TESTPAPER_ID
 	</sql>
@@ -37,6 +38,7 @@
 		#{HIGHT_SCORE},	
 		#{LOW_SCORE},	
 		#{AVG_SCORE},	
+		#{TOTAL_SCORE},	
 		#{REMARK},	
 		#{TESTPAPER_ID}
 	</sql>
@@ -76,6 +78,7 @@
 			HIGHT_SCORE = #{HIGHT_SCORE},
 			LOW_SCORE = #{LOW_SCORE},
 			AVG_SCORE = #{AVG_SCORE},
+			TOTAL_SCORE = #{TOTAL_SCORE},
 			REMARK = #{REMARK},
 		TESTPAPER_ID = TESTPAPER_ID
 		where 
@@ -109,6 +112,8 @@
 				-->
 				)
 		</if>
+		
+		order by CREATE_DATE
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -135,7 +140,14 @@
 		<if test="NAME != null and NAME != ''"><!-- 关键词检索 -->
 			and (NAME = #{NAME})
 		</if>
+		<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &gt; #{START_DATE})
+		</if>
+		<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &lt; #{END_DATE})
+		</if>
 		
+		order by CREATE_DATE
 	</select>
 	
 	<!-- 批量删除 -->

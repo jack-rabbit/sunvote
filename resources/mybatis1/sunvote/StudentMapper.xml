@@ -149,6 +149,60 @@
 		order by sv_student.SNO
 	</select>
 	
+	<!-- 列表(全部) -->
+	<select id="listAllClass" parameterType="pd" resultType="pd">
+		select
+			sv_student.`NAME`,
+			sv_student.SNO,
+			sv_student.NUMBER,
+			sv_student.SEX,
+			sv_student.GROUPID,
+			sv_student.SIGN_NO,
+			sv_student.PARENT_NAME,
+			sv_student.PARENT_PHONE,
+			sv_student.KEYPAD_ID,
+			sv_student.REMARK,
+			sv_student.ID
+		from sv_student
+		LEFT JOIN sv_classroster cr ON sv_student.ID = cr.STUDENT_ID
+		LEFT JOIN sv_term ON cr.TEAMID = sv_term.TERM_ID
+		WHERE
+			1 = 1
+		AND sv_term.START_DATE &lt; NOW()
+		AND sv_term.END_DATE &gt; NOW()
+		<if test="CLASS_ID!= null and CLASS_ID != ''"><!-- 关键词检索 -->
+			AND cr.SCLASS_ID = #{CLASS_ID}
+		</if>
+		order by sv_student.SNO
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listAllClassByTerm" parameterType="pd" resultType="pd">
+		select
+			sv_student.`NAME`,
+			sv_student.SNO,
+			sv_student.NUMBER,
+			sv_student.SEX,
+			sv_student.GROUPID,
+			sv_student.SIGN_NO,
+			sv_student.PARENT_NAME,
+			sv_student.PARENT_PHONE,
+			sv_student.KEYPAD_ID,
+			sv_student.REMARK,
+			sv_student.ID
+		from sv_student
+		LEFT JOIN sv_classroster cr ON sv_student.ID = cr.STUDENT_ID
+		LEFT JOIN sv_term ON cr.TEAMID = sv_term.TERM_ID
+		WHERE
+			1 = 1
+		<if test="pd.TERM_ID != null and pd.TERM_ID != ''"><!-- 关键词检索 -->
+			AND sv_term.TERM_ID = #{pd.TERM_ID}
+		</if>
+		<if test="pd.CLASS_ID!= null and pd.CLASS_ID != ''"><!-- 关键词检索 -->
+			AND cr.SCLASS_ID = #{pd.CLASS_ID}
+		</if>
+		order by sv_student.SNO
+	</select>
+	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

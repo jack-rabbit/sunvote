@@ -71,6 +71,17 @@ public class StudentService implements StudentManager{
 		return (List<PageData>)dao.findForList("StudentMapper.listAll", pd);
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllClass(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("StudentMapper.listAllClass", pd);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllClassByTerm(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("StudentMapper.listAllClassByTerm", pd);
+	}
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

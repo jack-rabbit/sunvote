@@ -77,7 +77,7 @@
 	<!-- 页面顶部¨ -->
 	
 
-	<div style="width:1200px;margin:0 auto;">
+	<div style="width:1360px;margin:0 auto;">
 	<%@ include file="../../system/index/head.jsp"%>
 	<div class="content_l">
 	

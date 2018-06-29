@@ -1,16 +1,16 @@
-package com.fh.service.sunvote.studenttest;
+package com.fh.service.sunvote.networkstatistics;
 
 import java.util.List;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
 /** 
- * 说明： 学生报表接口
+ * 说明： 网络统计接口
  * 创建人：FH Q313596790
- * 创建时间：2018-06-07
+ * 创建时间：2018-06-26
  * @version
  */
-public interface StudentTestManager{
+public interface NetworkStatisticsManager{
 
 	/**新增
 	 * @param pd
@@ -41,17 +41,17 @@ public interface StudentTestManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
-	/**列表(全部)
-	 * @param pd
-	 * @throws Exception
-	 */
-	public List<PageData> reportListData(PageData pd)throws Exception;
 	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
+	/**通过id获取数据
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData findByClientID(PageData pd)throws Exception;
 	
 	/**批量删除
 	 * @param ArrayDATA_IDS

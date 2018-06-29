@@ -44,7 +44,7 @@
 		function showfh(){
 			fhi = 1;
 			//关闭提示晃动屏幕，注释掉这句话即可
-			timer = setInterval(xzfh2, 10); 
+			//timer = setInterval(xzfh2, 10); 
 		};
 		var current = 0;
 		function xzfh(){
@@ -70,13 +70,7 @@
 	</script>
 </head>
 <body>
-
-	<c:if test="${pd.isMusic == 'yes' }">
-	<div style="display: none">
-	    <audio src="static/login/music/fh1.mp3" autoplay=""></audio>
-	</div>	
-	</c:if>
-	<canvas class="cavs"></canvas>
+	
 	<div style="width:100%;text-align: center;margin: 0 auto;position: absolute;">
 		<!-- 登录 -->
 		<div id="windows1">
@@ -136,7 +130,7 @@
 			</form>
 			<div class="controls">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright 中天电子（需备案）</span></font>
+					<font><span id="nameerr">Copyright 中天电子（需备案）</span></font>
 				</div>
 			</div>
 		</div>
@@ -215,14 +209,14 @@
 			</form>
 			<div class="controls">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright © FHqq313596790 2100</span></font>
+					<font ><span id="nameerr">Copyright © FHqq313596790 2100</span></font>
 				</div>
 			</div>
 		</div>
 		</div>
 		
 	</div>
-	<div id="templatemo_banner_slide" class="container_wapper">
+	<%-- <div id="templatemo_banner_slide" class="container_wapper">
 		<div class="camera_wrap camera_emboss" id="camera_slide">
 			<!-- 背景图片 -->
 			<c:choose>
@@ -233,15 +227,15 @@
 				</c:when>
 				<c:otherwise>
 					 <div data-src="static/login/images/banner_slide_02.jpg"></div>
-					<!--<div data-src="static/login/images/banner_slide_01.jpg"></div>
+					<div data-src="static/login/images/banner_slide_01.jpg"></div>
 					<div data-src="static/login/images/banner_slide_03.jpg"></div>
 					<div data-src="static/login/images/banner_slide_04.jpg"></div>
-					<div data-src="static/login/images/banner_slide_05.jpg"></div> -->
+					<div data-src="static/login/images/banner_slide_05.jpg"></div> 
 				</c:otherwise>
 			</c:choose>
 		</div>
 		<!-- #camera_wrap_3 -->
-	</div>
+	</div> --%>
 
 	<script type="text/javascript">
 		//服务器校验
