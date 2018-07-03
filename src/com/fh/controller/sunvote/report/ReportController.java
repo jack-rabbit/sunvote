@@ -110,11 +110,8 @@ public class ReportController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		
 		PageData pd = getPageData();
-		pd.put("CLASS_ID", pd.get("CLASSID"));
-		List<PageData> studentList = studentService.listAllClass(pd);
-		
-		mv.addObject("studentList", studentList);
-		mv.setViewName("");
+		mv.addObject("URL", "report/student_report_data?class_id=" +pd.getString("CLASS_ID"));
+		mv.setViewName("sunvote/teacher/stduent_report");
 		return mv;
 	}
 	
@@ -123,12 +120,14 @@ public class ReportController extends BaseController {
 	public Object student_report_data() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"学生报表数据");
 		PageData pd = getPageData();
-		ResponseGson<List<PageData>> ret = new ResponseGson();
+		ResponseGson<PageData> ret = new ResponseGson();
 //		pd.put("CLASS_ID", pd.get("CLASSID"));
 		List<PageData> studentList = studentService.listAllClass(pd);
 		List<PageData> testpaperList = testpaperService.listAll(pd);
-		
+		pd.put("ID", pd.get("CLASS_ID"));
+		PageData classPageData = sclassService.findById(pd);
 		int totalScore = 0 ;
+		int avgScore = 0;
 		for(PageData testPaperPageData:testpaperList){
 			String totalScoreStr = testPaperPageData.getString("TOTAL_SCORE");
 			if(totalScoreStr != null){
@@ -138,9 +137,18 @@ public class ReportController extends BaseController {
 					logger.info(ex);
 				}
 			}
+			String avgScoreStr = testPaperPageData.getString("AVG_SCORE");
+			if(avgScoreStr != null){
+				try{
+					avgScore += Integer.parseInt(avgScoreStr);
+				}catch(Exception ex){
+					logger.info(ex);
+				}
+			}
 			
 		}
 		int allGetScore = 0;
+		int maxScore = 0 ;
 		// 查询学生名单及人数
 		if(studentList != null && studentList.size() > 0){
 			for(PageData studentPageData : studentList){
@@ -165,8 +173,11 @@ public class ReportController extends BaseController {
 							logger.info(ex);
 						}
 					}
+					
+					studentTestPageData.getString("TEST_ID");
+					
 				}
-				studentPageData.put("TOTALSCORE", totalScore);
+//				studentPageData.put("TOTALSCORE", totalScore);
 				studentPageData.put("GETSCORE", getScore);
 				studentPageData.remove("GROUPID");
 				studentPageData.remove("REMARK");
@@ -176,12 +187,23 @@ public class ReportController extends BaseController {
 				studentPageData.remove("SIGN_NO");
 				studentPageData.remove("KEYPAD_ID");
 				studentPageData.remove("SNO");
+				studentPageData.remove("SEX");
 				
 				allGetScore += getScore;
+				if(getScore > maxScore){
+					maxScore = getScore ;
+				}
 				
 			}
 		}
-		ret.setData(studentList);
+		classPageData.remove("SCHOOL_ID");
+		classPageData.remove("GRADE_ID");
+		classPageData.remove("BASESTATION_ID");
+		classPageData.put("studentList", studentList);
+		classPageData.put("AVG_SCORE", avgScore);
+		classPageData.put("TOTAL_SCORE", totalScore);
+		classPageData.put("MAX_SCORE", maxScore);
+		ret.setData(classPageData);
 		
 		return ret.toJson();
 	}
@@ -190,6 +212,8 @@ public class ReportController extends BaseController {
 	public ModelAndView paper_report() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"测试试卷报表");
 		ModelAndView mv = this.getModelAndView();
+		
+		mv.setViewName("sunvote/teacher/teacher_report_test");
 		return mv;
 	}
 	

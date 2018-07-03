@@ -14,7 +14,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>成绩报表</title>
+<title>试卷成绩报表</title>
 <base href="<%=basePath%>">
 <!-- 下拉框 -->
 <link rel="stylesheet" href="static/ace/css/chosen.css" />
@@ -25,32 +25,24 @@
 </head>
 
 <body style="background:#fff">
-	<div style="min-width:1360px;">
+	<div style="min-width:1360px; margin:0 100px">
+	</br>
+	</br>
+	</br>
 		<form action="report/report_test.do" method="post" name="Form" id="Form">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
 			<table style="margin-top:5px;">
 				<tr>
-					<td>课程统计: ${info.testsize}</td>
+					<td>试卷名称: ${info.testsize}</td>
 				</tr>
 				<tr>
-					<td>班级名册: ${info.CLASS_NAME}</td>
+					<td>收卷时间: ${info.CLASS_NAME}</td>
 				</tr>
 				<tr>
+					<td>班级名册：${info.CLASS_NAME}</td>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td><span>学生人数: ${info.STUDENT_NUM}</span></td>
-					<td></td>
-					<td style="padding-left:2px;"><input
-						class="span10 date-picker" name="lastStart" id="lastStart"
-						value="" type="text" data-date-format="yyyy-mm-dd"
-						readonly="readonly" style="width:88px;" placeholder="开始日期"
-						title="开始日期" /></td>
-					<td style="padding-left:2px;"><input
-						class="span10 date-picker" name="lastEnd" name="lastEnd" value=""
-						type="text" data-date-format="yyyy-mm-dd" readonly="readonly"
-						style="width:88px;" placeholder="结束日期" title="结束日期" /></td>
-					<td style="vertical-align:top;padding-left:2px"><a
-						class="btn btn-light btn-xs" onclick="tosearch();" title="检索"><i
-							id="nav-search-icon"
-							class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
+					
 				</tr>
 			</table>
 			<table id="simple-table"
@@ -58,41 +50,32 @@
 				style="margin-top:5px;">
 				<thead>
 					<tr>
+						<th class="center">键盘</th>
+						<th class="center">学号</th>
 						<th class="center">姓名</th>
-						<th class="center">课程平均得分率</th>
-						<th class="center">课程总分</th>
+						<th class="center">得分</th>
+						<th class="center">正确率</th>
+						<th class="center">排名</th>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<th class="center"><a
-								href="report/test_report?TestID=${var.TESTPAPER_ID}&class_id=${info.CLASS_ID}">${var.NAME}</a></th>
+							<th class="center">${var.NAME}</th>
 						</c:forEach>
+						<th class="center">非选择题得分</th>
+						<th class="center">总分</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td class="center">班级课程总分</td>
+						<td class="center"></td>
+						<td class="center"></td>
+						<td class="center"></td>
+						<td class="center"></td>
 						<td class="center"></td>
 						<td class="center"></td>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<td class="center">${var.TOTAL_SCORE}</td>
 						</c:forEach>
-					</tr>
-					<tr>
-						<td class="center">班级课程平均分</td>
 						<td class="center"></td>
 						<td class="center"></td>
-						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center">${var.AVG_SCORE}</td>
-						</c:forEach>
-					</tr>
-					<tr>
-						<td class="center">班级课程平均得分率</td>
-						<td class="center"></td>
-						<td class="center"></td>
-						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center"><fmt:formatNumber type="number"
-									value="${var.TOTAL_SCORE == 0 ? 0: (var.AVG_SCORE / var.TOTAL_SCORE * 100)}"
-									maxFractionDigits="1" />%</td>
-						</c:forEach>
 					</tr>
 
 					<c:choose>
@@ -100,7 +83,7 @@
 							<c:forEach items="${studentList}" var="var" varStatus="vs">
 								<tr>
 									<td class="center"><a
-										href="<%=basePath%>report/student_report?studentid=${var.ID}">${var.NAME}</a>
+										href="<%=basePath%>report/student_report。do?studentid=${var.ID}">${var.NAME}</a>
 									</td>
 									<td class="center"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"

@@ -104,7 +104,7 @@
 										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
 									</td> --%>
 									<td class="center"><a
-										href="report/student_report_data?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
+										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
 									</td>
 									<td class="center"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"

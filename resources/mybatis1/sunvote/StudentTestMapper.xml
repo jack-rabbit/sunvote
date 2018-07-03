@@ -137,6 +137,34 @@
 		sv_studenttest.SCORE AS SCORE,
 		sv_testpaper.TOTAL_SCORE AS TOTAL_SCORE,
 		CREATE_DATE,
+		sv_testpaper.AVG_SCORE AS AVG_SCORE,
+		sv_testpaper.HIGHT_SCORE AS MAX_SCORE
+		FROM
+			sv_testpaper
+		LEFT JOIN sv_studenttest ON sv_testpaper.TESTPAPER_ID = sv_studenttest.TEST_ID
+		WHERE 1 = 1 
+		<if test="STUDENT_ID != null and STUDENT_ID != ''">
+			and sv_studenttest.STUDENT_ID = #{STUDENT_ID}
+		</if>
+		<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &gt; #{START_DATE})
+		</if>
+		<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &lt; #{END_DATE})
+		</if>
+		
+		order by CREATE_DATE
+		
+		
+	</select>
+	
+		<select id="reportListDataCalc"  parameterType="pd" resultType="pd">
+	
+		SELECT
+		`NAME` AS NAME,
+		sv_studenttest.SCORE AS SCORE,
+		sv_testpaper.TOTAL_SCORE AS TOTAL_SCORE,
+		CREATE_DATE,
 		sv_studenttest.STUDENT_ID AS STUDENT_ID
 		FROM
 			sv_testpaper

@@ -1,0 +1,26 @@
+﻿html,body{width:100%;height:100%;}
+ul{padding:0;}
+.content{height:100%;}
+.on{background:#b6ebf1;}
+.green{background:green;}
+.blue{background:blue;}
+.yellow{background:yellow;}
+.clear{clear:both;}
+
+.content .content_l{height:100%;overflow-y:auto;padding:0;}
+.content .content_l li p{line-height:50px;font-size:25px;text-align:center;}
+.content .content_r{padding:0;overflow-x:hidden;}
+.content .content_r .tabel_t{background:#50b5c9;padding-top:5%;}
+.content .content_r .tabel_t .name{color:#fff;text-align:center;}
+.header .navbar{background:#fff;border-bottom:1px solid #ccc;height:70px;}
+.circle{border-bottom:1px solid #fff;}
+.circle .col-md-6{height:200px;}
+.circle .col-md-6 div:first-child{margin:0 auto;}
+.info .col-md-6 p{color:#fff;font-size:25px;text-align:center;display:inline-block;}
+.info .col-md-6:first-child p{float:right;}
+.info .col-md-6 p span{font-size:40px;font-weight:bold;color:#9bfdfe;}
+.tabel_b .tab_top{padding-top:3%;}
+.tabel_b .tab_top .col-md-3{font-size:20px;color:#8ab1b8;}
+.tabel_b .tab_top .col-md-9 .color{float:left;margin-right:10%;}
+.tabel_b .tab_top .col-md-9 .color li{float:left;}
+.tabel_b .tab_top .col-md-9 .color li span{display:inline-block;width:15px;height:6px;vertical-align: middle;margin-left:5px;margin-right:5px;}
