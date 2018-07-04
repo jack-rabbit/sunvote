@@ -48,6 +48,11 @@ public interface TestPaperInfoManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	public List<PageData> reportPaperDetail(PageData pd)throws Exception;
 	
 	/**通过id获取数据
 	 * @param pd

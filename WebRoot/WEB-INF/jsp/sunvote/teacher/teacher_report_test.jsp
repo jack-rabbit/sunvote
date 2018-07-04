@@ -33,15 +33,15 @@
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
 			<table style="margin-top:5px;">
 				<tr>
-					<td>试卷名称: ${info.testsize}</td>
+					<td>试卷名称: ${testpaperInfo.NAME}</td>
 				</tr>
 				<tr>
-					<td>收卷时间: ${info.CLASS_NAME}</td>
+					<td>收卷时间: ${testpaperInfo.END_DATE}</td>
 				</tr>
 				<tr>
-					<td>班级名册：${info.CLASS_NAME}</td>
+					<td>班级名册：${classInfo.CLASS_NAME}</td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td><span>学生人数: ${info.STUDENT_NUM}</span></td>
+					<td><span>学生人数: ${classInfo.studentNum}</span></td>
 					
 				</tr>
 			</table>
@@ -56,8 +56,8 @@
 						<th class="center">得分</th>
 						<th class="center">正确率</th>
 						<th class="center">排名</th>
-						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<th class="center">${var.NAME}</th>
+						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
+							<th class="center">题目${vs.index+1}</th>
 						</c:forEach>
 						<th class="center">非选择题得分</th>
 						<th class="center">总分</th>
@@ -71,28 +71,30 @@
 						<td class="center"></td>
 						<td class="center"></td>
 						<td class="center"></td>
-						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center">${var.TOTAL_SCORE}</td>
+						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
+							<td class="center"><fmt:formatNumber type="number"
+									value="${var == 0 ? 0: (var / classInfo.studentNum * 100)}"
+									maxFractionDigits="1" />%</td>
 						</c:forEach>
 						<td class="center"></td>
 						<td class="center"></td>
 					</tr>
 
 					<c:choose>
-						<c:when test="${not empty studentList}">
-							<c:forEach items="${studentList}" var="var" varStatus="vs">
+						<c:when test="${not empty studentInfo}">
+							<c:forEach items="${studentInfo}" var="var" varStatus="vs">
 								<tr>
-									<td class="center"><a
-										href="<%=basePath%>report/student_report。do?studentid=${var.ID}">${var.NAME}</a>
-									</td>
-									<td class="center"><fmt:formatNumber type="number"
-											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
-											maxFractionDigits="1" />%</td>
-									<td class="center">${var.GETSCORE }</td>
-									<c:forEach items="${testpaperList}" var="var1" varStatus="vs1">
-										<td class="center"><c:set var="TEST_ID"
-												value="${var1.TESTPAPER_ID}" /> ${var[TEST_ID] }</td>
+									<td class="center">${var.KEYPAD_ID}</td>
+									<td class="center">${var.SNO}</td>
+									<td class="center">${var.NAME}</td>
+									<td class="center">${var.GETSCORE}</td>
+									<td class="center">${var.RIGHT}</td>
+									<td class="center">${vs.index + 1}</td>
+									<c:forEach items="${questionInfo}" var="var1" varStatus="vs1">
+										<td class="center">${var.detail[vs1.index].ANSWER}</td>
 									</c:forEach>
+									<td class="center">${var.OTHER_SCORE}</td>
+									<td class="center">${var.GETSCORE}</td>
 								</tr>
 							</c:forEach>
 						</c:when>

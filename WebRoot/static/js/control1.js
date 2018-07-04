@@ -9,8 +9,12 @@
 		  if (r != null) return unescape(r[2]); return null;
 	  	}
 	function getData(startDate,endDate){
+		var attend = "" ;
+		if(startDate != null && endDate != null){
+			attend = "&start_Date="+startDate+"&end_Date="+endDate;
+		}
 		$.ajax({
-			url:URL+"&start_Date="+startDate+"&end_Date="+endDate,
+			url:URL+ attend,
 			type:"get",
 			async:false,
 			dataType:"json",

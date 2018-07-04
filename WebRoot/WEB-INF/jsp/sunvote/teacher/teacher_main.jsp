@@ -98,7 +98,7 @@
 			</div>
 		</c:forEach>
 		<div class="test">测验</div>
-		<div class="analysis">分析</div>
+		<!-- <div class="analysis">分析</div> -->
 	</div>
 	<div style="width:70%;height:100%;margin-left:30%;" class="content_r">
 		<iframe name="mainFrame" id="mainFrame" frameborder="0" src="paper/list2.do?" ></iframe>
@@ -212,9 +212,9 @@
 			var path = "student/listcs.do?class_id=" + classID + "&term_id=" + termID ;
 			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
 		}
-		$(".analysis").click(function(){
+		/* $(".analysis").click(function(){
 			$(".content_r").html('<img src="static/images/analysis.png" width="100%" />');
-		})
+		}) */
 	</script>
 	
 </body>

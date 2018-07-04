@@ -1,5 +1,8 @@
 package com.fh.controller.sunvote.report;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,6 +18,7 @@ import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.sunvote.student.StudentManager;
 import com.fh.service.sunvote.studenttest.StudentTestManager;
 import com.fh.service.sunvote.testpaper.TestPaperManager;
+import com.fh.service.sunvote.testpaperinfo.TestPaperInfoManager;
 import com.fh.util.Jurisdiction;
 import com.fh.util.PageData;
 
@@ -33,6 +37,9 @@ public class ReportController extends BaseController {
 	
 	@Resource(name="studenttestService")
 	private StudentTestManager studenttestService;
+	
+	@Resource(name="testpaperinfoService")
+	private TestPaperInfoManager testpaperinfoService;
 	
 	
 
@@ -126,13 +133,13 @@ public class ReportController extends BaseController {
 		List<PageData> testpaperList = testpaperService.listAll(pd);
 		pd.put("ID", pd.get("CLASS_ID"));
 		PageData classPageData = sclassService.findById(pd);
-		int totalScore = 0 ;
-		int avgScore = 0;
+		float totalScore = 0 ;
+		float avgScore = 0;
 		for(PageData testPaperPageData:testpaperList){
 			String totalScoreStr = testPaperPageData.getString("TOTAL_SCORE");
 			if(totalScoreStr != null){
 				try{
-					totalScore += Integer.parseInt(totalScoreStr);
+					totalScore += Float.parseFloat(totalScoreStr);
 				}catch(Exception ex){
 					logger.info(ex);
 				}
@@ -140,15 +147,15 @@ public class ReportController extends BaseController {
 			String avgScoreStr = testPaperPageData.getString("AVG_SCORE");
 			if(avgScoreStr != null){
 				try{
-					avgScore += Integer.parseInt(avgScoreStr);
+					avgScore += Float.parseFloat(avgScoreStr);
 				}catch(Exception ex){
 					logger.info(ex);
 				}
 			}
 			
 		}
-		int allGetScore = 0;
-		int maxScore = 0 ;
+		float allGetScore = 0;
+		float maxScore = 0 ;
 		// 查询学生名单及人数
 		if(studentList != null && studentList.size() > 0){
 			for(PageData studentPageData : studentList){
@@ -163,12 +170,12 @@ public class ReportController extends BaseController {
 				List<PageData> studentTestList = studenttestService.reportListData(search);
 				studentPageData.put("testList", studentTestList);
 				
-				int getScore = 0 ;
+				float getScore = 0 ;
 				for(PageData studentTestPageData:studentTestList){
 					String getScoreStr = studentTestPageData.getString("SCORE");
 					if(getScoreStr != null){
 						try{
-							getScore += Integer.parseInt(getScoreStr);
+							getScore += Float.parseFloat(getScoreStr);
 						}catch(Exception ex){
 							logger.info(ex);
 						}
@@ -212,6 +219,79 @@ public class ReportController extends BaseController {
 	public ModelAndView paper_report() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"测试试卷报表");
 		ModelAndView mv = this.getModelAndView();
+		PageData pd = getPageData();
+		
+		// 查询班级信息
+		pd.put("ID", pd.get("CLASS_ID"));
+		PageData classPageData = sclassService.findById(pd);
+		
+		// 查询测试试卷信息
+		pd.put("TESTPAPER_ID", pd.get("TESTID"));
+		PageData testpaperPd = testpaperService.findById(pd);
+		
+		// 查询班级学生
+		List<PageData> studentList = studentService.listAllClass(pd);
+		List<Integer> questionList = new ArrayList<Integer>();
+		for(PageData studentPd : studentList){
+			
+			// 查询答题情况
+			studentPd.put("TEST_ID", pd.getString("TESTID"));
+			studentPd.put("STUDENT_ID", studentPd.getString("ID"));
+			List<PageData> detail = testpaperinfoService.reportPaperDetail(studentPd);
+			studentPd.put("detail", detail);
+			
+			float score = 0 ;
+			for(int i = 0 ; i < detail.size(); i++){
+				PageData pad = detail.get(i);
+				if("1".equals(pad.getString("RIGHT"))){
+					if (questionList.size() > i) {
+						questionList.set(i, questionList.get(i) + 1);
+					}else{
+						questionList.add(1);
+					}
+				}
+				
+				String scoreStr = pad.getString("SCORE");
+				
+				try{
+					score += Float.parseFloat(scoreStr);
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+				
+			}
+			studentPd.put("GETSCORE", score);
+		}
+	
+		
+		Collections.sort(studentList,new Comparator<PageData>(){
+
+			@Override
+			public int compare(PageData o1, PageData o2) {
+				String o1GetScore = o1.getString("GETSCORE");
+				String o2GetScore = o2.getString("GETSCORE");
+				float o1score = 0 ;
+				float o2score = 0 ;
+				try{
+					o1score = Float.parseFloat(o1GetScore);
+				}catch(Exception e){
+					o1score = -1 ;
+				}
+				try{
+					o2score = Float.parseFloat(o2GetScore);
+				}catch(Exception e){
+					o2score = -1 ;
+				}
+				return  o2score - o1score > 0 ? 1 : -1;
+			}
+			
+		});
+		
+		classPageData.put("studentNum", studentList.size());
+		mv.addObject("classInfo", classPageData);
+		mv.addObject("testpaperInfo", testpaperPd);
+		mv.addObject("questionInfo", questionList);
+		mv.addObject("studentInfo", studentList);
 		
 		mv.setViewName("sunvote/teacher/teacher_report_test");
 		return mv;
