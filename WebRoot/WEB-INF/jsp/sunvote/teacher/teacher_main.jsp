@@ -201,9 +201,11 @@
 		$("#time_submit").click(function(){
 			var name = $("#enter_title").val();
 			var time = $("#enter_time").val();
+			if(name != null&& name != '' && time != null && time != ''){
+				self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time ;
+				$(".title_time").modal("hide");
+			}
 			//window.open("<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time);
-			self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time ;
-			$(".title_time").modal("hide");
 		});
 		$("#test").click(function(){
 			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" src="paper/list2.do?" style="width:100%;height:'+$(".content_l").height()+'px;"></iframe>');

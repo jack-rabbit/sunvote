@@ -118,7 +118,7 @@
 		var num_ans=$("#num_ans").val();
 		var fraction=$("#fraction").val();
 		if(answer==''){
-			alert("请输入题目答案，以分号隔开");
+			alert("请输入题目答案");
 			return;
 		}else if(fraction==''){
 			alert("请输入题目分数");
@@ -138,11 +138,14 @@
 		//var answer_2=$("#answer_2").val();
 		var num_ans_2=$("#num_ans_2").val();
 		var fraction2=parseInt($("#fraction2").val());
-		if(index_s_2==''){
+		if(isNaN(index_s_2)){
 			alert("请输入题目开始序号");
 			return;
-		}else if(index_e_2==''){
+		}else if(isNaN(index_e_2)){
 			alert("请输入题目结束序号");
+			return;
+		}else if(isNaN(fraction2)){
+			alert("请输入题目分数");
 			return;
 		}
 		//console.log(typeof(type_2));
