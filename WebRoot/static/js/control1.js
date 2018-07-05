@@ -66,6 +66,25 @@
 			endDate=date_arry[1];
 			getData(startDate,endDate);
 		})
+		
+		$(".prev").click(function(){
+			 _index-=1;
+			 if(_index<0){
+				 _index=data_temp.data.studentList.length-1;
+			 }
+			$(".content_l li").eq(_index).siblings().removeClass("on");
+			$(".content_l li").eq(_index).addClass("on");
+			 data(_index,data_temp);
+		 })
+		 $(".next").click(function(){
+			 _index+=1;
+			 if(_index>(data_temp.data.studentList.length-1)){
+				 _index=0;
+			 }
+			$(".content_l li").eq(_index).siblings().removeClass("on");
+			$(".content_l li").eq(_index).addClass("on");
+			 data(_index,data_temp);
+		 })
     });
 	
 	

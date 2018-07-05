@@ -102,7 +102,7 @@
 									<a class="btn btn-mini btn-success" onclick="add();">新增</a>
 									<a class="btn btn-mini btn-success" onclick="upload();">批量上传</a>
 									<a class="btn btn-mini btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
-									<a class="btn btn-mini btn-success" onclick="report();">查看班级报表</a>
+									<!-- <a class="btn btn-mini btn-success" onclick="report();">查看班级报表</a> -->
 								</td>
 								<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 							</tr>

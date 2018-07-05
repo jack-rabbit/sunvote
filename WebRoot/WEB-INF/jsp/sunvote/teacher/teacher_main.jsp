@@ -94,10 +94,11 @@
 		</div>
 		<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
 			<div class="class">
-				<p><a  href="javascript:chooseClass('${var.CLASS_ID}','${var.TERM_ID}');">${var.GRADE_NAME}${var.SUBJECT_NAME} <span>${var.CLASS_NAME}</span></a></p>
+				<p><a  href="javascript:chooseClass('${var.CLASS_ID}','${var.TERM_ID}');">${var.GRADE_NAME}${var.SUBJECT_NAME} <span>${var.CLASS_NAME}</span></a>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a  href="javascript:report('${var.CLASS_ID}');">成绩</a></p>
 			</div>
 		</c:forEach>
-		<div class="test">测验</div>
+		<div class="class" id="test"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;">试卷</a></p></div>
 		<!-- <div class="analysis">分析</div> -->
 	</div>
 	<div style="width:70%;height:100%;margin-left:30%;" class="content_r">
@@ -204,13 +205,17 @@
 			self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time ;
 			$(".title_time").modal("hide");
 		});
-		$(".test").click(function(){
+		$("#test").click(function(){
 			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" src="paper/list2.do?" style="width:100%;height:'+$(".content_l").height()+'px;"></iframe>');
 		})
 		
 		function chooseClass(classID,termID){
 			var path = "student/listcs.do?class_id=" + classID + "&term_id=" + termID ;
 			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
+		}
+		
+		function report(classId){
+			window.open('<%=basePath%>report/report.do?classid=' + classId);
 		}
 		/* $(".analysis").click(function(){
 			$(".content_r").html('<img src="static/images/analysis.png" width="100%" />');

@@ -66,6 +66,8 @@
 						<p>班级最高得分率<span id="class_max">0.0</span>%</p>
 					</div>
 				</div>
+				<div class="prev"></div>
+				<div class="next"></div>
 			</div>
 			<div class="tabel_b">
 				<div class="tab_top row">
