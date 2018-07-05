@@ -61,7 +61,7 @@ public class StudentController extends BaseController {
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		pd = this.getPageData();
+		pd = this.getPageData(); 	 
 		studentService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -108,6 +108,8 @@ public class StudentController extends BaseController {
 	public ModelAndView goUploadExcel()throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		mv.addObject("pd", getPageData());
+		
+		
 		mv.setViewName("sunvote/student/uploadexcel");
 		return mv;
 	}
@@ -141,20 +143,23 @@ public class StudentController extends BaseController {
 						if(temp.get("var" + j) == null){
 							break ;
 						}
-						savePd.put(pd.getString("var" + j).toUpperCase(), temp.get("var" + j));
+						if(temp.get("var" + j) != null && !"".equals(temp.get("var" + j).toString())){
+							savePd.put(pd.getString("var" + j).toUpperCase(), temp.get("var" + j));
+						}
 					}
 					if(!savePd.containsKey("ID")){
-						String studentId = this.get32UUID();
-						savePd.put("ID", studentId);
-						studentService.save(savePd);
-						
-						
-						if (classID != null && termID != null) {
-							savePd.put("STUDENT_ID", studentId);
-							savePd.put("CLASSROSTER_ID", get32UUID());
-							savePd.put("TEAMID", termID);
-							savePd.put("SCLASS_ID", classID);
-							classrosterService.save(savePd);
+						if (savePd.values().size() > 0) {
+							String studentId = this.get32UUID();
+							savePd.put("ID", studentId);
+							studentService.save(savePd);
+
+							if (classID != null && termID != null) {
+								savePd.put("STUDENT_ID", studentId);
+								savePd.put("CLASSROSTER_ID", get32UUID());
+								savePd.put("TEAMID", termID);
+								savePd.put("SCLASS_ID", classID);
+								classrosterService.save(savePd);
+							}
 						}
 						
 					}else{
