@@ -334,6 +334,7 @@ public class V1 extends BaseController {
 			Page page = new Page();
 			page.getPd().put("PAPER_TYPE", pd.get("PAPER_TYPE"));
 			page.getPd().put("USER_ID", pd.get("USER_ID"));
+			page.getPd().put("SUBJECT_ID", pd.get("SUBJECT_ID"));
 			if (pd.containsKey("CURRENTPAGE")) {
 				String curpage = pd.getString("CURRENTPAGE");
 				try {

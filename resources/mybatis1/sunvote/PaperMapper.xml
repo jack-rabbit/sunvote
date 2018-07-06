@@ -156,6 +156,9 @@
 		<if test="pd.USER_ID != null and pd.USER_ID != ''">
 			and USER_ID = #{pd.USER_ID}
 		</if>
+		<if test="pd.SUBJECT_ID != null and pd.SUBJECT_ID != ''">
+			and SUBJECT_ID = #{pd.SUBJECT_ID}
+		</if>
 		
 		order by CREATE_DATE DESC
 	</select>
