@@ -368,10 +368,16 @@ function creatHtml(data){
 			}
 		}
 	}
+
+var answerLen = 0 ;
 /*快速建题中，每输入五个答案就加一个空格*/
-$("#answer").on("input propertychange",function(){
-	if($("#answer").val().length%5==0)
-		$("#answer").val($("#answer").val()+" ");
+$("#answer").on("input propertychange",function(event){
+	if($("#answer").val().length > answerLen){
+		if(($("#answer").val().length + 1 )% 6 == 0){
+			$("#answer").val($("#answer").val()+" ");
+		}
+	}
+	answerLen = $("#answer").val().length;
 })
 
 /*数字转汉字数字*/

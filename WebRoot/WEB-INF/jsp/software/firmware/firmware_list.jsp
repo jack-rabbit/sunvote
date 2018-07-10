@@ -30,9 +30,39 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="software/list.do" method="post" name="Form" id="Form">
+						<form action="firmware/list.do" method="post" name="Form" id="Form">
 						<table style="margin-top:5px;">
 							<tr>
+								
+								<td style="vertical-align:top;padding-left:2px;">
+								 	<select class="chosen-select form-control" name="INDUSTRY" id="INDUSTRY" data-placeholder="请选择" style="vertical-align:top;">
+									<option value="">应用行业</option>
+									<option value="教育">教育</option>
+									<option value="企业">企业</option>
+									<option value="政府">政府</option>
+									<option value="其他">其他</option>
+								  	</select>
+								</td>
+								<td style="vertical-align:top;padding-left:2px;">
+								 	<select class="chosen-select form-control" name="PRODUCT_STATE" id="PRODUCT_STATE" data-placeholder="请选择" style="vertical-align:top;width:98%;">
+									<option value="" >产品状态</option>
+									<option value="产品销售" <c:if test="${pd.PRODUCT_STATE eq '产品销售'}">selected="true"</c:if>>销售</option>
+									<option value="产品发布" <c:if test="${pd.PRODUCT_STATE eq '产品发布'}">selected="true"</c:if>>发布</option>
+									<option value="产品研制" <c:if test="${pd.PRODUCT_STATE eq '产品研制'}">selected="true"</c:if>>研制</option>
+									<option value="其他" <c:if test="${pd.PRODUCT_STATE eq '其他'}">selected="true"</c:if>>其他</option>
+							  	</select>
+								</td>
+								<td>
+									<div class="nav-search">
+										<span class="input-icon">
+											<input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-input" autocomplete="off" name="keywords" value="${pd.keywords }" placeholder="这里输入关键词"/>
+											<i class="ace-icon fa fa-search nav-search-icon"></i>
+										</span>
+									</div>
+								</td>
+								<c:if test="${QX.cha == 1 }">
+								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
+								</c:if>
 								<c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if>
 							</tr>
 						</table>
@@ -45,8 +75,10 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">软件名称</th>
-									<th class="center">软件描述</th>
+									<th class="center">产品名称</th>
+									<th class="center">货品编号</th>
+									<th class="center">应用行业</th>
+									<th class="center">产品状态</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>
@@ -59,23 +91,25 @@
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
 											<td class='center'>
-												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.SOFTWARE_ID}" class="ace" /><span class="lbl"></span></label>
+												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.FIRMWARE_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.NAME}</td>
-											<td class='center'>${var.DESC}</td>
+											<td class='center'><a href="javascrip:;">${var.PRODUCT_NAME}</a></td>
+											<td class='center'>${var.PRODUCT_NO}</td>
+											<td class='center'>${var.INDUSTRY}</td>
+											<td class='center'>${var.PRODUCT_STATE}</td>
 											<td class="center">
 												<c:if test="${QX.edit != 1 && QX.del != 1 }">
 												<span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
 												</c:if>
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${QX.edit == 1 }">
-													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.SOFTWARE_ID}');">
+													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.FIRMWARE_ID}');">
 														<i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
 													</a>
 													</c:if>
 													<c:if test="${QX.del == 1 }">
-													<a class="btn btn-xs btn-danger" onclick="del('${var.SOFTWARE_ID}');">
+													<a class="btn btn-xs btn-danger" onclick="del('${var.FIRMWARE_ID}');">
 														<i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
 													</a>
 													</c:if>
@@ -89,7 +123,7 @@
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 															<c:if test="${QX.edit == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="edit('${var.SOFTWARE_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
+																<a style="cursor:pointer;" onclick="edit('${var.FIRMWARE_ID}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
@@ -98,7 +132,7 @@
 															</c:if>
 															<c:if test="${QX.del == 1 }">
 															<li>
-																<a style="cursor:pointer;" onclick="del('${var.SOFTWARE_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
+																<a style="cursor:pointer;" onclick="del('${var.FIRMWARE_ID}');" class="tooltip-error" data-rel="tooltip" title="删除">
 																	<span class="red">
 																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																	</span>
@@ -235,9 +269,9 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>software/goAdd.do';
-			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.URL = '<%=basePath%>firmware/goAdd.do';
+			 diag.Width = 600;
+			 diag.Height = 600;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮
@@ -259,7 +293,7 @@
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>software/delete.do?SOFTWARE_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>firmware/delete.do?FIRMWARE_ID="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						tosearch();
 					});
@@ -273,9 +307,9 @@
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>software/goEdit.do?SOFTWARE_ID='+Id;
-			 diag.Width = 450;
-			 diag.Height = 355;
+			 diag.URL = '<%=basePath%>firmware/goEdit.do?FIRMWARE_ID='+Id;
+			 diag.Width = 600;
+			 diag.Height = 600;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
 		     diag.ShowMinButton = true;		//最小化按钮 
@@ -285,7 +319,9 @@
 				}
 				diag.close();
 			 };
-			 diag.show();
+			 diag.show(); 
+			<%-- var href = ("<%=basePath%>firmware/goEdit.do?FIRMWARE_ID="+Id);
+			 window.location.href = href ; --%>
 		}
 		
 		//批量操作
@@ -317,7 +353,7 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>software/deleteAll.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>firmware/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
 								//beforeSend: validateData,
@@ -336,7 +372,7 @@
 		
 		//导出excel
 		function toExcel(){
-			window.location.href='<%=basePath%>software/excel.do';
+			window.location.href='<%=basePath%>firmware/excel.do';
 		}
 	</script>
 
