@@ -67,27 +67,27 @@
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">产品功能:</td>
-								<td><input type="text" name="PRODUCT_FUNC" id="PRODUCT_FUNC" value="${pd.PRODUCT_FUNC}" maxlength="1000" placeholder="这里输入产品功能" title="产品功能" style="width:98%;"/></td>
+								<td><textarea rows="3" cols="100" name="PRODUCT_FUNC" id="PRODUCT_FUNC" value="${pd.PRODUCT_FUNC}" maxlength="1000" placeholder="这里输入产品功能" title="产品功能" style="width:98%;">${pd.PRODUCT_FUNC}</textarea></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">产品性能:</td>
-								<td><input type="text" name="PRODUCT_PERF" id="PRODUCT_PERF" value="${pd.PRODUCT_PERF}" maxlength="255" placeholder="这里输入产品性能" title="产品性能" style="width:98%;"/></td>
+								<td><textarea rows="3" cols="100" name="PRODUCT_PERF" id="PRODUCT_PERF" value="${pd.PRODUCT_PERF}" maxlength="255" placeholder="这里输入产品性能" title="产品性能" style="width:98%;">${pd.PRODUCT_PERF}</textarea></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">适配硬件:</td>
-								<td><input type="text" name="ADAPTABLE_HARDWARE" id="ADAPTABLE_HARDWARE" value="${pd.ADAPTABLE_HARDWARE}" maxlength="500" placeholder="这里输入适配硬件" title="适配硬件" style="width:98%;"/></td>
+								<td><textarea rows="3" cols="100" name="ADAPTABLE_HARDWARE" id="ADAPTABLE_HARDWARE" value="${pd.ADAPTABLE_HARDWARE}" maxlength="500" placeholder="这里输入适配硬件" title="适配硬件" style="width:98%;">${pd.ADAPTABLE_HARDWARE}</textarea></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">适配软件:</td>
-								<td><input type="text" name="ADAPTABLE_SOFTWARE" id="ADAPTABLE_SOFTWARE" value="${pd.ADAPTABLE_SOFTWARE}" maxlength="255" placeholder="这里输入适配软件" title="适配软件" style="width:98%;"/></td>
+								<td><textarea rows="3" cols="100" name="ADAPTABLE_SOFTWARE" id="ADAPTABLE_SOFTWARE" value="${pd.ADAPTABLE_SOFTWARE}" maxlength="255" placeholder="这里输入适配软件" title="适配软件" style="width:98%;">${pd.ADAPTABLE_SOFTWARE}</textarea></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">产品认证:</td>
-								<td><input type="text" name="PRODUCT_CERT" id="PRODUCT_CERT" value="${pd.PRODUCT_CERT}" maxlength="255" placeholder="这里输入产品认证" title="产品认证" style="width:98%;"/></td>
+								<td><textarea rows="3" cols="100" name="PRODUCT_CERT" id="PRODUCT_CERT" value="${pd.PRODUCT_CERT}" maxlength="255" placeholder="这里输入产品认证" title="产品认证" style="width:98%;">${pd.PRODUCT_CERT}</textarea></td>
 							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">注意事项:</td>
-								<td><input type="text" name="REMARK" id="REMARK" value="${pd.REMARK}" maxlength="255" placeholder="这里输入注意事项" title="注意事项" style="width:98%;"/>
+								<td><textarea rows="3" cols="100" name="REMARK" id="REMARK" value="${pd.REMARK}" maxlength="255" placeholder="这里输入注意事项" title="注意事项" style="width:98%;">${pd.REMARK}</textarea>
 								</td>
 							</tr>
 							<tr>

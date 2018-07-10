@@ -92,6 +92,8 @@
 		<include refid="tableName"></include>
 		where 
 			FIRMWARE_ID = #{FIRMWARE_ID}
+			
+			order by CREATE_DATE
 	</select>
 	
 	<!-- 列表 -->
@@ -127,7 +129,7 @@
 		<if test="pd.PRODUCT_STATE != null and pd.PRODUCT_STATE != ''">
 			and PRODUCT_STATE = #{pd.PRODUCT_STATE}
 		</if>
-		
+		order by CREATE_DATE
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -136,6 +138,8 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		
+		order by CREATE_DATE
 	</select>
 	
 	<!-- 批量删除 -->

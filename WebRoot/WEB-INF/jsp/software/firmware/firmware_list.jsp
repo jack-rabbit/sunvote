@@ -94,7 +94,7 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.FIRMWARE_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'><a href="javascrip:;">${var.PRODUCT_NAME}</a></td>
+											<td class='center'><a target="_blank" href="<%=basePath%>firmware/itemview.do?FIRMWARE_ID=${var.FIRMWARE_ID}">${var.PRODUCT_NAME}</a></td>
 											<td class='center'>${var.PRODUCT_NO}</td>
 											<td class='center'>${var.INDUSTRY}</td>
 											<td class='center'>${var.PRODUCT_STATE}</td>
@@ -320,8 +320,7 @@
 				diag.close();
 			 };
 			 diag.show(); 
-			<%-- var href = ("<%=basePath%>firmware/goEdit.do?FIRMWARE_ID="+Id);
-			 window.location.href = href ; --%>
+			
 		}
 		
 		//批量操作

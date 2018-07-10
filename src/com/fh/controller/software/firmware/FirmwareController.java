@@ -63,7 +63,7 @@ public class FirmwareController extends BaseController {
 		String FIRM_PATH = "" ;
 		if (files != null) {
 			for (MultipartFile file : files) {
-				if (file != null) {
+				if (file != null && file.getSize() > 0) {
 					String name = pd.getString("FIRMWARE_ID")+ "_"	+ index	+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 					File pathFile = new File(path);
 					pathFile.mkdirs();
@@ -74,6 +74,8 @@ public class FirmwareController extends BaseController {
 					saveFile.createNewFile();
 					file.transferTo(saveFile);
 					FIRM_PATH += name + ";";
+				}else{
+					FIRM_PATH += ";";
 				}
 				index++;
 			}
@@ -118,9 +120,7 @@ public class FirmwareController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"修改Firmware");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		
+		PageData pd = new PageData(request);
 		String path = request.getSession().getServletContext()
 				.getRealPath("/uploadFiles/uploadFile/");
 		int index = 0 ;
@@ -203,6 +203,25 @@ public class FirmwareController extends BaseController {
 	}	
 	
 	 /**去修改页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/itemview")
+	public ModelAndView itemview()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = firmwareService.findById(pd);	//根据ID读取
+		String PRODUCT_IMAGE = pd.getString("PRODUCT_IMAGE");
+		String[] PRODUCT_IMAGEs = PRODUCT_IMAGE.split(";");
+		pd.put("PRODUCT_IMAGE", PRODUCT_IMAGEs);
+		mv.setViewName("software/firmware/firmware_itemview");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
+	
+	/**去修改页面
 	 * @param
 	 * @throws Exception
 	 */
