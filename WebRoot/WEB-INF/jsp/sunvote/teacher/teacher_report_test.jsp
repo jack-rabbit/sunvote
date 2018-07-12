@@ -33,7 +33,7 @@
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
 			<table style="margin-top:5px;">
 				<tr>
-					<td>试卷名称: ${testpaperInfo.NAME}</td>
+					<td>测验名称: ${testpaperInfo.NAME}</td>
 				</tr>
 				<tr>
 					<td>收卷时间: ${testpaperInfo.END_DATE}</td>

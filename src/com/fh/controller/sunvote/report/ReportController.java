@@ -217,7 +217,6 @@ public class ReportController extends BaseController {
 	
 	@RequestMapping(value="/test_report")
 	public ModelAndView paper_report() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"测试试卷报表");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = getPageData();
 		
@@ -239,18 +238,17 @@ public class ReportController extends BaseController {
 			studentPd.put("STUDENT_ID", studentPd.getString("ID"));
 			List<PageData> detail = testpaperinfoService.reportPaperDetail(studentPd);
 			studentPd.put("detail", detail);
-			
+			if(questionList.size() < 1){
+				for(int i = 0 ; i < detail.size(); i++){
+					questionList.add(0);
+				}
+			}
 			float score = 0 ;
 			for(int i = 0 ; i < detail.size(); i++){
 				PageData pad = detail.get(i);
-				if("1".equals(pad.getString("RIGHT"))){
-					if (questionList.size() > i) {
-						questionList.set(i, questionList.get(i) + 1);
-					}else{
-						questionList.add(1);
-					}
+				if ("1".equals(pad.getString("RIGHT"))) {
+					questionList.set(i, questionList.get(i) + 1);
 				}
-				
 				String scoreStr = pad.getString("SCORE");
 				
 				try{
