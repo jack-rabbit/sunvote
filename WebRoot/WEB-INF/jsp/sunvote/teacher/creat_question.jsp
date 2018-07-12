@@ -28,8 +28,8 @@
 			<div class="time text-center" data-toggle="modal" data-target=".test_time"><h3>测验时长：<span class="bg-primary" id="time">45</span><span class="bg-primary">分钟</span></h3></div>
 			<div class="btn_box pull-right">
 				<input type="button" class="btn btn-success btn-lg" name="save" value="保存" id="save"/>
-				<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".fast" id="fast">快速出题</button>
-				 <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".addQuestion" id="addQuestion">添加试题</button> 	
+				<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".fast" id="fast">单选出题</button>
+				 <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".addQuestion" id="addQuestion">多选出题</button> 	
 				<div class="clearfix"></div>
 			</div>
 		</div>
@@ -37,32 +37,7 @@
 	</div>
 
 	<div class="content container">
-		<!--<div class="section section-1">
-			<div class="title">
-				<h3>一、单选</h3>
-				<input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" />
-			</div>
-			<div class="question_list">
-				 <div class="question question1">
-					<span>1、</span>
-					<ul>
-						<li class="btn btn-default on">A</li>
-						<li class="btn btn-default">B</li>
-						<li class="btn btn-default">C</li>
-						<li class="btn btn-default">D</li>
-					</ul>
-				</div>
-				<div class="question question2">
-					<span>2、</span>
-					<ul>
-						<li class="btn btn-default">A</li>
-						<li class="btn btn-default on">B</li>
-						<li class="btn btn-default">C</li>
-						<li class="btn btn-default">D</li>
-					</ul>
-				</div> 
-			</div>
-		</div>-->
+		
 	</div>
 
 <!-- 快速出题 -->
@@ -78,7 +53,7 @@
         <div class="form-group">
 		    <label for="inputEmail3" class="col-sm-2 control-label">试题答案</label>
 		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="answer" placeholder="输入题目答案">
+		      <input type="text" class="form-control" id="answer" placeholder="输入题目答案（例如：“ABCDA”）">
 		    </div>
 		    <div class="clearfix"></div>
 		</div>
@@ -93,6 +68,8 @@
 					<option value="6">6</option>
 					<option value="7">7</option>
 					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
 				</select>
 		    </div>
 		    <div class="clearfix"></div>
@@ -122,8 +99,8 @@
         <h4 class="modal-title">添加试题</h4>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-		    <label for="type" class="col-sm-2 control-label">题目名称</label>
+        <!--<div class="form-group">
+		     <label for="type" class="col-sm-2 control-label">题目名称</label>
 		    <div class="col-sm-10">
 		       <select class="form-control" id="type">
 					<option value="1" selected>单选题</option>
@@ -132,19 +109,19 @@
 					<option value="4">判断题</option>
 					<option value="5">多选题</option>
 				</select>
-		    </div>
+		    </div> 
 		    <div class="clearfix"></div>
-		</div>
+		</div>-->
 		<div class="form-group">
-		    <label for="index_s_2" class="col-sm-2 control-label">题号</label>
-		    <div class="col-sm-4">
-		      <input type="number" class="form-control" id="index_s_2" placeholder="">
+		    <label for="index_s_2" class="col-sm-2 control-label">题数</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="index_s_2" placeholder="请输入题目数量">
 		    </div>
-		    <div class="col-sm-1"><span style="line-height:34px;">——</span></div>
+		   <!--  <div class="col-sm-1"><span style="line-height:34px;">——</span></div>
 		    <div class="col-sm-4">
 		      <input type="number" class="form-control" id="index_e_2" placeholder="">
-		    </div>
-		    <div class="clearfix"></div>
+		    </div>-->
+		    <div class="clearfix"></div> 
 		</div>
 		<div class="form-group">
 		    <label for="num_ans_2" class="col-sm-2 control-label">选项个数</label>
@@ -157,6 +134,8 @@
 					<option value="6">6</option>
 					<option value="7">7</option>
 					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
 				</select>
 		    </div>
 		    <div class="clearfix"></div>
@@ -164,14 +143,14 @@
 		<div class="form-group">
 		    <label for="fraction2" class="col-sm-2 control-label">单题分数</label>
 		    <div class="col-sm-10">
-		      <input type="number" class="form-control" id="fraction2" placeholder="">
+		      <input type="number" class="form-control" id="fraction2" placeholder="请输入单题分数">
 		    </div>
 		    <div class="clearfix"></div>
 		</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" id="addQuestion_submit">确定</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+         <button type="button" class="btn btn-default" id="addQuestion_submit">确定</button>
+         <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

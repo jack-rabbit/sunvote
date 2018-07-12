@@ -3,7 +3,8 @@
 	var score=0;
 	function creat(str_ans,a_num,fraction){
 		$(".section").remove();
-		$(".content").append('<div class="section section-1 single" data-fraction="'+fraction+'" data-score=""> <div class="title"> <h3><span class="que_num">一、</span><span class="que_name">单选</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>')
+		/*$(".content").append('<div class="section section-1 single" data-fraction="'+fraction+'" data-score=""> <div class="title"> <h3><span class="que_num">一、</span><span class="que_name">单选</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>')*/
+		$(".content").append('<div class="section section-1 single" data-fraction="'+fraction+'" data-score=""><div class="title"><h3><span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span></h3> </div><div class="question_list"></div></div>');
 		var str=str_ans.split('');
 		console.log(str);
 		for(i=0;i<str.length;i++){
@@ -94,7 +95,7 @@
 						}		
 				}
 			break;
-			case 5:                                             //多选题
+			/*case 5:                                             //多选题
 				$(".content").append('<div class="section section-'+answer_index_b+' check" data-fraction="'+fraction2+'" data-score=""> <div class="title"> <h3><span class="que_num">'+question_num+'、</span><span class="que_name">多选题</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>');
 				for(var i=index_s_2;i<=index_e_2;i++){
 						$(".section-"+answer_index_b+" .question_list").append('<div class="question question'+i+'"><span>'+i+'、</span><ul></ul></div>');
@@ -102,10 +103,21 @@
 							option=String.fromCharCode(0x41+j);
 							$(".section-"+answer_index_b+" .question"+i+' ul').append('<li class="btn btn-default">'+option+'</li>');
 						}		
+				}*/
+			case 5:                                             //多选题
+				$(".content").html("");
+				$(".content").append('<div class="section section0'+' check" data-fraction="'+fraction2+'" data-score=""> <div class="title"><h3><span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span></h3> </div> <div class="question_list"></div></div>');
+				for(var i=index_s_2;i<=index_e_2;i++){
+						$(".section0" +" .question_list").append('<div class="question question'+i+'"><span>'+i+'、</span><ul></ul></div>');
+						for(var j=0;j<a_num;j++){
+							option=String.fromCharCode(0x41+j);
+							$(".section0"+" .question"+i+' ul').append('<li class="btn btn-default">'+option+'</li>');
+						}		
 				}
 			break;
 		}
-		$(".section-"+answer_index_b).attr("data-score",$(".section-"+answer_index_b).find(".question").length*fraction2);
+//		$(".section-"+answer_index_b).attr("data-score",$(".section-"+answer_index_b).find(".question").length*fraction2);
+		$(".section0").attr("data-score",$(".section0").find(".question").length*fraction2);
 	}
 
 	$(document).on('click','.remove',function(){                //删除按钮
@@ -132,9 +144,9 @@
 	/*添加试题的确定按钮*/
 	$("#addQuestion_submit").click(function(){
 		$("#fast").attr("disabled","disabled");
-		var type_2=parseInt($("#type").val());
-		var index_s_2=parseInt($("#index_s_2").val());
-		var index_e_2=parseInt($("#index_e_2").val());
+		var type_2=5;//parseInt($("#type").val())
+		var index_s_2=1;//parseInt($("#index_s_2").val())
+		var index_e_2=parseInt($("#index_s_2").val());
 		//var answer_2=$("#answer_2").val();
 		var num_ans_2=$("#num_ans_2").val();
 		var fraction2=parseInt($("#fraction2").val());
@@ -142,7 +154,7 @@
 			alert("请输入题目开始序号");
 			return;
 		}else if(isNaN(index_e_2)){
-			alert("请输入题目结束序号");
+			alert("请输入题目个数");//alert("请输入题目结束序号");
 			return;
 		}else if(isNaN(fraction2)){
 			alert("请输入题目分数");
@@ -202,7 +214,7 @@
 		if($(".section").length>0){
 			var rank=0
 			for(i=0;i<$(".section").length;i++){
-				rank++;
+				/*rank++;
 				data.questions[i]={
 					chapter_id: "0",
 		            problem_type_id: "0",
@@ -220,7 +232,7 @@
 		            rank: rank,
 		            no_name: $(".section").eq(i).find(".que_num").text(),
 		            questions:[]
-					}
+					}*/
 				for(j=0;j<$(".section").eq(i).find(".question_list").children(".question").length;j++){
 					rank++;
 					var on_num=$(".section").eq(i).find(".question").eq(j).find(".on").length;
@@ -229,7 +241,7 @@
 						answer+=$(".section").eq(i).find(".question").eq(j).find(".on").eq(k).text();
 						//console.log(answer);
 					}
-					data.questions[i].questions[j]={
+					data.questions[j]={
 						chapter_id: "0",
 						problem_type_id: "0",
 						knowledge_id: "0",
@@ -244,7 +256,7 @@
 						part_score: "0",
 						remark: "",
 						rank: rank,
-						no_name: (i+1)+'.'+(j+1),
+						no_name: (j+1),
 					}
 				}
 			}
@@ -317,7 +329,8 @@ function fastSort(array,head,tail){
 if(testData.questions.length > 0){
 	fastSort(testData.questions,0,testData.questions.length-1);
 	for(var i = 0 ; i < testData.questions.length;i++){
-		if(testData.questions[0].questions.length > 1){
+		
+		if(testData.questions[0].questions && testData.questions[0].questions.length > 1){
 			fastSort(testData.questions[i].questions,0,testData.questions[i].questions.length-1);
 		}
 	}
@@ -328,40 +341,64 @@ function creatHtml(data){
 		console.log(data);
 		$(".header_box h1").html(data.title);	
 		$("#time").html(data.exam_time);
+		
+		if(data.questions.length>0){
+			$(".time").removeAttr("data-target");
+			$(".remove").remove();
+			$(".btn_box").remove();
+		}
+		
 		for(var i=0;i<data.questions.length;i++){
-			$(".content").append('<div class="section section-'+i+'" data-fraction="'+data.questions[i].score+'"> <h3><span class="que_num">'+data.questions[i].no_name+'</span>'+'<span class="que_name">'+data.questions[i].content+'</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" />  <div class="question_list"></div></div>')
-			if(data.questions.length>0){
-        $(".time").removeAttr("data-target");
-				$(".remove").remove();
-				$(".btn_box").remove();
-			}
-			for(var j=0;j<data.questions[i].questions.length;j++){
-				$(".section-"+i).find(".question_list").append('<div class="question question'+(j+1)+'"><span>'+(j+1)+'、</span><ul></ul></div>');	
-				if($(".section-"+i).find(".que_name").text()=="判断题"){
-					for(var k=0;k<parseInt(data.questions[i].questions[j].option_num);k++){
-						str_temp=data.questions[i].questions[j].answer;
-						if(k%2==0){
-							$(".section-"+i).find(".question"+(j+1)+' ul').append('<li class="btn btn-default">√</li>');
-						}else if(k%2==1){
-							$(".section-"+i).find(".question"+(j+1)+' ul').append('<li class="btn btn-default">×</li>');
-						}
-						
-						if(str_temp=="√")
-							$(".section-"+i).find(".question"+(j+1)+' ul li').eq(0).attr("class","btn btn-default on");
-						else
-							$(".section-"+i).find(".question"+(j+1)+' ul li').eq(1).attr("class","btn btn-default on");
+			if(data.questions[i].questions){
+				$(".content").append('<div class="section section-'+i+'" data-fraction="'+data.questions[i].score+'"> <h3><span class="que_num">'+data.questions[i].no_name+'</span>'+'<span class="que_name">'+data.questions[i].content+'</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" />  <div class="question_list"></div></div>');
+			}else{
+				if(i == 0){
+					$(".content").append('<div class="section section0"> <div class="question_list"></div></div>');
+				}
+				$(".section0").find(".question_list").append('<div class="question question'+(i+1)+'"><span>'+(i+1)+'、</span><ul></ul></div>');	
+				for(var k=0;k<parseInt(data.questions[i].option_num);k++){
+					str_temp=data.questions[i].answer;
+					$(".section0").find(".question"+(i+1)+' ul').append('<li class="btn btn-default">'+String.fromCharCode(0x41+k)+'</li>');
+					for(var l=0;l<str_temp.length;l++){
+						str_temp_arry=str_temp.split('');
+						code=str_temp_arry[l].charCodeAt();
+						on_index=code-65;
+						if(on_index==k){
+							$(".section0").find(".question"+(i+1)+' ul li').eq(on_index).attr("class","btn btn-default on");
+						}						
 					}
-				}else{			
-					for(var k=0;k<parseInt(data.questions[i].questions[j].option_num);k++){
-						str_temp=data.questions[i].questions[j].answer;
-						$(".section-"+i).find(".question"+(j+1)+' ul').append('<li class="btn btn-default">'+String.fromCharCode(0x41+k)+'</li>');
-						for(var l=0;l<str_temp.length;l++){
-							str_temp_arry=str_temp.split('');
-							code=str_temp_arry[l].charCodeAt();
-							on_index=code-65;
-							if(on_index==k){
-								$(".section-"+i).find(".question"+(j+1)+' ul li').eq(on_index).attr("class","btn btn-default on");
-							}						
+				}
+			}
+			
+			if(data.questions[i].questions){
+				for(var j=0;j<data.questions[i].questions.length;j++){
+					$(".section-"+i).find(".question_list").append('<div class="question question'+(j+1)+'"><span>'+(j+1)+'、</span><ul></ul></div>');	
+					if($(".section-"+i).find(".que_name").text()=="判断题"){
+						for(var k=0;k<parseInt(data.questions[i].questions[j].option_num);k++){
+							str_temp=data.questions[i].questions[j].answer;
+							if(k%2==0){
+								$(".section-"+i).find(".question"+(j+1)+' ul').append('<li class="btn btn-default">√</li>');
+							}else if(k%2==1){
+								$(".section-"+i).find(".question"+(j+1)+' ul').append('<li class="btn btn-default">×</li>');
+							}
+							
+							if(str_temp=="√")
+								$(".section-"+i).find(".question"+(j+1)+' ul li').eq(0).attr("class","btn btn-default on");
+							else
+								$(".section-"+i).find(".question"+(j+1)+' ul li').eq(1).attr("class","btn btn-default on");
+						}
+					}else{			
+						for(var k=0;k<parseInt(data.questions[i].questions[j].option_num);k++){
+							str_temp=data.questions[i].questions[j].answer;
+							$(".section-"+i).find(".question"+(j+1)+' ul').append('<li class="btn btn-default">'+String.fromCharCode(0x41+k)+'</li>');
+							for(var l=0;l<str_temp.length;l++){
+								str_temp_arry=str_temp.split('');
+								code=str_temp_arry[l].charCodeAt();
+								on_index=code-65;
+								if(on_index==k){
+									$(".section-"+i).find(".question"+(j+1)+' ul li').eq(on_index).attr("class","btn btn-default on");
+								}						
+							}
 						}
 					}
 				}
@@ -373,9 +410,20 @@ var answerLen = 0 ;
 /*快速建题中，每输入五个答案就加一个空格*/
 $("#answer").on("input propertychange",function(event){
 	if($("#answer").val().length > answerLen){
-		if(($("#answer").val().length + 1 )% 6 == 0){
-			$("#answer").val($("#answer").val()+" ");
+		var answerStr = $("#answer").val();
+		var result = "";
+		if(answerStr.length > 5){
+			answerStr = answerStr.replace(new RegExp(" ","gm"),"");
+			for(var i = 0 ; i < answerStr.length ; i++){
+				result += answerStr[i];
+				if(i % 5 == 4){
+					result += " ";
+				}
+			}
+		}else{
+			result = answerStr;
 		}
+		$("#answer").val(result);
 	}
 	answerLen = $("#answer").val().length;
 })

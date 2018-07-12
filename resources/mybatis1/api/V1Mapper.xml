@@ -103,6 +103,7 @@
 			<if test="PAPER_ID != null and PAPER_ID != ''">
 				and sv_paperquestion.PAPER_ID = #{PAPER_ID}
 			</if>
+			order by LENGTH(sv_paperquestion.RANK),sv_paperquestion.RANK
 		
 	</select>
 	

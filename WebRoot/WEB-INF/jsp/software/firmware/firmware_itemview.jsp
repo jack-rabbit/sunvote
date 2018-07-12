@@ -41,7 +41,7 @@
 					</center></div>
 					</br></br></br>
 					<center>
-					<table id="table_report" class="table table-striped table-bordered table-hover">
+					<table id="table_report"  >
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">货品编号:</td>
 								<td style="width:75px;text-align: left;padding-top: 13px;">${pd.PRODUCT_NO}</td>
@@ -56,33 +56,14 @@
 							</tr>
 					</table>
 					</center></br></br></br>
-					<table class="table table-striped table-bordered table-hover">
-							<tr>
-								<td style="text-align: right;">产品功能:</td>
-								<td>${pd.PRODUCT_FUNC}</td>
-							</tr>
-							<tr>
-								<td style="text-align: right;">产品性能:</td>
-								<td>${pd.PRODUCT_PERF}</td>
-							</tr>
-							<tr>
-								<td style="text-align: right;">适配硬件:</td>
-								<td>${pd.ADAPTABLE_HARDWARE}</td>
-							</tr>
-							<tr>
-								<td style="text-align: right;">适配软件:</td>
-								<td>${pd.ADAPTABLE_SOFTWARE}</td>
-							</tr>
-							<tr>
-								<td style="text-align: right;">产品认证:</td>
-								<td>${pd.PRODUCT_CERT}</td>
-							</tr>
-							<tr>
-								<td style="text-align: right;">注意事项:</td>
-								<td>${pd.REMARK}
-								</td>
-							</tr>
-						</table>
+					<div style="margin-left:100px;margin-right:100px;">
+						<div>产品功能:${pd.PRODUCT_FUNC}</div></br>
+						<div>产品性能:${pd.PRODUCT_PERF}</div></br>
+						<div>适配硬件:${pd.ADAPTABLE_HARDWARE}</div></br>
+						<div>适配软件:${pd.ADAPTABLE_SOFTWARE}</div></br>
+						<div>产品认证:${pd.PRODUCT_CERT}</div></br>
+						<div>注意事项:${pd.REMARK}</div></br>
+					</div>
 						</div>
 					</form>
 					</div>
