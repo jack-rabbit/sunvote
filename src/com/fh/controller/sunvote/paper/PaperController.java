@@ -25,15 +25,14 @@ import com.fh.bean.Question;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.User;
-import com.fh.util.AppUtil;
-import com.fh.util.Const;
-import com.fh.util.ObjectExcelView;
-import com.fh.util.PageData;
-import com.fh.util.Jurisdiction;
-import com.fh.util.Tools;
 import com.fh.service.api.V1Manager;
 import com.fh.service.sunvote.paper.PaperManager;
 import com.fh.service.sunvote.paperquestion.PaperQuestionManager;
+import com.fh.util.AppUtil;
+import com.fh.util.Const;
+import com.fh.util.Jurisdiction;
+import com.fh.util.ObjectExcelView;
+import com.fh.util.PageData;
 
 /** 
  * 说明：试卷
@@ -92,7 +91,6 @@ public class PaperController extends BaseController {
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"删除Paper");
-//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		String[] ArrayDATA_IDS = new String[]{pd.getString("PAPER_ID")};
@@ -232,7 +230,6 @@ public class PaperController extends BaseController {
 	@RequestMapping(value="/npaper")
 	public ModelAndView newpaper() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"Paper详细信息");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();

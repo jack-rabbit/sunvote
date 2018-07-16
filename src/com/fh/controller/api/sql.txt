@@ -40,3 +40,17 @@ FROM
 LEFT JOIN sv_paperquestion ON sv_paper.PAPER_ID = sv_paperquestion.PAPER_ID
 LEFT JOIN sv_question ON sv_paperquestion.QUESTION_ID = sv_question.QUESTION_ID;
 
+
+修改试卷答案为某个固定答案
+需要知道试卷ID
+UPDATE sv_question
+SET answer = 'ABCDEFGHIJ'
+WHERE
+	QUESTION_ID IN (
+		SELECT
+			QUESTION_ID
+		FROM
+			sv_paperquestion
+		WHERE
+			PAPER_ID = 'a659f13d62b9433b87ffb916e97f43bc'
+	);

@@ -147,7 +147,7 @@
 			and (CREATE_DATE &lt; #{END_DATE})
 		</if>
 		
-		order by CREATE_DATE
+		order by CREATE_DATE DESC
 	</select>
 	
 	<!-- 批量删除 -->
