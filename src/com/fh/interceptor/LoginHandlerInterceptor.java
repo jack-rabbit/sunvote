@@ -19,6 +19,11 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 			if(user!=null){
 				path = path.substring(1, path.length());
 				boolean b = true;//Jurisdiction.hasJurisdiction(path); //访问权限校验
+				try{
+					Jurisdiction.hasJurisdiction(path);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 				if(!b){
 					response.sendRedirect(request.getContextPath() + Const.LOGIN);
 				}
