@@ -139,6 +139,11 @@
 			}
 			//window.open("<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time);
 		});
+		
+		$(".testpaper").click(function (){
+			var path = "../paper/list2.do?" ;
+			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
+		});
 	</script>
 </body>
 </html>
