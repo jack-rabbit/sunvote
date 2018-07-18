@@ -32,57 +32,56 @@
 						<input type="hidden" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}"/>
 						<input type="hidden" name="TERM_ID" id="TERM_ID" value="${pd.TERM_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
-						<table id="table_report" class="table table-striped table-bordered table-hover">
+						<table id="table_report" class="table">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">姓名:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">姓名:</td>
 								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="255" placeholder="这里输入学生姓名" title="学生姓名" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">学籍号:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">学籍号:</td>
 								<td><input type="text" name="SNO" id="SNO" value="${pd.SNO}" maxlength="255" placeholder="这里输入学籍号" title="学籍号" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">学号:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">学号:</td>
 								<td><input type="text" name="NUMBER" id="NUMBER" value="${pd.NUMBER}" maxlength="255" placeholder="这里输入学号" title="学号" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">性别:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">性别:</td>
 								<td>
 								<%-- <input type="number" name="SEX" id="SEX" value="${pd.SEX}" maxlength="32" placeholder="这里输入性别" title="性别" style="width:98%;"/></td> --%>
-								<select class="chosen-select form-control" name="SEX" id="SEX" data-placeholder="这里输入班级类型">
+								<select class="chosen-select form-control" name="SEX" id="SEX" data-placeholder="这里输入班级类型" style="width:98%;">
 										<option value="1"  <c:if test="${pd.SEX==1}">selected="true"</c:if>>男</option>
 										<option value="0"  <c:if test="${pd.SEX==0}">selected="true"</c:if>>女</option>
 								</select>
 								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">组号:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">组号:</td>
 								<td><input type="text" name="GROUPID" id="GROUPID" value="${pd.GROUPID}" maxlength="255" placeholder="这里输入组号" title="组号" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">签到码:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">签到码:</td>
 								<td><input type="text" name="SIGN_NO" id="SIGN_NO" value="${pd.SIGN_NO}" maxlength="255" placeholder="这里输入签到码" title="签到码" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">家长姓名:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">家长姓名:</td>
 								<td><input type="text" name="PARENT_NAME" id="PARENT_NAME" value="${pd.PARENT_NAME}" maxlength="255" placeholder="这里输入家长姓名" title="家长姓名" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">家长手机号:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">家长手机号:</td>
 								<td><input type="text" name="PARENT_PHONE" id="PARENT_PHONE" value="${pd.PARENT_PHONE}" maxlength="255" placeholder="这里输入家长手机号" title="家长手机号" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">键盘ID:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">键盘ID:</td>
 								<td><input type="text" name="KEYPAD_ID" id="KEYPAD_ID" value="${pd.KEYPAD_ID}" maxlength="255" placeholder="这里输入键盘ID" title="键盘ID" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">备注:</td>
+								<td style="width:90px;text-align: right;padding-top: 13px;">备注:</td>
 								<td><input type="text" name="REMARK" id="REMARK" value="${pd.REMARK}" maxlength="255" placeholder="这里输入备注" title="备注" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
-									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
-									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+									<a class="btn btn-mini btn-primary" onclick="save();"><div style="width:100px;">保存</div></a>
 								</td>
 							</tr>
 						</table>

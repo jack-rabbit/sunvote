@@ -34,7 +34,8 @@
 	<div class="header">
 		<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
-		<input type="text" class="demo-input" placeholder="日期范围" id="test6">
+		<input type="text" class="demo-input" placeholder="开始日期" name="starDate" id="test6">
+		<input type="text" class="demo-input" placeholder="结束日期" name="endDate" id="test6">
 		<input type="button" value="查询" id="search"/>
 		 </div>
 </nav>

@@ -20,7 +20,8 @@
 <link
 	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet">
-<link href="../static/css/teach.css" rel="stylesheet">
+<link href="../static/css/teach.css?a=1" rel="stylesheet">
+<link href="../static/css/mb_style.css" rel="stylesheet">
 
 <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
 <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -120,14 +121,19 @@
 	<script
 		src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="../static/js/model.js"></script>
+	<script src="../static/js/loading.js"></script>
+	<script src="../static/js/remove.js?a=2"></script>
+	<script src="../static/js/dailog.js"></script>
 	<script type="text/javascript">
 		function chooseClass(classID,termID){
 			var path = "../student/listcs.do?class_id=" + classID + "&term_id=" + termID ;
-			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
+			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
+			$("#mainFrame").attr('src',path);
 		}
 		
 		function report(classId){
-			window.open('<%=basePath%>report/report.do?classid=' + classId);
+			//window.open('<%=basePath%>report/report.do?classid=' + classId);
+			$("#mainFrame").attr('src','<%=basePath%>report/report.do?classid=' + classId);
 		}
 		
 		$("#time_submit").click(function(){
@@ -137,12 +143,12 @@
 				self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time ;
 				$(".title_time").modal("hide");
 			}
-			//window.open("<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time);
 		});
 		
 		$(".testpaper").click(function (){
 			var path = "../paper/list2.do?" ;
-			$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
+			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
+			$("#mainFrame").attr('src',path);
 		});
 	</script>
 </body>

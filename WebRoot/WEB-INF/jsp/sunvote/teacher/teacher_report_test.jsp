@@ -25,20 +25,18 @@
 </head>
 
 <body style="background:#fff">
-	<div style="min-width:1360px; margin:0 100px">
-	</br>
-	</br>
-	</br>
+	<div style="min-width:1360px;padding:20px 20px;">
+
 		<form action="report/report_test.do" method="post" name="Form" id="Form">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
 			<table style="margin-top:5px;">
-				<tr>
+				<tr style="height: 30px">
 					<td>测验名称: ${testpaperInfo.NAME}</td>
 				</tr>
-				<tr>
+				<tr style="height: 30px">
 					<td>收卷时间: ${testpaperInfo.END_DATE}</td>
 				</tr>
-				<tr>
+				<tr style="height: 30px">
 					<td>班级名册：${classInfo.CLASS_NAME}</td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td><span>学生人数: ${classInfo.studentNum}</span></td>
@@ -47,20 +45,20 @@
 			</table>
 			<table id="simple-table"
 				class="table table-striped table-bordered table-hover"
-				style="margin-top:5px;">
+				style="margin-top:15px;">
 				<thead>
 					<tr>
-						<th class="center">键盘</th>
-						<th class="center">学号</th>
-						<th class="center">姓名</th>
-						<th class="center">得分</th>
-						<th class="center">正确率</th>
-						<th class="center">排名</th>
+						<th class="center"><div style="width:80px;">键盘</div></th>
+						<th class="center"><div style="width:80px;">学号</div></th>
+						<th class="center"><div style="width:80px;">姓名</div></th>
+						<th class="center"><div style="width:80px;">得分</div></th>
+						<th class="center"><div style="width:80px;">正确率</div></th>
+						<th class="center"><div style="width:80px;">排名</div></th>
 						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
-							<th class="center">题目${vs.index+1}</th>
+							<th class="center"><div style="width:80px;">题目${vs.index+1}</div></th>
 						</c:forEach>
-						<th class="center">非选择题得分</th>
-						<th class="center">总分</th>
+						<th class="center"><div style="width:150px;">非选择题得分</div></th>
+						<th class="center"><div style="width:80px;">总分</div></th>
 					</tr>
 				</thead>
 				<tbody>

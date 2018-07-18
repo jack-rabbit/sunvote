@@ -64,7 +64,7 @@ public class Page {
 			sb.append("	<ul class=\"pagination pull-right no-margin\">\n");
 			if(currentPage==1){
 				sb.append("	<li><a>共"+totalResult+"条</a></li>\n");
-				sb.append("	<li><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:50px;text-align:center;float:left\" placeholder=\"页码\"/></li>\n");
+				sb.append("	<li><span style='padding:0'><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:50px;text-align:center;float:left\" placeholder=\"页码\"/></span></li>\n");
 				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"toTZ();\"  class=\"btn btn-mini btn-success\">跳转</a></li>\n");
 				sb.append("	<li><a>首页</a></li>\n");
 				sb.append("	<li><a>上页</a></li>\n");
@@ -95,7 +95,7 @@ public class Page {
 				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage("+totalPage+")\">尾页</a></li>\n");
 			}
 			sb.append("	<li><a>共"+totalPage+"页</a></li>\n");
-			sb.append("	<li><span class=\"enter\"><select title='显示条数' style=\"width:55px;float:left;height:32px;margin-top:1px;\" onchange=\"changeCount(this.value)\">\n");
+			sb.append("	<li><span class=\"enter\"><select title='显示条数' style=\"width:55px;float:left;height:32px;margin-top:1px;border:0\" onchange=\"changeCount(this.value)\">\n");
 			sb.append("	<option value='"+showCount+"'>"+showCount+"</option>\n");
 			sb.append("	<option value='10'>10</option>\n");
 			sb.append("	<option value='20'>20</option>\n");

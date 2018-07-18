@@ -75,7 +75,6 @@ public class StudentController extends BaseController {
 	@RequestMapping(value="/save2")
 	public ModelAndView save2() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"新增Student");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -94,7 +93,7 @@ public class StudentController extends BaseController {
 		
 		
 		mv.addObject("msg","success");
-		mv.setViewName("save_result");
+		mv.setViewName("save_result2");
 		return mv;
 	}
 	

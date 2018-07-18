@@ -47,7 +47,7 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">性别:</td>
 								<td>
 								<%-- <input type="number" name="SEX" id="SEX" value="${pd.SEX}" maxlength="32" placeholder="这里输入性别" title="性别" style="width:98%;"/></td> --%>
-								<select class="chosen-select form-control" name="SEX" id="SEX" data-placeholder="这里输入班级类型">
+								<select class="chosen-select form-control" name="SEX" id="SEX" data-placeholder="这里输入班级类型" style="width:98%;">
 										<option value="1"  <c:if test="${pd.SEX==1}">selected="true"</c:if>>男</option>
 										<option value="0"  <c:if test="${pd.SEX==0}">selected="true"</c:if>>女</option>
 								</select>
@@ -79,7 +79,7 @@
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
-									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+									<a class="btn btn-mini btn-primary creat" onclick="save();">保存</a>
 									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
 								</td>
 							</tr>

@@ -19,6 +19,10 @@
 	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="../static/css/teach.css" rel="stylesheet">
+<link rel="stylesheet" href="../static/ace/css/datepicker.css" />
+<script src="../static/js/loading.js"></script>
+<script src="../static/js/remove.js?a=1"></script>
+<script src="../static/js/dailog.js"></script>
 
 <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
 <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -37,8 +41,9 @@
 				</p>
 			</div>
 			<div class="head_box_r">
-				<input type="text" value="" placeholder="开始日期" /> <input type="text"
-					value="" placeholder="结束日期" /> <a href="#"><img
+				<input class="date-picker" type="text" value="" placeholder="开始日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" /> 
+				<input type="text" class="date-picker"	value="" placeholder="结束日期" name="lastEnd" name="lastEnd" data-date-format="yyyy-mm-dd" readonly="readonly" />
+				 <a href="#" onclick="tosearch();"><img
 					src="../static/images/search.png" /></a>
 			</div>
 			<div class="clear"></div>
@@ -47,8 +52,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th><input type="checkbox" value="0" name="choose"
-							id="chooseAll" />序号</th>
+						<th><input type="checkbox"  name='ids' />序号</th>
 						<th>测验标题</th>
 						<th>创建时间</th>
 						<th>建议考试时长</th>
@@ -61,7 +65,7 @@
 					<c:when test="${not empty varList}">
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
-								<td><input type="checkbox" value="1" name="choose" />${vs.index+1}</td>
+								<td><input type="checkbox" name='ids' value="${var.PAPER_ID}"/>${vs.index+1}</td>
 								<td ><a  target="_blank" href="<%=basePath%>paper/iteminfo.do?paper_id=${var.PAPER_ID}">${var.TITLE}</a></td>
 								<td >${var.CREATE_DATE}</td>
 								<td >${var.EXAM_TIME}</td>
@@ -88,94 +92,66 @@
 					<input type="button"  onclick="parent.$('.title_time').modal('show');" value="新建试卷" />
 				</div>
 				<div class="removeAll">
-					<input type="button" value="批量删除" />
+					<input type="button" onclick="deleteAll()" value="批量删除" />
 				</div>
 				<div class="page_box">
 					
 					<div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div>
-					
-					 <!-- <nav aria-label="Page navigation">
-	
-						<ul class="pagination">
-							<li><span>共5条</span></li>
-							<li><span class="enter"><input type="number" value="" /></span></li>
-							<li><a href="#" class="jump_btn">跳转</a></li>
-							<li><a href="#">首页</a></li>
-							<li><a href="#" aria-label="Previous"> <span
-									aria-hidden="true">上一页</span>
-							</a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#" aria-label="Next"> <span
-									aria-hidden="true">下一页</span>
-							</a></li>
-							<li><a href="#">尾页</a></li>
-							<li><span class="enter"><select title="显示条数"
-									style="width:55px;height:32px;float:left;border:0;color:#000;"
-									onchange="changeCount(this.value)">
-										<option value="10">10</option>
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-										<option value="50">50</option>
-										<option value="60">60</option>
-										<option value="70">70</option>
-										<option value="80">80</option>
-										<option value="90">90</option>
-										<option value="99">99</option>
-								</select></span></li>
-						</ul>
-					</nav>  -->
 				</div>
 			</div>
 		</div>
 	</form>
 </body>
 
-<%@ include file="../../system/index/foot.jsp"%>
+<%@ include file="../../system/index/foot2.jsp"%>
+<script src="../static/ace/js/date-time/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
-
-//删除
+		
+		
+		function tosearch(){
+			window.top.loading.remove();
+			$("#Form").submit();
+		}
+		
+		$('.table_box > .table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
+				var th_checked = this.checked;//checkbox inside "TH" table header
+				$(this).closest('table').find('tbody > tr').each(function(){
+					var row = this;
+					if(th_checked) $(row).find('input[type=checkbox]').eq(0).prop('checked', true);
+					else $(row).find('input[type=checkbox]').eq(0).prop('checked', false);
+				});
+		});
+		
 		function del(Id){
-			bootbox.confirm("确定要删除吗?", function(result) {
-				if(result) {
-					top.jzts();
+			//var remove = new remove();
+			window.top.remove.init({"title":"删除","func":function(success){
+				if(success){
 					var url = "<%=basePath%>paper/delete.do?PAPER_ID="+Id+"&tm="+new Date().getTime();
+					window.top.loading.show();
 					$.get(url,function(data){
 						tosearch();
 					});
 				}
-			});
-		}
-		
-		//修改
-		function edit(Id){
-			 top.jzts();
-			 var diag = new top.Dialog();
-			 diag.Drag=true;
-			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>paper/goEdit.do?PAPER_ID='+Id;
-			 diag.Width = 450;
-			 diag.Height = 355;
-			 diag.Modal = true;				//有无遮罩窗口
-			 diag. ShowMaxButton = true;	//最大化按钮
-		     diag.ShowMinButton = true;		//最小化按钮 
-			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 tosearch();
+				else{
+					console.log("false");
 				}
-				diag.close();
-			 };
-			 diag.show();
+			}});
+			remove.show();
 		}
 		
-		//批量操作
-		function makeAll(msg){
-			bootbox.confirm(msg, function(result) {
-				if(result) {
+		$(function() {
+		
+			//日期框
+			$('.date-picker').datepicker({
+				autoclose: true,
+				todayHighlight: true
+			});
+		
+		});
+		
+		function deleteAll(){
+			window.top.remove.init({"title":"删除","func":function(success){
+				if(success){
 					var str = '';
 					for(var i=0;i < document.getElementsByName('ids').length;i++){
 					  if(document.getElementsByName('ids')[i].checked){
@@ -184,22 +160,9 @@
 					  }
 					}
 					if(str==''){
-						bootbox.dialog({
-							message: "<span class='bigger-110'>您没有选择任何内容!</span>",
-							buttons: 			
-							{ "button":{ "label":"确定", "className":"btn-sm btn-success"}}
-						});
-						$("#zcheckbox").tips({
-							side:1,
-				            msg:'点这里全选',
-				            bg:'#AE81FF',
-				            time:8
-				        });
-						return;
+						
 					}else{
-						if(msg == '确定要删除选中的数据吗?'){
-							top.jzts();
-							$.ajax({
+						$.ajax({
 								type: "POST",
 								url: '<%=basePath%>paper/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
@@ -212,23 +175,13 @@
 									 });
 								}
 							});
-						}
 					}
 				}
-			});
-		};
-		
-		function tosearch(){
-			$("#Form").submit();
+				else{
+					console.log("false");
+				}
+			}});
+			remove.show();
 		}
-		
-		$('.table_box > .table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
-				var th_checked = this.checked;//checkbox inside "TH" table header
-				$(this).closest('table').find('tbody > tr').each(function(){
-					var row = this;
-					if(th_checked) $(row).find('input[type=checkbox]').eq(0).prop('checked', true);
-					else $(row).find('input[type=checkbox]').eq(0).prop('checked', false);
-				});
-		});
 </script>
 </html>

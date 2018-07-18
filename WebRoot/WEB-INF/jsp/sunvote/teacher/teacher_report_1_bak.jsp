@@ -22,19 +22,22 @@
 <%@ include file="../../system/index/top.jsp"%>
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
-
 </head>
 
 <body style="background:#fff">
-	<div style="min-width:1360px;">
+	<div style="min-width:1360px;margin:0 100">
+	</br></br>
 		<form action="report/report.do" method="post" name="Form" id="Form">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
 			<table style="margin-top:5px;">
 				<tr>
-					<td><div style="width:150px;text-align:center;">课程统计: ${info.testsize}</div></td>
-					<td><div style="width:150px;text-align:center;">班级名册: ${info.CLASS_NAME}</div></td>
-				
-					<td><div style="width:150px;text-align:center;"><span>学生人数: ${info.STUDENT_NUM}</span></div></td>
+					<td>课程统计: ${info.testsize}</td>
+				</tr>
+				<tr>
+					<td>班级名册: ${info.CLASS_NAME}</td>
+				</tr>
+				<tr>
+					<td><span>学生人数: ${info.STUDENT_NUM}</span></td>
 					<td></td>
 					<td style="padding-left:2px;"><input
 						class="span10 date-picker" name="lastStart" id="lastStart"
@@ -56,12 +59,12 @@
 				style="margin-top:5px;">
 				<thead>
 					<tr>
-						<th class="center"><div style="width:150px;">姓名</div></th>
-						<th class="center"><div style="width:150px;">课程平均得分率</div></th>
-						<th class="center"><div style="width:80px;">课程总分</div></th>
+						<th class="center">姓名</th>
+						<th class="center">课程平均得分率</th>
+						<th class="center">课程总分</th>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<th class="center"><a
-								href="report/test_report?TestID=${var.TESTPAPER_ID}&class_id=${info.CLASS_ID}"><div style="width:150px;">${var.NAME}${var.CREATE_DATE}</div></a></th>
+								href="report/test_report?TestID=${var.TESTPAPER_ID}&class_id=${info.CLASS_ID}">${var.NAME}(${var.CREATE_DATE})</a></th>
 						</c:forEach>
 					</tr>
 				</thead>
