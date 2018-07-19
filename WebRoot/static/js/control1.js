@@ -60,10 +60,12 @@
 		})
 		
 		$("#search").click(function(){
-			var date_string=$("#test6").val();
-			var date_arry=date_string.split(' - ');
-			startDate=date_arry[0];
-			endDate=date_arry[1];
+//			var date_string=$("#test6").val();
+//			var date_arry=date_string.split(' - ');
+//			startDate=date_arry[0];
+//			endDate=date_arry[1];
+			startDate = $("#starDate").val();
+			endDate = $("#endDate").val();
 			getData(startDate,endDate);
 		})
 		

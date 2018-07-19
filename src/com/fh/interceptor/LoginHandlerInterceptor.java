@@ -22,7 +22,7 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 				try{
 					Jurisdiction.hasJurisdiction(path);
 				}catch(Exception e){
-					e.printStackTrace();
+					
 				}
 				if(!b){
 					response.sendRedirect(request.getContextPath() + Const.LOGIN);

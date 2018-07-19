@@ -65,7 +65,7 @@
 					<c:when test="${not empty varList}">
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
-								<td><input type="checkbox" name='ids' value="${var.PAPER_ID}"/>${vs.index+1}</td>
+								<td><input type="checkbox" name='ids' id="ids" value="${var.PAPER_ID}"/>${vs.index+1}</td>
 								<td ><a  target="_blank" href="<%=basePath%>paper/iteminfo.do?paper_id=${var.PAPER_ID}">${var.TITLE}</a></td>
 								<td >${var.CREATE_DATE}</td>
 								<td >${var.EXAM_TIME}</td>
@@ -181,7 +181,7 @@
 					console.log("false");
 				}
 			}});
-			remove.show();
+			window.top.remove.show();
 		}
 </script>
 </html>

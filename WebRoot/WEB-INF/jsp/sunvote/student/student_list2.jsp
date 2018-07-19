@@ -19,9 +19,6 @@
 	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="../static/css/teach.css" rel="stylesheet">
-<script src="../static/js/loading.js"></script>
-<script src="../static/js/remove.js"></script>
-<script src="../static/js/dailog.js"></script>
 
 <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
 <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -47,8 +44,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th><input type="checkbox" value="0" name="choose"
-							id="chooseAll" />序号</th>
+						<th><input type="checkbox" value="0" name='ids' id="ids"  />序号</th>
 						<th>姓名</th>
 						<th>学号</th>
 						<th>键盘ID</th>
@@ -60,11 +56,11 @@
 					<c:when test="${not empty varList}">
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
-								<td><input type="checkbox" value="1" name="choose" />${vs.index+1}</td>
+								<td><input type="checkbox" name='ids' id="ids"  value="${var.ID}" />${vs.index+1}</td>
 									<td class='center'>${var.NAME}</td>
-											<td>${var.SNO}</td>
+											<td>${var.NUMBER}</td>
 											<td>${var.KEYPAD_ID}</td>
-											<td><a href="#" onclick="del('${var.ID}');"><img src="../static/images/remove.png" /></a></td>
+											<td><a href="#" onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="../static/images/eidtor.png" /></a><a href="#" onclick="del('${var.ID}');"><img src="../static/images/remove.png" /></a></td>
 								
 								
 											
@@ -126,7 +122,7 @@
 					console.log("false");
 				}
 			}});
-			remove.show();
+			window.top.remove.show();
 		}
 		
 		function add(){
@@ -140,8 +136,48 @@
 			window.top.modal.show();
 		}
 		
-		function deleteAll(){
+		function edit(Id){
+			window.top.modal.init({
+			'title':'添加学生',
+			'url':'<%=basePath%>student/goEdit2.do?ID='+Id,
+			func:function() {
+				tosearch();
+			}
+			});
+			window.top.modal.show();
+		}
 		
+		function deleteAll(){
+			window.top.remove.init({"title":"删除","func":function(success){
+				if(success){
+					var str = '';
+					for(var i=0;i < document.getElementsByName('ids').length;i++){
+					  if(document.getElementsByName('ids')[i].checked){
+					  	if(str=='') str += document.getElementsByName('ids')[i].value;
+					  	else str += ',' + document.getElementsByName('ids')[i].value;
+					  }
+					}
+					if(str==''){
+						
+					}else{
+						$.ajax({
+								type: "POST",
+								url: '<%=basePath%>student/deleteAll.do?tm='+new Date().getTime(),
+						    	data: {DATA_IDS:str},
+								dataType:'json',
+								//beforeSend: validateData,
+								cache: false,
+								success: function(data){
+									tosearch();
+								}
+							});
+					}
+				}
+				else{
+					console.log("false");
+				}
+			}});
+			window.top.remove.show();
 		}
 		
 		

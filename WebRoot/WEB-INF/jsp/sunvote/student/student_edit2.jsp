@@ -16,6 +16,27 @@
 	<%@ include file="../../system/index/top.jsp"%>
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
+	<style>
+		.table td{border:0 !important;}
+		.btn1 {
+	width: 80%;
+	height: 40px;
+	margin: 0 auto;
+	background: #3bc2d6;
+	margin-top: 5%;
+}
+
+.btn1 a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	color: #fff;
+	text-decoration: none;
+	text-align: center;
+	line-height: 40px;
+	font-size: 20px;
+}
+	</style>
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
@@ -81,7 +102,10 @@
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
-									<a class="btn btn-mini btn-primary" onclick="save();"><div style="width:100px;">保存</div></a>
+									<!-- <a class="btn" onclick="save();"><div style="width:100px;">保存</div></a> -->
+									<div class="btn1">
+										<a  onclick="save();">保存</a>
+									</div>
 								</td>
 							</tr>
 						</table>

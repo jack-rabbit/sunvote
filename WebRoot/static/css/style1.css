@@ -7,12 +7,14 @@ ul{padding:0;}
 .yellow{background:yellow;}
 .clear{clear:both;}
 
+.container{display:table;margin:0 auto;}
+.container input[type="text"]{margin-right:10px;}
 .content .content_l{height:100%;overflow-y:auto;padding:0;}
 .content .content_l li p{line-height:50px;font-size:25px;text-align:center;}
 .content .content_r{padding:0;overflow-x:hidden;}
 .content .content_r .tabel_t{background:#50b5c9;padding-top:5%;position:relative;}
 .content .content_r .tabel_t .name{color:#fff;text-align:center;}
-.header .navbar{background:#fff;border-bottom:1px solid #ccc;height:70px;}
+.header .navbar{background:#fff;border-bottom:1px solid #ccc;height:50px;}
 .circle{border-bottom:1px solid #fff;}
 .circle .col-md-6{height:200px;}
 .circle .col-md-6 div:first-child{margin:0 auto;}

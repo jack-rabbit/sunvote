@@ -26,7 +26,7 @@
 </head>
 
 <body style="background:#fff">
-	<div style="min-width:1360px;">
+	<div style="min-width:1360px;padding:20px 20px;">
 		<form action="report/report.do" method="post" name="Form" id="Form">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
 			<table style="margin-top:5px;">
@@ -61,7 +61,7 @@
 						<th class="center"><div style="width:80px;">课程总分</div></th>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<th class="center"><a
-								href="report/test_report?TestID=${var.TESTPAPER_ID}&class_id=${info.CLASS_ID}"><div style="width:150px;">${var.NAME}${var.CREATE_DATE}</div></a></th>
+								href="report/test_report?TestID=${var.TESTPAPER_ID}&class_id=${info.CLASS_ID}"><div style="width:180px;">${var.NAME}</br>${var.CREATE_DATE}</div></a></th>
 						</c:forEach>
 					</tr>
 				</thead>
