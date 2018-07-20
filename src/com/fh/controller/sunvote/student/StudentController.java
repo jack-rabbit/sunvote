@@ -168,7 +168,7 @@ public class StudentController extends BaseController {
 			}
 		}
 		mv.addObject("msg","success");
-		mv.setViewName("save_result");
+		mv.setViewName("save_result2");
 		return mv;
 	}
 	
@@ -216,8 +216,8 @@ public class StudentController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		studentService.edit(pd);
-		mv.addObject("msg","success2");
-		mv.setViewName("save_result");
+		mv.addObject("msg","success");
+		mv.setViewName("save_result2");
 		return mv;
 	}
 	

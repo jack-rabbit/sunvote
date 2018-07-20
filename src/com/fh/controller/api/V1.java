@@ -162,6 +162,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object login() throws Exception {
+		event("apilogin");
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
 		if (!pd.containsKey("ACCOUT")) {
@@ -216,6 +217,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/class", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object sclass() throws Exception {
+		event("sclass");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		if (pd.containsKey("ID")) {
@@ -247,6 +249,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/questiontype", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object questiontype() throws Exception {
+		event("questiontype");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson();
@@ -259,6 +262,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/classtype", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object classtype() throws Exception {
+		event("classtype");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson();
@@ -271,6 +275,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/grade", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object grade() throws Exception {
+		event("grade");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson();
@@ -288,6 +293,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/subject", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object subject() throws Exception {
+		event("subject");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson();
@@ -307,6 +313,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/keypadscan", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object keypadScan() throws Exception {
+		event("keypadScan");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<String> res = new ResponseGson();
@@ -327,6 +334,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/paper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paper() throws Exception {
+		event("paper");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
@@ -363,6 +371,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/paperinfo", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paperInfo() throws Exception {
+		event("paperInfo");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<Paper> res = new ResponseGson<Paper>();
@@ -469,6 +478,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/paperquestion", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paperQuestion() throws Exception {
+		event("paperQuestion");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
@@ -479,6 +489,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/question", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object question() throws Exception {
+		event("question");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
@@ -496,6 +507,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/question/add", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object questionAdd() throws Exception {
+		event("questionAdd");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
@@ -508,6 +520,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/uploadpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadpaper() throws Exception {
+		event("uploadpaper");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<String> res = new ResponseGson();
@@ -636,6 +649,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/uploadtestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadTestpaper() {
+		event("uploadTestpaper");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<String> res = new ResponseGson();
@@ -750,6 +764,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/uploadupdatetestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadupdateTestpaper() {
+		event("uploadupdateTestpaper");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<String> res = new ResponseGson();
@@ -862,6 +877,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/downloadtestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object downloadTestpaper() {
+		event("downloadTestpaper");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<TestPaper> res = new ResponseGson();
@@ -947,6 +963,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/testpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object testpaper() {
+		event("testpaper");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<TestPaper>> res = new ResponseGson();
@@ -988,6 +1005,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/schooladmin", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public void schoolAdmin(){
+		event("schoolAdmin");
 		PageData pd = this.getPageData();
 		this.getUserID();
 	}
@@ -996,6 +1014,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/network", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object network() throws Exception{
+		event("network");
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
 		PageData spd = networkstatisticsService.findByClientID(pd);
@@ -1055,6 +1074,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/newversion", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object getNewVersion(HttpServletRequest request) throws Exception{
+		event("getNewVersion");
 		PageData pd = this.getPageData();
 		String softId = pd.getString("SOFTID");
 		String path = request.getContextPath();
@@ -1081,5 +1101,20 @@ public class V1 extends BaseController {
 	
 	
 
+	private void event(String apiName){
+		PageData eventPd = new PageData();
+		eventPd.put("EVENT_ID", get32UUID());
+		eventPd.put("EVENT_NAME", apiName);
+		eventPd.put("EVENT_USER", getUsername());
+		eventPd.put("EVENT_TYPE", "0");
+		eventPd.put("EVENT_START_TIME", Tools.date2Str(new Date()));
+		eventPd.put("CLIENT_ID", "SERVER");
+		eventPd.put("EVENT_IP", getRemoteIp());
+		try{
+			eventService.save(eventPd);
+		}catch(Exception e){
+			
+		}
+	}
 	
 }

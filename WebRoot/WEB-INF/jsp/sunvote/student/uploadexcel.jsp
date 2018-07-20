@@ -16,6 +16,86 @@
 <!-- jsp文件头和头部 -->
 <%@ include file="../../system/index/top.jsp"%>
 
+
+<style>
+
+.ace-file-input .ace-file-container{
+display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background-color: #ffffff;
+    border: 1px solid #d5d5d5;
+    cursor: pointer;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: all 0.15s;
+    -o-transition: all 0.15s;
+    transition: all 0.15s;
+}
+.ace-file-input .ace-file-container:before{
+    display: inline-block;
+    content: attr(data-title);
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    line-height: 34px;
+    text-align: center;
+    padding: 0 8px;
+    background-color: #3bc2d6;
+    color: #FFF;
+    font-size: 11px;
+    font-weight: bold;
+    border: 2px solid #FFF;
+    border-left-width: 4px;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.ace-file-input .ace-file-container .ace-file-name {
+    display: inline-block;
+    height: 38px;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 38px;
+    color: #888888;
+    font-size: 13px;
+    vertical-align: top;
+    position: static;
+    padding-left: 36px;
+    }
+    
+    .ace-file-input .ace-file-container .ace-icon {
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    line-height: 34px;
+    width: 36px;
+    text-align: center;
+    font-family: FontAwesome;
+    font-size: 13px;
+    border: 2px solid #FFF;
+    color: #FFF;
+    -webkit-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+    background-color: #3bc2d6;
+    }
+    
+    .ace-file-input .ace-file-container .ace-file-name:after {
+    display: inline-block;
+    content: attr(data-title);
+}
+
+
+</style>
+
 </head>
 <body class="no-skin">
 
@@ -37,9 +117,7 @@
 									</tr>
 									<tr>
 										<td style="text-align: center;padding-top: 10px;">
-											<a class="btn btn-mini btn-primary" onclick="save();">导入</a>
-											<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
-											<a style="display:none" class="btn btn-mini btn-success" onclick="window.location.href='<%=basePath%>/user/downExcel.do'">下载模版</a>
+											<a class="btn btn-mini btn-primary" style="background-color:#3bc2d6 !important;border-color:#3bc2d6 !important;width:300px; height:50px;line-height:50px;font-size:18px;margin-top:5%;padding:0"  onclick="save();">导入</a>
 										</td>
 									</tr>
 								</table>
@@ -68,7 +146,6 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<script type="text/javascript">
-		$(top.hangge());
 		$(function() {
 			//上传
 			$('#excel').ace_file_input({

@@ -22,7 +22,10 @@
 <%@ include file="../../system/index/top.jsp"%>
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
-
+<style>
+	.font span{    font-size: 12px;
+    font-weight: initial;color:#000;}
+	</style>
 </head>
 
 <body style="background:#fff">
@@ -61,7 +64,7 @@
 						<th class="center"><div style="width:80px;">课程总分</div></th>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<th class="center"><a
-								href="report/test_report?TestID=${var.TESTPAPER_ID}&class_id=${info.CLASS_ID}"><div style="width:180px;">${var.NAME}</br>${var.CREATE_DATE}</div></a></th>
+								href="report/test_report?TestID=${var.TESTPAPER_ID}&class_id=${info.CLASS_ID}" onclick="window.top.loading.show();"><div style="width:180px;" class="font">${var.NAME}</br><span>${var.CREATE_DATE}</span></div></a></th>
 						</c:forEach>
 					</tr>
 				</thead>
@@ -101,7 +104,7 @@
 										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
 									</td> --%>
 									<td class="center"><a
-										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
+										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}" onclick="window.top.loading.show();">${var.NAME}</a>
 									</td>
 									<td class="center"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
@@ -133,7 +136,7 @@
 
 	<script type="text/javascript">
 		$(function() {
-
+			
 			//日期框
 			$('.date-picker').datepicker({
 				autoclose : true,
@@ -215,6 +218,10 @@
 			window.location.href = url;
 			/* $("#Form").sumbit(); */
 		}
+		
+		$(document).ready(function(){
+			window.top.loading.remove();
+		});
 	</script>
 
 </body>

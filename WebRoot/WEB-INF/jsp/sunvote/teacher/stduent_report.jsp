@@ -125,6 +125,10 @@ li {
 	//  elem: '#test6'
 	//  ,range: true
 	// });
+		$(document).ready(function(){
+			window.top.loading.remove();
+		});
+		
 	$('.date-picker').datepicker({
 		autoclose : true,
 		todayHighlight : true

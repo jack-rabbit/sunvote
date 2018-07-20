@@ -9,6 +9,9 @@
 
 var loading={
 	show:function(url){
+		if(typeof(url) == "undefined"){
+			url = '../static/images/loading.gif' ;
+		}
 		if(window.top!=window.self){
 			$("body",top.document).append('<div class="loading" style="background:rgba(0,0,0,0.5);width:100%;height:100%;position:fixed;top:0;display:block;"><img src="'+url+'" width="200px" style="position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;"/></div>');
 		}else{

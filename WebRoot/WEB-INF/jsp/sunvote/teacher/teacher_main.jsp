@@ -128,12 +128,18 @@
 		function chooseClass(classID,termID){
 			var path = "../student/listcs.do?class_id=" + classID + "&term_id=" + termID ;
 			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
-			$("#mainFrame").attr('src',path);
+			if($("#mainFrame").attr('src') != (path)){
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
+			}
 		}
 		
 		function report(classId){
 			//window.open('<%=basePath%>report/report.do?classid=' + classId);
-			$("#mainFrame").attr('src','<%=basePath%>report/report.do?classid=' + classId);
+			//if($("#mainFrame").attr('src') != ('<%=basePath%>report/report.do?classid=' + classId)){
+				$("#mainFrame").attr('src','<%=basePath%>report/report.do?classid=' + classId);
+				window.top.loading.show();
+			//}
 		}
 		
 		$("#time_submit").click(function(){
@@ -148,7 +154,10 @@
 		$(".testpaper").click(function (){
 			var path = "../paper/list2.do?" ;
 			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
-			$("#mainFrame").attr('src',path);
+			if($("#mainFrame").attr('src') != (path)){
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
+			}
 		});
 	</script>
 </body>

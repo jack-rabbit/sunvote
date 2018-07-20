@@ -159,19 +159,38 @@
         data: data1,
         type: 'line',
         symbol: 'circle',
-        symbolSize: 10,
+        symbolSize: 5,
         lineStyle: {
             normal: {
                 color: 'green',
-                width: 4,
-                type: 'solid'
+                width: 2,
+                type: 'dashed'
             }
         },
         itemStyle: {
             normal: {
-                borderWidth: 3,
+                borderWidth: 2,
                 borderColor: 'green',
                 color: 'green'
+            }
+        }
+    },{
+        data: data3,
+        type: 'line',
+        symbol: 'circle',
+        symbolSize: 5,
+        lineStyle: {
+            normal: {
+                color: 'yellow',
+                width: 2,
+                type: 'dashed',
+            }
+        },
+        itemStyle: {
+            normal: {
+                borderWidth: 2,
+                borderColor: 'yellow',
+                color: 'yellow'
             }
         }
     },{
@@ -183,7 +202,7 @@
             normal: {
                 color: 'blue',
                 width: 4,
-                type: 'dashed'
+                type: 'solid'
             }
         },
         itemStyle: {
@@ -192,25 +211,6 @@
                 borderColor: 'blue',
                 color: 'blue',
                 label : {show: true}
-            }
-        }
-    },{
-        data: data3,
-        type: 'line',
-        symbol: 'circle',
-        symbolSize: 10,
-        lineStyle: {
-            normal: {
-                color: 'yellow',
-                width: 4,
-                type: 'solid',
-            }
-        },
-        itemStyle: {
-            normal: {
-                borderWidth: 3,
-                borderColor: 'yellow',
-                color: 'yellow'
             }
         }
     }]

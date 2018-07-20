@@ -107,6 +107,9 @@
 <script src="../static/ace/js/date-time/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 		
+		$(document).ready(function(){
+			window.top.loading.remove();
+		});
 		
 		function tosearch(){
 			window.top.loading.remove();

@@ -82,6 +82,9 @@
 				<div class="creat">
 					<input type="button" onclick="add();" value="添加学生" />
 				</div>
+				<div class="creat">
+					<input type="button" onclick="upload();" value="批量导入" />
+				</div>
 				<div class="removeAll" >
 					<input type="button" onclick="deleteAll();" value="批量删除" />
 				</div>
@@ -95,7 +98,9 @@
 
 <%@ include file="../../system/index/foot2.jsp"%>
 <script type="text/javascript">
-		window.top.loading.remove();
+		$(document).ready(function(){
+			window.top.loading.remove();
+		});
 		function tosearch(){
 			$("#Form").submit();
 		}
@@ -180,6 +185,16 @@
 			window.top.remove.show();
 		}
 		
+		function upload(){
+			 window.top.modal.init({
+			'title':'EXCEL导入学生名单',
+			'url':'<%=basePath%>student/goUploadExcel.do?class_id=${pd.CLASS_ID}&term_id=${pd.TERM_ID}',
+			func:function() {
+				tosearch();
+			}
+			});
+			window.top.modal.show();
+		}
 		
 </script>
 </html>

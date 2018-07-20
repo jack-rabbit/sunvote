@@ -52,12 +52,12 @@
 						<th class="center"><div style="width:80px;">学号</div></th>
 						<th class="center"><div style="width:80px;">姓名</div></th>
 						<th class="center"><div style="width:80px;">得分</div></th>
-						<th class="center"><div style="width:80px;">正确率</div></th>
+						<!-- <th class="center"><div style="width:80px;">正确率</div></th> -->
 						<th class="center"><div style="width:80px;">排名</div></th>
 						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
 							<th class="center"><div style="width:80px;">题目${vs.index+1}</div></th>
 						</c:forEach>
-						<th class="center"><div style="width:150px;">非选择题得分</div></th>
+						<!-- <th class="center"><div style="width:150px;">非选择题得分</div></th> -->
 						<th class="center"><div style="width:80px;">总分</div></th>
 					</tr>
 				</thead>
@@ -67,14 +67,14 @@
 						<td class="center"></td>
 						<td class="center"></td>
 						<td class="center"></td>
-						<td class="center"></td>
+						<!-- <td class="center"></td> -->
 						<td class="center"></td>
 						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
 							<td class="center"><fmt:formatNumber type="number"
 									value="${var == 0 ? 0: (var / classInfo.studentNum * 100)}"
 									maxFractionDigits="1" />%</td>
 						</c:forEach>
-						<td class="center"></td>
+						<!-- <td class="center"></td> -->
 						<td class="center"></td>
 					</tr>
 
@@ -86,12 +86,12 @@
 									<td class="center">${var.SNO}</td>
 									<td class="center">${var.NAME}</td>
 									<td class="center">${var.GETSCORE}</td>
-									<td class="center">${var.RIGHT}</td>
+									<%-- <td class="center">${var.RIGHT}</td> --%>
 									<td class="center">${vs.index + 1}</td>
 									<c:forEach items="${questionInfo}" var="var1" varStatus="vs1">
 										<td class="center">${var.detail[vs1.index].ANSWER}</td>
 									</c:forEach>
-									<td class="center">${var.OTHER_SCORE}</td>
+									<%-- <td class="center">${var.OTHER_SCORE}</td> --%>
 									<td class="center">${var.GETSCORE}</td>
 								</tr>
 							</c:forEach>
@@ -114,6 +114,9 @@
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 
 	<script type="text/javascript">
+		$(document).ready(function(){
+			window.top.loading.remove();
+		});
 		$(function() {
 
 			//日期框
