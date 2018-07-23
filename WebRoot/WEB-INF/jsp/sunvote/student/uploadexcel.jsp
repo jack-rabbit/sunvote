@@ -117,7 +117,8 @@ display: block;
 									</tr>
 									<tr>
 										<td style="text-align: center;padding-top: 10px;">
-											<a class="btn btn-mini btn-primary" style="background-color:#3bc2d6 !important;border-color:#3bc2d6 !important;width:300px; height:50px;line-height:50px;font-size:18px;margin-top:5%;padding:0"  onclick="save();">导入</a>
+											<a class="btn btn-mini btn-primary" style="background-color:#3bc2d6 !important;border-color:#3bc2d6 !important;width:200px; height:50px;line-height:50px;font-size:18px;margin-top:5%;padding:0"  onclick="save();">导入</a>
+											<a class="btn btn-mini btn-primary" style="background-color:#87b87f !important;border-color:#87b87f !important;width:200px; height:50px;line-height:50px;font-size:18px;margin-top:5%;padding:0"  href="static/files/Template.xls" target="_blank" >下载模板</a>
 										</td>
 									</tr>
 								</table>

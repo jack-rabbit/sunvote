@@ -56,6 +56,15 @@ li input {
 	width: 100%;
 }
 
+li select {
+	height: 30px;
+	line-height: 30px;
+	background: #f5f5f5;
+	border: 1px solid #ccc;
+	outline-style: none;
+	width: 100%;
+}
+
 .btn {
 	width: 80%;
 	height: 40px;
@@ -89,26 +98,28 @@ input[type="text"],select {
 		<input type="hidden" name="TERM_ID" id="TERM_ID" value="${pd.TERM_ID}" />
 		<div id="zhongxin">
 			<li>
-				<p>学生姓名:</p>
+				<p><span style="color:#f00">*</span>学生姓名:</p>
 				<div class="li_r">
 					<input type="text" name="NAME" id="NAME" value="${pd.NAME}"
 						maxlength="255" placeholder="这里输入学生姓名" title="学生姓名" />
 				</div>
 			</li>
 			<li>
-				<p>学籍号:</p>
-				<div class="li_r">
-					<input type="text" name="SNO" id="SNO" value="${pd.SNO}"
-						maxlength="255" placeholder="这里输入学籍号" title="学籍号" />
-				</div>
-			</li>
-			<li>
-				<p>学号:</p>
+				<p><span style="color:#f00">*</span>学号:</p>
 				<div class="li_r">
 					<input type="text" name="NUMBER" id="NUMBER" value="${pd.NUMBER}"
 						maxlength="255" placeholder="这里输入学号" title="学号" />
 				</div>
 			</li>
+			<li>
+				<p><span style="color:#f00">*</span>键盘ID:</p>
+				<div class="li_r">
+					<input type="text" name="KEYPAD_ID" id="KEYPAD_ID"
+						value="${pd.KEYPAD_ID}" maxlength="10" placeholder="这里输入键盘ID"
+						title="键盘ID" />
+				</div>
+			</li>
+			
 			<li>
 				<p>性别:</p>
 				<div class="li_r">
@@ -119,53 +130,7 @@ input[type="text"],select {
 					</select>
 				</div>
 			</li>
-			<li>
-				<p>组号:</p>
-				<div class="li_r">
-					<input type="text" name="GROUPID" id="GROUPID"
-						value="${pd.GROUPID}" maxlength="255" placeholder="这里输入组号"
-						title="组号" />
-				</div>
-			</li>
-			<li>
-				<p>签到码:</p>
-				<div class="li_r">
-					<input type="text" name="SIGN_NO" id="SIGN_NO"
-						value="${pd.SIGN_NO}" maxlength="255" placeholder="这里输入签到码"
-						title="签到码" />
-				</div>
-			</li>
-			<li>
-				<p>家长姓名:</p>
-				<div class="li_r">
-					<input type="text" name="PARENT_NAME" id="PARENT_NAME"
-						value="${pd.PARENT_NAME}" maxlength="255" placeholder="这里输入家长姓名"
-						title="家长姓名" />
-				</div>
-			</li>
-			<li>
-				<p>家长手机:</p>
-				<div class="li_r">
-					<input type="text" name="PARENT_PHONE" id="PARENT_PHONE"
-						value="${pd.PARENT_PHONE}" maxlength="255" placeholder="这里输入家长手机号"
-						title="家长手机号" />
-				</div>
-			</li>
-			<li>
-				<p>键盘ID:</p>
-				<div class="li_r">
-					<input type="text" name="KEYPAD_ID" id="KEYPAD_ID"
-						value="${pd.KEYPAD_ID}" maxlength="255" placeholder="这里输入键盘ID"
-						title="键盘ID" />
-				</div>
-			</li>
-			<li>
-				<p>备注:</p>
-				<div class="li_r">
-					<input type="text" name="REMARK" id="REMARK" value="${pd.REMARK}"
-						maxlength="255" placeholder="这里输入备注" title="备注" />
-				</div>
-			</li>
+			
 
 			<div class="btn">
 				<a onclick="save();">保存</a>
@@ -201,6 +166,17 @@ input[type="text"],select {
 				$("#NAME").focus();
 				return false;
 			}
+			
+			if ($("#NUMBER").val() == "") {
+				$("#NUMBER").tips({
+					side : 3,
+					msg : '请输入学生姓名',
+					bg : '#AE81FF',
+					time : 2
+				});
+				$("#NUMBER").focus();
+				return false;
+			}
 
 			if ($("#KEYPAD_ID").val() == ""
 					|| $("#KEYPAD_ID").val().length != 10) {
@@ -221,10 +197,7 @@ input[type="text"],select {
 
 		$(function() {
 			//日期框
-			$('.date-picker').datepicker({
-				autoclose : true,
-				todayHighlight : true
-			});
+		
 		});
 	</script>
 </body>

@@ -1106,7 +1106,7 @@ public class V1 extends BaseController {
 		eventPd.put("EVENT_ID", get32UUID());
 		eventPd.put("EVENT_NAME", apiName);
 		eventPd.put("EVENT_USER", getUsername());
-		eventPd.put("EVENT_TYPE", "0");
+		eventPd.put("EVENT_TYPE", "-1");
 		eventPd.put("EVENT_START_TIME", Tools.date2Str(new Date()));
 		eventPd.put("CLIENT_ID", "SERVER");
 		eventPd.put("EVENT_IP", getRemoteIp());

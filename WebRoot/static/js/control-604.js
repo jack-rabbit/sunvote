@@ -136,9 +136,15 @@
 			alert("请输入题目分数");
 			return;
 		}
-		$('.fast').modal('hide');
-		//score += parseInt(fraction)*answer.split(",").length;
-		creat(answer,num_ans,fraction);
+		var frac = parseInt(fraction);
+		if(frac > 0){
+			$('.fast').modal('hide');
+			//score += parseInt(fraction)*answer.split(",").length;
+			creat(answer,num_ans,fraction);
+		}else{
+			alert("请输入正确分数");
+			return;
+		}
 	})	
 
 	/*添加试题的确定按钮*/
@@ -158,6 +164,11 @@
 			return;
 		}else if(isNaN(fraction2)){
 			alert("请输入题目分数");
+			return;
+		}
+		var iindex_e_2 = parseInt(index_e_2);
+		if(iindex_e_2 < 1 || iindex_e_2 > 100){
+			alert("题目个数不合法");
 			return;
 		}
 		//console.log(typeof(type_2));
@@ -192,7 +203,11 @@
 	/*更改多选答案*/
 	$(document).on('click','.check li',function(){
 		//$(this).siblings().removeClass("on");
-		$(this).addClass("on");
+		if($(this).hasClass('on')){
+			$(this).removeClass("on");
+		}else{
+			$(this).addClass("on");
+		}
 	})
 	/*提交保存数据*/
 	$("#save").click(function(){
@@ -240,6 +255,10 @@
 					for(k=0;k<on_num;k++){
 						answer+=$(".section").eq(i).find(".question").eq(j).find(".on").eq(k).text();
 						//console.log(answer);
+					}
+					if(answer == ''){
+						alert("还有试题未编辑答案。");
+						return;
 					}
 					data.questions[j]={
 						chapter_id: "0",
@@ -408,24 +427,27 @@ function creatHtml(data){
 
 var answerLen = 0 ;
 /*快速建题中，每输入五个答案就加一个空格*/
-$("#answer").on("input propertychange",function(event){
-	if($("#answer").val().length > answerLen){
-		var answerStr = $("#answer").val();
-		var result = "";
-		if(answerStr.length > 5){
-			answerStr = answerStr.replace(new RegExp(" ","gm"),"");
-			for(var i = 0 ; i < answerStr.length ; i++){
-				result += answerStr[i];
-				if(i % 5 == 4){
-					result += " ";
-				}
+$("#answer").on("input propertychange", function(event) {
+	var answerStr = "";
+	answerStr = $("#answer").val();
+	var result = "";
+	if (answerStr.length > 5) {
+		answerStr = answerStr.replace(new RegExp(" ", "gm"), "");
+		for (var i = 0; i < answerStr.length; i++) {
+			result += answerStr[i];
+			if (i % 5 == 4 && i != answerStr.length -1) {
+				result += " ";
 			}
-		}else{
-			result = answerStr;
 		}
-		$("#answer").val(result);
+	} else {
+		result = answerStr;
 	}
-	answerLen = $("#answer").val().length;
+	$("#answer").val(result);
+	if (answerStr.length > 0) {
+		$(".tips").text("共" + answerStr.length + "题");
+	} else {
+		$(".tips").text("");
+	}
 })
 
 /*数字转汉字数字*/

@@ -53,7 +53,9 @@
         <div class="form-group">
 		    <label for="inputEmail3" class="col-sm-2 control-label">试题答案</label>
 		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="answer" placeholder="输入题目答案（例如：“ABCDA”）">
+		      <input type="text" class="form-control" id="answer" placeholder="输入题目答案（例如：“ABCDA”）" maxlength="119">
+		     
+		     <div class="tips" style="color:#f00"></div> 
 		    </div>
 		    <div class="clearfix"></div>
 		</div>
@@ -77,7 +79,7 @@
 		<div class="form-group">
 		    <label for="inputEmail3" class="col-sm-2 control-label">单题分数</label>
 		    <div class="col-sm-10">
-		      <input type="number" class="form-control" id="fraction" placeholder="">
+		      <input type="number" class="form-control" id="fraction" placeholder="" value="1">
 		    </div>
 		    <div class="clearfix"></div>
 		</div>
@@ -115,7 +117,7 @@
 		<div class="form-group">
 		    <label for="index_s_2" class="col-sm-2 control-label">题数</label>
 		    <div class="col-sm-10">
-		      <input type="number" class="form-control" id="index_s_2" placeholder="请输入题目数量">
+		      <input type="number" class="form-control" id="index_s_2" placeholder="请输入题目数量（1-100）"  oninput="if(value.length>3) value=value.slice(0,3)">
 		    </div>
 		   <!--  <div class="col-sm-1"><span style="line-height:34px;">——</span></div>
 		    <div class="col-sm-4">
@@ -143,7 +145,7 @@
 		<div class="form-group">
 		    <label for="fraction2" class="col-sm-2 control-label">单题分数</label>
 		    <div class="col-sm-10">
-		      <input type="number" class="form-control" id="fraction2" placeholder="请输入单题分数">
+		      <input type="number" class="form-control" id="fraction2" value="1" placeholder="请输入单题分数">
 		    </div>
 		    <div class="clearfix"></div>
 		</div>

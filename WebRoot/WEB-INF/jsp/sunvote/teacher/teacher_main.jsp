@@ -97,14 +97,14 @@
 	        <div class="form-group">
 			    <label for="enter_title" class="col-sm-4 control-label">测验标题</label>
 			    <div class="col-sm-6">
-			      <input type="text" class="form-control" id="enter_title" placeholder="输入测验标题">
+			      <input type="text" class="form-control" id="enter_title" placeholder="输入测验标题（不能超过100个字符）"  maxlength="100" minlength="1">
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
 	        <div class="form-group">
 			    <label for="enter_time" class="col-sm-4 control-label">测验时长（分钟）</label>
 			    <div class="col-sm-6">
-			      <input type="number" class="form-control" id="enter_time" placeholder="输入测验时长">
+			      <input type="number" class="form-control" id="enter_time" placeholder="输入测验时长（单位：分钟）" maxlength="3" oninput="if(value.length>3) value=value.slice(0,3)">
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
@@ -146,8 +146,13 @@
 			var name = $("#enter_title").val();
 			var time = $("#enter_time").val();
 			if(name != null&& name != '' && time != null && time != ''){
-				self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time ;
-				$(".title_time").modal("hide");
+				var itime = parseInt(time);
+				if(itime > 0 && itime <= 300){
+					self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time ;
+					$(".title_time").modal("hide");
+				}else{
+					alert("请输入正确的时间，时间不能超过300分钟");
+				}
 			}
 		});
 		
