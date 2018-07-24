@@ -33,15 +33,20 @@
 		<input type="hidden" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}"/>
 		<input type="hidden" name="TERM_ID" id="TERM_ID" value="${pd.TERM_ID}"/>
 		<div class="head_box">
+			<div class="box_header">
 			<div class="head_box_l">
 				<p>
 					<span class="right_b"></span>学生管理
 				</p>
-			</div>
-			
-		</div>
-		<div class="table_box">
+				</div><div class="clearfix"></div>
+				</div>
+			<div style="padding:0 5%;background:#fff;">
 			<table class="table table-striped">
+				<col style="width: 10%" />
+				<col style="width: 22%" />
+				<col style="width: 22%" />
+				<col style="width: 23%" />
+				<col style="width: 23%" />
 				<thead>
 					<tr>
 						<th><input type="checkbox" value="0" name='ids' id="ids"  />序号</th>
@@ -51,6 +56,17 @@
 						<th>操作</th>
 					</tr>
 				</thead>
+			</table></div>
+			
+			<div class="clearfix"></div>
+		</div>
+		<div class="table_box">
+			<table class="table table-striped">
+				<col style="width: 10%" />
+				<col style="width: 22%" />
+				<col style="width: 22%" />
+				<col style="width: 23%" />
+				<col style="width: 23%" />
 				<tbody>
 				<c:choose>
 					<c:when test="${not empty varList}">
@@ -105,9 +121,10 @@
 			$("#Form").submit();
 		}
 		
-		$('.table_box > .table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
-				var th_checked = this.checked;//checkbox inside "TH" table header
-				$(this).closest('table').find('tbody > tr').each(function(){
+		$('#ids').on('click', function(){
+				var th_checked = $("#ids").prop('checked');//checkbox inside "TH" table header
+				
+				$(".table_box .table").find('tbody > tr').each(function(){
 					var row = this;
 					if(th_checked) $(row).find('input[type=checkbox]').eq(0).prop('checked', true);
 					else $(row).find('input[type=checkbox]').eq(0).prop('checked', false);

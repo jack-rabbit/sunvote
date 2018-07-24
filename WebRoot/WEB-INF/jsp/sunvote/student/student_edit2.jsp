@@ -56,14 +56,7 @@ li input {
 	width: 100%;
 }
 
-li select {
-	height: 30px;
-	line-height: 30px;
-	background: #f5f5f5;
-	border: 1px solid #ccc;
-	outline-style: none;
-	width: 100%;
-}
+
 
 .btn {
 	width: 80%;

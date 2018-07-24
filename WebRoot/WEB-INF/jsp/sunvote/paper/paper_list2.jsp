@@ -35,6 +35,7 @@
 
 	<form action="../paper/list2.do" method="post" name="Form" id="Form">
 		<div class="head_box">
+		<div class="box_header">
 			<div class="head_box_l">
 				<p>
 					<span class="right_b"></span>试卷管理
@@ -47,12 +48,18 @@
 					src="../static/images/search.png" /></a>
 			</div>
 			<div class="clear"></div>
-		</div>
-		<div class="table_box">
-			<table class="table table-striped">
+			</div>
+			<div style="padding:0 5%;background:#fff;">
+				<table class="table table-striped">
+				<col style="width: 10%" />
+				<col style="width: 20%" />
+				<col style="width: 20%" />
+				<col style="width: 20%" />
+				<col style="width: 20%" />
+				<col style="width: 10%" />
 				<thead>
 					<tr>
-						<th><input type="checkbox"  name='ids' />序号</th>
+						<th><input type="checkbox"  name='ids' id="ids" />序号</th>
 						<th>测验标题</th>
 						<th>创建时间</th>
 						<th>建议考试时长</th>
@@ -60,6 +67,17 @@
 						<th>操作</th>
 					</tr>
 				</thead>
+			</table>
+			</div>
+		</div>
+		<div class="table_box">
+			<table class="table table-striped">
+				<col style="width: 10%" />
+				<col style="width: 20%" />
+				<col style="width: 20%" />
+				<col style="width: 20%" />
+				<col style="width: 20%" />
+				<col style="width: 10%" />
 				<tbody>
 				<c:choose>
 					<c:when test="${not empty varList}">
@@ -116,9 +134,10 @@
 			$("#Form").submit();
 		}
 		
-		$('.table_box > .table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
-				var th_checked = this.checked;//checkbox inside "TH" table header
-				$(this).closest('table').find('tbody > tr').each(function(){
+		$('#ids').on('click', function(){
+				var th_checked = $("#ids").prop('checked');//checkbox inside "TH" table header
+				
+				$(".table_box .table").find('tbody > tr').each(function(){
 					var row = this;
 					if(th_checked) $(row).find('input[type=checkbox]').eq(0).prop('checked', true);
 					else $(row).find('input[type=checkbox]').eq(0).prop('checked', false);

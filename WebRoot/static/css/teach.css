@@ -36,13 +36,15 @@ input[type="checkbox"]{margin-right:10px;}
 .content .content_r{margin-left:18%;height:100%;overflow-y:hidden;}
 
 
- .head_box{width:100%;height:94px;background:#f5f5f5;padding:30px 5%;}
+ .head_box{width:100%;height:auto;position:fixed;top:0;}
+ .box_header{padding:30px 5%;background:#f5f5f5;}
  .head_box_l{float:left;font-size:30px;}
+ .head_box .table{padding:0px 5%;margin-bottom:0;}
  .head_box_l p{color:#106666;margin-bottom:0;}
  .head_box_r{float:right;}
  .head_box_r input{padding-left:10px;}
  .head_box_r img{width:30px;margin-left:10px;}
- .table_box{padding:5%;}
+ .table_box{padding:5%;padding-top:143px;}
  .table_box input[name="choose"]{vertical-align:top;margin-right:15px;}
  .table_box img{width:24px;}
  .footer .creat,.content .content_r .footer .removeAll {float:left;}
