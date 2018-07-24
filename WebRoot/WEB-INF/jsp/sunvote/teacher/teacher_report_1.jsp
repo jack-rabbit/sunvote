@@ -39,13 +39,15 @@
 				
 					<td><div style="width:150px;text-align:center;"><span>学生人数: ${info.STUDENT_NUM}</span></div></td>
 					<td></td>
-					<td style="padding-left:2px;"><input
+					<td style="padding-left:2px;">
+					<input
 						class="span10 date-picker" name="lastStart" id="lastStart"
-						value="" type="text" data-date-format="yyyy-mm-dd"
+						value="${start_date}" type="text" data-date-format="yyyy-mm-dd"
 						readonly="readonly" style="width:88px;" placeholder="开始日期"
-						title="开始日期" /></td>
+						title="开始日期" />
+						</td>
 					<td style="padding-left:2px;"><input
-						class="span10 date-picker" name="lastEnd" id="lastEnd" value=""
+						class="span10 date-picker" name="lastEnd" id="lastEnd" value="${end_date}"
 						type="text" data-date-format="yyyy-mm-dd" readonly="readonly"
 						style="width:88px;" placeholder="结束日期" title="结束日期" /></td>
 					<td style="vertical-align:top;padding-left:2px"><a
@@ -64,7 +66,7 @@
 						<th class="center"><div style="width:80px;">课程总分</div></th>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<th class="center"><a
-								href="report/test_report?TestID=${var.TESTPAPER_ID}&class_id=${info.CLASS_ID}" onclick="window.top.loading.show();"><div style="width:180px;" class="font">${var.NAME}</br><span>${var.CREATE_DATE}</span></div></a></th>
+								 onclick="paper('${info.CLASS_ID}','${var.TESTPAPER_ID}');"><div style="width:180px;" class="font">${var.NAME}</br><span>${var.CREATE_DATE}</span></div></a></th>
 						</c:forEach>
 					</tr>
 				</thead>
@@ -104,7 +106,7 @@
 										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
 									</td> --%>
 									<td class="center"><a
-										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}" onclick="window.top.loading.show();">${var.NAME}</a>
+										 onclick="student('${info.CLASS_ID}','${var.ID}')">${var.NAME}</a>
 									</td>
 									<td class="center"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
@@ -217,6 +219,24 @@
 			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
 			window.location.href = url;
 			/* $("#Form").sumbit(); */
+		}
+		
+		function student(classid,studentid){
+			var url = "<%=basePath%>report/student_report?studentid=" + studentid + "&class_id=" + classid ;
+			var startDate = $("#lastStart").val();
+			var endDate =  $("#lastEnd").val();
+			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
+			window.self.location.href = url;
+			window.top.loading.show();
+		}
+		
+		function paper(class_id,testpaper_id){
+			var url = "<%=basePath%>report/test_report?TestID=" + testpaper_id + "&class_id=" + class_id;
+			var startDate = $("#lastStart").val();
+			var endDate =  $("#lastEnd").val();
+			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
+			window.self.location.href = url;
+			window.top.loading.show();
 		}
 		
 		$(document).ready(function(){

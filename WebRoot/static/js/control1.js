@@ -42,8 +42,9 @@
 		
 		studentid=getQueryString("studentid");
 		
-		getData();
-		
+		startDate = $("#starDate").val();
+		endDate = $("#endDate").val();
+		getData(startDate,endDate);
 		
 		//$('#myStathalf').circliful();
 		//$('#myStathalf1').circliful();
@@ -91,7 +92,8 @@
 	
 	
 	function data(index,data){
-	console.log(data);
+		console.log(data);
+		//data0=[];data1=[];data2=[];data3=[];
 		var GETSCORE = parseInt(data.data.studentList[index].GETSCORE);
 		var TOTALSCORE = parseInt(data.data.TOTAL_SCORE);
 		var ratio=(GETSCORE/TOTALSCORE*100).toFixed(2);
@@ -100,6 +102,12 @@
 		
 		var test_num=data.data.studentList[index].testList.length;
 		var part_num=test_num;
+		
+			data0=[];
+			data1=[];
+			data2=[];
+			data3=[];
+		
 		//console.log(data.data.studentList[index].testList[2].SCORE);
 		if($("input[type='radio']:checked").val()==1){
 			for(var i=0;i<test_num;i++){
@@ -142,76 +150,75 @@
 		$(".circle .col-md-6").eq(0).html('<div id="myStathalf" data-dimension="350" data-text="'+part_num+'/'+test_num+'" data-info="参与测试" data-width="10" data-fontsize="38" data-percent="'+partake+'" data-fgcolor="#8ad254" data-bgcolor="#a9f9ff" data-type="half" data-fill="#50b5c9"></div>');
 		$('#myStathalf1').circliful();
 		$('#myStathalf').circliful();
-		 myChart.setOption(option);
+		 myChart.setOption({
+			    xAxis: {
+			        type: 'category',
+			        data: data0
+			    },
+			    yAxis: {
+			        type: 'value'
+			    },
+			    series: [{
+			        data: data1,
+			        type: 'line',
+			        symbol: 'circle',
+			        symbolSize: 5,
+			        lineStyle: {
+			            normal: {
+			                color: 'green',
+			                width: 2,
+			                type: 'dashed'
+			            }
+			        },
+			        itemStyle: {
+			            normal: {
+			                borderWidth: 2,
+			                borderColor: 'green',
+			                color: 'green'
+			            }
+			        }
+			    },{
+			        data: data3,
+			        type: 'line',
+			        symbol: 'circle',
+			        symbolSize: 5,
+			        lineStyle: {
+			            normal: {
+			                color: 'yellow',
+			                width: 2,
+			                type: 'dashed',
+			            }
+			        },
+			        itemStyle: {
+			            normal: {
+			                borderWidth: 2,
+			                borderColor: 'yellow',
+			                color: 'yellow'
+			            }
+			        }
+			    },{
+			        data: data2,
+			        type: 'line',
+			        symbol: 'circle',
+			        symbolSize: 10,
+			        lineStyle: {
+			            normal: {
+			                color: 'blue',
+			                width: 4,
+			                type: 'solid'
+			            }
+			        },
+			        itemStyle: {
+			            normal: {
+			                borderWidth: 3,
+			                borderColor: 'blue',
+			                color: 'blue',
+			                label : {show: true}
+			            }
+			        }
+			    }]
+			});
 	}
 	 
 	 
 	var myChart = echarts.init(document.getElementById('main'));
-	var option = {
-    xAxis: {
-        type: 'category',
-        data: data0
-    },
-    yAxis: {
-        type: 'value'
-    },
-    series: [{
-        data: data1,
-        type: 'line',
-        symbol: 'circle',
-        symbolSize: 5,
-        lineStyle: {
-            normal: {
-                color: 'green',
-                width: 2,
-                type: 'dashed'
-            }
-        },
-        itemStyle: {
-            normal: {
-                borderWidth: 2,
-                borderColor: 'green',
-                color: 'green'
-            }
-        }
-    },{
-        data: data3,
-        type: 'line',
-        symbol: 'circle',
-        symbolSize: 5,
-        lineStyle: {
-            normal: {
-                color: 'yellow',
-                width: 2,
-                type: 'dashed',
-            }
-        },
-        itemStyle: {
-            normal: {
-                borderWidth: 2,
-                borderColor: 'yellow',
-                color: 'yellow'
-            }
-        }
-    },{
-        data: data2,
-        type: 'line',
-        symbol: 'circle',
-        symbolSize: 10,
-        lineStyle: {
-            normal: {
-                color: 'blue',
-                width: 4,
-                type: 'solid'
-            }
-        },
-        itemStyle: {
-            normal: {
-                borderWidth: 3,
-                borderColor: 'blue',
-                color: 'blue',
-                label : {show: true}
-            }
-        }
-    }]
-};

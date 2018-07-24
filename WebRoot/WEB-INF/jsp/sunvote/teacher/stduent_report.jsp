@@ -46,8 +46,8 @@ li {
 	<div class="header">
 		<nav class="navbar navbar-default navbar-fixed-top">
 			<div class="container">
-				<input type="text" class="date-picker" placeholder="开始日期"	name="starDate" id="starDate" data-date-format="yyyy-mm-dd"	readonly="readonly"/> 
-				<input type="text" class="date-picker" placeholder="结束日期" name="endDate" id="endDate"  data-date-format="yyyy-mm-dd"	readonly="readonly"/>
+				<input type="text" class="date-picker" placeholder="开始日期"	name="starDate" id="starDate" data-date-format="yyyy-mm-dd"	readonly="readonly" value="${start_date}"/> 
+				<input type="text" class="date-picker" placeholder="结束日期" name="endDate" id="endDate"  data-date-format="yyyy-mm-dd"	readonly="readonly" value="${end_date}"/>
 				<input type="button" value="查询" id="search" />
 			</div>
 		</nav>
@@ -116,7 +116,7 @@ li {
 	<script type="">
 		var URL = '<%=basePath%>${URL}';
 	</script>
-	<script src="../static/js/control1.js"></script>
+	<script src="../static/js/control1.js?a=1"></script>
 	<!-- 日期框 -->
 	<script>
 	//lay('#version').html('-v'+ laydate.v);

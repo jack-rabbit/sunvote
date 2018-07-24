@@ -100,6 +100,8 @@ public class ReportController extends BaseController {
 		mv.addObject("studentList", studentList);
 		info.put("STUDENT_NUM", studentList != null ? studentList.size() : 0);
 		mv.addObject("info", info);
+		mv.addObject("start_date", pd.get("START_DATE"));
+		mv.addObject("end_date", pd.get("END_DATE"));
 		mv.setViewName("sunvote/teacher/teacher_report_1");
 		return mv;
 	}
@@ -108,6 +110,9 @@ public class ReportController extends BaseController {
 	public ModelAndView teacher_report() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"教师报表");
 		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		mv.addObject("start_date", pd.get("START_DATE"));
+		mv.addObject("end_date", pd.get("END_DATE"));
 		return mv;
 	}
 	
@@ -119,6 +124,8 @@ public class ReportController extends BaseController {
 		PageData pd = getPageData();
 		mv.addObject("URL", "report/student_report_data?class_id=" +pd.getString("CLASS_ID"));
 		mv.setViewName("sunvote/teacher/stduent_report");
+		mv.addObject("start_date", pd.get("START_DATE"));
+		mv.addObject("end_date", pd.get("END_DATE"));
 		return mv;
 	}
 	
