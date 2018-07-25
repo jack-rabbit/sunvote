@@ -29,7 +29,7 @@
 				}
 				$(".content_l ul").html(_html);
 				console.log(_index);
-				
+				window.top.loading.remove();
 			}
 			
 		});
@@ -65,9 +65,11 @@
 //			var date_arry=date_string.split(' - ');
 //			startDate=date_arry[0];
 //			endDate=date_arry[1];
+			window.top.loading.show();
 			startDate = $("#starDate").val();
 			endDate = $("#endDate").val();
 			getData(startDate,endDate);
+			
 		})
 		
 		$(".prev").click(function(){
@@ -112,7 +114,7 @@
 		if($("input[type='radio']:checked").val()==1){
 			for(var i=0;i<test_num;i++){
 			if(data.data.studentList[index].testList[i].TOTAL_SCORE>0){
-				data0[i]=data.data.studentList[index].testList[i].NAME;
+				data0[i]=data.data.studentList[index].testList[i].NAME + "\n" + data.data.studentList[index].testList[i].CREATE_DATE;
 				data1[i]=(data.data.studentList[index].testList[i].AVG_SCORE/data.data.studentList[index].testList[i].TOTAL_SCORE*100).toFixed(2);
 				data2[i]=(data.data.studentList[index].testList[i].SCORE/data.data.studentList[index].testList[i].TOTAL_SCORE*100).toFixed(2);
 				data3[i]=(data.data.studentList[index].testList[i].MAX_SCORE/data.data.studentList[index].testList[i].TOTAL_SCORE*100).toFixed(2);
@@ -154,9 +156,12 @@
 			    xAxis: {
 			        type: 'category',
 			        data: data0
+			        /*,
+			        axisLabel:{interval: 0}*/
 			    },
 			    yAxis: {
-			        type: 'value'
+			        type: 'value',
+			        splitArea: {show: true}
 			    },
 			    series: [{
 			        data: data1,
