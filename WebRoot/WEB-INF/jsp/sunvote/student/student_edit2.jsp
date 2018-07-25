@@ -84,7 +84,7 @@ input[type="text"],select {
 
 </head>
 <body>
-	<form action="../student/${msg }.do" name="Form" id="Form"
+	<form action="student/${msg }.do" name="Form" id="Form"
 		method="post">
 		<input type="hidden" name="ID" id="ID" value="${pd.ID}" /> <input
 			type="hidden" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}" />
@@ -131,7 +131,7 @@ input[type="text"],select {
 		</div>
 		<div id="zhongxin2" class="center" style="display:none">
 
-			<img src="../static/images/jiazai.gif" /><br />
+			<img src="static/images/jiazai.gif" /><br />
 			<h4 class="lighter block green">提交中...</h4>
 		</div>
 	</form>

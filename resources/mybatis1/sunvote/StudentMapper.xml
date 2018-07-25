@@ -108,7 +108,7 @@
 				)
 		</if>
 		
-		order by sv_student.SNO
+		order by  (sv_student.NUMBER ) * 1,(sv_student.KEYPAD_ID * 1),(sv_student.SNO*1)
 	</select>
 	
 	<!-- 列表 -->
@@ -136,7 +136,7 @@
 		<if test="pd.CLASS_ID!= null and pd.CLASS_ID != ''"><!-- 关键词检索 -->
 			AND cr.SCLASS_ID = #{pd.CLASS_ID}
 		</if>
-		order by sv_student.SNO
+		order by (sv_student.NUMBER ) * 1,(sv_student.KEYPAD_ID * 1),(sv_student.SNO*1)
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -146,7 +146,7 @@
 		from 
 		<include refid="tableName"></include>
 		
-		order by sv_student.SNO
+		order by  (sv_student.NUMBER ) * 1,(sv_student.KEYPAD_ID * 1),(sv_student.SNO*1)
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -173,7 +173,7 @@
 		<if test="CLASS_ID!= null and CLASS_ID != ''"><!-- 关键词检索 -->
 			AND cr.SCLASS_ID = #{CLASS_ID}
 		</if>
-		order by sv_student.SNO
+		order by  (sv_student.NUMBER ) * 1,(sv_student.KEYPAD_ID * 1),(sv_student.SNO*1)
 	</select>
 	<!-- 列表(全部) -->
 	<select id="listAllClassByTerm" parameterType="pd" resultType="pd">
@@ -200,7 +200,7 @@
 		<if test="pd.CLASS_ID!= null and pd.CLASS_ID != ''"><!-- 关键词检索 -->
 			AND cr.SCLASS_ID = #{pd.CLASS_ID}
 		</if>
-		order by sv_student.SNO
+		order by (sv_student.NUMBER ) * 1,(sv_student.KEYPAD_ID * 1),(sv_student.SNO*1)
 	</select>
 	
 	<!-- 批量删除 -->

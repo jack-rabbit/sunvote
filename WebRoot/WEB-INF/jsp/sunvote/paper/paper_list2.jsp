@@ -42,8 +42,8 @@
 				</p>
 			</div>
 			<div class="head_box_r">
-				<input class="date-picker" type="text" value="" placeholder="开始日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" /> 
-				<input type="text" class="date-picker"	value="" placeholder="结束日期" name="lastEnd" name="lastEnd" data-date-format="yyyy-mm-dd" readonly="readonly" />
+				<input class="date-picker" type="text" placeholder="开始日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.LASTSTART }"/> 
+				<input type="text" class="date-picker" placeholder="结束日期" name="lastEnd" name="lastEnd" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.LASTEND}"/>
 				 <a href="#" onclick="tosearch();"><img
 					src="../static/images/search.png" /></a>
 			</div>
@@ -205,5 +205,7 @@
 			}});
 			window.top.remove.show();
 		}
+		
+	
 </script>
 </html>
