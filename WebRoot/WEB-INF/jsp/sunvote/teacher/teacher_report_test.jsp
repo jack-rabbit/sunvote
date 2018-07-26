@@ -87,7 +87,7 @@
 							<c:forEach items="${studentInfo}" var="var" varStatus="vs">
 								<tr>
 									<td class="center">${var.KEYPAD_ID}</td>
-									<td class="center">${var.SNO}</td>
+									<td class="center">${var.NUMBER}</td>
 									<td class="center">${var.NAME}</td>
 									<td class="center">${var.GETSCORE}</td>
 									<%-- <td class="center">${var.RIGHT}</td> --%>

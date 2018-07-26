@@ -68,7 +68,12 @@ public class ReportController extends BaseController {
 				studentPageData.put("STUDENT_ID", studentPageData.getString("ID"));
 				List<PageData> studentTestList = studenttestService.listAll(studentPageData);
 				for(PageData studentTestPageData :studentTestList){
-					studentPageData.put(studentTestPageData.getString("TEST_ID"), studentTestPageData.getString("SCORE"));
+					String score = studentTestPageData.getString("SCORE");
+					if(!"0".equals(score)){
+						studentPageData.put(studentTestPageData.getString("TEST_ID"), studentTestPageData.getString("SCORE"));
+					}else{
+						studentPageData.put(studentTestPageData.getString("TEST_ID"), "--");
+					}
 				}
 				int totalScore = 0 ;
 				int getScore = 0 ;

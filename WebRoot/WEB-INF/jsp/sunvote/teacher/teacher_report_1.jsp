@@ -111,7 +111,7 @@
 									</td>
 									<td class="center"><div style="width:80px;margin:0 auto;"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
-											maxFractionDigits="1" />%</div></td>
+											maxFractionDigits="2" />%</div></td>
 									<td class="center">${var.GETSCORE }</td>
 									<c:forEach items="${testpaperList}" var="var1" varStatus="vs1">
 										<td class="center"><div style="width:80px;margin:0 auto;"><c:set var="TEST_ID"
@@ -272,6 +272,8 @@
         $(".th_name").height(name_height);
 		});
 		
+		
+		console.log('${studentList}');
 		
 	</script>
 
