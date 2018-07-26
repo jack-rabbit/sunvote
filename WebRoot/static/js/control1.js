@@ -153,6 +153,9 @@
 		$('#myStathalf1').circliful();
 		$('#myStathalf').circliful();
 		 myChart.setOption({
+			 	tooltip:{
+			 	         trigger: 'axis'
+			 	},
 			    xAxis: {
 			        type: 'category',
 			        data: data0
@@ -164,6 +167,7 @@
 			        splitArea: {show: true}
 			    },
 			    series: [{
+			    	name:"班级平均分",
 			        data: data1,
 			        type: 'line',
 			        symbol: 'circle',
@@ -183,6 +187,7 @@
 			            }
 			        }
 			    },{
+			    	name:"班级最高分",
 			        data: data3,
 			        type: 'line',
 			        symbol: 'circle',
@@ -202,6 +207,7 @@
 			            }
 			        }
 			    },{
+			    	name:"个人成绩",
 			        data: data2,
 			        type: 'line',
 			        symbol: 'circle',

@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,6 +54,8 @@ import com.fh.service.sunvote.subject.SubjectManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.sunvote.testpaper.TestPaperManager;
 import com.fh.service.sunvote.testpaperinfo.TestPaperInfoManager;
+import com.fh.service.system.user.UserManager;
+import com.fh.util.Jurisdiction;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
 
@@ -158,6 +161,9 @@ public class V1 extends BaseController {
 	
 	@Resource(name="eventService")
 	private EventManager eventService;
+	
+	@Resource(name="userService")
+	private UserManager userService;
 
 	@RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -1097,6 +1103,38 @@ public class V1 extends BaseController {
 			res.setDataError();
 		}
 		return res.toJson();
+	}
+	
+	@RequestMapping(value = "/tempcreateUser", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object tempCreateUser() throws Exception{
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("ID", this.get32UUID());
+		teacherService.save(pd);
+		pd.put("USER_ID", pd.getString("ID"));	//ID 主键
+		pd.put("LAST_LOGIN", "");				//最后登录时间
+		pd.put("IP", "");						//IP
+		pd.put("STATUS", "0");					//状态
+		pd.put("SKIN", "default");
+		pd.put("RIGHTS", "");		
+		pd.put("USERNAME", pd.getString("ACCOUT"));
+		pd.put("ROLE_ID", "57bb1e6f138247a0b05cc721a5da1b64");		
+		pd.put("PASSWORD", new SimpleHash("SHA-1", pd.getString("ACCOUT"), pd.getString("PASSWORD")).toString());	//密码加密
+		
+		if(null == userService.findByUsername(pd)){	//判断用户名是否存在
+			userService.saveU(pd); 					//执行保存
+		}
+		
+		//ID, TEACHER_ID, CLASS_ID, SUBJECT_ID, START_DATE, END_DATE, GRADE_ID, TERM_ID, REMARK
+		pd.put("TEACHER_ID", pd.get("ID"));
+		pd.put("CLASS_ID", "bc33389101ec46e6b7d47daa8adf58ac");
+		pd.put("SUBJECT_ID", "1");
+		pd.put("GRADE_ID", "1");
+		pd.put("TERM_ID","0d8ea2efdef74accbd0d00e9bc07dfbb");
+		coursemanagementService.save(pd);
+		
+		return "{'res':'success'}";
 	}
 	
 	

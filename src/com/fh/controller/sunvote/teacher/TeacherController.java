@@ -117,6 +117,19 @@ public class TeacherController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		teacherService.edit(pd);
+		
+		/*pd.put("USER_ID", pd.getString("ID"));	//ID 主键
+		pd.put("LAST_LOGIN", "");				//最后登录时间
+		pd.put("IP", "");						//IP
+		pd.put("STATUS", "0");					//状态
+		pd.put("SKIN", "default");
+		pd.put("RIGHTS", "");		
+		pd.put("USERNAME", pd.getString("ACCOUT"));
+		pd.put("ROLE_ID", "57bb1e6f138247a0b05cc721a5da1b64");		
+		pd.put("PASSWORD", new SimpleHash("SHA-1", pd.getString("ACCOUT"), pd.getString("PASSWORD")).toString());	//密码加密
+		
+		userService.saveU(pd);*/
+		
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;

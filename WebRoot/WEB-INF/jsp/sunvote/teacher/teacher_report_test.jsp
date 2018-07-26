@@ -18,14 +18,18 @@
 <base href="<%=basePath%>">
 <!-- 下拉框 -->
 <link rel="stylesheet" href="static/ace/css/chosen.css" />
+  <link type="text/css" href="static/css/tablescroller.css" rel="stylesheet" />
 <!-- jsp文件头和头部 -->
 <%@ include file="../../system/index/top.jsp"%>
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
+<style>
+.table{padding-bottom:0 !important;}
+</style>
 </head>
 
-<body style="background:#fff">
-	<div style="min-width:1360px;padding:20px 20px;">
+<body style="background:#fff;overflow-y:hidden;">
+	<div style="padding:20px 20px;">
 
 		<form action="report/report_test.do" method="post" name="Form" id="Form">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
@@ -45,7 +49,7 @@
 			</table>
 			<table id="simple-table"
 				class="table table-striped table-bordered table-hover"
-				style="margin-top:15px;">
+				style="margin-top:0px;margin-bottom:0;">
 				<thead>
 					<tr>
 						<th class="center"><div style="width:80px;">键盘</div></th>
@@ -63,12 +67,12 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="center"></td>
-						<td class="center"></td>
-						<td class="center"></td>
-						<td class="center"></td>
+						<td class="center">--</td>
+						<td class="center">--</td>
+						<td class="center">--</td>
+						<td class="center">--</td>
 						<!-- <td class="center"></td> -->
-						<td class="center"></td>
+						<td class="center">--</td>
 						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
 							<td class="center"><fmt:formatNumber type="number"
 									value="${var == 0 ? 0: (var / classInfo.studentNum * 100)}"
@@ -89,7 +93,7 @@
 									<%-- <td class="center">${var.RIGHT}</td> --%>
 									<td class="center">${vs.index + 1}</td>
 									<c:forEach items="${questionInfo}" var="var1" varStatus="vs1">
-										<td class="center">${var.detail[vs1.index].ANSWER}</td>
+										<td class="center"><div style="width:80px">${var.detail[vs1.index].ANSWER}</div></td>
 									</c:forEach>
 									<%-- <td class="center">${var.OTHER_SCORE}</td> --%>
 									<td class="center">${var.GETSCORE}</td>
@@ -99,6 +103,7 @@
 					</c:choose>
 				</tbody>
 			</table>
+			<div id="scrollableTable"></div>
 		</form>
 	</div>
 
@@ -112,10 +117,28 @@
 	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+	
+		<script language="javascript" src="static/js/tablescroller.js"></script>
+    <script language="javascript" src="static/js/tablescroller.jquery.js"></script>
+    
 
 	<script type="text/javascript">
 		$(document).ready(function(){
 			window.top.loading.remove();
+			
+			var _heigh = $('#mainFrame', parent.document).height()-120;
+			//console.log(_heigh);
+			
+			var options = {
+            width: '100%',
+            height: _heigh,
+            pinnedRows: 2,
+            pinnedCols: 5,
+            container: "#scrollableTable",
+            removeOriginal: true
+        	};
+
+       		 $("#simple-table").tablescroller(options);
 		});
 		$(function() {
 

@@ -18,6 +18,7 @@
 <base href="<%=basePath%>">
 <!-- 下拉框 -->
 <link rel="stylesheet" href="static/ace/css/chosen.css" />
+  <link type="text/css" href="static/css/tablescroller.css" rel="stylesheet" />
 <!-- jsp文件头和头部 -->
 <%@ include file="../../system/index/top.jsp"%>
 <!-- 日期框 -->
@@ -28,11 +29,11 @@
 	</style>
 </head>
 
-<body style="background:#fff">
-	<div style="min-width:1360px;padding:20px 20px;">
+<body style="background:#fff;overflow-y:hidden;">
+	<div style="padding:20px 20px;">
 		<form action="report/report.do" method="post" name="Form" id="Form">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
-			<table style="margin-top:5px;">
+			<table style="margin-top:5px;margin-bottom:20px;">
 				<tr>
 					<td><div style="width:150px;text-align:center;">课程统计: ${info.testsize}</div></td>
 					<td><div style="width:150px;text-align:center;">班级名册: ${info.CLASS_NAME}</div></td>
@@ -58,14 +59,14 @@
 			</table>
 			<table id="simple-table"
 				class="table table-striped table-bordered table-hover"
-				style="margin-top:5px;">
+				style="margin-top:0px;margin-bottom:0px;">
 				<thead>
 					<tr>
-						<th class="center"><div style="width:150px;">姓名</div></th>
-						<th class="center"><div style="width:150px;">课程平均得分率</div></th>
+						<th class="center th_name"><div style="width:150px;">姓名</div></th>
+						<th class="center "><div style="width:150px;">课程平均得分率</div></th>
 						<th class="center"><div style="width:80px;">课程总分</div></th>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<th class="center"><a
+							<th class="center kc"><a
 								 onclick="paper('${info.CLASS_ID}','${var.TESTPAPER_ID}');"><div style="width:180px;" class="font">${var.NAME}</br><span>${var.CREATE_DATE}</span></div></a></th>
 						</c:forEach>
 					</tr>
@@ -74,9 +75,9 @@
 					<tr>
 						<td class="center">班级课程总分</td>
 						<td class="center"></td>
-						<td class="center"></td>
+						<td class="center"><div style="width:80px;"></div></td>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center">${var.TOTAL_SCORE}</td>
+							<td class="center"><div style="width:80px;margin:0 auto;">${var.TOTAL_SCORE}</div></td>
 						</c:forEach>
 					</tr>
 					<tr>
@@ -94,7 +95,7 @@
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<td class="center"><fmt:formatNumber type="number"
 									value="${var.TOTAL_SCORE == 0 ? 0: (var.AVG_SCORE / var.TOTAL_SCORE * 100)}"
-									maxFractionDigits="1" />%</td>
+									maxFractionDigits="2" />%</td>
 						</c:forEach>
 					</tr>
 
@@ -108,13 +109,13 @@
 									<td class="center"><a
 										 onclick="student('${info.CLASS_ID}','${var.ID}')">${var.NAME}</a>
 									</td>
-									<td class="center"><fmt:formatNumber type="number"
+									<td class="center"><div style="width:80px;margin:0 auto;"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
-											maxFractionDigits="1" />%</td>
+											maxFractionDigits="1" />%</div></td>
 									<td class="center">${var.GETSCORE }</td>
 									<c:forEach items="${testpaperList}" var="var1" varStatus="vs1">
-										<td class="center"><c:set var="TEST_ID"
-												value="${var1.TESTPAPER_ID}" /> ${var[TEST_ID] }</td>
+										<td class="center"><div style="width:80px;margin:0 auto;"><c:set var="TEST_ID"
+												value="${var1.TESTPAPER_ID}" /> ${var[TEST_ID] }</div></td>
 									</c:forEach>
 								</tr>
 							</c:forEach>
@@ -122,6 +123,7 @@
 					</c:choose>
 				</tbody>
 			</table>
+			<div id="scrollableTable"></div>
 		</form>
 	</div>
 
@@ -136,6 +138,11 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 
+ 	<script language="javascript" src="static/js/tablescroller.js"></script>
+    <script language="javascript" src="static/js/tablescroller.jquery.js"></script>
+    
+  
+    
 	<script type="text/javascript">
 		$(function() {
 			
@@ -241,7 +248,31 @@
 		
 		$(document).ready(function(){
 			window.top.loading.remove();
+			
+			
+			
+			//alert(window.top.document.getElmentById("mainFrame").clienHeight);
+			var _width = $('#mainFrame', parent.document).width()-40;
+			var _heigh = $('#mainFrame', parent.document).height()-100;
+			//console.log(_heigh);
+			
+			var options = {
+            width: _width,
+            height: _heigh,
+            pinnedRows: 4,
+            pinnedCols: 3,
+            container: "#scrollableTable",
+            removeOriginal: true
+        	};
+
+       		 $("#simple-table").tablescroller(options);
+       		 
+        
+        var name_height = $(".kc").last().parent().height()-18;
+        $(".th_name").height(name_height);
 		});
+		
+		
 	</script>
 
 </body>

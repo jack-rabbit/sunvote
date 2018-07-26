@@ -287,6 +287,13 @@ public class ReportController extends BaseController {
 				}catch(Exception e){
 					o2score = -1 ;
 				}
+				if(o2score - o1score == 0){
+					String n1 =  o1.getString("NUMBER");
+					String n2 =  o2.getString("NUMBER");
+					if(n1 != null && n2 != null){
+						return n1.compareToIgnoreCase(n2);
+					}
+				}
 				return  o2score - o1score > 0 ? 1 : -1;
 			}
 			
