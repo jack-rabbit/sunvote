@@ -1,16 +1,16 @@
-package com.fh.service.sunvote.question;
+package com.fh.service.sunvote.cache;
 
 import java.util.List;
-
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
 /** 
- * 说明： 题目表接口
- * 创建时间：2018-05-16
+ * 说明： 缓存管理接口
+ * 创建人：FH Q313596790
+ * 创建时间：2018-08-08
  * @version
  */
-public interface QuestionManager{
+public interface CacheManager{
 
 	/**新增
 	 * @param pd
@@ -53,16 +53,6 @@ public interface QuestionManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
-	
-	/**
-	 * 
-	 * @param pd
-	 * @return
-	 * @throws Exception
-	 */
-	public List<PageData> listAllquestion(PageData pd)throws Exception;
-	
-	public List<PageData> listAllRandquestion(PageData pd)throws Exception;
 	
 }
 

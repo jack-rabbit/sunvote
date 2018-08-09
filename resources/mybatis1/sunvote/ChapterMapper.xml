@@ -101,6 +101,31 @@
 		<include refid="tableName"></include>
 	</select>
 	
+	<!-- 列表(全部) -->
+	<select id="listAllChapter" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		
+		where 1 = 1 
+		
+		<if test="P_ID != null and P_ID != ''">
+			and P_ID = #{P_ID}
+		</if>
+		
+		<if test="P_ID == null or P_ID == ''">
+			and P_ID is NULL
+		</if>
+		
+		
+		<if test="TEACHINGMATERIAL_ID != null and TEACHINGMATERIAL_ID != ''">
+			and TEACHINGMATERIAL_ID = #{TEACHINGMATERIAL_ID}
+		</if>
+		
+		order by RANK
+	</select>
+	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

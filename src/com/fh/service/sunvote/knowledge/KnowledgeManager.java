@@ -1,6 +1,7 @@
 package com.fh.service.sunvote.knowledge;
 
 import java.util.List;
+
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
@@ -52,6 +53,14 @@ public interface KnowledgeManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	
+	/**
+	 * 
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PageData> listAllknowledge(PageData pd)throws Exception;
 	
 }
 

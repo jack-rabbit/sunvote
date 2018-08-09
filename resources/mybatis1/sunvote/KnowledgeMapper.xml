@@ -13,6 +13,7 @@
 		P_ID,	
 		RANK,	
 		CODE,	
+		SUBJECT_ID,	
 		REMARK,	
 		KNOWLEDGE_ID
 	</sql>
@@ -23,6 +24,7 @@
 		#{P_ID},	
 		#{RANK},	
 		#{CODE},	
+		#{SUBJECT_ID},	
 		#{REMARK},	
 		#{KNOWLEDGE_ID}
 	</sql>
@@ -97,6 +99,33 @@
 		from 
 		<include refid="tableName"></include>
 	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAllknowledge" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		
+		where 1 = 1 
+		
+		<if test="P_ID != null and P_ID != ''">
+			and P_ID = #{P_ID}
+		</if>
+		
+		<if test="P_ID == null or P_ID == ''">
+			and P_ID is NULL
+		</if>
+		
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''">
+			and SUBJECT_ID = #{SUBJECT_ID}
+		</if>
+		<if test="KNOWLEDGE_FROM != null and KNOWLEDGE_FROM != ''">
+			and KNOWLEDGE_FROM = #{KNOWLEDGE_FROM}
+		</if>
+		
+	</select>
+	
 	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">

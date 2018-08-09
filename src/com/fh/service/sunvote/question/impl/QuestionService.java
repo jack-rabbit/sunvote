@@ -60,6 +60,22 @@ public class QuestionService implements QuestionManager{
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("QuestionMapper.listAll", pd);
 	}
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllquestion(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("QuestionMapper.listAllquestion", pd);
+	}
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllRandquestion(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("QuestionMapper.listAllRandquestion", pd);
+	}
 	
 	/**通过id获取数据
 	 * @param pd

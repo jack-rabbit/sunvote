@@ -28,6 +28,7 @@
 		USER_ID,	
 		CREATE_DATE,	
 		REMARK,	
+		METHOD,	
 		QUESTION_ID
 	</sql>
 	
@@ -52,6 +53,7 @@
 		#{USER_ID},	
 		#{CREATE_DATE},	
 		#{REMARK},	
+		#{METHOD},	
 		#{QUESTION_ID}
 	</sql>
 	
@@ -98,6 +100,7 @@
 			USER_ID = #{USER_ID},
 			CREATE_DATE = #{CREATE_DATE},
 			REMARK = #{REMARK},
+			METHOD = #{METHOD},
 		QUESTION_ID = QUESTION_ID
 		where 
 		QUESTION_ID = #{QUESTION_ID}
@@ -138,6 +141,96 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAllquestion" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		
+		where 1 =1 
+		<if test="CHAPTER_IDS != null and CHAPTER_IDS.size() > 0">
+			and CHAPTER_ID in 
+			
+			<foreach item="item" index="index" collection="CHAPTER_IDS" open="(" separator="," close=")">
+                 #{item}
+			</foreach>
+			
+		</if>
+		<if test="KNOWLEDGE_IDS != null and KNOWLEDGE_IDS.size() > 0">
+			and  
+			<foreach item="item" index="index" collection="KNOWLEDGE_IDS" open="(" separator=" or " close=")">
+                FIND_IN_SET(#{item},KNOWLEDGE_ID)
+			</foreach>
+			
+		</if>
+		<if test="QUESTION_FROM != null and QUESTION_FROM != ''">
+			and QUESTION_FROM = #{QUESTION_FROM}
+		</if>
+		<if test="USER_ID != null and USER_ID != ''">
+			and USER_ID = #{USER_ID}
+		</if>
+		<if test="PROBLEM_TYPE != null and PROBLEM_TYPE != ''">
+			and PROBLEM_TYPE = #{PROBLEM_TYPE}
+		</if>
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''">
+			and SUBJECT_ID = #{SUBJECT_ID}
+		</if>
+		
+		ORDER BY QUESTION_ID 
+		
+		<if test="COUNT != null and COUNT != ''">
+			limit ${COUNT}
+		</if>
+		
+		
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAllRandquestion" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		
+		where 1 =1 
+		<if test="CHAPTER_IDS != null and CHAPTER_IDS.size() > 0">
+			and CHAPTER_ID in 
+			
+			<foreach item="item" index="index" collection="CHAPTER_IDS" open="(" separator="," close=")">
+                 #{item}
+			</foreach>
+			
+		</if>
+		<if test="KNOWLEDGE_IDS != null and KNOWLEDGE_IDS.size() > 0">
+			and  
+			<foreach item="item" index="index" collection="KNOWLEDGE_IDS" open="(" separator=" or " close=")">
+                FIND_IN_SET(#{item},KNOWLEDGE_ID)
+			</foreach>
+			
+		</if>
+		<if test="QUESTION_FROM != null and QUESTION_FROM != ''">
+			and QUESTION_FROM = #{QUESTION_FROM}
+		</if>
+		<if test="USER_ID != null and USER_ID != ''">
+			and USER_ID = #{USER_ID}
+		</if>
+		<if test="PROBLEM_TYPE != null and PROBLEM_TYPE != ''">
+			and PROBLEM_TYPE = #{PROBLEM_TYPE}
+		</if>
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''">
+			and SUBJECT_ID = #{SUBJECT_ID}
+		</if>
+		
+		ORDER BY rand()
+		
+		<if test="COUNT != null and COUNT != ''">
+			limit ${COUNT}
+		</if>
+		
+		
 	</select>
 	
 	<!-- 批量删除 -->

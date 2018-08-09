@@ -49,6 +49,7 @@ public class GradeController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("ID",get32UUID());
 		gradeService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");

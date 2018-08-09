@@ -61,6 +61,15 @@ public class KnowledgeService implements KnowledgeManager{
 		return (List<PageData>)dao.findForList("KnowledgeMapper.listAll", pd);
 	}
 	
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllknowledge(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("KnowledgeMapper.listAllknowledge", pd);
+	}
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

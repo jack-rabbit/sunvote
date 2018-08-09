@@ -2,7 +2,9 @@ package com.fh.controller.api;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fh.bean.Paper;
+import com.fh.bean.Point;
 import com.fh.bean.Question;
 import com.fh.bean.StudentAnswer;
 import com.fh.bean.TestPaper;
@@ -27,6 +30,7 @@ import com.fh.service.feedback.problemphenomenon.ProblemPhenomenonManager;
 import com.fh.service.software.softwareversion.SoftwareVersionManager;
 import com.fh.service.sunvote.attachkeyboard.AttachKeyboardManager;
 import com.fh.service.sunvote.basestation.BasestationManager;
+import com.fh.service.sunvote.cache.CacheManager;
 import com.fh.service.sunvote.chapter.ChapterManager;
 import com.fh.service.sunvote.classbasetation.ClassBasetationManager;
 import com.fh.service.sunvote.classroster.ClassRosterManager;
@@ -52,10 +56,10 @@ import com.fh.service.sunvote.student.StudentManager;
 import com.fh.service.sunvote.studenttest.StudentTestManager;
 import com.fh.service.sunvote.subject.SubjectManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
+import com.fh.service.sunvote.teachingmaterial.TeachingMaterialManager;
 import com.fh.service.sunvote.testpaper.TestPaperManager;
 import com.fh.service.sunvote.testpaperinfo.TestPaperInfoManager;
 import com.fh.service.system.user.UserManager;
-import com.fh.util.Jurisdiction;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
 
@@ -149,21 +153,27 @@ public class V1 extends BaseController {
 
 	@Resource(name = "v1Service")
 	private V1Manager v1Service;
-	
-	@Resource(name="softwareversionService")
+
+	@Resource(name = "softwareversionService")
 	private SoftwareVersionManager softwareversionService;
-	
-	@Resource(name="attachkeyboardService")
+
+	@Resource(name = "attachkeyboardService")
 	private AttachKeyboardManager attachkeyboardService;
-	
-	@Resource(name="networkstatisticsService")
+
+	@Resource(name = "networkstatisticsService")
 	private NetworkStatisticsManager networkstatisticsService;
-	
-	@Resource(name="eventService")
+
+	@Resource(name = "eventService")
 	private EventManager eventService;
-	
-	@Resource(name="userService")
+
+	@Resource(name = "userService")
 	private UserManager userService;
+
+	@Resource(name = "teachingmaterialService")
+	private TeachingMaterialManager teachingmaterialService;
+	
+	@Resource(name="cacheService")
+	private CacheManager cacheService;
 
 	@RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -174,8 +184,9 @@ public class V1 extends BaseController {
 		if (!pd.containsKey("ACCOUT")) {
 			pd.put("ACCOUT", pd.get("USERNAME"));
 		}
-		if (((pd.containsKey("USERNAME") || (pd.containsKey("ACCOUT") && pd.get("ACCOUT") != null)) && pd
-				.containsKey("PASSWORD")) || pd.containsKey("KEYPAD_ID")) {
+		if (((pd.containsKey("USERNAME") || (pd.containsKey("ACCOUT") && pd
+				.get("ACCOUT") != null)) && pd.containsKey("PASSWORD"))
+				|| pd.containsKey("KEYPAD_ID")) {
 			PageData pageData = teacherService.getUserInfo(pd);
 			if (pageData != null && pageData.getString("ID") != null) {
 				pageData.put("PASSWORD", "");// 返回参数中不返回密码
@@ -193,19 +204,19 @@ public class V1 extends BaseController {
 				pageData.put("subjectList", subjectList);
 
 				pageData.remove("SUBJECT_IDS");
-				
+
 				PageData eventPd = new PageData();
 				eventPd.put("EVENT_ID", get32UUID());
 				eventPd.put("EVENT_NAME", "login");
 				eventPd.put("EVENT_USER", pageData.getString("ID"));
 				eventPd.put("EVENT_TYPE", "0");
-				eventPd.put("EVENT_START_TIME",Tools.date2Str(new Date()));
-				if(pd.getString("CLIENT_ID") != null){
+				eventPd.put("EVENT_START_TIME", Tools.date2Str(new Date()));
+				if (pd.getString("CLIENT_ID") != null) {
 					eventPd.put("CLIENT_ID", pd.getString("CLIENT_ID"));
-				}else{
+				} else {
 					eventPd.put("CLIENT_ID", "CLIENT");
 				}
-				eventPd.put("EVENT_IP",getRemoteIp());
+				eventPd.put("EVENT_IP", getRemoteIp());
 				eventService.save(eventPd);
 
 				res.setData(pageData);
@@ -235,23 +246,26 @@ public class V1 extends BaseController {
 				List<PageData> studentList = v1Service.getClassStudent(pt);
 				pageData.put("studentList", studentList);
 				pt.put("CLASS_ID", pageData.get("ID"));
-				List<PageData> keyboards = attachkeyboardService.listAllClassId(pt);
+				List<PageData> keyboards = attachkeyboardService
+						.listAllClassId(pt);
 				pageData.put("keyboards", keyboards);
 				res.setData(pageData);
 			} else {
 				res.set2Error();
 			}
-			logger.info("class cost time : " + (System.currentTimeMillis() - cur));
+			logger.info("class cost time : "
+					+ (System.currentTimeMillis() - cur));
 			return res.toJson();
 		} else {
 			ResponseGson<List<PageData>> res = new ResponseGson();
 			List<PageData> list = sclassService.listAll(pd);
 			res.setData(list);
-			logger.info("class cost time : " + (System.currentTimeMillis() - cur));
+			logger.info("class cost time : "
+					+ (System.currentTimeMillis() - cur));
 			return res.toJson();
 		}
 	}
-	
+
 	@RequestMapping(value = "/questiontype", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object questiontype() throws Exception {
@@ -261,10 +275,11 @@ public class V1 extends BaseController {
 		ResponseGson<List<PageData>> res = new ResponseGson();
 		List<PageData> list = questiontypeService.listAll(pd);
 		res.setData(list);
-		logger.info("questiontype cost time : " + (System.currentTimeMillis() - cur));
+		logger.info("questiontype cost time : "
+				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
-	
+
 	@RequestMapping(value = "/classtype", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object classtype() throws Exception {
@@ -274,10 +289,11 @@ public class V1 extends BaseController {
 		ResponseGson<List<PageData>> res = new ResponseGson();
 		List<PageData> list = classtypeService.listAll(pd);
 		res.setData(list);
-		logger.info("classtype cost time : " + (System.currentTimeMillis() - cur));
+		logger.info("classtype cost time : "
+				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
-	
+
 	@RequestMapping(value = "/grade", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object grade() throws Exception {
@@ -295,7 +311,7 @@ public class V1 extends BaseController {
 		logger.info("class cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
-	
+
 	@RequestMapping(value = "/subject", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object subject() throws Exception {
@@ -313,8 +329,6 @@ public class V1 extends BaseController {
 		logger.info("subject cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
-	
-	
 
 	@RequestMapping(value = "/keypadscan", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -333,7 +347,8 @@ public class V1 extends BaseController {
 		} catch (Exception ex) {
 			res.setDataError();
 		}
-		logger.info("keypadScan cost time : " + (System.currentTimeMillis() - cur));
+		logger.info("keypadScan cost time : "
+				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 
@@ -418,9 +433,9 @@ public class V1 extends BaseController {
 							question.setQuestion_from(qpd
 									.getString("QUESTION_FROM"));
 							question.setScore(qpd.getString("SCORE"));
-							question.setPart_score(qpd
-									.getString("PART_SCORE"));
-							question.setQuestionType(qpd.getString("PROBLEM_TYPE_ID"));
+							question.setPart_score(qpd.getString("PART_SCORE"));
+							question.setQuestionType(qpd
+									.getString("PROBLEM_TYPE_ID"));
 							question.setRank(qpd.getString("RANK"));
 							question.setNo_name(qpd.getString("NO_NAME"));
 							if ("-1".equals("" + qpd.getString("P_ID"))) {
@@ -449,9 +464,9 @@ public class V1 extends BaseController {
 									qq.setQuestion_from(q
 											.getString("QUESTION_FROM"));
 									qq.setScore(q.getString("SCORE"));
-									qq.setPart_score(q
-											.getString("PART_SCORE"));
-									qq.setQuestionType(qpd.getString("PROBLEM_TYPE_ID"));
+									qq.setPart_score(q.getString("PART_SCORE"));
+									qq.setQuestionType(qpd
+											.getString("PROBLEM_TYPE_ID"));
 									qq.setRank(q.getString("RANK"));
 									qq.setNo_name(q.getString("NO_NAME"));
 									question.getQuestions().add(qq);
@@ -477,7 +492,8 @@ public class V1 extends BaseController {
 		} else {
 			res.setOtherError();
 		}
-		logger.info("paperInfo cost time : " + (System.currentTimeMillis() - cur));
+		logger.info("paperInfo cost time : "
+				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 
@@ -488,10 +504,11 @@ public class V1 extends BaseController {
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
-		logger.info("paperquestion cost time : " + (System.currentTimeMillis() - cur));
+		logger.info("paperquestion cost time : "
+				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
-	
+
 	@RequestMapping(value = "/question", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object question() throws Exception {
@@ -499,17 +516,18 @@ public class V1 extends BaseController {
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
-		if(pd.containsKey("ID")){
+		if (pd.containsKey("ID")) {
 			pd.put("QUESTION_ID", pd.get("ID"));
 			PageData data = questionService.findById(pd);
 			res.setData(data);
-		}else{
+		} else {
 			res.setDataError();
 		}
-		logger.info("question cost time : " + (System.currentTimeMillis() - cur));
+		logger.info("question cost time : "
+				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
-	
+
 	@RequestMapping(value = "/question/add", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object questionAdd() throws Exception {
@@ -519,10 +537,11 @@ public class V1 extends BaseController {
 		ResponseGson<PageData> res = new ResponseGson();
 		pd.put("QUESTION_ID", this.get32UUID());
 		questionService.save(pd);
-		logger.info("questionAdd cost time : " + (System.currentTimeMillis() - cur));
+		logger.info("questionAdd cost time : "
+				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
-	
+
 	@RequestMapping(value = "/uploadpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadpaper() throws Exception {
@@ -552,8 +571,7 @@ public class V1 extends BaseController {
 			paperPd.put("CREATE_DATE", Tools.date2Str(new Date()));
 			paperPd.put("MODIFY_DATE", Tools.date2Str(new Date()));
 
-			int questionNum = 0 ;
-			
+			int questionNum = 0;
 
 			List<Question> questions = paper.getQuestions();
 			if (questions != null) {
@@ -565,12 +583,14 @@ public class V1 extends BaseController {
 							&& question.getQuestions().size() > 0) {
 						qPd.put("P_ID", "-1");
 					} else {
-						questionNum ++ ;
+						questionNum++;
 						qPd.put("P_ID", "0");
 					}
 					qPd.put("SUBJECT_ID", paper.getSubject_id());
 					qPd.put("CHAPTER_ID", question.getChapter_id());
-					qPd.put("PROBLEM_TYPE_ID", question.getProblem_type_id() == null ? "1" :  question.getProblem_type_id());
+					qPd.put("PROBLEM_TYPE_ID",
+							question.getProblem_type_id() == null ? "1"
+									: question.getProblem_type_id());
 					qPd.put("TEACHER_ID", paper.getUser_id());
 					qPd.put("SCHOOL_ID", schoolID);
 					qPd.put("KNOWLEDGE_ID", question.getKnowledge_id());
@@ -607,7 +627,9 @@ public class V1 extends BaseController {
 							cqPd.put("P_ID", questionID);
 							cqPd.put("SUBJECT_ID", paper.getSubject_id());
 							cqPd.put("CHAPTER_ID", q.getChapter_id());
-							cqPd.put("PROBLEM_TYPE_ID", question.getProblem_type_id() == null ? "1" :  question.getProblem_type_id());
+							cqPd.put("PROBLEM_TYPE_ID", question
+									.getProblem_type_id() == null ? "1"
+									: question.getProblem_type_id());
 							cqPd.put("TEACHER_ID", paper.getUser_id());
 							cqPd.put("SCHOOL_ID", schoolID);
 							cqPd.put("KNOWLEDGE_ID", q.getKnowledge_id());
@@ -636,7 +658,7 @@ public class V1 extends BaseController {
 							cpqPd.put("PAPERQUESTION_ID", this.get32UUID());
 
 							paperquestionService.save(cpqPd);
-							questionNum ++ ;
+							questionNum++;
 						}
 					}
 				}
@@ -647,7 +669,37 @@ public class V1 extends BaseController {
 		} else {
 			res.setDataError();
 		}
-		logger.info("uploadpaper cost time : " + (System.currentTimeMillis() - cur));
+		logger.info("uploadpaper cost time : "
+				+ (System.currentTimeMillis() - cur));
+		return res.toJson();
+	}
+
+	@RequestMapping(value = "/uploadpoint", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object uploadpoint() throws Exception {
+		event("uploadpoint");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<String> res = new ResponseGson();
+
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			try {
+				ResponseGson<List<Point>> req = ResponseGson.parse(
+						pd.getJsonString(), Point.class);
+				List<Point> list = req.getData();
+				if (list != null && list.size() > 0) {
+					for (Point point : list) {
+						savePoint(point, null);
+					}
+				}
+			} catch (Exception e) {
+				res.setError();
+			}
+		} else {
+			res.setDataError();
+		}
+		logger.info("uploadpoint cost time : "
+				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
 
@@ -747,7 +799,7 @@ public class V1 extends BaseController {
 						}
 						testpaperinfoService.batchSave(testInfoPdList);
 					}
-				}else{
+				} else {
 					testPaperId = listData.get(0).getString("TESTPAPER_ID");
 				}
 				res.setData(testPaperId);
@@ -759,13 +811,13 @@ public class V1 extends BaseController {
 		} else {
 			res.setDataError();
 		}
-		logger.info("uploadtestpaper cost time:" + (System.currentTimeMillis() - cur));
+		logger.info("uploadtestpaper cost time:"
+				+ (System.currentTimeMillis() - cur));
 
 		return res.toJson();
 
 	}
-	
-	
+
 	// 上传测验成绩
 	@RequestMapping(value = "/uploadupdatetestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -879,6 +931,74 @@ public class V1 extends BaseController {
 
 	}
 
+	@RequestMapping(value = "/point", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object point() throws Exception {
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		
+		PageData pd = getPageData();
+		String key = this.getRequestKey(pd,"point");
+		PageData pagedata = new PageData();
+		pagedata.put("KEY", key);
+		if(!"".equals(key.trim())){
+			PageData ret = cacheService.findById(pagedata);
+			if(ret != null && ret.get("CACHE") != null){
+				return ret.get("CACHE");
+			}
+		}
+		List<PageData> list = knowledgeService.listAllknowledge(pd);
+		String depth = pd.getString("DEPTH");
+		int end = 3 ;
+		if(depth != null){
+			try{
+				end = Integer.parseInt(depth);
+			}catch(Exception e){
+				
+			}
+		}
+		roundPointData(list,1,end);
+		res.setData(list);
+		String str = res.toJson();
+		 str = str.replaceAll("[^\\u0000-\\uFFFF]", "");
+		pagedata.put("CACHE", str);
+		cacheService.save(pagedata);
+		return str;
+	}
+
+	private void roundPointData(List<PageData> list,int dept , int end) throws Exception {
+		if (list != null) {
+			for (PageData pd : list) {
+				pd.put("P_ID", pd.getString("KNOWLEDGE_ID"));
+				if (pd.getString("P_ID") != null
+						&& !"".equals(pd.getString("P_ID")) && dept < end) {
+					List<PageData> ret = knowledgeService.listAllknowledge(pd);
+					if (ret != null && ret.size() > 0) {
+						roundPointData(ret,dept + 1,end);
+						pd.put("CHILDREN", ret);
+					}
+				}
+				pd.remove("P_ID");
+			}
+		}
+	}
+	
+	private void roundChapterData(List<PageData> list,int dept,int end) throws Exception {
+		if (list != null && dept < end) {
+			for (PageData pd : list) {
+				pd.put("P_ID", pd.getString("ID"));
+				if (pd.getString("P_ID") != null
+						&& !"".equals(pd.getString("P_ID"))) {
+					List<PageData> ret = chapterService.listAllChapter(pd);
+					if (ret != null && ret.size() > 0) {
+						roundChapterData(ret,dept+1,end);
+						pd.put("CHILDREN", ret);
+					}
+				}
+				pd.remove("P_ID");
+			}
+		}
+	}
+
 	// 下载测验成绩
 	@RequestMapping(value = "/downloadtestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -960,7 +1080,8 @@ public class V1 extends BaseController {
 				res.setError();
 			}
 		}
-		logger.info("downloadtestpaper cost time:" + (System.currentTimeMillis() - cur));
+		logger.info("downloadtestpaper cost time:"
+				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 
 	}
@@ -1006,20 +1127,18 @@ public class V1 extends BaseController {
 		return res.toJson();
 
 	}
-	
-	
+
 	@RequestMapping(value = "/schooladmin", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public void schoolAdmin(){
+	public void schoolAdmin() {
 		event("schoolAdmin");
 		PageData pd = this.getPageData();
 		this.getUserID();
 	}
-	
-	
+
 	@RequestMapping(value = "/network", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Object network() throws Exception{
+	public Object network() throws Exception {
 		event("network");
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
@@ -1033,7 +1152,7 @@ public class V1 extends BaseController {
 						.getString("SUCCESS_COUNT"));
 				spd.put("SUCCESS_COUNT", ++successCount + "");
 				int fail = seq - successCount;
-				if(fail < 0 ){
+				if (fail < 0) {
 					fail = 0;
 				}
 				spd.put("FAIL_COUNT", fail + "");
@@ -1047,7 +1166,7 @@ public class V1 extends BaseController {
 				pd.put("SUCCESS_COUNT", "1");
 				pd.put("CLIENT_IP", getRemoteIp());
 				int fail = seq - 1;
-				if(fail < 0 ){
+				if (fail < 0) {
 					fail = 0;
 				}
 				pd.put("FAIL_COUNT", fail + "");
@@ -1059,14 +1178,13 @@ public class V1 extends BaseController {
 				pd.remove("NETWORKSTATISTICS_ID");
 				res.setData(pd);
 			}
-		}else{
+		} else {
 			res.setDataError();
 		}
 		return res.toJson();
 	}
-	
-	
-	public String getRemoteIp(){
+
+	public String getRemoteIp() {
 		HttpServletRequest request = getRequest();
 		String ip = "";
 		if (request.getHeader("x-forwarded-for") == null) {
@@ -1076,70 +1194,264 @@ public class V1 extends BaseController {
 		}
 		return ip;
 	}
-	
+
 	@RequestMapping(value = "/newversion", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Object getNewVersion(HttpServletRequest request) throws Exception{
+	public Object getNewVersion(HttpServletRequest request) throws Exception {
 		event("getNewVersion");
 		PageData pd = this.getPageData();
 		String softId = pd.getString("SOFTID");
 		String path = request.getContextPath();
-		String basePath = request.getScheme() + "://"
-				+ request.getServerName() + ":" + request.getServerPort()
-				+ path + "/";
+		String basePath = request.getScheme() + "://" + request.getServerName()
+				+ ":" + request.getServerPort() + path + "/";
 		ResponseGson<PageData> res = new ResponseGson();
-		if(softId != null && !"".equals(softId)){
+		if (softId != null && !"".equals(softId)) {
 			pd.put("SOFTWARE_ID", softId);
 			PageData result = softwareversionService.findNewVersion(pd);
-			if(result != null){
+			if (result != null) {
 				result.remove("SOFTWAREVERSION_ID");
 				result.remove("SOFTWARE_ID");
-				result.put("VERSION_PATH",basePath + "uploadFiles/uploadFile/" + result.getString("VERSION_PATH"));
+				result.put("VERSION_PATH", basePath + "uploadFiles/uploadFile/"
+						+ result.getString("VERSION_PATH"));
 				res.setData(result);
-			}else{
+			} else {
 				res.setDataError();
 			}
-		}else{
+		} else {
 			res.setDataError();
 		}
 		return res.toJson();
 	}
+
+	/**
+	 * 获取教材版本
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/teachingmaterial", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object teachingmaterial() throws Exception {
+		PageData pd = getPageData();
+		ResponseGson<List<PageData>> ret = new ResponseGson<List<PageData>>();
+		List<PageData> lpd = new ArrayList<PageData>();
+		List<PageData> list = teachingmaterialService.listAll(pd);
+		String subjectID = pd.getString("SUBJECT_ID");
+		if (subjectID != null && !"".equals(subjectID)) {
+			for (PageData pad : list) {
+				String subis = pad.getString("SUBJECT_ID");
+				if (subis != null) {
+					String[] subs = subis.split(",");
+					if (subs != null) {
+						for (String sub : subs) {
+							if (subjectID.trim().equals(sub.trim())) {
+								pad.remove("SUBJECT_ID");
+								pad.put("VERSION_CODE", pad.getString("VERSION_CODE"));
+								lpd.add(pad);
+								break;
+							}
+						}
+					}
+				}
+			}
+		} else {
+			for (PageData pad : list) {
+				pad.remove("SUBJECT_ID");
+				pad.put("VERSION_CODE", pad.getString("VERSION_CODE"));
+				lpd.add(pad);
+			}
+		}
+		ret.setData(lpd);
+		return ret.toJson();
+	}
 	
+	/**
+	 * 获取教材版本
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/chapter", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object chapter() throws Exception {
+		PageData pd = getPageData();
+		String key = this.getRequestKey(pd,"chapter");
+		PageData pagedata = new PageData();
+		pagedata.put("KEY", key);
+		if(!"".equals(key.trim())){
+			PageData ret = cacheService.findById(pagedata);
+			if(ret != null && ret.get("CACHE") != null){
+				return ret.get("CACHE");
+			}
+		}
+		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
+		List<PageData> list = chapterService.listAllChapter(pd);
+		String depth = pd.getString("DEPTH");
+		int end = 3 ;
+		if(depth != null){
+			try{
+				end = Integer.parseInt(depth);
+			}catch(Exception e){
+				
+			}
+		}
+		roundChapterData(list,1,end);
+		res.setData(list);
+		String str = res.toJson();
+		 str = str.replaceAll("[^\\u0000-\\uFFFF]", "");
+		pagedata.put("CACHE", str);
+		cacheService.save(pagedata);
+		return str;
+	}
+	
+	/**
+	 * 获取试题
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/questions", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object questions() throws Exception {
+		PageData pd = getPageData();
+		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
+		String teachingmaterialId = pd.getString("TEACHINGMATERIAL_ID");
+		String chapterId = pd.getString("CHAPTER_ID");
+		if(teachingmaterialId != null && !teachingmaterialId.equals("") && chapterId == null){
+			PageData chapterPd = new PageData();
+			chapterPd.put("TEACHINGMATERIAL_ID", teachingmaterialId);
+			List<PageData> chapterList = chapterService.listAllChapter(chapterPd);
+			roundChapterData(chapterList, 1, 3);
+			List<String> ids = getIds(chapterList,"ID");
+			pd.put("CHAPTER_IDS", ids);
+		}else{
+			List<String> ids = new ArrayList<String>();
+			if(chapterId != null && !"".equals(chapterId.trim())){
+				ids.add(chapterId);
+			}
+			pd.put("CHAPTER_IDS", ids);
+		}
+		pd.remove("CHAPTER_ID");
+		String knowledge = pd.getString("KNOWLEDGE_ID");
+		if(knowledge != null && !"".equals(knowledge.trim())){
+			PageData knowPd = new PageData();
+			knowPd.put("P_ID", knowledge);
+			List<PageData> knowlist = knowledgeService.listAllknowledge(knowPd);
+			roundPointData(knowlist, 1, 3);
+			List<String> ids = getIds(knowlist,"KNOWLEDGE_ID");
+			ids.add(knowledge);
+			pd.put("KNOWLEDGE_IDS",ids);
+			pd.remove("KNOWLEDGE_ID");
+		}
+		List<PageData> list = questionService.listAllquestion(pd);
+		res.setData(list);
+		return res.toJson();
+	}
+	
+	/**
+	 * 随机获取试题
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/randquestions", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object randquestions() throws Exception {
+		PageData pd = getPageData();
+		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
+		String teachingmaterialId = pd.getString("TEACHINGMATERIAL_ID");
+		String chapterId = pd.getString("CHAPTER_ID");
+		if(teachingmaterialId != null && !teachingmaterialId.equals("") && chapterId == null){
+			PageData chapterPd = new PageData();
+			chapterPd.put("TEACHINGMATERIAL_ID", teachingmaterialId);
+			List<PageData> chapterList = chapterService.listAllChapter(chapterPd);
+			roundChapterData(chapterList, 1, 3);
+			List<String> ids = getIds(chapterList,"ID");
+			pd.put("CHAPTER_IDS", ids);
+		}else{
+			List<String> ids = new ArrayList<String>();
+			if(chapterId != null && !"".equals(chapterId.trim())){
+				ids.add(chapterId);
+			}
+			pd.put("CHAPTER_IDS", ids);
+		}
+		pd.remove("CHAPTER_ID");
+		String knowledge = pd.getString("KNOWLEDGE_ID");
+		if(knowledge != null && !"".equals(knowledge.trim())){
+			PageData knowPd = new PageData();
+			knowPd.put("P_ID", knowledge);
+			List<PageData> knowlist = knowledgeService.listAllknowledge(knowPd);
+			roundPointData(knowlist, 1, 3);
+			List<String> ids = getIds(knowlist,"KNOWLEDGE_ID");
+			ids.add(knowledge);
+			pd.put("KNOWLEDGE_IDS",ids);
+			pd.remove("KNOWLEDGE_ID");
+		}
+		List<PageData> list = questionService.listAllRandquestion(pd);
+		res.setData(list);
+		return res.toJson();
+	}
+	
+	public List<String> getIds(List<PageData> chapterList,String key){
+		List<String> ids = new ArrayList<String>();
+		if(chapterList != null && chapterList.size() > 0){
+			for(PageData pd : chapterList){
+				String chapterid = pd.getString(key);
+				if(chapterid != null && !"".equals(chapterid)){
+					ids.add(chapterid);
+				}
+				Object obj = pd.get("CHILDREN");
+				if(obj != null && (obj instanceof List)){
+					@SuppressWarnings("unchecked")
+					List<PageData> list = (List<PageData>)obj ;
+					List<String> ret = getIds(list,key);
+					if(ret != null && ret.size() > 0){
+						ids.addAll(ret);
+					}
+				}
+			}
+		}
+		
+		return ids;
+		
+	}
+
 	@RequestMapping(value = "/tempcreateUser", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Object tempCreateUser() throws Exception{
+	public Object tempCreateUser() throws Exception {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("ID", this.get32UUID());
 		teacherService.save(pd);
-		pd.put("USER_ID", pd.getString("ID"));	//ID 主键
-		pd.put("LAST_LOGIN", "");				//最后登录时间
-		pd.put("IP", "");						//IP
-		pd.put("STATUS", "0");					//状态
+		pd.put("USER_ID", pd.getString("ID")); // ID 主键
+		pd.put("LAST_LOGIN", ""); // 最后登录时间
+		pd.put("IP", ""); // IP
+		pd.put("STATUS", "0"); // 状态
 		pd.put("SKIN", "default");
-		pd.put("RIGHTS", "");		
+		pd.put("RIGHTS", "");
 		pd.put("USERNAME", pd.getString("ACCOUT"));
-		pd.put("ROLE_ID", "57bb1e6f138247a0b05cc721a5da1b64");		
-		pd.put("PASSWORD", new SimpleHash("SHA-1", pd.getString("ACCOUT"), pd.getString("PASSWORD")).toString());	//密码加密
-		
-		if(null == userService.findByUsername(pd)){	//判断用户名是否存在
-			userService.saveU(pd); 					//执行保存
+		pd.put("ROLE_ID", "57bb1e6f138247a0b05cc721a5da1b64");
+		pd.put("PASSWORD",
+				new SimpleHash("SHA-1", pd.getString("ACCOUT"), pd
+						.getString("PASSWORD")).toString()); // 密码加密
+
+		if (null == userService.findByUsername(pd)) { // 判断用户名是否存在
+			userService.saveU(pd); // 执行保存
 		}
-		
-		//ID, TEACHER_ID, CLASS_ID, SUBJECT_ID, START_DATE, END_DATE, GRADE_ID, TERM_ID, REMARK
+
+		// ID, TEACHER_ID, CLASS_ID, SUBJECT_ID, START_DATE, END_DATE, GRADE_ID,
+		// TERM_ID, REMARK
 		pd.put("TEACHER_ID", pd.get("ID"));
 		pd.put("CLASS_ID", "bc33389101ec46e6b7d47daa8adf58ac");
 		pd.put("SUBJECT_ID", "1");
 		pd.put("GRADE_ID", "1");
-		pd.put("TERM_ID","0d8ea2efdef74accbd0d00e9bc07dfbb");
+		pd.put("TERM_ID", "0d8ea2efdef74accbd0d00e9bc07dfbb");
 		coursemanagementService.save(pd);
-		
+
 		return "{'res':'success'}";
 	}
-	
-	
 
-	private void event(String apiName){
+	private void event(String apiName) {
 		PageData eventPd = new PageData();
 		eventPd.put("EVENT_ID", get32UUID());
 		eventPd.put("EVENT_NAME", apiName);
@@ -1148,11 +1460,218 @@ public class V1 extends BaseController {
 		eventPd.put("EVENT_START_TIME", Tools.date2Str(new Date()));
 		eventPd.put("CLIENT_ID", "SERVER");
 		eventPd.put("EVENT_IP", getRemoteIp());
-		try{
+		try {
 			eventService.save(eventPd);
-		}catch(Exception e){
-			
+		} catch (Exception e) {
+
+		}
+	}
+
+	static int index = 0;
+
+	private void savePoint(Point point, String pid) {
+		List<Point> children = point.getChildren();
+		if (children != null && children.size() > 0) {
+			for (Point p : children) {
+				savePoint(p, point.getCode());
+			}
+		}
+		PageData pageData = new PageData();
+		pageData.put("KNOWLEDGE_ID", point.getCode());
+		pageData.put("NAME", point.getName());
+		pageData.put("P_ID", pid);
+		pageData.put("RANK", ++index);
+		try {
+			knowledgeService.save(pageData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping(value = "/uploadbook", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object uploadbook() throws Exception {
+		event("uploadbook");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<String> res = new ResponseGson();
+
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			try {
+				ResponseGson<List<Point>> req = ResponseGson.parse(
+						pd.getJsonString(), Point.class);
+				List<Point> list = req.getData();
+				if (list != null && list.size() > 0) {
+					for (Point point : list) {
+						saveBook(point);
+					}
+				}
+			} catch (Exception e) {
+				res.setError();
+			}
+		} else {
+			res.setDataError();
+		}
+		logger.info("uploadpoint cost time : "
+				+ (System.currentTimeMillis() - cur));
+		return res.toJson();
+	}
+
+	private void saveBook(Point point) {
+
+		PageData pd = new PageData();
+		pd.put("ID", point.getCode());
+		pd.put("NAME", point.getName());
+		pd.put("SUBJECT_ID", point.getSubjectCode());
+		try {
+			teachingmaterialService.save(pd);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
+	
+	@RequestMapping(value = "/uploadyuncelianquestion", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object uploadyuncelianquestion() throws Exception {
+		event("uploadyuncelianquestion");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<Object> res = new ResponseGson();
+
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			try {
+				ResponseGson<Object> req = ResponseGson.parse(
+						pd.getJsonString());
+				Object data = req.getData();
+				if(data instanceof List){
+					List<Object> list = (List)data;
+					for(Object obj : list){
+						if(obj instanceof Map){
+							Map map = (Map)obj;
+							
+							PageData pageData = new PageData();
+							pageData.put("QUESTION_ID", map.get("id"));
+							Object cateObj = map.get("cate");
+							if(cateObj != null){
+								String cate = cateObj.toString();
+								float catef = Float.parseFloat(cate);
+								pageData.put("QUESTION_TYPE_ID", (int)catef);
+							}
+							Object contentObj = map.get("content");
+							if(contentObj != null){
+								String content = contentObj.toString();
+								content = replaceWebUrl(content);
+								pageData.put("CONTENT", content);
+							}
+							Object subjectCodeObj = map.get("subjectCode");
+							if(subjectCodeObj != null){
+								String subjectCode = subjectCodeObj.toString();
+								pageData.put("SUBJECT_ID",subjectCode);
+							}
+							Object optionsObj = map.get("options");
+							if(optionsObj instanceof List){
+								List ss = (List)optionsObj;
+								pageData.put("OPTION_CONTENT", optionsObj.toString());
+								pageData.put("OPTION_NUM", "" + ss.size());
+							}
+							Object answersObj = map.get("answers");
+							if(answersObj instanceof List){
+								List answers = (List)answersObj;
+								StringBuilder sb = new StringBuilder();
+								for(Object as:answers){
+									sb.append(as.toString());
+								}
+								pageData.put("ANSWER", sb.toString());
+							}
+							Object difficulty =  map.get("difficulty");
+							try{
+								if (difficulty != null) {
+									float fdifficulty = Float
+											.parseFloat(difficulty.toString());
+									pageData.put("DIFFICULTY",
+											(int) fdifficulty);
+								}
+							}catch(Exception ex){
+								ex.printStackTrace();
+							}
+							Object discussObj = map.get("discuss");
+							if(discussObj != null){
+								String discuss = discussObj.toString();
+								discuss = replaceWebUrl(discuss);
+								pageData.put("REMARK", discuss);
+							}
+							Object analyseObj = map.get("analyse");
+							if(analyseObj != null){
+								String analyse = analyseObj.toString();
+								analyse = replaceWebUrl(analyse);
+								pageData.put("ANALYSIS", analyse);
+							}
+							Object methodObj = map.get("method");
+							if(methodObj != null){
+								String method = methodObj.toString();
+								method = replaceWebUrl(method);
+								pageData.put("METHOD", method);
+							}
+							Object points = map.get("points");
+							StringBuilder sb = new StringBuilder();
+							if(points instanceof List){
+								List pointsList = (List)points;
+								for(Object pObject : pointsList){
+									if(pObject instanceof Map){
+										Map pMap = (Map)pObject;
+										sb.append(pMap.get("code")).append(",");
+									}
+								}
+								
+								if(sb.toString().length() > 1){
+									sb.deleteCharAt(sb.length() - 1);
+								}
+								pageData.put("KNOWLEDGE_ID", sb.toString());
+							}
+							pageData.put("QUESTION_FROM", "101");
+							try{
+								questionService.save(pageData);
+							}catch(Exception e){
+								logger.error("save fail:" + map.get("id"),e);
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				res.setError();
+			}
+		} else {
+			res.setDataError();
+		}
+		logger.info("uploadyuncelianquestion cost time : "
+				+ (System.currentTimeMillis() - cur));
+		return res.toJson();
+	}
+
+	
+	private String replaceWebUrl(String content){
+		if(content != null){
+			content = content.replaceAll("http://image.yuncelian.com/1/analysis/", "http://image.yuncelian.com/1/analysis/");
+		}
+		return content;
+	}
+	
+	
+	public String getRequestKey(PageData pd,String methodName){
+		StringBuilder key = new StringBuilder() ;
+		key.append(methodName).append("{");
+		if (pd != null) {
+			Iterator iterator = pd.keySet().iterator();
+			while (iterator.hasNext()) {
+				Object obj = iterator.next();
+				key.append(obj.toString()).append(":")
+						.append(pd.get(obj).toString()).append(";");
+			}
+		}
+		key.append("}");
+		
+		return key.toString();
+	}
 }

@@ -1,6 +1,7 @@
 package com.fh.service.sunvote.chapter;
 
 import java.util.List;
+
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
@@ -53,6 +54,9 @@ public interface ChapterManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	
+	
+	public List<PageData> listAllChapter(PageData pd)throws Exception;
 	
 }
 

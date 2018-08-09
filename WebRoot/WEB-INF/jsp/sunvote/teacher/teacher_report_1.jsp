@@ -73,29 +73,29 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="center">班级课程总分</td>
-						<td class="center"></td>
+						<td class="center"><div style="width:150px;">班级课程总分</div></td>
+						<td class="center"><div style="width:150px;"></div></td>
 						<td class="center"><div style="width:80px;"></div></td>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<td class="center"><div style="width:80px;margin:0 auto;">${var.TOTAL_SCORE}</div></td>
 						</c:forEach>
 					</tr>
 					<tr>
-						<td class="center">班级课程平均分</td>
-						<td class="center"></td>
-						<td class="center"></td>
+						<td class="center"><div style="width:150px;">班级课程平均分</div></td>
+						<td class="center"><div style="width:150px;"></div></td>
+						<td class="center"><div style="width:80px;"></div></td>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center">${var.AVG_SCORE}</td>
+							<td class="center"><div style="width:80px;margin:0 auto;">${var.AVG_SCORE}</div></td>
 						</c:forEach>
 					</tr>
 					<tr>
-						<td class="center">班级课程平均得分率</td>
-						<td class="center"></td>
-						<td class="center"></td>
+						<td class="center"><div style="width:150px;">班级课程平均得分率</div></td>
+						<td class="center"><div style="width:150px;"></div></td>
+						<td class="center"><div style="width:80px;"></div></td>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center"><fmt:formatNumber type="number"
+							<td class="center"><div style="width:80px;margin:0 auto;"><fmt:formatNumber type="number"
 									value="${var.TOTAL_SCORE == 0 ? 0: (var.AVG_SCORE / var.TOTAL_SCORE * 100)}"
-									maxFractionDigits="2" />%</td>
+									maxFractionDigits="2" />%</div></td>
 						</c:forEach>
 					</tr>
 
@@ -106,15 +106,15 @@
 									<%-- <td class="center"><a
 										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
 									</td> --%>
-									<td class="center"><a
-										 onclick="student('${info.CLASS_ID}','${var.ID}')">${var.NAME}</a>
+									<td class="center"><div style="width:150px;"><a
+										 onclick="student('${info.CLASS_ID}','${var.ID}')">${var.NAME}</a></div>
 									</td>
-									<td class="center"><div style="width:80px;margin:0 auto;"><fmt:formatNumber type="number"
+									<td class="center"><div style="width:150px;"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
 											maxFractionDigits="2" />%</div></td>
-									<td class="center">${var.GETSCORE }</td>
+									<td class="center"><div style="width:80px;margin:0 auto;">${var.GETSCORE }</div></td>
 									<c:forEach items="${testpaperList}" var="var1" varStatus="vs1">
-										<td class="center"><div style="width:80px;margin:0 auto;"><c:set var="TEST_ID"
+										<td class="center"><div style="width:180px;margin:0 auto;"><c:set var="TEST_ID"
 												value="${var1.TESTPAPER_ID}" /> ${var[TEST_ID] }</div></td>
 									</c:forEach>
 								</tr>
@@ -268,12 +268,13 @@
        		 $("#simple-table").tablescroller(options);
        		 
         
-        var name_height = $(".kc").last().parent().height()-18;
+        var name_height = $(".kc").last().parent().height()-18.5;
+        console.log(name_height);
         $(".th_name").height(name_height);
 		});
 		
 		
-		console.log('${studentList}');
+		//console.log('${studentList}');
 		
 	</script>
 

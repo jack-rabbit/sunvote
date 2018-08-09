@@ -52,51 +52,51 @@
 				style="margin-top:0px;margin-bottom:0;">
 				<thead>
 					<tr>
-						<th class="center"><div style="width:80px;">键盘</div></th>
+						<th class="center"><div style="width:109px;">键盘</div></th>
 						<th class="center"><div style="width:80px;">学号</div></th>
 						<th class="center"><div style="width:80px;">姓名</div></th>
 						<th class="center"><div style="width:80px;">得分</div></th>
 						<!-- <th class="center"><div style="width:80px;">正确率</div></th> -->
 						<th class="center"><div style="width:80px;">排名</div></th>
 						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
-							<th class="center"><div style="width:80px;">题目${vs.index+1}</div></th>
+							<th class="center"><div style="width:80px;margin:0 auto;">题目${vs.index+1}</div></th>
 						</c:forEach>
 						<!-- <th class="center"><div style="width:150px;">非选择题得分</div></th> -->
-						<th class="center"><div style="width:80px;">总分</div></th>
+						<th class="center"><div style="width:80px;margin:0 auto;">总分</div></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td class="center">--</td>
-						<td class="center">--</td>
-						<td class="center">--</td>
-						<td class="center">--</td>
+						<td class="center"><div style="width:109px;">--</div></td>
+						<td class="center"><div style="width:80px;">--</div></td>
+						<td class="center"><div style="width:80px;">--</div></td>
+						<td class="center"><div style="width:80px;">--</div></td>
 						<!-- <td class="center"></td> -->
-						<td class="center">--</td>
+						<td class="center"><div style="width:80px;">--</div></td>
 						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
-							<td class="center"><fmt:formatNumber type="number"
+							<td class="center"><div style="width:80px;margin:0 auto;"><fmt:formatNumber type="number"
 									value="${var == 0 ? 0: (var / classInfo.studentNum * 100)}"
-									maxFractionDigits="1" />%</td>
+									maxFractionDigits="1" />%</div></td>
 						</c:forEach>
 						<!-- <td class="center"></td> -->
-						<td class="center"></td>
+						<td class="center"><div style="width:80px;margin:0 auto;"></div></td>
 					</tr>
 
 					<c:choose>
 						<c:when test="${not empty studentInfo}">
 							<c:forEach items="${studentInfo}" var="var" varStatus="vs">
 								<tr>
-									<td class="center">${var.KEYPAD_ID}</td>
-									<td class="center">${var.NUMBER}</td>
-									<td class="center">${var.NAME}</td>
-									<td class="center">${var.GETSCORE}</td>
+									<td class="center"><div style="width:109px;">${var.KEYPAD_ID}</div></td>
+									<td class="center"><div style="width:80px;">${var.NUMBER}</div></td>
+									<td class="center"><div style="width:80px;">${var.NAME}</div></td>
+									<td class="center"><div style="width:80px;">${var.GETSCORE}</div></td>
 									<%-- <td class="center">${var.RIGHT}</td> --%>
-									<td class="center">${vs.index + 1}</td>
+									<td class="center"><div style="width:80px;">${vs.index + 1}</div></td>
 									<c:forEach items="${questionInfo}" var="var1" varStatus="vs1">
-										<td class="center"><div style="width:80px">${var.detail[vs1.index].ANSWER}</div></td>
+										<td class="center"><div style="width:80px;margin:0 auto;">${var.detail[vs1.index].ANSWER}</div></td>
 									</c:forEach>
 									<%-- <td class="center">${var.OTHER_SCORE}</td> --%>
-									<td class="center">${var.GETSCORE}</td>
+									<td class="center"><div style="width:80px;margin:0 auto;">${var.GETSCORE}</div></td>
 								</tr>
 							</c:forEach>
 						</c:when>

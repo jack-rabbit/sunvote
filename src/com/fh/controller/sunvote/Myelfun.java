@@ -105,13 +105,25 @@ public class Myelfun {
 	public static String findSubjectCName(String type) throws Exception{
 		SubjectService subjectService = (SubjectService)SpringBeanFactoryUtils.getBean("subjectService");
 		PageData pageData = new PageData();
-		pageData.put("ID", type);
-		pageData = subjectService.findById(pageData);
-		if(pageData != null){
-			return pageData.getString("CNAME");
+		StringBuilder sb = new StringBuilder();
+		if(type.contains(",")){
+			String[] types = type.split(",");
+			for (String t : types) {
+				pageData.put("ID", t);
+				pageData = subjectService.findById(pageData);
+				if (pageData != null) {
+					sb.append(pageData.getString("CNAME") + ";  ");
+				}
+			}
+			sb.delete(sb.length() -3, sb.length());
 		}else{
-			return "" ;
+			pageData.put("ID", type);
+			pageData = subjectService.findById(pageData);
+			if (pageData != null) {
+				return pageData.getString("CNAME");
+			}
 		}
+		return sb.toString() ;
 	}
 
 	/**

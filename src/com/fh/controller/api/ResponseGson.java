@@ -1,6 +1,13 @@
 package com.fh.controller.api;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import com.fh.bean.Point;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 public class ResponseGson<T> {
 
@@ -8,7 +15,7 @@ public class ResponseGson<T> {
 
 	private String message = "success";
 
-	private Object data;
+	private T data;
 
 	public String getCode() {
 		return code;
@@ -26,7 +33,7 @@ public class ResponseGson<T> {
 		this.message = message;
 	}
 
-	public Object getData() {
+	public T getData() {
 		return data;
 	}
 
@@ -35,10 +42,7 @@ public class ResponseGson<T> {
 	}
 	
 	public String toJson(){
-		if(data == null){
-			data = new Object();
-		}
-		Gson gson = new Gson();
+		Gson gson =  new GsonBuilder().serializeNulls().create(); 
 		return gson.toJson(this);
 	}
 
@@ -47,6 +51,39 @@ public class ResponseGson<T> {
 		return "ResponseGson [code=" + code + ", message=" + message
 				+ ", data=" + data + "]";
 	}
+	
+	public static <T> ResponseGson<T> parse(String json) {
+		Gson gson = new Gson();
+		Type objectType = new TypeToken<ResponseGson<T>>() {}.getType();  
+		return gson.fromJson(json, objectType);
+	}
+	
+	public static <T> ResponseGson<T> parse(String json,Class clazz) {
+		Gson gson = new Gson();
+		if(clazz == Point.class){
+			Type objectType = new TypeToken<ResponseGson<List<Point>>>() {}.getType();  
+			return gson.fromJson(json, objectType);
+		}
+		return null;
+	}
+	
+	
+	
+	 static ParameterizedType type(final Class raw, final Type... args) {
+	        return new ParameterizedType() {
+	            public Type getRawType() {
+	                return raw;
+	            }
+
+	            public Type[] getActualTypeArguments() {
+	                return args;
+	            }
+
+	            public Type getOwnerType() {
+	                return null;
+	            }
+	        };
+	    }
 	
 	
 	public void setSuccess(){
