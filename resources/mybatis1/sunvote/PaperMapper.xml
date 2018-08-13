@@ -21,6 +21,7 @@
 		PAPER_STATE,	
 		REMARK,	
 		SCORE,	
+		CLASS_ID,	
 		QUESTION_NUM,	
 		PAPER_ID
 	</sql>
@@ -39,6 +40,7 @@
 		#{PAPER_STATE},	
 		#{REMARK},	
 		#{SCORE},	
+		#{CLASS_ID},	
 		#{QUESTION_NUM},	
 		#{PAPER_ID}
 	</sql>
@@ -79,6 +81,7 @@
 			PAPER_STATE = #{PAPER_STATE},
 			REMARK = #{REMARK},
 			SCORE = #{SCORE},
+			CLASS_ID = #{CLASS_ID},
 			QUESTION_NUM = #{QUESTION_NUM},
 		PAPER_ID = PAPER_ID
 		where 
@@ -128,6 +131,9 @@
 		<if test="pd.USER_ID != null and pd.USER_ID != ''"><!-- 关键词检索 -->
 			and USER_ID = #{pd.USER_ID}
 		</if>
+		<if test="pd.CLASS_ID != null and pd.CLASS_ID != ''"><!-- 关键词检索 -->
+			and CLASS_ID = #{pd.CLASS_ID}
+		</if>
 		
 		order by CREATE_DATE DESC
 	</select>
@@ -158,6 +164,9 @@
 		</if>
 		<if test="pd.SUBJECT_ID != null and pd.SUBJECT_ID != ''">
 			and SUBJECT_ID = #{pd.SUBJECT_ID}
+		</if>
+		<if test="pd.CLASS_ID != null and pd.CLASS_ID != ''">
+			and CLASS_ID = #{pd.CLASS_ID}
 		</if>
 		
 		order by CREATE_DATE DESC

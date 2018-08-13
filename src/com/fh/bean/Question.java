@@ -42,7 +42,7 @@ public class Question {
 	
 	private String sug_part_score;
 	
-	private String questionType = "" ;
+	private String questionType ;
 
 	private List<Question> questions;
 

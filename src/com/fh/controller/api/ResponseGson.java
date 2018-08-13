@@ -45,6 +45,11 @@ public class ResponseGson<T> {
 		Gson gson =  new GsonBuilder().serializeNulls().create(); 
 		return gson.toJson(this);
 	}
+	
+	public String toBrifJson(){
+		Gson gson =  new Gson(); 
+		return gson.toJson(this);
+	}
 
 	@Override
 	public String toString() {

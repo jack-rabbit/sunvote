@@ -171,10 +171,17 @@ public class V1 extends BaseController {
 
 	@Resource(name = "teachingmaterialService")
 	private TeachingMaterialManager teachingmaterialService;
-	
-	@Resource(name="cacheService")
+
+	@Resource(name = "cacheService")
 	private CacheManager cacheService;
 
+	/**
+	 * 登录
+	 * 可以通过账号密码登录、
+	 * 可以通过教师卡登录
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/login", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object login() throws Exception {
@@ -231,6 +238,12 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 查询班级
+	 * 班级及班级学生详细信息
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/class", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object sclass() throws Exception {
@@ -266,6 +279,11 @@ public class V1 extends BaseController {
 		}
 	}
 
+	/**
+	 * 问题类型
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/questiontype", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object questiontype() throws Exception {
@@ -280,6 +298,11 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 班级类型
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/classtype", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object classtype() throws Exception {
@@ -294,6 +317,12 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 *  年级
+	 *  年级类型
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/grade", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object grade() throws Exception {
@@ -312,6 +341,11 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 科目
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/subject", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object subject() throws Exception {
@@ -330,6 +364,11 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 键盘扫描
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/keypadscan", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object keypadScan() throws Exception {
@@ -352,6 +391,12 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * showcount 数量 currentpage 当前页码
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/paper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paper() throws Exception {
@@ -389,6 +434,11 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 试卷详细信息
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/paperinfo", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paperInfo() throws Exception {
@@ -497,6 +547,83 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 试卷简要信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/paperbriefinfo", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object paperBriefInfo() throws Exception {
+		event("paperBriefInfo");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<Paper> res = new ResponseGson<Paper>();
+		if (pd.containsKey("PAPER_ID")) {
+			try {
+				try {
+					Paper paper = new Paper();
+					PageData ppd = paperService.findById(pd);
+					if (ppd != null) {
+						paper.setTitle(ppd.getString("TITLE"));
+						paper.setExam_time(ppd.getString("EXAM_TIME"));
+						paper.setUser_id(ppd.getString("USER_ID"));
+						paper.setPaper_type(ppd.getString("PAPER_TYPE"));
+						paper.setSubject_id(ppd.getString("SUBJECT_ID"));
+						paper.setGrade_id(ppd.getString("GRADE_ID"));
+						paper.setScore(ppd.getString("SCORE"));
+						paper.setQuestions(new ArrayList<Question>());
+
+						List<PageData> questList = v1Service
+								.getTestPaperInfo(pd);
+						for (PageData qpd : questList) {
+							Question question = new Question();
+							question.setQuestion_id(qpd
+									.getString("QUESTION_ID"));
+							if ("-1".equals("" + qpd.getString("P_ID"))) {
+								PageData pidPd = new PageData();
+								pidPd.put("PID", question.getQuestion_id());
+								question.setQuestions(new ArrayList<Question>());
+								List<PageData> qs = v1Service
+										.getQuestionsByPID(pidPd);
+								for (PageData q : qs) {
+									Question qq = new Question();
+									qq.setQuestion_id(q
+											.getString("QUESTION_ID"));
+									question.getQuestions().add(qq);
+								}
+							}
+							if ("-1".equals(qpd.getString("P_ID"))
+									|| "0".equals(qpd.getString("P_ID"))) {
+								paper.getQuestions().add(question);
+							}
+						}
+						// pd.put("JSON", paper.toJson());
+						res.setData(paper);
+						logger.info(paper.toJson());
+
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				res.setError();
+			}
+		} else {
+			res.setOtherError();
+		}
+		logger.info("paperInfo cost time : "
+				+ (System.currentTimeMillis() - cur));
+		return res.toBrifJson();
+	}
+
+	
+	/**
+	 * 试卷问题
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/paperquestion", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object paperQuestion() throws Exception {
@@ -509,17 +636,30 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 问题
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/question", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object question() throws Exception {
 		event("question");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
-		ResponseGson<PageData> res = new ResponseGson();
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		List<PageData> list = new ArrayList<PageData>();
 		if (pd.containsKey("ID")) {
-			pd.put("QUESTION_ID", pd.get("ID"));
-			PageData data = questionService.findById(pd);
-			res.setData(data);
+			String ids = pd.getString("ID");
+			String[] id = ids.split(",");
+			for (String i : id) {
+				pd.put("QUESTION_ID", i);
+				PageData data = questionService.findById(pd);
+				if (data != null) {
+					list.add(data);
+				}
+			}
+			res.setData(list);
 		} else {
 			res.setDataError();
 		}
@@ -528,6 +668,71 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 查询知识点名称
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/knowledgename", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object knowledgename() throws Exception {
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		List<PageData> list = new ArrayList<PageData>();
+		PageData pd = getPageData();
+		if (pd.get("ID") != null) {
+			String ids = pd.getString("ID");
+			String[] id = ids.split(",");
+			for (String i : id) {
+				pd.put("KNOWLEDGE_ID", i);
+				PageData data = knowledgeService.findById(pd);
+				if (data != null) {
+					PageData t = new PageData();
+					t.put("KNOWLEDGE_ID", data.get("KNOWLEDGE_ID"));
+					t.put("NAME", data.get("NAME"));
+					list.add(t);
+				}
+			}
+			res.setData(list);
+		}
+		;
+		return res;
+	}
+
+	/**
+	 * 章节名称
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/chaptername", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object chaptername() throws Exception {
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		List<PageData> list = new ArrayList<PageData>();
+		PageData pd = getPageData();
+		if (pd.get("ID") != null) {
+			String ids = pd.getString("ID");
+			String[] id = ids.split(",");
+			for (String i : id) {
+				pd.put("ID", i);
+				PageData data = chapterService.findById(pd);
+				if (data != null) {
+					PageData t = new PageData();
+					t.put("ID", data.get("ID"));
+					t.put("NAME", data.get("NAME"));
+					list.add(t);
+				}
+			}
+			res.setData(list);
+		}
+		;
+		return res;
+	}
+
+	/**
+	 * 试题添加
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/question/add", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object questionAdd() throws Exception {
@@ -542,6 +747,11 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/***
+	 * 上传试卷
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/uploadpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadpaper() throws Exception {
@@ -674,6 +884,71 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 上传试卷，不上传试题详细信息。试题从已有数据库中组卷
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/publishpaper", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object publishPaper() throws Exception {
+		event("publishpaper");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<String> res = new ResponseGson();
+
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			logger.info(pd.getJsonString());
+			Paper paper = Paper.parse(pd.getJsonString());
+			PageData paperPd = new PageData();
+			String paperID = this.get32UUID();
+			res.setData(paperID);
+			paperPd.put("PAPER_ID", paperID);
+			paperPd.put("TITLE", paper.getTitle());
+			paperPd.put("USER_ID", paper.getUser_id());
+			paperPd.put("PAPER_TYPE", paper.getPaper_type());
+			paperPd.put("SUBJECT_ID", paper.getSubject_id());
+			paperPd.put("GRADE_ID", paper.getGrade_id());
+			paperPd.put("EXAM_TIME", paper.getExam_time());
+			paperPd.put("SCORE", paper.getScore());
+			paperPd.put("PAPER_STATE", "0");
+			paperPd.put("REMARK", "");
+			String schoolID = Myelfun.getUserID(paper.getUser_id());
+			paperPd.put("SCHOOL_ID", schoolID);
+			paperPd.put("CREATE_DATE", Tools.date2Str(new Date()));
+			paperPd.put("MODIFY_DATE", Tools.date2Str(new Date()));
+			int questionNum = 0;
+			List<Question> questions = paper.getQuestions();
+			if (questions != null) {
+				for (Question question : questions) {
+					PageData pqPd = new PageData();
+					pqPd.put("PAPER_ID", paperID);
+					pqPd.put("QUESTION_ID", question.getQuestion_id());
+					pqPd.put("SCORE", question.getScore());
+					pqPd.put("PART_SCORE", "0");
+					pqPd.put("RANK", question.getRank());
+					pqPd.put("NO_NAME", question.getNo_name());
+					pqPd.put("PAPERQUESTION_ID", this.get32UUID());
+					paperquestionService.save(pqPd);
+
+				}
+			}
+			paperPd.put("QUESTION_NUM", "" + questionNum);
+			paperService.save(paperPd);
+
+		} else {
+			res.setDataError();
+		}
+		logger.info("uploadpaper cost time : "
+				+ (System.currentTimeMillis() - cur));
+		return res.toJson();
+	}
+
+	/**
+	 * 上传知识点
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/uploadpoint", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadpoint() throws Exception {
@@ -703,7 +978,10 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
-	// 上传测验成绩
+	/**
+	 *  上传测验成绩
+	 * @return
+	 */
 	@RequestMapping(value = "/uploadtestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadTestpaper() {
@@ -818,7 +1096,10 @@ public class V1 extends BaseController {
 
 	}
 
-	// 上传测验成绩
+	/**
+	 *  上传测验成绩
+	 * @return
+	 */
 	@RequestMapping(value = "/uploadupdatetestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadupdateTestpaper() {
@@ -931,41 +1212,54 @@ public class V1 extends BaseController {
 
 	}
 
+	/**
+	 * 查询知识点
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/point", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object point() throws Exception {
 		ResponseGson<List<PageData>> res = new ResponseGson();
-		
+
 		PageData pd = getPageData();
-		String key = this.getRequestKey(pd,"point");
+		String key = this.getRequestKey(pd, "point");
 		PageData pagedata = new PageData();
 		pagedata.put("KEY", key);
-		if(!"".equals(key.trim())){
+		if (!"".equals(key.trim())) {
 			PageData ret = cacheService.findById(pagedata);
-			if(ret != null && ret.get("CACHE") != null){
+			if (ret != null && ret.get("CACHE") != null) {
 				return ret.get("CACHE");
 			}
 		}
 		List<PageData> list = knowledgeService.listAllknowledge(pd);
 		String depth = pd.getString("DEPTH");
-		int end = 3 ;
-		if(depth != null){
-			try{
+		int end = 3;
+		if (depth != null) {
+			try {
 				end = Integer.parseInt(depth);
-			}catch(Exception e){
-				
+			} catch (Exception e) {
+
 			}
 		}
-		roundPointData(list,1,end);
+		roundPointData(list, 1, end);
 		res.setData(list);
 		String str = res.toJson();
-		 str = str.replaceAll("[^\\u0000-\\uFFFF]", "");
+		str = str.replaceAll("[^\\u0000-\\uFFFF]", "");
 		pagedata.put("CACHE", str);
 		cacheService.save(pagedata);
 		return str;
 	}
 
-	private void roundPointData(List<PageData> list,int dept , int end) throws Exception {
+	/**
+	 * 知识点递归查询
+	 * @param list 查询知识点及子知识点
+	 * @param dept 深度
+	 * @param end 层深
+	 * @throws Exception
+	 */
+	private void roundPointData(List<PageData> list, int dept, int end)
+			throws Exception {
 		if (list != null) {
 			for (PageData pd : list) {
 				pd.put("P_ID", pd.getString("KNOWLEDGE_ID"));
@@ -973,24 +1267,7 @@ public class V1 extends BaseController {
 						&& !"".equals(pd.getString("P_ID")) && dept < end) {
 					List<PageData> ret = knowledgeService.listAllknowledge(pd);
 					if (ret != null && ret.size() > 0) {
-						roundPointData(ret,dept + 1,end);
-						pd.put("CHILDREN", ret);
-					}
-				}
-				pd.remove("P_ID");
-			}
-		}
-	}
-	
-	private void roundChapterData(List<PageData> list,int dept,int end) throws Exception {
-		if (list != null && dept < end) {
-			for (PageData pd : list) {
-				pd.put("P_ID", pd.getString("ID"));
-				if (pd.getString("P_ID") != null
-						&& !"".equals(pd.getString("P_ID"))) {
-					List<PageData> ret = chapterService.listAllChapter(pd);
-					if (ret != null && ret.size() > 0) {
-						roundChapterData(ret,dept+1,end);
+						roundPointData(ret, dept + 1, end);
 						pd.put("CHILDREN", ret);
 					}
 				}
@@ -999,7 +1276,38 @@ public class V1 extends BaseController {
 		}
 	}
 
-	// 下载测验成绩
+	/**
+	 * 章节递归查询
+	 * @param list 章节
+	 * @param dept 深度
+	 * @param end 递归深度
+	 * @throws Exception
+	 */
+	private void roundChapterData(List<PageData> list, int dept, int end)
+			throws Exception {
+		if (list != null) {
+			for (PageData pd : list) {
+				pd.put("P_ID", pd.getString("ID"));
+				if (dept < end) {
+					if (pd.getString("P_ID") != null
+							&& !"".equals(pd.getString("P_ID"))) {
+						List<PageData> ret = chapterService.listAllChapter(pd);
+						if (ret != null && ret.size() > 0) {
+							roundChapterData(ret, dept + 1, end);
+							pd.put("CHILDREN", ret);
+						}
+					}
+				}
+				pd.remove("P_ID");
+				pd.remove("TEACHINGMATERIAL_ID");
+			}
+		}
+	}
+
+	/**
+	 *  下载测验成绩
+	 * @return
+	 */
 	@RequestMapping(value = "/downloadtestpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object downloadTestpaper() {
@@ -1086,7 +1394,11 @@ public class V1 extends BaseController {
 
 	}
 
-	// 下载测验成绩
+	/**
+	 * 
+	 *  下载测验成绩
+	 * @return
+	 */
 	@RequestMapping(value = "/testpaper", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object testpaper() {
@@ -1128,6 +1440,9 @@ public class V1 extends BaseController {
 
 	}
 
+	/***
+	 * 
+	 */
 	@RequestMapping(value = "/schooladmin", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public void schoolAdmin() {
@@ -1136,6 +1451,12 @@ public class V1 extends BaseController {
 		this.getUserID();
 	}
 
+	
+	/***
+	 * 网络
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/network", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object network() throws Exception {
@@ -1184,6 +1505,10 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 获取远端ip地址
+	 * @return
+	 */
 	public String getRemoteIp() {
 		HttpServletRequest request = getRequest();
 		String ip = "";
@@ -1195,6 +1520,12 @@ public class V1 extends BaseController {
 		return ip;
 	}
 
+	/**
+	 * 查询新版本信息
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/newversion", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object getNewVersion(HttpServletRequest request) throws Exception {
@@ -1246,7 +1577,8 @@ public class V1 extends BaseController {
 						for (String sub : subs) {
 							if (subjectID.trim().equals(sub.trim())) {
 								pad.remove("SUBJECT_ID");
-								pad.put("VERSION_CODE", pad.getString("VERSION_CODE"));
+								pad.put("VERSION_CODE",
+										pad.getString("VERSION_CODE"));
 								lpd.add(pad);
 								break;
 							}
@@ -1264,7 +1596,7 @@ public class V1 extends BaseController {
 		ret.setData(lpd);
 		return ret.toJson();
 	}
-	
+
 	/**
 	 * 获取教材版本
 	 * 
@@ -1275,35 +1607,34 @@ public class V1 extends BaseController {
 	@ResponseBody
 	public Object chapter() throws Exception {
 		PageData pd = getPageData();
-		String key = this.getRequestKey(pd,"chapter");
+		String key = this.getRequestKey(pd, "chapter");
 		PageData pagedata = new PageData();
 		pagedata.put("KEY", key);
-		if(!"".equals(key.trim())){
+		if (!"".equals(key.trim())) {
 			PageData ret = cacheService.findById(pagedata);
-			if(ret != null && ret.get("CACHE") != null){
+			if (ret != null && ret.get("CACHE") != null) {
 				return ret.get("CACHE");
 			}
 		}
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
 		List<PageData> list = chapterService.listAllChapter(pd);
 		String depth = pd.getString("DEPTH");
-		int end = 3 ;
-		if(depth != null){
-			try{
+		int end = 3;
+		if (depth != null) {
+			try {
 				end = Integer.parseInt(depth);
-			}catch(Exception e){
-				
+			} catch (Exception e) {
+
 			}
 		}
-		roundChapterData(list,1,end);
+		roundChapterData(list, 1, end);
 		res.setData(list);
 		String str = res.toJson();
-		 str = str.replaceAll("[^\\u0000-\\uFFFF]", "");
 		pagedata.put("CACHE", str);
 		cacheService.save(pagedata);
 		return str;
 	}
-	
+
 	/**
 	 * 获取试题
 	 * 
@@ -1317,37 +1648,39 @@ public class V1 extends BaseController {
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
 		String teachingmaterialId = pd.getString("TEACHINGMATERIAL_ID");
 		String chapterId = pd.getString("CHAPTER_ID");
-		if(teachingmaterialId != null && !teachingmaterialId.equals("") && chapterId == null){
+		if (teachingmaterialId != null && !teachingmaterialId.equals("")
+				&& chapterId == null) {
 			PageData chapterPd = new PageData();
 			chapterPd.put("TEACHINGMATERIAL_ID", teachingmaterialId);
-			List<PageData> chapterList = chapterService.listAllChapter(chapterPd);
+			List<PageData> chapterList = chapterService
+					.listAllChapter(chapterPd);
 			roundChapterData(chapterList, 1, 3);
-			List<String> ids = getIds(chapterList,"ID");
+			List<String> ids = getIds(chapterList, "ID");
 			pd.put("CHAPTER_IDS", ids);
-		}else{
+		} else {
 			List<String> ids = new ArrayList<String>();
-			if(chapterId != null && !"".equals(chapterId.trim())){
+			if (chapterId != null && !"".equals(chapterId.trim())) {
 				ids.add(chapterId);
 			}
 			pd.put("CHAPTER_IDS", ids);
 		}
 		pd.remove("CHAPTER_ID");
 		String knowledge = pd.getString("KNOWLEDGE_ID");
-		if(knowledge != null && !"".equals(knowledge.trim())){
+		if (knowledge != null && !"".equals(knowledge.trim())) {
 			PageData knowPd = new PageData();
 			knowPd.put("P_ID", knowledge);
 			List<PageData> knowlist = knowledgeService.listAllknowledge(knowPd);
 			roundPointData(knowlist, 1, 3);
-			List<String> ids = getIds(knowlist,"KNOWLEDGE_ID");
+			List<String> ids = getIds(knowlist, "KNOWLEDGE_ID");
 			ids.add(knowledge);
-			pd.put("KNOWLEDGE_IDS",ids);
+			pd.put("KNOWLEDGE_IDS", ids);
 			pd.remove("KNOWLEDGE_ID");
 		}
 		List<PageData> list = questionService.listAllquestion(pd);
 		res.setData(list);
 		return res.toJson();
 	}
-	
+
 	/**
 	 * 随机获取试题
 	 * 
@@ -1361,61 +1694,75 @@ public class V1 extends BaseController {
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
 		String teachingmaterialId = pd.getString("TEACHINGMATERIAL_ID");
 		String chapterId = pd.getString("CHAPTER_ID");
-		if(teachingmaterialId != null && !teachingmaterialId.equals("") && chapterId == null){
+		if (teachingmaterialId != null && !teachingmaterialId.equals("")
+				&& chapterId == null) {
 			PageData chapterPd = new PageData();
 			chapterPd.put("TEACHINGMATERIAL_ID", teachingmaterialId);
-			List<PageData> chapterList = chapterService.listAllChapter(chapterPd);
+			List<PageData> chapterList = chapterService
+					.listAllChapter(chapterPd);
 			roundChapterData(chapterList, 1, 3);
-			List<String> ids = getIds(chapterList,"ID");
+			List<String> ids = getIds(chapterList, "ID");
 			pd.put("CHAPTER_IDS", ids);
-		}else{
+		} else {
 			List<String> ids = new ArrayList<String>();
-			if(chapterId != null && !"".equals(chapterId.trim())){
+			if (chapterId != null && !"".equals(chapterId.trim())) {
 				ids.add(chapterId);
 			}
 			pd.put("CHAPTER_IDS", ids);
 		}
 		pd.remove("CHAPTER_ID");
 		String knowledge = pd.getString("KNOWLEDGE_ID");
-		if(knowledge != null && !"".equals(knowledge.trim())){
+		if (knowledge != null && !"".equals(knowledge.trim())) {
 			PageData knowPd = new PageData();
 			knowPd.put("P_ID", knowledge);
 			List<PageData> knowlist = knowledgeService.listAllknowledge(knowPd);
 			roundPointData(knowlist, 1, 3);
-			List<String> ids = getIds(knowlist,"KNOWLEDGE_ID");
+			List<String> ids = getIds(knowlist, "KNOWLEDGE_ID");
 			ids.add(knowledge);
-			pd.put("KNOWLEDGE_IDS",ids);
+			pd.put("KNOWLEDGE_IDS", ids);
 			pd.remove("KNOWLEDGE_ID");
 		}
 		List<PageData> list = questionService.listAllRandquestion(pd);
 		res.setData(list);
 		return res.toJson();
 	}
-	
-	public List<String> getIds(List<PageData> chapterList,String key){
+
+	/**
+	 * 
+	 * @param chapterList
+	 * @param key
+	 * @return
+	 */
+	public List<String> getIds(List<PageData> chapterList, String key) {
 		List<String> ids = new ArrayList<String>();
-		if(chapterList != null && chapterList.size() > 0){
-			for(PageData pd : chapterList){
+		if (chapterList != null && chapterList.size() > 0) {
+			for (PageData pd : chapterList) {
 				String chapterid = pd.getString(key);
-				if(chapterid != null && !"".equals(chapterid)){
+				if (chapterid != null && !"".equals(chapterid)) {
 					ids.add(chapterid);
 				}
 				Object obj = pd.get("CHILDREN");
-				if(obj != null && (obj instanceof List)){
+				if (obj != null && (obj instanceof List)) {
 					@SuppressWarnings("unchecked")
-					List<PageData> list = (List<PageData>)obj ;
-					List<String> ret = getIds(list,key);
-					if(ret != null && ret.size() > 0){
+					List<PageData> list = (List<PageData>) obj;
+					List<String> ret = getIds(list, key);
+					if (ret != null && ret.size() > 0) {
 						ids.addAll(ret);
 					}
 				}
 			}
 		}
-		
+
 		return ids;
-		
+
 	}
 
+	
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/tempcreateUser", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object tempCreateUser() throws Exception {
@@ -1451,6 +1798,10 @@ public class V1 extends BaseController {
 		return "{'res':'success'}";
 	}
 
+	/**
+	 * 
+	 * @param apiName
+	 */
 	private void event(String apiName) {
 		PageData eventPd = new PageData();
 		eventPd.put("EVENT_ID", get32UUID());
@@ -1469,6 +1820,11 @@ public class V1 extends BaseController {
 
 	static int index = 0;
 
+	/**
+	 * 
+	 * @param point
+	 * @param pid
+	 */
 	private void savePoint(Point point, String pid) {
 		List<Point> children = point.getChildren();
 		if (children != null && children.size() > 0) {
@@ -1488,6 +1844,11 @@ public class V1 extends BaseController {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/uploadbook", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadbook() throws Exception {
@@ -1517,6 +1878,10 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
+	/**
+	 * 
+	 * @param point
+	 */
 	private void saveBook(Point point) {
 
 		PageData pd = new PageData();
@@ -1530,8 +1895,12 @@ public class V1 extends BaseController {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/uploadyuncelianquestion", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object uploadyuncelianquestion() throws Exception {
@@ -1542,99 +1911,100 @@ public class V1 extends BaseController {
 
 		if (!StringUtils.isEmpty(pd.getJsonString())) {
 			try {
-				ResponseGson<Object> req = ResponseGson.parse(
-						pd.getJsonString());
+				ResponseGson<Object> req = ResponseGson.parse(pd
+						.getJsonString());
 				Object data = req.getData();
-				if(data instanceof List){
-					List<Object> list = (List)data;
-					for(Object obj : list){
-						if(obj instanceof Map){
-							Map map = (Map)obj;
-							
+				if (data instanceof List) {
+					List<Object> list = (List) data;
+					for (Object obj : list) {
+						if (obj instanceof Map) {
+							Map map = (Map) obj;
+
 							PageData pageData = new PageData();
 							pageData.put("QUESTION_ID", map.get("id"));
 							Object cateObj = map.get("cate");
-							if(cateObj != null){
+							if (cateObj != null) {
 								String cate = cateObj.toString();
 								float catef = Float.parseFloat(cate);
-								pageData.put("QUESTION_TYPE_ID", (int)catef);
+								pageData.put("QUESTION_TYPE_ID", (int) catef);
 							}
 							Object contentObj = map.get("content");
-							if(contentObj != null){
+							if (contentObj != null) {
 								String content = contentObj.toString();
 								content = replaceWebUrl(content);
 								pageData.put("CONTENT", content);
 							}
 							Object subjectCodeObj = map.get("subjectCode");
-							if(subjectCodeObj != null){
+							if (subjectCodeObj != null) {
 								String subjectCode = subjectCodeObj.toString();
-								pageData.put("SUBJECT_ID",subjectCode);
+								pageData.put("SUBJECT_ID", subjectCode);
 							}
 							Object optionsObj = map.get("options");
-							if(optionsObj instanceof List){
-								List ss = (List)optionsObj;
-								pageData.put("OPTION_CONTENT", optionsObj.toString());
+							if (optionsObj instanceof List) {
+								List ss = (List) optionsObj;
+								pageData.put("OPTION_CONTENT",
+										optionsObj.toString());
 								pageData.put("OPTION_NUM", "" + ss.size());
 							}
 							Object answersObj = map.get("answers");
-							if(answersObj instanceof List){
-								List answers = (List)answersObj;
+							if (answersObj instanceof List) {
+								List answers = (List) answersObj;
 								StringBuilder sb = new StringBuilder();
-								for(Object as:answers){
+								for (Object as : answers) {
 									sb.append(as.toString());
 								}
 								pageData.put("ANSWER", sb.toString());
 							}
-							Object difficulty =  map.get("difficulty");
-							try{
+							Object difficulty = map.get("difficulty");
+							try {
 								if (difficulty != null) {
 									float fdifficulty = Float
 											.parseFloat(difficulty.toString());
 									pageData.put("DIFFICULTY",
 											(int) fdifficulty);
 								}
-							}catch(Exception ex){
+							} catch (Exception ex) {
 								ex.printStackTrace();
 							}
 							Object discussObj = map.get("discuss");
-							if(discussObj != null){
+							if (discussObj != null) {
 								String discuss = discussObj.toString();
 								discuss = replaceWebUrl(discuss);
 								pageData.put("REMARK", discuss);
 							}
 							Object analyseObj = map.get("analyse");
-							if(analyseObj != null){
+							if (analyseObj != null) {
 								String analyse = analyseObj.toString();
 								analyse = replaceWebUrl(analyse);
 								pageData.put("ANALYSIS", analyse);
 							}
 							Object methodObj = map.get("method");
-							if(methodObj != null){
+							if (methodObj != null) {
 								String method = methodObj.toString();
 								method = replaceWebUrl(method);
 								pageData.put("METHOD", method);
 							}
 							Object points = map.get("points");
 							StringBuilder sb = new StringBuilder();
-							if(points instanceof List){
-								List pointsList = (List)points;
-								for(Object pObject : pointsList){
-									if(pObject instanceof Map){
-										Map pMap = (Map)pObject;
+							if (points instanceof List) {
+								List pointsList = (List) points;
+								for (Object pObject : pointsList) {
+									if (pObject instanceof Map) {
+										Map pMap = (Map) pObject;
 										sb.append(pMap.get("code")).append(",");
 									}
 								}
-								
-								if(sb.toString().length() > 1){
+
+								if (sb.toString().length() > 1) {
 									sb.deleteCharAt(sb.length() - 1);
 								}
 								pageData.put("KNOWLEDGE_ID", sb.toString());
 							}
 							pageData.put("QUESTION_FROM", "101");
-							try{
+							try {
 								questionService.save(pageData);
-							}catch(Exception e){
-								logger.error("save fail:" + map.get("id"),e);
+							} catch (Exception e) {
+								logger.error("save fail:" + map.get("id"), e);
 							}
 						}
 					}
@@ -1650,17 +2020,28 @@ public class V1 extends BaseController {
 		return res.toJson();
 	}
 
-	
-	private String replaceWebUrl(String content){
-		if(content != null){
-			content = content.replaceAll("http://image.yuncelian.com/1/analysis/", "http://image.yuncelian.com/1/analysis/");
+	/**
+	 * 
+	 * @param content
+	 * @return
+	 */
+	private String replaceWebUrl(String content) {
+		if (content != null) {
+			content = content.replaceAll(
+					"http://image.yuncelian.com/1/analysis/",
+					"http://image.yuncelian.com/1/analysis/");
 		}
 		return content;
 	}
-	
-	
-	public String getRequestKey(PageData pd,String methodName){
-		StringBuilder key = new StringBuilder() ;
+
+	/**
+	 * 
+	 * @param pd
+	 * @param methodName
+	 * @return
+	 */
+	public String getRequestKey(PageData pd, String methodName) {
+		StringBuilder key = new StringBuilder();
 		key.append(methodName).append("{");
 		if (pd != null) {
 			Iterator iterator = pd.keySet().iterator();
@@ -1671,7 +2052,7 @@ public class V1 extends BaseController {
 			}
 		}
 		key.append("}");
-		
+
 		return key.toString();
 	}
 }
