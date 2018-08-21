@@ -149,5 +149,6 @@
 			location.href="paper_view.do?PAPER_ID="+id;
 		}
 		
+		
 	</script>
 </html>

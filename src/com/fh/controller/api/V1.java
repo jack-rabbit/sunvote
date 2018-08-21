@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -52,11 +53,9 @@ import com.fh.service.sunvote.questiontype.QuestionTypeManager;
 import com.fh.service.sunvote.school.SchoolManager;
 import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
 import com.fh.service.sunvote.sclass.SClassManager;
-import com.fh.service.sunvote.sclass.impl.SClassService;
 import com.fh.service.sunvote.student.StudentManager;
 import com.fh.service.sunvote.studenttest.StudentTestManager;
 import com.fh.service.sunvote.subject.SubjectManager;
-import com.fh.service.sunvote.subject.impl.SubjectService;
 import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.sunvote.teachingmaterial.TeachingMaterialManager;
 import com.fh.service.sunvote.testpaper.TestPaperManager;
@@ -64,7 +63,6 @@ import com.fh.service.sunvote.testpaperinfo.TestPaperInfoManager;
 import com.fh.service.sunvote.textbook.TextbookManager;
 import com.fh.service.system.user.UserManager;
 import com.fh.util.PageData;
-import com.fh.util.SpringBeanFactoryUtils;
 import com.fh.util.Tools;
 
 @Controller
@@ -529,91 +527,78 @@ public class V1 extends BaseController {
 		event("paperInfo");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
-		ResponseGson<Paper> res = new ResponseGson<Paper>();
+		ResponseGson<PageData> res = new ResponseGson<PageData>();
 		if (pd.containsKey("PAPER_ID")) {
 			try {
 				try {
-					Paper paper = new Paper();
 					PageData ppd = paperService.findById(pd);
 					if (ppd != null) {
-						paper.setTitle(ppd.getString("TITLE"));
-						paper.setExam_time(ppd.getString("EXAM_TIME"));
-						paper.setUser_id(ppd.getString("USER_ID"));
-						paper.setPaper_type(ppd.getString("PAPER_TYPE"));
-						paper.setSubject_id(ppd.getString("SUBJECT_ID"));
-						paper.setGrade_id(ppd.getString("GRADE_ID"));
-						paper.setScore(ppd.getString("SCORE"));
-						paper.setQuestions(new ArrayList<Question>());
-
 						List<PageData> questList = v1Service
 								.getTestPaperInfo(pd);
+						ppd.put("QUESTIONS", questList);
 						for (PageData qpd : questList) {
-							Question question = new Question();
-							question.setAnswer(qpd.getString("ANSWER"));
-							question.setQuestion_id(qpd
-									.getString("QUESTION_ID"));
-							question.setSubject_id(qpd.getString("SUBJECT_ID"));
-							question.setChapter_id(qpd.getString("CHAPTER_ID"));
-							question.setProblem_type_id(qpd
-									.getString("PROBLEM_TYPE_ID"));
-							question.setKnowledge_id(qpd
-									.getString("KNOWLEDGE_ID"));
-							question.setContent(qpd.getString("CONTENT"));
-							question.setOption_num(qpd.getString("OPTION_NUM"));
-							question.setOption_content(qpd
-									.getString("OPTION_CONTENT"));
-							question.setDifficulty(qpd.getString("DIFFICULTY"));
-							question.setAnalysis(qpd.getString("ANALYSIS"));
-							question.setQuestion_from(qpd
-									.getString("QUESTION_FROM"));
-							question.setScore(qpd.getString("SCORE"));
-							question.setPart_score(qpd.getString("PART_SCORE"));
-							question.setQuestionType(qpd
-									.getString("PROBLEM_TYPE_ID"));
-							question.setRank(qpd.getString("RANK"));
-							question.setNo_name(qpd.getString("NO_NAME"));
+
+							String optionContent = qpd
+									.getString("OPTION_CONTENT");
+							if (optionContent != null
+									&& optionContent.startsWith("[")
+									&& optionContent.endsWith("]")) {
+								String[] options = optionContent.substring(1,
+										optionContent.length() - 1).split(",");
+								qpd.put("OPTION_CONTENT", options);
+							} else {
+								qpd.put("OPTION_CONTENT",
+										new String[] { optionContent });
+							}
 							if ("-1".equals("" + qpd.getString("P_ID"))) {
 								PageData pidPd = new PageData();
-								pidPd.put("PID", question.getQuestion_id());
-								question.setQuestions(new ArrayList<Question>());
+								pidPd.put("PID", qpd.getString("QUESTION_ID"));
 								List<PageData> qs = v1Service
 										.getQuestionsByPID(pidPd);
-								for (PageData q : qs) {
-									Question qq = new Question();
-									qq.setAnswer(q.getString("ANSWER"));
-									qq.setQuestion_id(q
-											.getString("QUESTION_ID"));
-									qq.setSubject_id(q.getString("SUBJECT_ID"));
-									qq.setChapter_id(q.getString("CHAPTER_ID"));
-									qq.setProblem_type_id(q
-											.getString("PROBLEM_TYPE_ID"));
-									qq.setKnowledge_id(q
-											.getString("KNOWLEDGE_ID"));
-									qq.setContent(q.getString("CONTENT"));
-									qq.setOption_num(q.getString("OPTION_NUM"));
-									qq.setOption_content(q
-											.getString("OPTION_CONTENT"));
-									qq.setDifficulty(q.getString("DIFFICULTY"));
-									qq.setAnalysis(q.getString("ANALYSIS"));
-									qq.setQuestion_from(q
-											.getString("QUESTION_FROM"));
-									qq.setScore(q.getString("SCORE"));
-									qq.setPart_score(q.getString("PART_SCORE"));
-									qq.setQuestionType(qpd
-											.getString("PROBLEM_TYPE_ID"));
-									qq.setRank(q.getString("RANK"));
-									qq.setNo_name(q.getString("NO_NAME"));
-									question.getQuestions().add(qq);
+								for (PageData pcd : qs) {
+									String optionContent1 = pcd
+											.getString("OPTION_CONTENT");
+									if (optionContent1 != null
+											&& optionContent1.startsWith("[")
+											&& optionContent1.endsWith("]")) {
+										String[] options = optionContent1
+												.substring(
+														1,
+														optionContent1.length() - 1)
+												.split(",");
+										pcd.put("OPTION_CONTENT", options);
+									} else {
+										pcd.put("OPTION_CONTENT",
+												new String[] { optionContent1 });
+									}
+									String[] keys = new String[pcd.keySet().size()];
+									pcd.keySet().toArray(keys);
+									Iterator map1it = pcd.entrySet().iterator();
+									for (String key : keys) {
+										pcd.put(key.toLowerCase(),pcd.get(key));
+										pcd.remove(key.toUpperCase());
+									}
 								}
+								qpd.put("QUESTIONS", qs);
 							}
-							if ("-1".equals(qpd.getString("P_ID"))
-									|| "0".equals(qpd.getString("P_ID"))) {
-								paper.getQuestions().add(question);
+							
+							String[] keys = new String[qpd.keySet().size()];
+							qpd.keySet().toArray(keys);
+							for (String key : keys) {
+								qpd.put(key.toLowerCase(), qpd.get(key));
+								qpd.remove(key.toUpperCase());
 							}
+
+						}
+						String[] keys = new String[ppd.keySet().size()];
+						ppd.keySet().toArray(keys);
+						for (String key : keys) {
+							ppd.put(key.toLowerCase(), ppd.get(key));
+							ppd.remove(key.toUpperCase());
 						}
 						// pd.put("JSON", paper.toJson());
-						res.setData(paper);
-						logger.info(paper.toJson());
+						res.setData(ppd);
+						logger.info(res.toJson());
 
 					}
 				} catch (Exception ex) {
