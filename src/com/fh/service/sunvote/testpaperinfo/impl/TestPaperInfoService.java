@@ -73,6 +73,22 @@ public class TestPaperInfoService implements TestPaperInfoManager{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
+	public List<PageData> listTestPaperQuestionIDinfo(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("TestPaperInfoMapper.listTestPaperQuestionIDinfo", pd);
+	}
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listTestPaperQuestionIDs(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("TestPaperInfoMapper.listTestPaperQuestionIDs", pd);
+	}
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
 	public List<PageData> reportPaperDetail(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("TestPaperInfoMapper.reportPaperDetail", pd);
 	}

@@ -1,7 +1,10 @@
 eclipse.preferences.version=1
 encoding//WebRoot/WEB-INF/jsp/sunvote/paper/paper_list2.jsp=UTF-8
 encoding//WebRoot/WEB-INF/jsp/sunvote/teacher/creat_question.jsp=UTF-8
+encoding//WebRoot/WEB-INF/jsp/sunvote/teacher/paper_view.jsp=UTF-8
+encoding//WebRoot/WEB-INF/jsp/sunvote/teacher/set_question.jsp=UTF-8
 encoding//WebRoot/WEB-INF/jsp/sunvote/teacher/stduent_report.jsp=UTF-8
+encoding//WebRoot/WEB-INF/jsp/sunvote/teacher/teach_paper.jsp=UTF-8
 encoding//WebRoot/WEB-INF/jsp/sunvote/teacher/teacher_main.jsp=UTF-8
 encoding//WebRoot/WEB-INF/jsp/system/appuser/appuser_list.jsp=UTF-8
 encoding//WebRoot/WEB-INF/jsp/system/fhsms/fhsms_list.jsp=UTF-8

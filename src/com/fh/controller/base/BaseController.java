@@ -91,6 +91,15 @@ public class BaseController {
 		return "ERROR";
 	}
 	
+	public String geTeacherID(){
+		Session session = Jurisdiction.getSession();
+		User user = (User)session.getAttribute(Const.SESSION_USER);
+		if(user != null){
+			return user.getTeacherID();
+		}
+		return "ERROR";
+	}
+	
 	
 	public String getSchoolID(){
 		Session session = Jurisdiction.getSession();

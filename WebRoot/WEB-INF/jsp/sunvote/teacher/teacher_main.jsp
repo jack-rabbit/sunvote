@@ -56,29 +56,65 @@
 				<p>
 					班级管理<span class="right jiao"></span>
 				</p>
-				<ul>
+				<ul class="menu_1">
 					<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-						<li onclick="event.stopPropagation();chooseClass('${var.CLASS_ID}','${var.TERM_ID}')">${var.GRADE_NAME}${var.SUBJECT_NAME}
-								<span>${var.CLASS_NAME}</span>
+						<li onclick="event.stopPropagation();chooseClass('${var.CLASS_ID}','${var.TERM_ID}')"><p>${var.GRADE_NAME}${var.SUBJECT_NAME}
+								<span>${var.CLASS_NAME}</span></p>
 						</li>
 			</c:forEach>
 
 			</ul>
 		</div>
 		<div class="testpaper tab1">
-			<p>
-				试卷管理<span class="right jiao"></span>
-			</p>
+			<p>试卷管理<span class="right jiao"></span></p>
+				<ul class="menu_1">
+					<li >
+						<p id="qingsongkao_paper">轻松考试卷管理</p>
+						<!-- <ul class="menu_2">
+							<li><p>高一数学 202班</p></li>
+							<li><p>高一数学 203班</p></li>
+						</ul> -->
+					</li>
+					<li>
+						<p id="jishice_paper">即时测试卷管理</p>
+						
+						<!-- <ul class="menu_2">
+							<li><p>高一数学 202班</p></li>
+							<li><p>高一数学 203班</p></li>
+						</ul> -->
+					</li>
+				</ul>
+			
 		</div>
 		<div class="analyse tab1">
 			<p>
 				测验分析<span class="right jiao"></span>
 			</p>
-			<ul>
+			
+			<ul class="menu_1">
+					<li >
+						<p>轻松考测验分析</p>
+						<ul class="menu_2">
+						<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
+							<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
+						</c:forEach>
+						</ul>
+					</li>
+					<li>
+						<p>云测验测验分析</p>
+						<ul class="menu_2">
+						<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
+							<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
+						</c:forEach>
+						</ul>
+					</li>
+				</ul>
+			
+		<%-- 	<ul class="menu_1">
 			<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-				<li onclick="event.stopPropagation();report('${var.CLASS_ID}')">${var.CLASS_NAME} 成绩</li>
+				<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
 			</c:forEach>
-			</ul>
+			</ul> --%>
 		</div>
 	</div>
 	<div class="content_r">
@@ -156,13 +192,21 @@
 			}
 		});
 		
-		$(".testpaper").click(function (){
+		$("#qingsongkao_paper").click(function (){
 			var path = "../paper/list2.do?" ;
 			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
 			if($("#mainFrame").attr('src') != (path)){
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();
 			}
+		});
+		
+		$("#jishice_paper").click(function (){
+			var path = "../teacher/teach_paper.do?" ;
+			//if($("#mainFrame").attr('src') != (path)){
+				$("#mainFrame").attr('src',path);
+				//window.top.loading.show();
+			//}
 		});
 	</script>
 </body>

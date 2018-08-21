@@ -29,10 +29,14 @@ input[type="checkbox"]{margin-right:10px;}
 .content .content_l .name p:first-child{font-size:14px;}
 .content .content_l .name p:nth-child(2){font-size:20px;}
 .content .content_l .name p:nth-child(3){font-size:14px;}
-.content .content_l .tab1{border-bottom:1px solid #80afb4;}
+.content .content_l .tab1{border-bottom:1px solid #80afb4;cursor:pointer}
 .content .content_l .tab1 p{width:100%;height:77px;line-height:77px;margin-bottom:0;font-size:24px;color:#fff;padding-left:10%;}
-.content .content_l .tab1 ul{margin-bottom:0;padding:12px 0;padding-left:15%;background:#0b535b;font-size:18px;line-height:64px;display:none;}
+.content .content_l .tab1 ul{margin-bottom:0;padding:0;font-size:18px;line-height:64px;display:none;}
 .content .content_l .tab1 ul li{list-style:none;color:#fff;cursor:pointer;}
+.menu_1 li{background:#1b535b;border-bottom: 1px solid #80afb4;}
+.menu_2 li{background:#333333;border-bottom: 1px dashed #80afb4;}
+.content .content_l .tab1 ul li:last-child{border:0;}
+.content .content_l .tab1 ul li p{padding-left:15%;font-size:18px;}
 .content .content_r{margin-left:18%;height:100%;overflow-y:hidden;}
 
 

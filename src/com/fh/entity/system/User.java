@@ -17,6 +17,7 @@ public class User {
 	private Role role;			//角色对象
 	private Page page;			//分页对象
 	private String SKIN;		//皮肤
+	private String teacherID ; // 教师ID
 	
 	public String getSKIN() {
 		return SKIN;
@@ -100,5 +101,13 @@ public class User {
 	public void setPage(Page page) {
 		this.page = page;
 	}
+	public String getTeacherID() {
+		return teacherID;
+	}
+	public void setTeacherID(String teacherID) {
+		this.teacherID = teacherID;
+	}
+	
+	
 	
 }

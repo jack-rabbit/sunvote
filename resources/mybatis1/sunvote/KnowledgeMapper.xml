@@ -124,6 +124,8 @@
 			and KNOWLEDGE_FROM = #{KNOWLEDGE_FROM}
 		</if>
 		
+		
+		order by RANK
 	</select>
 	
 	

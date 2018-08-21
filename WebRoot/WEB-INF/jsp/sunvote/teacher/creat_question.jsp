@@ -190,7 +190,7 @@
 <script>
 	var testData = ${pd.JSON};
 	var URL = "<%=basePath%>api/v1/uploadpaper";
-	var JUMP_URL = "<%=basePath%>/main/teacher";
+	var JUMP_URL = "<%=basePath%>/main/teacher";  
 	if(testData.questions.length>0){
 		var title = testData.title;
 		if(title == null || title == ''){

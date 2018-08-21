@@ -135,6 +135,10 @@
 			and CLASS_ID = #{pd.CLASS_ID}
 		</if>
 		
+		<if test="pd.PAPER_TYPE != null and pd.PAPER_TYPE != ''"><!-- 关键词检索 -->
+			and PAPER_TYPE = #{pd.PAPER_TYPE}
+		</if>
+		
 		order by CREATE_DATE DESC
 	</select>
 	

@@ -153,6 +153,13 @@ public class LoginController extends BaseController {
 				if ("57bb1e6f138247a0b05cc721a5da1b64".equals(pd
 						.getString("ROLE_ID"))) {
 					map.put("teacher", pd.getString("RIGHTS"));
+					PageData tpd = new PageData();
+					tpd.put("ACCOUT", pd.get("USERNAME"));
+					tpd.put("PASSWORD", PASSWORD);
+					PageData pageData = teacherService.getUserInfo(tpd);
+					if(pageData != null){
+						user.setTeacherID(pageData.getString("ID"));
+					}
 				}
 				user.setLAST_LOGIN(pd.getString("LAST_LOGIN"));
 				user.setIP(pd.getString("IP"));

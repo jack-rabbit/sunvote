@@ -66,5 +66,25 @@ public interface TestPaperInfoManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
 	
+	
+	/**
+	 * 根据测验id，试题id，查询该问题，在该答卷的答题情况
+	 * 可以根据试卷id，试题id，查询试卷在所有测验中答题情况
+	 * 可以根据学生id，试题id，查询试题在学生下面的答题情况
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PageData> listTestPaperQuestionIDinfo(PageData pd)throws Exception;
+	
+	
+	/**
+	 * 查询测验下面的所有试题ID列表
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PageData> listTestPaperQuestionIDs(PageData pd)throws Exception;
+	
 }
 

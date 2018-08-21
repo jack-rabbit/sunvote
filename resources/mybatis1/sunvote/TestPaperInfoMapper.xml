@@ -194,6 +194,53 @@
 		</if>
 	</select>
 	
+	<!-- 测验，题目列表  -->
+	<select id="listTestPaperQuestionIDs" parameterType="pd" resultType="pd">
+		select
+		QUESTION_ID
+		from 
+		<include refid="tableName"></include>
+			where 1 =1 
+		<if test="TEST_ID != null and TEST_ID != ''">
+			and TEST_ID = #{TEST_ID}
+		</if>
+		<if test="STUDENT_ID != null and STUDENT_ID != ''">
+			and STUDENT_ID = #{STUDENT_ID}
+		</if>
+		<if test="PAPER_ID != null and PAPER_ID != ''">
+			and PAPER_ID = #{PAPER_ID}
+		</if>
+		<if test="QUESTION_ID != null and QUESTION_ID != ''">
+			and QUESTION_ID = #{QUESTION_ID}
+		</if>
+		
+		group by QUESTION_ID
+	</select>
+	
+	
+	<!-- 根据测验id，试题id，查询答题情况  -->
+	<select id="listTestPaperQuestionIDinfo" parameterType="pd" resultType="pd">
+		select
+			STUDENT_ID,	ANSWER,	`RIGHT`,	SCORE
+		from 
+		<include refid="tableName"></include>
+			where 1 =1 
+		<if test="TEST_ID != null and TEST_ID != ''">
+			and TEST_ID = #{TEST_ID}
+		</if>
+		<if test="STUDENT_ID != null and STUDENT_ID != ''">
+			and STUDENT_ID = #{STUDENT_ID}
+		</if>
+		<if test="PAPER_ID != null and PAPER_ID != ''">
+			and PAPER_ID = #{PAPER_ID}
+		</if>
+		<if test="QUESTION_ID != null and QUESTION_ID != ''">
+			and QUESTION_ID = #{QUESTION_ID}
+		</if>
+		
+			ORDER BY ANSWER
+	</select>
+	
 	<!-- 列表(全部) -->
 	<select id="reportPaperDetail" parameterType="pd" resultType="pd">
 		SELECT

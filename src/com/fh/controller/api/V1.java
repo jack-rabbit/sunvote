@@ -52,15 +52,19 @@ import com.fh.service.sunvote.questiontype.QuestionTypeManager;
 import com.fh.service.sunvote.school.SchoolManager;
 import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
 import com.fh.service.sunvote.sclass.SClassManager;
+import com.fh.service.sunvote.sclass.impl.SClassService;
 import com.fh.service.sunvote.student.StudentManager;
 import com.fh.service.sunvote.studenttest.StudentTestManager;
 import com.fh.service.sunvote.subject.SubjectManager;
+import com.fh.service.sunvote.subject.impl.SubjectService;
 import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.sunvote.teachingmaterial.TeachingMaterialManager;
 import com.fh.service.sunvote.testpaper.TestPaperManager;
 import com.fh.service.sunvote.testpaperinfo.TestPaperInfoManager;
+import com.fh.service.sunvote.textbook.TextbookManager;
 import com.fh.service.system.user.UserManager;
 import com.fh.util.PageData;
+import com.fh.util.SpringBeanFactoryUtils;
 import com.fh.util.Tools;
 
 @Controller
@@ -83,7 +87,7 @@ public class V1 extends BaseController {
 	private ClassRosterManager classrosterService;
 
 	@Resource(name = "classtypeService")
-	private ClassTypeManager classtypeService;
+	private ClassTypeManager classtypeService; 
 
 	@Resource(name = "gradeService")
 	private GradeManager gradeService;
@@ -171,6 +175,9 @@ public class V1 extends BaseController {
 
 	@Resource(name = "teachingmaterialService")
 	private TeachingMaterialManager teachingmaterialService;
+	
+	@Resource(name = "textbookService")
+	private TextbookManager textbookService;
 
 	@Resource(name = "cacheService")
 	private CacheManager cacheService;
@@ -235,6 +242,60 @@ public class V1 extends BaseController {
 			res.set1Error();
 		}
 
+		return res.toJson();
+	}
+	
+	/**
+	 * 登录
+	 * 可以通过账号密码登录、
+	 * 可以通过教师卡登录
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/userinfo", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object userinfo() throws Exception {
+		event("userinfo");
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		PageData pageData = teacherService.findById(pd);
+		if (pageData != null && pageData.getString("ID") != null) {
+			pageData.put("PASSWORD", "");// 返回参数中不返回密码
+			PageData pt = new PageData();
+			pt.put("TEACHER_ID", pageData.get("ID"));
+			// 在任课表中查找老师教哪些班级，然后查出班级信息
+			List<PageData> classInfoList = v1Service
+					.getTeacherClassInfo(pt);
+			
+			pageData.put("classInfoList", classInfoList);
+			// 在认可表中查找老师教哪些科目，然后查出科目信息
+			List<PageData> subjectList = v1Service
+					.getTeacherSubjectInfo(pt);
+			// 一个sql语句完成。
+			pageData.put("subjectList", subjectList);
+			
+			pageData.remove("SUBJECT_IDS");
+			
+			PageData eventPd = new PageData();
+			eventPd.put("EVENT_ID", get32UUID());
+			eventPd.put("EVENT_NAME", "login");
+			eventPd.put("EVENT_USER", pageData.getString("ID"));
+			eventPd.put("EVENT_TYPE", "0");
+			eventPd.put("EVENT_START_TIME", Tools.date2Str(new Date()));
+			if (pd.getString("CLIENT_ID") != null) {
+				eventPd.put("CLIENT_ID", pd.getString("CLIENT_ID"));
+			} else {
+				eventPd.put("CLIENT_ID", "CLIENT");
+			}
+			eventPd.put("EVENT_IP", getRemoteIp());
+			eventService.save(eventPd);
+			
+			res.setData(pageData);
+			// 填充数据到返回数据中
+		} else {
+			res.set1Error();
+		}
+		
 		return res.toJson();
 	}
 
@@ -349,6 +410,29 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/subject", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object subject() throws Exception {
+		event("subject");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		if (!pd.containsKey("SCHOOL_ID")) {
+			List<PageData> list = subjectService.listAll(pd);
+			res.setData(list);
+		} else {
+			List<PageData> list = schoolgradesubjectService.listAllSubject(pd);
+			res.setData(list);
+		}
+		logger.info("subject cost time : " + (System.currentTimeMillis() - cur));
+		return res.toJson();
+	}
+	
+	/**
+	 * 科目
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/subjectname", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object subjectName() throws Exception {
 		event("subject");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
@@ -546,6 +630,181 @@ public class V1 extends BaseController {
 				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
+	
+	/**
+	 * 试卷详细信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/testpaperinfo", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object testpaperinfo() throws Exception {
+		event("testpaperinfo");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		String paperId = pd.getString("ID");
+		if (!StringUtils.isEmpty(paperId)) {
+			try {
+				pd.put("TESTPAPER_ID", paperId);
+				PageData testPd = testpaperService.findById(pd);
+				if (testPd != null) {
+					PageData testInfof = new PageData();
+					testInfof.put("PAPER_ID", testPd.getString("PAPER_ID"));
+					testInfof.put("TEST_ID", paperId);
+					List<PageData> list = testpaperinfoService.listTestPaperQuestionIDs(testInfof);
+					for(PageData pad:list){
+						String optionContent = pad.getString("OPTION_CONTENT");
+						if(optionContent != null && optionContent.startsWith("[") && optionContent.endsWith("]")){
+							String[] options = optionContent.substring(1, optionContent.length() -1).split(",");
+							pad.put("OPTION_CONTENT", options);
+						}else{
+							pad.put("OPTION_CONTENT", new String[]{optionContent});
+						}
+					}
+					for(PageData pqd : list){
+						PageData tpqd = questionService.findById(pqd);
+						pqd.putAll(tpqd);
+						pqd.remove("P_ID");
+						pqd.remove("SUBJECT_ID");
+						pqd.remove("PROBLEM_TYPE_ID");
+						pqd.remove("CHAPTER_ID");
+						pqd.remove("TEACHER_ID");
+						pqd.remove("SCHOOL_ID");
+						pqd.remove("SUG_SCORE");
+						pqd.remove("SUG_PART_SCORE");
+						pqd.remove("USER_ID");
+						pqd.remove("CREATE_DATE");
+						pqd.remove("QUESTION_FROM");
+						pqd.remove("REMARK");
+						pqd.put("TEST_ID", paperId);
+						List<PageData> listinfo = testpaperinfoService.listTestPaperQuestionIDinfo(pqd);
+						List<PageData> answerInfos = new ArrayList<PageData>();
+						for(PageData pid : listinfo){
+							String answer = pid.getString("ANSWER");
+							PageData answerPd = null;
+							if(answerInfos.size() > 0){
+								answerPd = answerInfos.get(answerInfos.size() -1);
+								if(!answer.equals(answerPd.getString("ANSWER"))){
+									answerPd = new PageData();
+									answerPd.put("ANSWER", answer);
+									answerPd.put("ISRIGHT", pid.getString("RIGHT"));
+									answerInfos.add(answerPd);
+								}
+							}else{
+								answerPd = new PageData();
+								answerPd.put("ANSWER", answer);
+								answerPd.put("ISRIGHT", pid.getString("RIGHT"));
+								answerInfos.add(answerPd);
+							}
+							String strCount = answerPd.getString("COUNT");
+							int count = 0 ;
+							if(strCount != null){
+								try{
+								count = Integer.parseInt(strCount);
+								}catch(NumberFormatException ex){}
+							}
+							count ++ ;
+							answerPd.put("COUNT", count);
+						}
+						pqd.put("ANSWERINFO", answerInfos);
+						pqd.remove("TEST_ID");
+					}
+					testPd.put("QUESTIONS", list);
+				
+				}
+
+				res.setData(testPd);
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.setError();
+			}
+		}
+		logger.info("testpaperinfo cost time:"
+				+ (System.currentTimeMillis() - cur));
+		return res.toJson();
+	}
+	
+	/**
+	 * 试卷详细信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/questionintestreportinfo", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object questionInTestReportInfo() throws Exception {
+		event("testpaperinfo");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson();
+		if (pd.getString("QUESTION_ID") != null) {
+			String questionId = pd.getString("QUESTION_ID");
+			PageData pqd = new PageData();
+			pqd.put("QUESTION_ID", questionId);
+			PageData tpqd = questionService.findById(pqd);
+			pqd.putAll(tpqd);
+			pqd.remove("P_ID");
+			pqd.remove("SUBJECT_ID");
+			pqd.remove("PROBLEM_TYPE_ID");
+			pqd.remove("CHAPTER_ID");
+			pqd.remove("TEACHER_ID");
+			pqd.remove("SCHOOL_ID");
+			pqd.remove("SUG_SCORE");
+			pqd.remove("SUG_PART_SCORE");
+			pqd.remove("USER_ID");
+			pqd.remove("CREATE_DATE");
+			pqd.remove("QUESTION_FROM");
+			pqd.remove("REMARK");
+			String optionContent = pqd.getString("OPTION_CONTENT");
+			if(optionContent != null && optionContent.startsWith("[") && optionContent.endsWith("]")){
+				String[] options = optionContent.substring(1, optionContent.length() -1).split(",");
+				pqd.put("OPTION_CONTENT", options);
+			}else{
+				pqd.put("OPTION_CONTENT", new String[]{optionContent});
+			}
+			if(pd.getString("TEST_ID") != null){
+				pqd.put("TEST_ID", pd.getString("TEST_ID"));
+			}
+			List<PageData> listinfo = testpaperinfoService
+					.listTestPaperQuestionIDinfo(pqd);
+			List<PageData> answerInfos = new ArrayList<PageData>();
+			for (PageData pid : listinfo) {
+				String answer = pid.getString("ANSWER");
+				PageData answerPd = null;
+				if (answerInfos.size() > 0) {
+					answerPd = answerInfos.get(answerInfos.size() - 1);
+					if (!answer.equals(answerPd.getString("ANSWER"))) {
+						answerPd = new PageData();
+						answerPd.put("ANSWER", answer);
+						answerPd.put("ISRIGHT", pid.getString("RIGHT"));
+						answerInfos.add(answerPd);
+					}
+				} else {
+					answerPd = new PageData();
+					answerPd.put("ANSWER", answer);
+					answerPd.put("ISRIGHT", pid.getString("RIGHT"));
+					answerInfos.add(answerPd);
+				}
+				String strCount = answerPd.getString("COUNT");
+				int count = 0;
+				if (strCount != null) {
+					try {
+						count = Integer.parseInt(strCount);
+					} catch (NumberFormatException ex) {
+					}
+				}
+				count++;
+				answerPd.put("COUNT", count);
+			}
+			pqd.put("ANSWERINFO", answerInfos);
+			res.setData(pqd);
+		}else{
+			res.setDataError();
+		}
+		logger.info("testpaperinfo cost time:"
+				+ (System.currentTimeMillis() - cur));
+		return res.toJson();
+	}
 
 	/**
 	 * 试卷简要信息
@@ -655,6 +914,13 @@ public class V1 extends BaseController {
 			for (String i : id) {
 				pd.put("QUESTION_ID", i);
 				PageData data = questionService.findById(pd);
+				String optionContent = data.getString("OPTION_CONTENT");
+				if(optionContent != null && optionContent.startsWith("[") && optionContent.endsWith("]")){
+					String[] options = optionContent.substring(1, optionContent.length() -1).split(",");
+					data.put("OPTION_CONTENT", options);
+				}else{
+					data.put("OPTION_CONTENT", new String[]{optionContent});
+				}
 				if (data != null) {
 					list.add(data);
 				}
@@ -929,6 +1195,7 @@ public class V1 extends BaseController {
 					pqPd.put("RANK", question.getRank());
 					pqPd.put("NO_NAME", question.getNo_name());
 					pqPd.put("PAPERQUESTION_ID", this.get32UUID());
+					pqPd.put("P_ID", "0");
 					paperquestionService.save(pqPd);
 
 				}
@@ -1596,6 +1863,16 @@ public class V1 extends BaseController {
 		ret.setData(lpd);
 		return ret.toJson();
 	}
+	
+	@RequestMapping(value = "/textbook", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object textbook() throws Exception {
+		PageData pd = getPageData();
+		ResponseGson<List<PageData>> ret = new ResponseGson<List<PageData>>();
+		List<PageData> list = textbookService.listAll(pd);
+		ret.setData(list);
+		return ret.toJson();
+	}
 
 	/**
 	 * 获取教材版本
@@ -1677,6 +1954,15 @@ public class V1 extends BaseController {
 			pd.remove("KNOWLEDGE_ID");
 		}
 		List<PageData> list = questionService.listAllquestion(pd);
+		for(PageData pad:list){
+			String optionContent = pad.getString("OPTION_CONTENT");
+			if(optionContent != null && optionContent.startsWith("[") && optionContent.endsWith("]")){
+				String[] options = optionContent.substring(1, optionContent.length() -1).split(",");
+				pad.put("OPTION_CONTENT", options);
+			}else{
+				pad.put("OPTION_CONTENT", new String[]{optionContent});
+			}
+		}
 		res.setData(list);
 		return res.toJson();
 	}
@@ -1723,6 +2009,15 @@ public class V1 extends BaseController {
 			pd.remove("KNOWLEDGE_ID");
 		}
 		List<PageData> list = questionService.listAllRandquestion(pd);
+		for(PageData pad:list){
+			String optionContent = pad.getString("OPTION_CONTENT");
+			if(optionContent != null && optionContent.startsWith("[") && optionContent.endsWith("]")){
+				String[] options = optionContent.substring(1, optionContent.length() -1).split(",");
+				pad.put("OPTION_CONTENT", options);
+			}else{
+				pad.put("OPTION_CONTENT", new String[]{optionContent});
+			}
+		}
 		res.setData(list);
 		return res.toJson();
 	}
@@ -1891,7 +2186,6 @@ public class V1 extends BaseController {
 		try {
 			teachingmaterialService.save(pd);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -2054,5 +2348,83 @@ public class V1 extends BaseController {
 		key.append("}");
 
 		return key.toString();
+	}
+	
+	
+	/**
+	 * 根据ID，获取科目中文名称
+	 * @param type
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/subjectename", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public  String findSubjectEName() throws Exception{
+		PageData pageData = this.getPageData();
+		ResponseGson<String> res = new ResponseGson<String>();
+		pageData = subjectService.findById(pageData);
+		if(pageData != null){
+			res.setData(pageData.getString("ENAME"));
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	/**
+	 * 根据ID或者科目英文名称
+	 * @param type
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/subjectcname", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public  String findSubjectCName() throws Exception{
+		ResponseGson<String> res = new ResponseGson<String>();
+		PageData pageData = new PageData();
+		StringBuilder sb = new StringBuilder();
+		String type  = this.getPageData().getString("ID");
+		if(type.contains(",")){
+			String[] types = type.split(",");
+			for (String t : types) {
+				pageData.put("ID", t);
+				pageData = subjectService.findById(pageData);
+				if (pageData != null) {
+					sb.append(pageData.getString("CNAME") + ";  ");
+				}
+			}
+			sb.delete(sb.length() -3, sb.length());
+		}else{
+			pageData.put("ID", type);
+			pageData = subjectService.findById(pageData);
+			if (pageData != null) {
+				sb.append(pageData.getString("CNAME"));
+			}
+		}
+		res.setData(sb.toString());
+		return res.toJson();
+	}
+	
+	/**
+	 * 根据ID班级名称
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/classname", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public  String findClassName() throws Exception {
+		ResponseGson<String> res = new ResponseGson<String>();
+		PageData pageData = this.getPageData();
+		pageData = sclassService.findById(pageData);
+		String className = "" ;
+		if(pageData != null){
+			className = pageData.getString("CLASS_NAME");
+		}else{
+			res.setDataError();
+		}
+		res.setData(className);
+		return res.toJson();
+		
 	}
 }

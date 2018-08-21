@@ -229,6 +229,9 @@
 		<if test="COUNT != null and COUNT != ''">
 			limit ${COUNT}
 		</if>
+		<if test="COUNT == null or COUNT == ''">
+			limit 30
+		</if>
 		
 		
 	</select>

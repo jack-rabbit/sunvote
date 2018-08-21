@@ -12,7 +12,7 @@
 		NAME,	
 		CDESCRIPTION,	
 		REMARK,	
-		TEACHINGMATERIAL_ID,	
+		TEXTBOOK_ID,	
 		ID
 	</sql>
 	
@@ -21,7 +21,7 @@
 		#{NAME},	
 		#{CDESCRIPTION},	
 		#{REMARK},	
-		#{TEACHINGMATERIAL_ID},	
+		#{TEXTBOOK_ID},	
 		#{ID}
 	</sql>
 	
@@ -33,12 +33,12 @@
 			NAME,	
 			CDESCRIPTION,	
 			REMARK,	
-			TEACHINGMATERIAL_ID	
+			TEXTBOOK_ID	
 		) values (
 		#{NAME},	
 		#{CDESCRIPTION},	
 		#{REMARK},	
-		#{TEACHINGMATERIAL_ID}
+		#{TEXTBOOK_ID}
 		)
 	</insert>
 	
@@ -58,7 +58,7 @@
 			NAME = #{NAME},
 			CDESCRIPTION = #{CDESCRIPTION},
 			REMARK = #{REMARK},
-			TEACHINGMATERIAL_ID = #{TEACHINGMATERIAL_ID},
+			TEXTBOOK_ID = #{TEXTBOOK_ID},
 		ID = #{ID}
 		where 
 		ID = #{ID}
@@ -119,8 +119,8 @@
 		</if>
 		
 		
-		<if test="TEACHINGMATERIAL_ID != null and TEACHINGMATERIAL_ID != ''">
-			and TEACHINGMATERIAL_ID = #{TEACHINGMATERIAL_ID}
+		<if test="TEXTBOOK_ID != null and TEXTBOOK_ID != ''">
+			and TEXTBOOK_ID = #{TEXTBOOK_ID}
 		</if>
 		
 		order by RANK

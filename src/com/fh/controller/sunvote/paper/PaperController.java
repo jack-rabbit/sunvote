@@ -271,6 +271,64 @@ public class PaperController extends BaseController {
 		}
 		String userID = getUserID();
 		pd.put("USER_ID", userID);
+		pd.put("PAPER_TYPE","1");
+		page.setPd(pd);
+		List<PageData>	varList = paperService.list(page);	//列出Paper列表
+		mv.setViewName("sunvote/paper/paper_list2");
+		
+		for(PageData p:varList){
+			String examTime = p.getString("EXAM_TIME");
+			if(examTime != null){
+				try{
+					int et = Integer.parseInt(examTime);
+					String min = (et / 60 ) + "" ;
+					if(min.length() < 2){
+						min = "0" + min ;
+					}
+					String sec = (et % 60 ) + "" ;
+					if(sec.length() < 2){
+						sec = "0" + sec ;
+					}
+					if(et > 60){
+						examTime = min + ":" + sec; 
+					}else{
+						examTime = "00:" +  sec; 
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			if(examTime == null){
+				examTime = "00:00";
+			}
+			p.put("EXAM_TIME", examTime);
+		}
+		
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
+	
+	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/list3")
+	public ModelAndView list3(Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表Paper");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String keywords = pd.getString("keywords");				//关键词检索条件
+		if(null != keywords && !"".equals(keywords)){
+			pd.put("keywords", keywords.trim());
+		}
+		String userID = getUserID();
+		pd.put("USER_ID", userID);
+		pd.put("PAPER_TYPE","101");
 		page.setPd(pd);
 		List<PageData>	varList = paperService.list(page);	//列出Paper列表
 		mv.setViewName("sunvote/paper/paper_list2");
