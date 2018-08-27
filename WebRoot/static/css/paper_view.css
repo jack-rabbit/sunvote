@@ -21,3 +21,5 @@
 .tab_report_box .round_w_red{width:100px;height:100px;background:#ffd0c6;position:relative;overflow:hidden;border-radius:50px;margin:0 auto;}
 .tab_report_box .round_n_red{width:70px;height:70px;background:#ff8a71;position:absolute;top:15px;left:15px;overflow:hidden;border-radius:35px;}
 .tab_report_box .round_n_red span{color:#fff;line-height:70px;text-align:center;display:inline-block;width:100%;}
+.analysis .question_li{position:relative;padding-top:15px;}
+.chou{width:24px;height:24px;text-align:center;line-height:24px;border-radius:12px;border:1px solid #f00;color:#f00;position:absolute;top:15px;right:0;opacity:0.5}

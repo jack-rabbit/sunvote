@@ -95,6 +95,7 @@
 			sv_question.ANSWER,
 			sv_question.OPTION_CONTENT,
 			sv_question.PROBLEM_TYPE_ID,
+			sv_question.KNOWLEDGE_ID,
 			sv_question.P_ID
 			FROM
 				sv_paperquestion
@@ -158,6 +159,24 @@
 				TEACHER_ID = #{ID}
 			AND term.START_DATE &lt; now() 
 			AND term.END_DATE &gt; now();
+		
+	</select>
+	
+	<!-- 通过教师ID获取科目数据 -->
+	<select id="getQuestionWrongInfo" parameterType="pd" resultType="pd">
+		 	SELECT
+			sv_student.`NAME`,
+			sv_testpaperinfo.ANSWER,
+			sv_testpaperinfo.PRESS_TIME,
+			sv_testpaperinfo.RECEIVER_DATE,
+			sv_testpaperinfo.`RIGHT`
+			FROM
+				sv_testpaperinfo
+			LEFT JOIN sv_student ON sv_testpaperinfo.STUDENT_ID = sv_student.ID
+			WHERE
+				sv_testpaperinfo.QUESTION_ID = #{QUESTION_ID}
+			AND sv_testpaperinfo.TEST_ID = #{TEST_ID}
+			AND sv_testpaperinfo.`RIGHT` = '0'
 		
 	</select>
 	

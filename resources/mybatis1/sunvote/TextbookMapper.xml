@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="TeachingMaterialMapper">
+<mapper namespace="TextbookMapper">
 	
 	<!--表名 -->
 	<sql id="tableName">
-		SV_TEACHINGMATERIAL
+		SV_TEXTBOOK
 	</sql>
 	
 	<!-- 字段 -->
 	<sql id="Field">
-		NAME,	
-		SUBJECT_ID,	
-		GRADE_ID,	
-		VERSION_CODE,	
-		VERSION_NAME,	
-		ID
+		ID,
+		NAME,
+		SUBJECT_ID,
+		GRADEID,
+		REMARK,
+		TEACHING_MATERIAL_ID
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
+		#{ID},	
 		#{NAME},	
 		#{SUBJECT_ID},	
 		#{GRADE_ID},	
-		#{VERSION_CODE},	
 		#{VERSION_NAME},	
-		#{ID}
+		#{REMARK},
+		#{TEACHING_MATERIAL_ID}
 	</sql>
 	
 	<!-- 新增-->
@@ -55,9 +56,9 @@
 			NAME = #{NAME},
 			SUBJECT_ID = #{SUBJECT_ID},
 			GRADE_ID = #{GRADE_ID},
-			VERSION_CODE = #{VERSION_CODE},
-			VERSION_NAME = #{VERSION_NAME},
-		ID = #{ID}
+			REMARK = #{REMARK},
+			TEACHING_MATERIAL_ID = #{TEACHING_MATERIAL_ID},
+			ID = #{ID}
 		where 
 		ID = #{ID}
 	</update>
@@ -97,6 +98,7 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		
 		
 		where 1 = 1 
 		

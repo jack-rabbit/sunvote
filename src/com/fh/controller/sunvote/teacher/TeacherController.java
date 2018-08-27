@@ -167,6 +167,24 @@ public class TeacherController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("sunvote/teacher/teach_paper");
+		pd.put("userId", userId);
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	/**
+	 * 列表
+	 * 
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/test_list")
+	public ModelAndView test_list(Page page) throws Exception {
+		logBefore(logger, Jurisdiction.getUsername() + "列表Paper");
+		String userId = this.getUserID();
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/teacher/test_list");
 		mv.addObject("pd", pd);
 		return mv;
 	}
@@ -185,6 +203,24 @@ public class TeacherController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("sunvote/teacher/paper_view");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 * 列表
+	 * 
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/paper_view1")
+	public ModelAndView paper_view1(Page page) throws Exception {
+		logBefore(logger, Jurisdiction.getUsername() + "列表Paper");
+		String userId = this.getUserID();
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/teacher/paper_view1");
 		mv.addObject("pd", pd);
 		return mv;
 	}

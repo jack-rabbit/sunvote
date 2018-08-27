@@ -10,23 +10,27 @@ li{list-style:none;}
 .left_menu .tab .active{border-bottom: 2px solid #3c7ae3;}
 .left_menu .tab .active p{color:#3c7ae3;}
 .left_menu .tab li:first-child{border-right:1px solid #ccc;}
+.left_menu .choose_book{display:none;}
 .left_menu .choose_book .book{background:#e9f0ff;padding:0 6px;}
 .left_menu .choose_book .book p{float:left;line-height:34px;margin-bottom:0;}
 .left_menu .choose_book .book img{float:right;width:20px;height:20px;margin-top:4.5px;}
 .left_menu .choose_book .book_box{display:none;}
 .left_menu .choose_book .book_box ul{padding:0;margin:0;}
-.left_menu .choose_book .book_box ul li{border-bottom:1px solid #ccc;position:relative;}
+.left_menu .choose_book .book_box ul li{border-bottom:1px solid #ccc;position:relative;cursor:pointer}
+.left_menu .choose_book .book_box ul li:hover{background:#e9f0ff;}
+
 .left_menu .choose_book .book_box p{float:left;line-height:34px;margin-bottom:0;font-size:14px;}
 .left_menu .choose_book .book_box img{float:right;width:20px;height:20px;margin-top:4.5px;}
 .left_menu .choose_book .gary{width:100%;height:15px;background:#eee;}
 .left_menu .section{padding:20px 0;}
 .left_menu .section ul{padding:0;margin:0;}
-.left_menu .section ul li{padding:10px 0;border-bottom:1px solid #ccc;}
+.left_menu .section ul li{padding:10px 0;border-bottom:1px solid #ccc;cursor:pointer}
 .left_menu .section ul li img{width:20px;height:20px;margin-right:10px;}
 .left_menu .section ul li ul{padding-left:25px;display:none;}
 .left_menu .section ul li ul li{border:0;}
 .float_box{position:absolute;top:0;background:#e9f0ff;left:100%;width:400px;height:200px;display:none;z-index:99;}
-.float_box li{width:27%;margin:0 2.5%;margin-top:10px;padding:5px 0px;text-align:center;border-radius:3px;border:1px solid #ccc;overflow:hidden;float:left;}
+.float_box li{width:27%;margin:0 2.5%;margin-top:10px;padding:5px 0px;text-align:center;border-radius:3px;border:1px solid #ccc;overflow:hidden;float:left;cursor:pointer}
+.left_menu .choose_book .book_box ul li .float_box li:hover{background:#fff;}
 .screen{width:100%;height:150px;background:#fff;box-shadow: 0 0 10px #ccc;margin-top:10px;padding:10px;}
 .tag dt,dd{display:inline-block;}
 

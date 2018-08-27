@@ -1,5 +1,7 @@
 ﻿li{list-style:none;}
-.choose_class{border-bottom:1px solid #eee;padding:2% 0 5% 0;}
-.choose_class li{width:20%;margin:0 2.5%;margin-top:2%;float:left;border:1px solid #3c7ae3;text-align:center;border-radius:3px;line-height:50px;font-size:16px;}
-.choose_class li.active{color:#fff;background:#3c7ae3;}
+.classList{padding:2% 0 5% 0;}
+.classList li{width:20%;margin:0 2.5%;margin-top:2%;float:left;border:1px solid #3c7ae3;text-align:center;border-radius:3px;line-height:50px;font-size:16px;}
+.classList li.active{color:#fff;background:#3c7ae3;}
 .screen{border-bottom:1px dashed #eee;padding:3% 0;}
+.head_box_r{width:70%;text-align:right;}
+.form-control{height:26px;padding:2px 12px;width:185px;display: inline-block;border-radius: 0px;}

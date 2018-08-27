@@ -9,7 +9,7 @@
     <!-- Bootstrap -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../static/css/teach.css" rel="stylesheet">
-	<link href="../static/css/set_quetion.css" rel="stylesheet">
+	<link href="../static/css/set_quetion.css?t=11" rel="stylesheet">
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -23,89 +23,31 @@
 	</style>
   </head>
   <body>
-  <div class="container">
-    <div class="choose_class">
+  <div class="col-md-12">
+    <!--<div class="choose_class">
 		<div class="col-md-2">
 			<p>选择班级</p>
 		</div>
-		<div class="col-md-10">
+		<div class="col-md-10 classList">
 			<ul>
 				<li>一年级1502班</li>
 			</ul>
 		</div>
 		<div class="clearfix"></div>
-	</div>
+	</div>-->
 	<div class="col-md-3 left_menu">
 		<div class="tab">
 			<ul>
-				<li class="active" data-index=0><p>同步教材</p></li>
-				<li data-index=1><p>知识点</p></li>
+				<li  data-index=0><p>同步教材</p></li>
+				<li class="active" data-index=1><p>知识点</p></li>
 				<div class="clearfix"></div>
 			</ul>
 		</div>
 		<div class="choose_book">
-			<div class="book"><p><span>西师大版/一年级上</span></p><img src="../static/images/down_arrow.png" /><div class="clearfix"></div></div>
+			<div class="book"><p><span id="book_name">西师大版/一年级上</span></p><img src="../static/images/down_arrow.png" /><div class="clearfix"></div></div>
 			<div class="book_box">
 				<ul>
-					<li>
-						<p>人教版</p>
-						<img src="../static/images/arrow_right.png" />
-						<div class="clearfix"></div>		
-						<div class="float_box">
-							<ul>
-								<li>一年级1502班</li>
-								<li>一年级1502班</li>
-								<li>一年级1502班</li>
-								<li>一年级1502班</li>
-								<li>一年级1502班</li>
-								<div class="clearfix"></div>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<p>人教版</p>
-						<img src="../static/images/arrow_right.png" />
-						<div class="clearfix"></div>	
-					</li>
-					<li>
-						<p>人教版</p>
-						<img src="../static/images/arrow_right.png" />
-						<div class="clearfix"></div>						
-					</li>
-					<li>
-						<p>人教版</p>
-						<img src="../static/images/arrow_right.png" />
-						<div class="clearfix"></div>						
-					</li>
-					<li>
-						<p>人教版</p>
-						<img src="../static/images/arrow_right.png" />
-						<div class="clearfix"></div>						
-					</li>
-					<li>
-						<p>人教版</p>
-						<img src="../static/images/arrow_right.png" />
-						<div class="clearfix"></div>						
-					</li><li>
-						<p>人教版</p>
-						<img src="../static/images/arrow_right.png" />
-						<div class="clearfix"></div>						
-					</li>
-					<li>
-						<p>人教版</p>
-						<img src="../static/images/arrow_right.png" />
-						<div class="clearfix"></div>		
-						<div class="float_box">
-							<ul>
-								<li>一年级1502班</li>
-								<li>一年级1502班</li>
-								<li>一年级1502班</li>
-								<li>一年级1502班</li>
-								<li>一年级1502班</li>
-								<div class="clearfix"></div>
-							</ul>
-						</div>
-					</li>
+					
 				</ul>
 				
 			</div>
@@ -246,38 +188,57 @@
 	var url="http://127.0.0.1:8080";
 	var temp_tag;
 	var temp_data;
+	var TEXTBOOK_ID="";
+	var question_box=[];
+	var question_num=0;
+	
 	
 	$(document).ready(function(){
-		getChapter();
-		getTeachingMaterial();
+		//getClassName();
+		
+		getPoint();	
+				
 	});
+	
+	function getQueryString(name) {
+	  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	  var r = window.location.search.substr(1).match(reg);
+	  if (r != null) return unescape(r[2]); return null;
+  	}
+	
+	var subject_id=getQueryString("subject_id");
+	var class_id=getQueryString("class_id");
+	
+	//alert(subject_id+";"+class_id);
+	
 	function getPoint(){             //获取知识点
 		$.ajax({
 			url:url+"/SunvoteEducation/api/v1/point",
 			async:false,
 			type:"post",
-			data:{depth:"",subject_id:20,p_id:"",knowledge_from:101},
+			data:{depth:"",subject_id:subject_id,p_id:"",knowledge_from:101},
 			success:function(data){
 				console.log(data);
 				var point_html="";
 				for(var i=0;i<data.data.length;i++){
-					point_html +='<li data-id="'+data.data[i].KNOWLEDGE_ID+'" data-click=0><img src="../static/images/add.png" /><span>'+(i+1)+data.data[i].NAME+'</span></li>';
+					point_html +='<li data-id="'+data.data[i].KNOWLEDGE_ID+'" data-img-click=0 data-span-click=0><img src="../static/images/add.png" class="add" /><span>'+(i+1)+data.data[i].NAME+'</span></li>';
 				}
 				$(".section").children("ul").html(point_html);
+				getQuestion($(".section li").eq(0));
 			}
 		})
 	}
-	function getChapter(){                 //获取章节
+	function getChapter(TEXTBOOK_ID){                 //获取章节
 		$(".section").children("ul").html("");
 		$.ajax({
 			url:url+"/SunvoteEducation/api/v1/chapter",
 			async:false,
 			type:"post",
-			data:{TEACHINGMATERIAL_ID:"14f2ad40-d4d6-4558-af5b-c9e3703c1ee8"},
+			data:{TEXTBOOK_ID:TEXTBOOK_ID},
 			success:function(data){
 				console.log(data);
 				for(var i=0;i<data.data.length;i++){
-					$(".section").children("ul").append('<li data-id="'+data.data[i].ID+'" data-click=0><img src="../static/images/add.png" /><span>'+data.data[i].NAME+'</span></li>');	
+					$(".section").children("ul").append('<li data-id="'+data.data[i].ID+'" data-img-click=0 data-span-click=0><img src="../static/images/add.png" class="add"/><span>'+data.data[i].NAME+'</span></li>');	
 					if(data.data[i].CHILDREN.length>0){
 						$(".section").children("ul").children("li").eq(i).append("<ul></ul>");
 						for(var j=0;j<data.data[i].CHILDREN.length;j++){
@@ -302,9 +263,9 @@
 				for(var i=0;i<data.data.length;i++){
 				console.log(typeof(data.data[i].CHILDREN));
 				if(data.data[i].CHILDREN===undefined)
-					_html +='<li data-id="'+data.data[i].KNOWLEDGE_ID+'" data-click=0 onclick="getQuestion($(this))"><span>●</span><span>'+(i+1)+data.data[i].NAME+'</span></li>';
+					_html +='<li data-id="'+data.data[i].KNOWLEDGE_ID+'" data-span-click=0 "><span>●</span><span>'+(i+1)+data.data[i].NAME+'</span></li>';
 				else
-					_html +='<li data-id="'+data.data[i].KNOWLEDGE_ID+'" data-click=0><img src="../static/images/add.png" /><span>'+(i+1)+data.data[i].NAME+'</span></li>';
+					_html +='<li data-id="'+data.data[i].KNOWLEDGE_ID+'" data-img-click=0 data-span-click=0 ><img src="../static/images/add.png" class="add"/><span>'+(i+1)+data.data[i].NAME+'</span></li>';
 				}
 				obj.children('ul').html(_html);
 			}
@@ -320,6 +281,7 @@
 
 		}
 	function getQuestion(obj){                //获取题目
+		
 		var knowledge_id="",chapter_id="";
 		if($(".tab .active").attr("data-index")==1){
 			knowledge_id=obj.attr("data-id");
@@ -331,11 +293,11 @@
 		
 		$.ajax({
 			url:url+"/SunvoteEducation/api/v1/questions",
-			async:false,
+			async:true,
 			type:"post",
-			data:{chapter_id:chapter_id,teachingmaterial_id:"",knowledge_id:knowledge_id,question_from:101,user_id:"",problem_type:"",subject_id:"",count:""},
+			data:{chapter_id:chapter_id,teachingmaterial_id:"",knowledge_id:knowledge_id,question_from:101,user_id:"",problem_type:"",subject_id:"",count:"5"},
 			success:function(data){
-			console.log(data);
+			window.top.loading.remove();
 			if(data.data.length>0){
 				for(var i=0;i<data.data.length;i++){
 					_html += '<li data-id="'+data.data[i].QUESTION_ID+'"><div class="content"></div><div class="option"><ul></ul></div><div class="resolve"><div class="resolve_box"><p><span>【答案】</span> '+data.data[i].ANSWER+'</p><p><span>【解析】</span>'+data.data[i].ANALYSIS+'</p></div></div><div class="star_box"><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a><div class="check_box"></div></div></div><div class="clearfix"></div></div></li>';
@@ -345,9 +307,12 @@
 					var option_html="";
 					$(".question_box li .content").eq(j).append('<span>'+(j+1)+'、</span>'+data.data[j].CONTENT);
 					var arry_option=data.data[j].OPTION_CONTENT;
-					arry_option=arry_option.replace("[","");
-					arry_option=arry_option.replace("]","");
-					arry_option=arry_option.split(",");
+					if(question_box.indexOf(data.data[j].QUESTION_ID)>=0){
+						$(".check_box").eq(j).addClass("checked");
+					}
+					//arry_option=arry_option.replace("[","");
+					//arry_option=arry_option.replace("]","");
+					//arry_option=arry_option.split(",");
 					for(var x=0;x<arry_option.length;x++){
 						option_html += '<li><span>'+String.fromCharCode(64 + parseInt(x+1))+'.</span>'+arry_option[x]+'</li>';
 					}
@@ -356,27 +321,87 @@
 					star(j,parseInt(data.data[j].DIFFICULTY));
 					
 				}
+			}else{
+				$(".question_box ul").html("");
 			}
+			
 			}
 		})
 	}
 	function getTeachingMaterial(){             //获取教材版本
+	
 		$.ajax({
 			url:url+"/SunvoteEducation/api/v1/teachingmaterial",
-			async:false,
+			async:true,
 			type:"post",
-			data:{subject_id:20},
+			data:{subject_id:subject_id},
 			success:function(data){
 				console.log(data);
 				if(data.data.length>0){
 					var teach_html="";
+					
+					
 					for(var i=0;i<data.data.length;i++){
-						teach_html += '<li data-id="'+data.data[i].ID+'"><p>'+data.data[i].NAME+'</p><img src="../static/images/arrow_right.png" /><div class="clearfix"></div></li>';
+						teach_html += '<li data-id="'+data.data[i].ID+'" class="li_name"><p class="name">'+data.data[i].NAME+'</p><img src="../static/images/arrow_right.png" /><div class="clearfix"></div></li>';	
 					}
 					$(".book_box ul").html(teach_html);
+					var li_length=$(".book_box ul li").length;
+					for(var k=0;k<li_length;k++){
+						var books=[];
+						var book_html="";
+						var book_id=$(".book_box ul").children("li").eq(k).attr("data-id");
+						
+						if(textBook(book_id).length>0){
+							
+							books=textBook($(".book_box ul li").eq(k).attr("data-id"));
+							$(".book_box ul li").eq(k).append('<div class="float_box"><ul><div class="clearfix"></div></ul></div>');
+							
+							for(var j=0;j<books.length;j++){
+								console.log("j:"+j);
+								book_html += '<li data-id='+books[j].id+'>'+books[j].name+'</li>';
+							}
+							$(".float_box").eq(k).children("ul").find(".clearfix").before(book_html);
+							TEXTBOOK_ID=books[0].id;
+						}
+						
+					}
+				getChapter(TEXTBOOK_ID);
+				$("#book_name").text($(".name").eq(0).text()+"/"+$(".float_box").eq(0).find('li').eq(0).text());
 				}
 				
 			}	
+		})
+		
+	}
+	function textBook(id){
+		var textBookName=[];
+		$.ajax({
+			url:url+"/SunvoteEducation/api/v1/textbook",
+			async:false,
+			type:"post",
+			data:{teaching_material_id:id,subject_id:subject_id,grade_id:""},
+			success:function(data){
+				//alert(data.data);
+				if(data.data.length>0){
+					for(var i=0;i<data.data.length;i++){
+						textBookName[i]={"name":data.data[i].NAME,"id":data.data[i].ID};
+					}
+				}
+			}
+		})
+		return textBookName;
+	}
+	function getClassName(){
+		//var className="";
+		$.ajax({
+			url:url+"/SunvoteEducation/api/v1/classname",
+			async:false,
+			type:"post",
+			data:{id:class_id},
+			success:function(data){
+				//alert(data.data);
+				$(".classList li").html(data.data);
+			}
 		})
 	}
 	function star(index,num){                //难度星级
@@ -392,15 +417,24 @@
 		$(".star").eq(index).find("ul").html(li_html);
 	}
 	
-		$(".section").on("click","li",function(event){
+		$(".section").on("click",".add",function(event){       //展开菜单
 			event.stopPropagation();
-			var that=$(this);
+			
+			var that=$(this).closest("li");
+			//alert(that.attr("data-img-click"));
 			
 			//console.log(that.attr("data-click"));
 			if($(".tab .active").attr("data-index")==1){
-				if(that.attr("data-click")==0)
+				if(that.attr("data-img-click")==0){
 					getMenu(that.attr("data-id"),that);
-				that.attr("data-click",1);
+					//getQuestion(that);
+				}	
+				that.attr("data-img-click",1);
+			}else{
+				if(that.attr("data-img-click")==0){
+					//getQuestion(that);
+				}	
+				that.attr("data-img-click",1);
 			}
 			
 			if(that.children('ul').length>0)
@@ -411,43 +445,74 @@
 						that.children('img').attr("src","../static/images/add.png");
 				});
 		});
+		$(".section").on("click","span",function(event){       //点击菜单获取题目
+			window.top.loading.show();
+			event.stopPropagation();
+			
+			var that=$(this).closest("li");
+			if($(".tab .active").attr("data-index")==1){				
+					getQuestion(that);
+			}else{
+					getQuestion(that);
+			}
+
+		});
 		$(".book_box").children("ul").on("mouseover","li",function(event){    //教材版本交互
 			event.stopPropagation();
-			$(this).siblings().css("background","#fff");
-			$(this).css("background","#e9f0ff");
+			//$(this).siblings("li").css("background","#fff");
+			//$(this).css("background","#e9f0ff");
 			//$(".float_box").css("display","none");
 			$(this).children(".float_box").css("display","block");
 		});
 		$(".book_box").children("ul").on("mouseleave","li",function(event){  //教材版本交互
 			event.stopPropagation();
-			$(this).css("background","#fff");
-			//$(this).children(".float_box").css("display","none");
+			//$(this).css("background","#fff");
+			$(this).children(".float_box").css("display","none");
 		});
 		$(".float_box").on("mouseleave",function(event){                //教材版本交互
 			event.stopPropagation();
 			$(this).css("display","none");
 		});
+		$(document).on("click",".float_box li",function(event){                //教材版本交互
+			//alert($(this).index());
+			event.stopPropagation();
+			var id=$(this).attr("data-id");
+			$("#book_name").text($(this).closest(".li_name").children(".name").text()+"/"+$(this).text());
+			$(".float_box").css("display","none");
+			$(".book_box").slideToggle();
+			getChapter(id);
+		});
 		$(".book").click(function(){                                //教材版本下拉框交互
 			$(".book_box").slideToggle();
 		})
 		$(document).on("click",".check_box",function(){    //选中题目
+			
 			if($(this).hasClass("checked")){
+				var id=$(this).closest("li").attr("data-id");
+				var que_index=question_box.indexOf(id);
 				$(this).removeClass("checked");
+				question_box.splice(que_index,1);
+				question_num--;
 			}else{
+				question_box[question_num]=$(this).closest("li").attr("data-id");
+				question_num++;
 				$(this).addClass("checked");
 			}
-			$("#all_que_num").html($(".checked").length);
+			$("#all_que_num").html(question_num);
 		});
 		$(".clear_que").click(function(){                 //清空
+			question_num=0;
+			question_box=[];
 			$(".checked").removeClass("checked");
-			$("#all_que_num").html($(".checked").length);
+			$("#all_que_num").html(question_num);
 		});
 		$(".tab li").click(function(){                     //教材与知识点选择
 			$(this).siblings().removeClass("active");
 			$(this).addClass("active");
 			if($(this).index()==0){
+				getTeachingMaterial();
 				$(".choose_book").css("display","block");
-				getChapter();
+				getChapter(TEXTBOOK_ID);
 			}else{
 				$(".choose_book").css("display","none");
 				getPoint();
@@ -461,11 +526,11 @@
 		});
 		$("#submit").click(function(){
 			var question_arry=[];
-			for(var i=0;i<$(".checked").length;i++){
+			for(var i=0;i<question_num;i++){
 				question_arry[i]={
 						score: "0",
 						part_score: "0",
-						question_id: $(".checked").eq(i).closest("li").attr("data-id"),
+						question_id: question_box[i],
 						rank: i.toString(),
 						no_name: i.toString()
 					};
@@ -477,7 +542,7 @@
 				paper_type: "101",
 				subject_id: "20",
 				grade_id: "",
-				class_id: "30378682ca9c4c648118afe55569aa97",
+				class_id: class_id,
 				user_id: "8dbef15bb6d043ec94b719ede583b033",
 				score: "100",
 				questions: question_arry
@@ -493,6 +558,7 @@
 			success:function(data){
 				alert("上传成功");
 				$('#myModal').modal('hide');
+				window.history.go(-1);
 			}
 		})	
 			

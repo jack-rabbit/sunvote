@@ -104,7 +104,7 @@
 						<p>云测验测验分析</p>
 						<ul class="menu_2">
 						<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-							<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
+							<li onclick="event.stopPropagation();report2('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
 						</c:forEach>
 						</ul>
 					</li>
@@ -177,6 +177,13 @@
 				window.top.loading.show();
 			//}
 		}
+		function report2(classId){
+			//window.open('<%=basePath%>report/report.do?classid=' + classId);
+			//if($("#mainFrame").attr('src') != ('<%=basePath%>report/report.do?classid=' + classId)){
+				$("#mainFrame").attr('src','<%=basePath%>teacher/test_list.do?classid=' + classId);
+				window.top.loading.show();
+			//}
+		}
 		
 		$("#time_submit").click(function(){
 			var name = $("#enter_title").val();
@@ -205,7 +212,7 @@
 			var path = "../teacher/teach_paper.do?" ;
 			//if($("#mainFrame").attr('src') != (path)){
 				$("#mainFrame").attr('src',path);
-				//window.top.loading.show();
+				window.top.loading.show();
 			//}
 		});
 	</script>

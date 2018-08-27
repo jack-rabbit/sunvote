@@ -173,7 +173,53 @@
 			and CLASS_ID = #{pd.CLASS_ID}
 		</if>
 		
+		<if test="pd.START_DATE != null and pd.START_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &gt; #{pd.START_DATE})
+		</if>
+		<if test="pd.END_DATE != null and pd.END_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &lt; #{pd.END_DATE})
+		</if>
+		
 		order by CREATE_DATE DESC
+	</select>
+	<!-- 指定类型列表(全部) -->
+	<select id="listAllByType" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1 = 1
+		<if test="PAPER_TYPE != null and PAPER_TYPE != ''">
+			and PAPER_TYPE = #{PAPER_TYPE}
+		</if>
+		
+		<if test="USER_ID != null and USER_ID != ''">
+			and USER_ID = #{USER_ID}
+		</if>
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''">
+			and SUBJECT_ID = #{SUBJECT_ID}
+		</if>
+		<if test="CLASS_ID != null and CLASS_ID != ''">
+			and CLASS_ID = #{CLASS_ID}
+		</if>
+		
+		<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &gt; #{START_DATE})
+		</if>
+		<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &lt; #{END_DATE})
+		</if>
+		
+		order by CREATE_DATE DESC
+		
+		<choose>
+              <when test="CURRENTPAGE != null and CURRENTPAGE != '' and SHOWCOUNT != null and SHOWCOUNT != ''">
+                  limit ${CURRENTPAGE}, ${SHOWCOUNT}
+              </when>
+              <otherwise>
+                  limit 0,30
+              </otherwise>
+        </choose>
 	</select>
 	
 	<!-- 批量删除 -->

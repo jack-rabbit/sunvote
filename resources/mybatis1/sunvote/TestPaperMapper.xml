@@ -22,6 +22,7 @@
 		AVG_SCORE,	
 		TOTAL_SCORE,	
 		REMARK,	
+		TEST_TYPE,	
 		TESTPAPER_ID
 	</sql>
 	
@@ -40,6 +41,7 @@
 		#{AVG_SCORE},	
 		#{TOTAL_SCORE},	
 		#{REMARK},	
+		#{TEST_TYPE},	
 		#{TESTPAPER_ID}
 	</sql>
 	
@@ -80,6 +82,7 @@
 			AVG_SCORE = #{AVG_SCORE},
 			TOTAL_SCORE = #{TOTAL_SCORE},
 			REMARK = #{REMARK},
+			TEST_TYPE = #{TEST_TYPE},
 		TESTPAPER_ID = TESTPAPER_ID
 		where 
 		TESTPAPER_ID = #{TESTPAPER_ID}
@@ -139,6 +142,12 @@
 		</if>
 		<if test="NAME != null and NAME != ''"><!-- 关键词检索 -->
 			and (NAME = #{NAME})
+		</if>
+		<if test="TEST_TYPE != null and TEST_TYPE == '1'"><!-- 关键词检索 -->
+			and (TEST_TYPE = #{TEST_TYPE} or TEST_TYPE IS NULL)
+		</if>
+		<if test="TEST_TYPE != null and TEST_TYPE == '101'"><!-- 关键词检索 -->
+			and (TEST_TYPE = #{TEST_TYPE})
 		</if>
 		<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
 			and (CREATE_DATE &gt; #{START_DATE})

@@ -47,6 +47,8 @@ public class TestPaper {
 	// 备注
 	private String remark ;
 	
+	private String test_type ;
+	
 	private List<StudentAnswer> students = new ArrayList<StudentAnswer>();
 
 	public String getTestpaperId() {
@@ -155,6 +157,14 @@ public class TestPaper {
 		this.remark = remark;
 	}
 	
+	public String getTest_type() {
+		return test_type;
+	}
+	
+	
+	public void setTest_type(String test_type) {
+		this.test_type = test_type;
+	}
 	
 	public List<StudentAnswer> getStudents() {
 		return students;

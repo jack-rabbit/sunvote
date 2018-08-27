@@ -17,7 +17,7 @@
     <!-- Bootstrap -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../static/css/teach.css" rel="stylesheet">
-	<link href="../static/css/paper_view.css" rel="stylesheet">
+	<link href="../static/css/paper_view.css?t=1" rel="stylesheet">
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -28,68 +28,25 @@
 	<style>
 		 .analysis table{display:inline-block;vertical-align:middle;}
 		 .resolve_box img{vertical-align:top;}
+		 .up{width:20px;hiehgt:20px;}
+		 .down{width:20px;height:20px;margin-left:10px;}
+		 .save_box{width:100%;height:80px;background:#fff;text-align:center;position:fixed;bottom:0;left:0;}
+		 .container{height:100%;}
+		 .content_report{padding-bottom:80px;min-height:calc(100% - 126px);}
 	</style>
   </head>
   <body>
   <div class="container">
     <div class="page-header">
 	  <h3 class="col-md-6" id="paper_title"></h3>
-	   <h3 class="col-md-6">考试时长：<span id="time"></span>分钟</h3>
+	   <h3 class="col-md-6">考试时间：<span id="time"></span>分钟</h3>
 		<div class="clearfix"></div>
 	</div>
 	<div class="content_report">
-		<div class="col-md-3 left_menu">
+
+		<div class="col-md-12 analysis">
 			<ul>
-				<li class="active">学生完成情况</li>
-				<li>题目分析</li>
-			</ul>
-		</div>
-		<div class="col-md-9 report">
-			<div class="report_info">
-				<ul>
-					<li>未完成学生 1/1</li>
-					<li>平均错题数 0</li>
-					<li>正确率 0%</li>
-					<li>平均用时 0秒</li>
-				</ul>
-				<div class="clearfix"></div>
-			</div>
-			<div class="table_box">
-				<table class="table table-striped">
-				  <thead>
-					<tr>
-						<th>姓名</th>
-						<th>答题时间</th>
-						<th>答对数</th>
-						<th>答错数</th>
-						<th>错题详情</th>
-						<th>一键催交</th>
-					</tr>
-				  </thead>
-				  <tbody>
-					<tr>
-						<td>杨大辉</td>
-						<td>未完成</td>
-						<td>--</td>
-						<td>--</td>
-						<td>--</td>
-						<td>催作业</td>
-					</tr>
-					<tr>
-						<td>何禾</td>
-						<td>2018/6/21</td>
-						<td>--</td>
-						<td>--</td>
-						<td>--</td>
-						<td>催作业</td>
-					</tr>
-				  </tbody>
-				</table>
-			</div>
-		</div>
-		<div class="col-md-9 analysis" style="display:none;">
-			<ul>
-				<li>
+				<!--<li>
 					<div class="stem">
 						<p>1.如图，检测4个足球，其中超过标准质量的克数记为正数，不足标准质量的克数记为负数．从轻重的角度看，最接近标准的是（　　）</p>
 					</div>
@@ -111,32 +68,10 @@
 						<p>【考点】 10以内数的认识</p>
 					</div>
 					<div class="clearfix"></div>
-					<div class="tab_report_box">
-						<div class="col-md-3">
-							<p>答错人数</p>
-							<div class="round_w_orange">
-								<div class="round_n_orange">
-									<span>0/0</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<p>错误率</p>
-							<div class="round_w_red">
-								<div class="round_n_red">
-									<span>100%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-						<div id="main" style="width:250px;height:140px;"></div>
-						</div>
-						<div class="clearfix"></div>
-					</div>
 					</div>
 
 					<div class="star_box">
-						<div class="col-md-6">错误学生：0/0</div>
+						<div class="col-md-6"><img src="../static/images/up_ico.png"/><img src="../static/images/down_ico.png"/></div>
 						<div class="col-md-6">
 							<div class="star">
 								<span style="float:left;">难度</span>
@@ -154,16 +89,21 @@
 						</div>
 						<div class="clearfix"></div>
 					</div>
-				</li>
+				</li> -->
 			</ul>
 		</div>
+		<div class="clearfix"></div>
 	</div>
-
+	<div class="save_box">
+		<input type="button" value="保存" class="btn btn-primary btn-lg topic save" disabled="disabled"/>
+	</div>
 	</div>
 	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-	<script src="js/echars.js"></script>
+	<script src="../static/js/echars.js"></script>
+	<script src="../static/js/loading.js"></script>
 	<script>
-	var url="http://127.0.0.1:8080/SunvoteEducation/"
+	var url="http://127.0.0.1:8080/SunvoteEducation";
+	var question_box=[];
 	function slide(obj){                      //查看解析
 		obj.closest(".star_box").siblings(".resolve").slideToggle(function(){
 			if($(".resolve").css("display") == "none")
@@ -172,92 +112,19 @@
 				obj.text("收起解析");
 		});
 	}
-		$(".left_menu li").click(function(){
-			if($(this).index()==0){
-				$(this).siblings().removeClass("active");
-				$(this).addClass("active");
-				$(".analysis").css("display","none");
-				$(".report").css("display","block");
-			}else if($(this).index()==1){
-				$(this).siblings().removeClass("active");
-				$(this).addClass("active");
-				$(".report").css("display","none");
-				$(".analysis").css("display","block");
-			}
-		})
-		
-	function bar(index){
-		var myChart = echarts.init(document.getElementById('main'+index));
-		myChart.setOption({
-			color: ['#3398DB'],
-			tooltip : {
-				trigger: 'axis',
-				axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-					type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
-				}
-			},
-			grid: {
-				top: 15,
-				left: '0%',
-				right: '0%',
-				bottom: '0%',
-				containLabel: true
-			},
-			xAxis : [
-				{
-					type : 'category',
-					data : ['A', 'B', 'C', 'D'],
-					axisTick: {
-						alignWithLabel: true
-					},
-					axisLabel: {
-						show:true,
-						textStyle:{
-							 color: function (value){
-								console.log(value);
-								return value == "C" ? '#75b3ff' : '#fcb35b';
-							}
-						}
-					}
-				}
-
-
-			],
-			yAxis : [
-				{
-					type : 'value'
-				}
-			],
-			series : [
-				{
-					name:'直接访问',
-					type:'bar',
-					barWidth: '60%',
-					data:[10, 0, 20, 5],
-					itemStyle: {
-						//通常情况下：
-						normal:{
-							//每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
-							color: function (params){
-								var colorList = ['#fcb35b','#fcb35b','#75b3ff','#fcb35b'];
-								return colorList[params.dataIndex];
-							},
-							label : {show: true,position:'top',distance:-4}
-						}
-					}
-				}
-			]
-		});							
-	}
-		
+			
 function getQueryString(name) {
 	  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 	  var r = window.location.search.substr(1).match(reg);
 	  if (r != null) return unescape(r[2]); return null;
   	}
 	var PAPER_ID=getQueryString("PAPER_ID");
+	var classId=getQueryString("classId");
+	var userid=getQueryString("userid");
+	
 	var _html="";
 	$(document).ready(function(){
+		window.top.loading.remove();
 		$.ajax({
 			url:url+"/api/v1/paperinfo",
 			async:false,
@@ -269,24 +136,29 @@ function getQueryString(name) {
 				$("#time").html(data.data.exam_time);
 				if(data.data.questions.length>0){				
 					for(var i=0;i<data.data.questions.length;i++){
-						_html += '<li><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【答案】 '+data.data.questions[i].answer+'</p><p><span>【解析】</span>'+data.data.questions[i].analysis+'</p></div><div class="clearfix"></div><div class="tab_report_box"><div class="col-md-3"><p>答错人数</p><div class="round_w_orange"><div class="round_n_orange"><span>0/0</span></div></div></div><div class="col-md-3"><p>错误率</p><div class="round_w_red"><div class="round_n_red"><span>100%</span></div></div></div><div class="col-md-6"><div id="main'+i+'" style="width:250px;height:140px;"></div></div><div class="clearfix"></div></div></div><div class="star_box"><div class="col-md-6">错误学生：0/0</div><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a></div></div><div class="clearfix"></div></div></li>';
+						_html += '<li class="question_li" data-id="'+data.data.questions[i].question_id+'"><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【答案】 '+data.data.questions[i].answer+'</p><p><span>【解析】</span>'+data.data.questions[i].analysis+'</p></div><div class="clearfix"></div></div><div class="star_box"><div class="col-md-6 move"><img src="../static/images/up_ico.png" class="up"/><img src="../static/images/down_ico.png" class="down"/></div><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a></div></div><div class="clearfix"></div></div></li>';
 					}
 					console.log(_html);
 					$(".analysis ul").html(_html);
 					for(var j=0;j<data.data.questions.length;j++){
 						var option_html="";
-						$(".analysis li .stem").eq(j).append('<span>'+(j+1)+'、</span>'+data.data.questions[j].content);
+						var sum=0;
+						var right_num=0;
+						var data1=[];
+						var data2=[];
+						var answer="";
+						var color=[];
+						$(".analysis li .stem").eq(j).append('<span class="li_index">'+(j+1)+'</span>、'+data.data.questions[j].content);
 						var arry_option=data.data.questions[j].option_content;
 						arry_option=arry_option.replace("[","");
 						arry_option=arry_option.replace("]","");
 						arry_option=arry_option.split(",");
+
 						for(var x=0;x<arry_option.length;x++){
 							option_html += '<li><span>'+String.fromCharCode(64 + parseInt(x+1))+'.</span>'+arry_option[x]+'</li>';
 						}
-						$(".option").eq(j).find("ul").html(option_html);
-						
+						$(".option").eq(j).html(option_html);
 						star(j,parseInt(data.data.questions[j].difficulty));
-						bar(j);
 					}
 				}
 			}
@@ -304,9 +176,87 @@ function getQueryString(name) {
 			
 			$(".star").eq(index).find("ul").html(li_html);
 		}
+	$(document).on('click', '.move img', function(event) {
+		  event.preventDefault();
+		  $(".save").removeAttr('disabled');
+		  var parent=$(this).closest("li");
+		  var this_index=parent.children(".stem").find(".li_index").html();
+		  var up_index=parent.prev().children(".stem").find(".li_index").html()
+		  console.log(this_index);
+		  console.log(up_index);
+		  var parents=$(this).closest(".analysis").children("ul");
+		  var len=parents.children().length;
+		  if(($(this).is(".up") || $(this).is(".top")) && parent.index()==0){
+		   alert("已经置顶！");
+		   return false;
+		  }else if(($(this).is(".down") || $(this).is(".bottom")) && parent.index()==len-1){
+		   alert("已经置底！");
+		   return false;
+		  }
+		  switch (true) {
+		   case $(this).is(".up"):
+			var prev = parent.prev();
+			var this_index=parent.children(".stem").find(".li_index").html();
+			var up_index=prev.children(".stem").find(".li_index").html();
+			prev.children(".stem").find(".li_index").html(this_index);
+			parent.children(".stem").find(".li_index").html(up_index);
+			parent.insertBefore(prev);
+			break;
+		   case $(this).is(".down"):
+			var next = parent.next();
+			var this_index=parent.children(".stem").find(".li_index").html();
+			var up_index=next.children(".stem").find(".li_index").html();
+			next.children(".stem").find(".li_index").html(this_index);
+			parent.children(".stem").find(".li_index").html(up_index);
+			parent.insertAfter(next);
+			break;
+		   case $(this).is(".top"):
+			parents.prepend(parent);
+			break;
+		   case $(this).is(".bottom"):
+			parents.append(parent);
+			break;
+		  }
+		 // alert("操作完成！！");
+	});
+	 $(".save").click(function(){
+		 	var question_arry=[];
+			for(var i=0;i<$(".question_li").length;i++){
+				question_arry[i]={
+						score: "0",
+						part_score: "0",
+						question_id: $(".question_li").eq(i).attr("data-id"),
+						rank: i.toString(),
+						no_name: i.toString()
+					};
+				
+			}
+			var data={
+				title: $("#paper_title").html(),
+				exam_time: $("#time").html(),
+				paper_type: "101",
+				subject_id: "20",
+				grade_id: "",
+				class_id: classId,
+				user_id: userid,
+				score: "100",
+				questions: question_arry
+			};
+			//console.log(data);
+			$.ajax({
+			url:url+"/api/v1/publishpaper",
+			async:false,
+			type:"post",
+			dataType: "json",
+			headers: {'Content-Type': 'application/json'},
+			data:JSON.stringify(data),
+			success:function(data){
+				alert("上传成功");
+				window.history.go(-1);
+			}
+		})	
+	 })
 	</script>
-	
-<!-- 	<li><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【答案】 A</p><p>【解析】</p></div><div class="clearfix"></div><div class="tab_report_box"><div class="col-md-3"><p>答错人数</p><div class="round_w_orange"><div class="round_n_orange"><span>0/0</span></div></div></div><div class="col-md-3"><p>错误率</p><div class="round_w_red"><div class="round_n_red"><span>100%</span></div></div></div><div class="col-md-6"><div id="main" style="width:250px;height:140px;"></div></div><div class="clearfix"></div></div></div><div class="star_box"><div class="col-md-6">错误学生：0/0</div><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a></div></div><div class="clearfix"></div></div></li> -->
 	
 </html>
 

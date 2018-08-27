@@ -1,11 +1,13 @@
 package com.fh.controller.api;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fh.bean.Paper;
 import com.fh.bean.Point;
@@ -24,7 +28,6 @@ import com.fh.bean.TestPaper;
 import com.fh.bean.TestPaperInfo;
 import com.fh.controller.base.BaseController;
 import com.fh.controller.sunvote.Myelfun;
-import com.fh.entity.Page;
 import com.fh.service.api.V1Manager;
 import com.fh.service.feedback.feedback.FeedbackManager;
 import com.fh.service.feedback.problemphenomenon.ProblemPhenomenonManager;
@@ -431,7 +434,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/subjectname", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object subjectName() throws Exception {
-		event("subject");
+		event("subjectName");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson();
@@ -487,30 +490,18 @@ public class V1 extends BaseController {
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
 		if (pd.containsKey("PAPER_TYPE") && pd.containsKey("USER_ID")) {
-			Page page = new Page();
-			page.getPd().put("PAPER_TYPE", pd.get("PAPER_TYPE"));
-			page.getPd().put("USER_ID", pd.get("USER_ID"));
-			page.getPd().put("SUBJECT_ID", pd.get("SUBJECT_ID"));
-			if (pd.containsKey("CURRENTPAGE")) {
-				String curpage = pd.getString("CURRENTPAGE");
-				try {
-					page.setCurrentPage(Integer.parseInt(curpage));
-				} catch (Exception ex) {
-				}
+			String CURRENTPAGE = pd.getString("CURRENTPAGE");
+			String SHOWCOUNT = pd.getString("SHOWCOUNT");
+			if(CURRENTPAGE != null && SHOWCOUNT != null && !"".equals(CURRENTPAGE.trim()) && !"".equals(SHOWCOUNT.trim())){
+				int currentPage = Integer.parseInt(CURRENTPAGE);
+				int showcount = Integer.parseInt(SHOWCOUNT);
+				currentPage = (currentPage > 0 ? currentPage -1 : 0) * showcount;
+				pd.put("CURRENTPAGE", currentPage);
 			}
-			if (pd.containsKey("SHOWCOUNT")) {
-				String showCount = pd.getString("SHOWCOUNT");
-				try {
-					page.setShowCount(Integer.parseInt(showCount));
-				} catch (Exception ex) {
-				}
-			} else {
-				page.setShowCount(100);
-			}
-			List<PageData> pageList = paperService.listAllByType(page);
+			List<PageData> pageList = paperService.listAllByType(pd);
 			res.setData(pageList);
 		} else {
-			res.setParmError();
+			res.setDataError();
 		}
 		logger.info("paper cost time : " + (System.currentTimeMillis() - cur));
 		return res.toJson();
@@ -527,6 +518,119 @@ public class V1 extends BaseController {
 		event("paperInfo");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
+		ResponseGson<Paper> res = new ResponseGson<Paper>();
+		if (pd.containsKey("PAPER_ID")) {
+			try {
+				try {
+					Paper paper = new Paper();
+					PageData ppd = paperService.findById(pd);
+					if (ppd != null) {
+						paper.setTitle(ppd.getString("TITLE"));
+						paper.setExam_time(ppd.getString("EXAM_TIME"));
+						paper.setUser_id(ppd.getString("USER_ID"));
+						paper.setPaper_type(ppd.getString("PAPER_TYPE"));
+						paper.setSubject_id(ppd.getString("SUBJECT_ID"));
+						paper.setGrade_id(ppd.getString("GRADE_ID"));
+						paper.setScore(ppd.getString("SCORE"));
+						paper.setQuestions(new ArrayList<Question>());
+
+						List<PageData> questList = v1Service
+								.getTestPaperInfo(pd);
+						for (PageData qpd : questList) {
+							Question question = new Question();
+							question.setAnswer(qpd.getString("ANSWER"));
+							question.setQuestion_id(qpd
+									.getString("QUESTION_ID"));
+							question.setSubject_id(qpd.getString("SUBJECT_ID"));
+							question.setChapter_id(qpd.getString("CHAPTER_ID"));
+							question.setProblem_type_id(qpd
+									.getString("PROBLEM_TYPE_ID"));
+							question.setKnowledge_id(qpd
+									.getString("KNOWLEDGE_ID"));
+							question.setContent(qpd.getString("CONTENT"));
+							question.setOption_num(qpd.getString("OPTION_NUM"));
+							question.setOption_content(qpd
+									.getString("OPTION_CONTENT"));
+							question.setDifficulty(qpd.getString("DIFFICULTY"));
+							question.setAnalysis(qpd.getString("ANALYSIS"));
+							question.setQuestion_from(qpd
+									.getString("QUESTION_FROM"));
+							question.setScore(qpd.getString("SCORE"));
+							question.setPart_score(qpd.getString("PART_SCORE"));
+							question.setQuestionType(qpd
+									.getString("PROBLEM_TYPE_ID"));
+							question.setRank(qpd.getString("RANK"));
+							question.setNo_name(qpd.getString("NO_NAME"));
+							if ("-1".equals("" + qpd.getString("P_ID"))) {
+								PageData pidPd = new PageData();
+								pidPd.put("PID", question.getQuestion_id());
+								question.setQuestions(new ArrayList<Question>());
+								List<PageData> qs = v1Service
+										.getQuestionsByPID(pidPd);
+								for (PageData q : qs) {
+									Question qq = new Question();
+									qq.setAnswer(q.getString("ANSWER"));
+									qq.setQuestion_id(q
+											.getString("QUESTION_ID"));
+									qq.setSubject_id(q.getString("SUBJECT_ID"));
+									qq.setChapter_id(q.getString("CHAPTER_ID"));
+									qq.setProblem_type_id(q
+											.getString("PROBLEM_TYPE_ID"));
+									qq.setKnowledge_id(q
+											.getString("KNOWLEDGE_ID"));
+									qq.setContent(q.getString("CONTENT"));
+									qq.setOption_num(q.getString("OPTION_NUM"));
+									qq.setOption_content(q
+											.getString("OPTION_CONTENT"));
+									qq.setDifficulty(q.getString("DIFFICULTY"));
+									qq.setAnalysis(q.getString("ANALYSIS"));
+									qq.setQuestion_from(q
+											.getString("QUESTION_FROM"));
+									qq.setScore(q.getString("SCORE"));
+									qq.setPart_score(q.getString("PART_SCORE"));
+									qq.setQuestionType(qpd
+											.getString("PROBLEM_TYPE_ID"));
+									qq.setRank(q.getString("RANK"));
+									qq.setNo_name(q.getString("NO_NAME"));
+									question.getQuestions().add(qq);
+								}
+							}
+							if ("-1".equals(qpd.getString("P_ID"))
+									|| "0".equals(qpd.getString("P_ID"))) {
+								paper.getQuestions().add(question);
+							}
+						}
+						// pd.put("JSON", paper.toJson());
+						res.setData(paper);
+						logger.info(paper.toJson());
+
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				res.setError();
+			}
+		} else {
+			res.setOtherError();
+		}
+		logger.info("paperInfo cost time : "
+				+ (System.currentTimeMillis() - cur));
+		return res.toJson();
+	}
+	
+/*	*//**
+	 * 试卷详细信息
+	 * @return
+	 * @throws Exception
+	 *//*
+	@RequestMapping(value = "/paperinfo", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object paperInfo() throws Exception {
+		event("paperInfo");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson<PageData>();
 		if (pd.containsKey("PAPER_ID")) {
 			try {
@@ -537,7 +641,7 @@ public class V1 extends BaseController {
 								.getTestPaperInfo(pd);
 						ppd.put("QUESTIONS", questList);
 						for (PageData qpd : questList) {
-
+							
 							String optionContent = qpd
 									.getString("OPTION_CONTENT");
 							if (optionContent != null
@@ -565,7 +669,7 @@ public class V1 extends BaseController {
 												.substring(
 														1,
 														optionContent1.length() - 1)
-												.split(",");
+														.split(",");
 										pcd.put("OPTION_CONTENT", options);
 									} else {
 										pcd.put("OPTION_CONTENT",
@@ -588,7 +692,7 @@ public class V1 extends BaseController {
 								qpd.put(key.toLowerCase(), qpd.get(key));
 								qpd.remove(key.toUpperCase());
 							}
-
+							
 						}
 						String[] keys = new String[ppd.keySet().size()];
 						ppd.keySet().toArray(keys);
@@ -599,7 +703,88 @@ public class V1 extends BaseController {
 						// pd.put("JSON", paper.toJson());
 						res.setData(ppd);
 						logger.info(res.toJson());
-
+						
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				res.setError();
+			}
+		} else {
+			res.setOtherError();
+		}
+		logger.info("paperInfo cost time : "
+				+ (System.currentTimeMillis() - cur));
+		return res.toJson();
+	}
+	
+*/	/**
+	 * 试卷详细信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/paperinfo2", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object paperInfo2() throws Exception {
+		event("paperInfo2");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<PageData> res = new ResponseGson<PageData>();
+		if (pd.containsKey("PAPER_ID")) {
+			try {
+				try {
+					PageData ppd = paperService.findById(pd);
+					if (ppd != null) {
+						List<PageData> questList = v1Service
+								.getTestPaperInfo(pd);
+						ppd.put("QUESTIONS", questList);
+						for (PageData qpd : questList) {
+							
+							String optionContent = qpd
+									.getString("OPTION_CONTENT");
+							if (optionContent != null
+									&& optionContent.startsWith("[")
+									&& optionContent.endsWith("]")) {
+								String[] options = optionContent.substring(1,
+										optionContent.length() - 1).split(",");
+								qpd.put("OPTION_CONTENT", options);
+							} else {
+								qpd.put("OPTION_CONTENT",
+										new String[] { optionContent });
+							}
+							if ("-1".equals("" + qpd.getString("P_ID"))) {
+								PageData pidPd = new PageData();
+								pidPd.put("PID", qpd.getString("QUESTION_ID"));
+								List<PageData> qs = v1Service
+										.getQuestionsByPID(pidPd);
+								for (PageData pcd : qs) {
+									String optionContent1 = pcd
+											.getString("OPTION_CONTENT");
+									if (optionContent1 != null
+											&& optionContent1.startsWith("[")
+											&& optionContent1.endsWith("]")) {
+										String[] options = optionContent1
+												.substring(
+														1,
+														optionContent1.length() - 1)
+														.split(",");
+										pcd.put("OPTION_CONTENT", options);
+									} else {
+										pcd.put("OPTION_CONTENT",
+												new String[] { optionContent1 });
+									}
+								}
+								qpd.put("QUESTIONS", qs);
+							}
+							
+						
+							
+						}
+						res.setData(ppd);
+						logger.info(res.toJson());
+						
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -638,15 +823,6 @@ public class V1 extends BaseController {
 					testInfof.put("PAPER_ID", testPd.getString("PAPER_ID"));
 					testInfof.put("TEST_ID", paperId);
 					List<PageData> list = testpaperinfoService.listTestPaperQuestionIDs(testInfof);
-					for(PageData pad:list){
-						String optionContent = pad.getString("OPTION_CONTENT");
-						if(optionContent != null && optionContent.startsWith("[") && optionContent.endsWith("]")){
-							String[] options = optionContent.substring(1, optionContent.length() -1).split(",");
-							pad.put("OPTION_CONTENT", options);
-						}else{
-							pad.put("OPTION_CONTENT", new String[]{optionContent});
-						}
-					}
 					for(PageData pqd : list){
 						PageData tpqd = questionService.findById(pqd);
 						pqd.putAll(tpqd);
@@ -665,6 +841,7 @@ public class V1 extends BaseController {
 						pqd.put("TEST_ID", paperId);
 						List<PageData> listinfo = testpaperinfoService.listTestPaperQuestionIDinfo(pqd);
 						List<PageData> answerInfos = new ArrayList<PageData>();
+						List<String> answerList = new ArrayList<String>();
 						for(PageData pid : listinfo){
 							String answer = pid.getString("ANSWER");
 							PageData answerPd = null;
@@ -675,12 +852,14 @@ public class V1 extends BaseController {
 									answerPd.put("ANSWER", answer);
 									answerPd.put("ISRIGHT", pid.getString("RIGHT"));
 									answerInfos.add(answerPd);
+									answerList.add(answer);
 								}
 							}else{
 								answerPd = new PageData();
 								answerPd.put("ANSWER", answer);
 								answerPd.put("ISRIGHT", pid.getString("RIGHT"));
 								answerInfos.add(answerPd);
+								answerList.add(answer);
 							}
 							String strCount = answerPd.getString("COUNT");
 							int count = 0 ;
@@ -692,8 +871,36 @@ public class V1 extends BaseController {
 							count ++ ;
 							answerPd.put("COUNT", count);
 						}
+						String questionNumStr = pqd.getString("OPTION_NUM");
+						int questionNum = Integer.parseInt(questionNumStr);
+						for(int i = 0 ; i < questionNum ;i++){
+							if((!answerList.contains("" + (char)('A' + i))) && !(answerList.contains("" + (char)('a' + i)))){
+								PageData answerPd = new PageData();
+								answerPd.put("ANSWER", "" + (char)('A' + i));
+								answerPd.put("ISRIGHT", pqd.get("ANSWER").equals(('A' + i)) ? "1" : "0");
+								answerPd.put("COUNT", 0);
+								answerInfos.add(answerPd);
+							}
+						}
+						Collections.sort(answerInfos, new Comparator<PageData>(){
+
+							@Override
+							public int compare(PageData p1, PageData p2) {
+								return p1.getString("ANSWER").compareToIgnoreCase(p2.getString("ANSWER"));
+							}
+							
+						});
 						pqd.put("ANSWERINFO", answerInfos);
 						pqd.remove("TEST_ID");
+					}
+					for(PageData pad:list){
+						String optionContent = pad.getString("OPTION_CONTENT");
+						if(optionContent != null && optionContent.startsWith("[") && optionContent.endsWith("]")){
+							String[] options = optionContent.substring(1, optionContent.length() -1).split(",");
+							pad.put("OPTION_CONTENT", options);
+						}else{
+							pad.put("OPTION_CONTENT", new String[]{optionContent});
+						}
 					}
 					testPd.put("QUESTIONS", list);
 				
@@ -718,7 +925,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/questionintestreportinfo", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object questionInTestReportInfo() throws Exception {
-		event("testpaperinfo");
+		event("questionInTestReportInfo");
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
@@ -727,66 +934,72 @@ public class V1 extends BaseController {
 			PageData pqd = new PageData();
 			pqd.put("QUESTION_ID", questionId);
 			PageData tpqd = questionService.findById(pqd);
-			pqd.putAll(tpqd);
-			pqd.remove("P_ID");
-			pqd.remove("SUBJECT_ID");
-			pqd.remove("PROBLEM_TYPE_ID");
-			pqd.remove("CHAPTER_ID");
-			pqd.remove("TEACHER_ID");
-			pqd.remove("SCHOOL_ID");
-			pqd.remove("SUG_SCORE");
-			pqd.remove("SUG_PART_SCORE");
-			pqd.remove("USER_ID");
-			pqd.remove("CREATE_DATE");
-			pqd.remove("QUESTION_FROM");
-			pqd.remove("REMARK");
-			String optionContent = pqd.getString("OPTION_CONTENT");
-			if(optionContent != null && optionContent.startsWith("[") && optionContent.endsWith("]")){
-				String[] options = optionContent.substring(1, optionContent.length() -1).split(",");
-				pqd.put("OPTION_CONTENT", options);
-			}else{
-				pqd.put("OPTION_CONTENT", new String[]{optionContent});
-			}
-			if(pd.getString("TEST_ID") != null){
-				pqd.put("TEST_ID", pd.getString("TEST_ID"));
-			}
-			List<PageData> listinfo = testpaperinfoService
-					.listTestPaperQuestionIDinfo(pqd);
-			List<PageData> answerInfos = new ArrayList<PageData>();
-			for (PageData pid : listinfo) {
-				String answer = pid.getString("ANSWER");
-				PageData answerPd = null;
-				if (answerInfos.size() > 0) {
-					answerPd = answerInfos.get(answerInfos.size() - 1);
-					if (!answer.equals(answerPd.getString("ANSWER"))) {
+			if (tpqd != null) {
+				pqd.putAll(tpqd);
+				pqd.remove("P_ID");
+				pqd.remove("SUBJECT_ID");
+				pqd.remove("PROBLEM_TYPE_ID");
+				pqd.remove("CHAPTER_ID");
+				pqd.remove("TEACHER_ID");
+				pqd.remove("SCHOOL_ID");
+				pqd.remove("SUG_SCORE");
+				pqd.remove("SUG_PART_SCORE");
+				pqd.remove("USER_ID");
+				pqd.remove("CREATE_DATE");
+				pqd.remove("QUESTION_FROM");
+				pqd.remove("REMARK");
+				String optionContent = pqd.getString("OPTION_CONTENT");
+				if (optionContent != null && optionContent.startsWith("[")
+						&& optionContent.endsWith("]")) {
+					String[] options = optionContent.substring(1,
+							optionContent.length() - 1).split(",");
+					pqd.put("OPTION_CONTENT", options);
+				} else {
+					pqd.put("OPTION_CONTENT", new String[] { optionContent });
+				}
+				if (pd.getString("TEST_ID") != null) {
+					pqd.put("TEST_ID", pd.getString("TEST_ID"));
+				}
+				List<PageData> listinfo = testpaperinfoService
+						.listTestPaperQuestionIDinfo(pqd);
+				List<PageData> answerInfos = new ArrayList<PageData>();
+				for (PageData pid : listinfo) {
+					String answer = pid.getString("ANSWER");
+					PageData answerPd = null;
+					if (answerInfos.size() > 0) {
+						answerPd = answerInfos.get(answerInfos.size() - 1);
+						if (!answer.equals(answerPd.getString("ANSWER"))) {
+							answerPd = new PageData();
+							answerPd.put("ANSWER", answer);
+							answerPd.put("ISRIGHT", pid.getString("RIGHT"));
+							answerInfos.add(answerPd);
+						}
+					} else {
 						answerPd = new PageData();
 						answerPd.put("ANSWER", answer);
 						answerPd.put("ISRIGHT", pid.getString("RIGHT"));
 						answerInfos.add(answerPd);
 					}
-				} else {
-					answerPd = new PageData();
-					answerPd.put("ANSWER", answer);
-					answerPd.put("ISRIGHT", pid.getString("RIGHT"));
-					answerInfos.add(answerPd);
-				}
-				String strCount = answerPd.getString("COUNT");
-				int count = 0;
-				if (strCount != null) {
-					try {
-						count = Integer.parseInt(strCount);
-					} catch (NumberFormatException ex) {
+					String strCount = answerPd.getString("COUNT");
+					int count = 0;
+					if (strCount != null) {
+						try {
+							count = Integer.parseInt(strCount);
+						} catch (NumberFormatException ex) {
+						}
 					}
+					count++;
+					answerPd.put("COUNT", count);
 				}
-				count++;
-				answerPd.put("COUNT", count);
+				pqd.put("ANSWERINFO", answerInfos);
+				res.setData(pqd);
+			}else{
+				res.setDataError();
 			}
-			pqd.put("ANSWERINFO", answerInfos);
-			res.setData(pqd);
 		}else{
 			res.setDataError();
 		}
-		logger.info("testpaperinfo cost time:"
+		logger.info("questionInTestReportInfo cost time:"
 				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
@@ -857,7 +1070,7 @@ public class V1 extends BaseController {
 		} else {
 			res.setOtherError();
 		}
-		logger.info("paperInfo cost time : "
+		logger.info("paperBriefInfo cost time : "
 				+ (System.currentTimeMillis() - cur));
 		return res.toBrifJson();
 	}
@@ -927,6 +1140,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/knowledgename", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object knowledgename() throws Exception {
+		event("knowledgename");
 		ResponseGson<List<PageData>> res = new ResponseGson();
 		List<PageData> list = new ArrayList<PageData>();
 		PageData pd = getPageData();
@@ -957,6 +1171,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/chaptername", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object chaptername() throws Exception {
+		event("chaptername");
 		ResponseGson<List<PageData>> res = new ResponseGson();
 		List<PageData> list = new ArrayList<PageData>();
 		PageData pd = getPageData();
@@ -1161,6 +1376,7 @@ public class V1 extends BaseController {
 			paperPd.put("SUBJECT_ID", paper.getSubject_id());
 			paperPd.put("GRADE_ID", paper.getGrade_id());
 			paperPd.put("EXAM_TIME", paper.getExam_time());
+			paperPd.put("CLASS_ID", paper.getClass_id());
 			paperPd.put("SCORE", paper.getScore());
 			paperPd.put("PAPER_STATE", "0");
 			paperPd.put("REMARK", "");
@@ -1168,8 +1384,8 @@ public class V1 extends BaseController {
 			paperPd.put("SCHOOL_ID", schoolID);
 			paperPd.put("CREATE_DATE", Tools.date2Str(new Date()));
 			paperPd.put("MODIFY_DATE", Tools.date2Str(new Date()));
-			int questionNum = 0;
 			List<Question> questions = paper.getQuestions();
+			int questionNum = questions.size();
 			if (questions != null) {
 				for (Question question : questions) {
 					PageData pqPd = new PageData();
@@ -1191,7 +1407,7 @@ public class V1 extends BaseController {
 		} else {
 			res.setDataError();
 		}
-		logger.info("uploadpaper cost time : "
+		logger.info("publishpaper cost time : "
 				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
@@ -1255,6 +1471,7 @@ public class V1 extends BaseController {
 						testPaper.getCreateDate() == null ? Tools
 								.date2Str(new Date()) : testPaper
 								.getCreateDate());
+				testPd.put("TEST_TYPE", testPaper.getTest_type() != null ? testPaper.getTest_type() :"101");
 				List<PageData> listData = testpaperService.listAll(testPd);
 				if (!(listData != null && listData.size() > 0)) {
 					testPd.put("START_DATE", testPaper.getStartDate());
@@ -1341,7 +1558,7 @@ public class V1 extends BaseController {
 		} else {
 			res.setDataError();
 		}
-		logger.info("uploadtestpaper cost time:"
+		logger.info("uploadTestpaper cost time:"
 				+ (System.currentTimeMillis() - cur));
 
 		return res.toJson();
@@ -1373,6 +1590,7 @@ public class V1 extends BaseController {
 						testPaper.getCreateDate() == null ? Tools
 								.date2Str(new Date()) : testPaper
 								.getCreateDate());
+				testPd.put("TEST_TYPE", testPaper.getTest_type() != null ? testPaper.getTest_type() :"101");
 				List<PageData> listData = testpaperService.listAll(testPd);
 				if ((listData != null && listData.size() > 0)) {
 					testPaperId = listData.get(0).getString("TESTPAPER_ID");
@@ -1457,11 +1675,130 @@ public class V1 extends BaseController {
 		} else {
 			res.setDataError();
 		}
-		logger.info("uploadtestpaper cost time:"
+		logger.info("uploadupdatetestpaper cost time:"
 				+ (System.currentTimeMillis() - cur));
 
 		return res.toJson();
 
+	}
+	
+	/**
+	 *  上传测验成绩
+	 * @return
+	 */
+	@RequestMapping(value = "/uploadupdatetestpaper2", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public Object uploadupdateTestpaper2() {
+		event("uploadupdateTestpaper2");
+		long cur = System.currentTimeMillis();
+		PageData pd = this.getPageData();
+		ResponseGson<String> res = new ResponseGson();
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			logger.info(pd.getJsonString());
+			TestPaper testPaper = TestPaper.parse(pd.getJsonString());
+			try {
+				PageData testPd = new PageData();
+				String testPaperId = this.get32UUID();
+				testPd.put("TEACHER_ID", testPaper.getTeacherId());
+				testPd.put("PAPER_ID", testPaper.getPaperId());
+				testPd.put("SCLASS_ID", testPaper.getClassId());
+				testPd.put(
+						"CREATE_DATE",
+						testPaper.getCreateDate() == null ? Tools
+								.date2Str(new Date()) : testPaper
+								.getCreateDate());
+				List<PageData> listData = testpaperService.listAll(testPd);
+				if ((listData != null && listData.size() > 0)) {
+					testPaperId = listData.get(0).getString("TESTPAPER_ID");
+					testpaperService.deleteList(testPd);
+					testPd.put("TEST_ID", testPaperId);
+					testpaperinfoService.delete(testPd);
+					studenttestService.delete(testPd);
+				}
+				testPd.put("TEST_TYPE", testPaper.getTest_type() != null ? testPaper.getTest_type() :"101");
+				testPd.put("START_DATE", testPaper.getStartDate());
+				testPd.put("END_DATE", testPaper.getEndDate());
+				testPd.put("NAME", testPaper.getName());
+				testPd.put("TESTPAPER_ID", testPaperId);
+				testPd.put("OTHER_SCORE", testPaper.getOtherScore());
+				testPd.put("HIGHT_SCORE", testPaper.getHighScore());
+				testPd.put("LOW_SCORE", testPaper.getLowScore());
+				testPd.put("AVG_SCORE", testPaper.getAvgScore());
+				testPd.put("TOTAL_SCORE", testPaper.getTotalScore());
+				testPd.put("REMARK", testPaper.getRemark());
+				testpaperService.save(testPd);
+				if (testPaper.getStudents() != null) {
+					List<PageData> testInfoPdList = new ArrayList();
+					PageData testInfoPd = null;
+					for (StudentAnswer studentAnswer : testPaper.getStudents()) {
+						if (studentAnswer.getQuestions() != null) {
+							PageData studentPageData = new PageData();
+							studentPageData.put("STUDENT_ID",
+									studentAnswer.getStudentId());
+							studentPageData.put("TEST_ID", testPaperId);
+							studentPageData.put("PAPER_ID",
+									testPaper.getPaperId());
+							studentPageData.put("SCORE",
+									studentAnswer.getScore());
+							studentPageData.put("CLASS_ID",
+									testPaper.getClassId());
+							studentPageData.put("STUDENTTEST_ID", get32UUID());
+							studenttestService.save(studentPageData);
+							
+							for (TestPaperInfo testPaperInfo : studentAnswer
+									.getQuestions()) {
+								testInfoPd = new PageData();
+								testInfoPd.put("TESTPAPERINFO_ID",
+										this.get32UUID());
+								testInfoPd.put("PAPER_ID",
+										testPaperInfo.getPaperId());
+								testInfoPd.put("STUDENT_ID",
+										studentAnswer.getStudentId());
+								testInfoPd.put("TEST_ID", testPaperId);
+								testInfoPd.put("QUESTION_ID",
+										testPaperInfo.getQuestionId());
+								testInfoPd.put("ANSWER",
+										testPaperInfo.getAnswer());
+								testInfoPd.put("RIGHT",
+										testPaperInfo.getRight());
+								testInfoPd.put("SCORE",
+										testPaperInfo.getScore());
+								testInfoPd.put("LIKES",
+										testPaperInfo.getLikes());
+								testInfoPd.put("ANSWER_TYPE", testPaperInfo
+										.getAnswerType() == null ? "1"
+												: testPaperInfo.getAnswerType());
+								testInfoPd.put("PRESS_TIME",
+										testPaperInfo.getPressTime());
+								testInfoPd.put("RECEIVER_DATE",
+										testPaperInfo.getReceiverDate());
+								testInfoPd.put("SUBJECTIVE",
+										testPaperInfo.getSubjective());
+								testInfoPd.put("NOTE", testPaperInfo.getNote());
+								testInfoPd.put("MARK_NO",
+										testPaperInfo.getMarkNo());
+								testInfoPd.put("RANDOM", testPaperInfo.getRandom());
+								testInfoPd.put("RANK", testPaperInfo.getRank());
+								testInfoPdList.add(testInfoPd);
+							}
+						}
+					}
+					testpaperinfoService.batchSave(testInfoPdList);
+				}
+				res.setData(testPaperId);
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.setError();
+				res.setMessage(e.getMessage());
+			}
+		} else {
+			res.setDataError();
+		}
+		logger.info("uploadupdatetestpaper cost time:"
+				+ (System.currentTimeMillis() - cur));
+		
+		return res.toJson();
+		
 	}
 
 	/**
@@ -1472,6 +1809,7 @@ public class V1 extends BaseController {
 	@RequestMapping(value = "/point", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Object point() throws Exception {
+		event("point");
 		ResponseGson<List<PageData>> res = new ResponseGson();
 
 		PageData pd = getPageData();
@@ -2412,4 +2750,55 @@ public class V1 extends BaseController {
 		return res.toJson();
 		
 	}
+	
+	/**
+	 * 根据ID班级名称
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/qstudentinfo", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public  String qstudentinfo() throws Exception {
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		PageData pageData = this.getPageData();
+		if (pageData.containsKey("TEST_ID")
+				&& pageData.containsKey("QUESTION_ID")) {
+			List<PageData> list = v1Service.getQuestionWrongInfo(pageData);
+			res.setData(list);
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+		
+	}
+	
+	@RequestMapping(value = "/uploadfile", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String uploadFile(@RequestParam(value="file",required=false)MultipartFile file, HttpServletRequest request) throws Exception{
+		ResponseGson<String> res = new ResponseGson<String>();
+		if (file != null) {
+			String path = request.getSession().getServletContext()
+					.getRealPath("/uploadFiles/uploadFile/");
+			String name = System.currentTimeMillis() + file.getOriginalFilename();
+			File pathFile = new File(path);
+			pathFile.mkdirs();
+			File saveFile = new File(path + File.separator + name);
+			if(saveFile.exists()){
+				saveFile.delete();
+			}
+			saveFile.createNewFile();
+			file.transferTo(saveFile);
+			path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName()
+					+ ":" + request.getServerPort() + path + "/";
+			res.setData("/uploadFiles/uploadFile/" + name);
+		}else{
+			res.setDataError();
+		}
+		return res.toJson();
+	}
+	
+	
+	
 }

@@ -70,6 +70,15 @@ public class PaperService implements PaperManager{
 		return (List<PageData>)dao.findForList("PaperMapper.listAllByTypelistPage", pd);//.*listPage.*
 	}
 	
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllByType(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("PaperMapper.listAllByType", pd);//.*listPage.*
+	}
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

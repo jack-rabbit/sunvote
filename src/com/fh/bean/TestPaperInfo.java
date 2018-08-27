@@ -44,6 +44,12 @@ public class TestPaperInfo {
 	// 排序
 	private String rank ;
 	
+	// 是否随机
+	private String random;
+	
+	// 试卷ID
+	private String paperId ;
+	
 
 	public String getTestPaperInfoId() {
 		return testPaperInfoId;
@@ -147,6 +153,24 @@ public class TestPaperInfo {
 
 	public void setRank(String rank) {
 		this.rank = rank;
+	}
+	
+	
+
+	public String getRandom() {
+		return random;
+	}
+
+	public void setRandom(String random) {
+		this.random = random;
+	}
+	
+	public String getPaperId() {
+		return paperId;
+	}
+	
+	public void setPaperId(String paperId) {
+		this.paperId = paperId;
 	}
 
 	public static TestPaperInfo parse(String json){

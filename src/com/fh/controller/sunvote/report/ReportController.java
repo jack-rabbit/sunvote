@@ -50,6 +50,7 @@ public class ReportController extends BaseController {
 		PageData pd = getPageData();
 		pd.put("SCLASS_ID", pd.get("CLASSID"));
 		pd.put("ID", pd.get("CLASSID"));
+		pd.put("TEST_TYPE", "1");
 		// 1 查询班级信息
 		PageData classPageData = sclassService.findById(pd);
 		PageData info = new PageData();

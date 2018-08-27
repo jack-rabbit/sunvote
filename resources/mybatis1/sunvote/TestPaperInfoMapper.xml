@@ -24,6 +24,7 @@
 		NOTE,	
 		MARK_NO,	
 		RANK,	
+		RANDOM,	
 		TESTPAPERINFO_ID
 	</sql>
 	
@@ -44,6 +45,7 @@
 		#{NOTE},	
 		#{MARK_NO},	
 		#{RANK},	
+		#{RANDOM},	
 		#{TESTPAPERINFO_ID}
 	</sql>
 	
@@ -83,6 +85,7 @@
 		#{item.NOTE},	
 		#{item.MARK_NO},	
 		#{item.RANK},	
+		#{item.RANDOM},	
 		#{item.TESTPAPERINFO_ID}
        )
      </foreach>
@@ -197,7 +200,7 @@
 	<!-- 测验，题目列表  -->
 	<select id="listTestPaperQuestionIDs" parameterType="pd" resultType="pd">
 		select
-		QUESTION_ID
+		QUESTION_ID,RANDOM,PAPER_ID
 		from 
 		<include refid="tableName"></include>
 			where 1 =1 
@@ -215,6 +218,7 @@
 		</if>
 		
 		group by QUESTION_ID
+		order by RANK
 	</select>
 	
 	

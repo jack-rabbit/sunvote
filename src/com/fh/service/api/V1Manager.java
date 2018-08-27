@@ -19,5 +19,7 @@ public interface V1Manager {
 	
 	public List<PageData> getTeacherInfo(PageData pd) throws Exception;
 	
+	public List<PageData> getQuestionWrongInfo(PageData pd) throws Exception ;
+	
 	
 }

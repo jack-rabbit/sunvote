@@ -36,6 +36,9 @@ public interface PaperManager{
 	 */
 	public List<PageData> list(Page page)throws Exception;
 	
+	
+	public List<PageData> listAllByType(PageData pd)throws Exception;
+	
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception

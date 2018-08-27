@@ -17,6 +17,8 @@ public class Paper {
 	private String grade_id = "";
 
 	private String user_id = "";
+	
+	private String class_id = "" ;
 
 	private List<Question> questions = new ArrayList<Question>();
 	
@@ -87,6 +89,16 @@ public class Paper {
 
 	public void setScore(String score) {
 		this.score = score;
+	}
+
+	
+	
+	public String getClass_id() {
+		return class_id;
+	}
+
+	public void setClass_id(String class_id) {
+		this.class_id = class_id;
 	}
 
 	public static Paper parse(String json){
