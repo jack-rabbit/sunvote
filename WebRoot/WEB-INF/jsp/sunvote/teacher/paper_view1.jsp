@@ -41,7 +41,7 @@
 
 		<div class="col-md-12 analysis">
 			<ul>
-				<li>
+				<!--<li>
 					<div class="stem">
 						<p>1.如图，检测4个足球，其中超过标准质量的克数记为正数，不足标准质量的克数记为负数．从轻重的角度看，最接近标准的是（　　）</p>
 					</div>
@@ -106,17 +106,46 @@
 						</div>
 						<div class="clearfix"></div>
 					</div>
-				</li>
+				</li>-->
 			</ul>
 		</div>
 	</div>
-
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">完成选题</h4>
+		  </div>
+		  <div class="modal-body">
+			<table class="table table-bordered">
+			  <thead>
+					<tr>
+						<th>序号</th>
+						<th>学生姓名</th>
+						<th>选项</th>
+						<th>答题时间</th>
+					</tr>
+				</thead>
+				<tbody class="student_list">
+					
+				</tbody>
+			</table>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			<button type="button" class="btn btn-primary" id="submit">确定</button>
+		  </div>
+		</div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	</div>
 	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="../static/js/echars.js"></script>
 	<script src="../static/js/loading.js"></script>
 	<script>
-	var url="http://127.0.0.1:8080/SunvoteEducation";
+	var url="";
 	function slide(obj){                      //查看详情
 		obj.closest(".star_box").siblings(".resolve").slideToggle(function(){
 			if($(".resolve").css("display") == "none")
@@ -171,7 +200,7 @@
 			],
 			series : [
 				{
-					name:'直接访问',
+					name:'选项人数',
 					type:'bar',
 					barWidth: '60%',
 					data:data1,
@@ -202,7 +231,7 @@ function getQueryString(name) {
 	$(document).ready(function(){
 		window.top.loading.remove();
 		$.ajax({
-			url:url+"/api/v1/testpaperinfo",
+			url:url+"/SunvoteEducation/api/v1/testpaperinfo",
 			async:false,
 			type:"post",
 			data:{ID:testpaperId},
@@ -212,7 +241,7 @@ function getQueryString(name) {
 				$("#time").html(data.data.CREATE_DATE);
 				if(data.data.QUESTIONS.length>0){				
 					for(var i=0;i<data.data.QUESTIONS.length;i++){
-						_html += '<li class="question_li"><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【答案】 '+data.data.QUESTIONS[i].ANSWER+'</p><p><span>【解析】</span>'+data.data.QUESTIONS[i].ANALYSIS+'</p></div><div class="clearfix"></div><div class="tab_report_box"><div class="col-md-3"><p>答错人数</p><div class="round_w_orange"><div class="round_n_orange"><span>0/0</span></div></div></div><div class="col-md-3"><p>错误率</p><div class="round_w_red"><div class="round_n_red"><span>100%</span></div></div></div><div class="col-md-6"><div id="main'+i+'" style="width:250px;height:140px;"></div></div><div class="clearfix"></div></div></div><div class="star_box"><div class="col-md-6">错误学生：0/0</div><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看详情</a></div></div><div class="clearfix"></div></div></li>';
+						_html += '<li class="question_li" data-id="'+data.data.QUESTIONS[i].QUESTION_ID+'"><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【答案】 '+data.data.QUESTIONS[i].ANSWER+'</p><p><span>【解析】</span>'+data.data.QUESTIONS[i].ANALYSIS+'</p></div><div class="clearfix"></div><div class="tab_report_box"><div class="col-md-3"><p>答错人数</p><div class="round_w_orange"><div class="round_n_orange"><span>0/0</span></div></div></div><div class="col-md-3"><p>错误率</p><div class="round_w_red"><div class="round_n_red"><span>100%</span></div></div></div><div class="col-md-6"><div id="main'+i+'" style="width:250px;height:140px;"></div></div><div class="clearfix"></div></div></div><div class="star_box"><div class="col-md-6">错误学生：<span class="erro_num">0/0</span></div><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看详情</a></div></div><div class="clearfix"></div></div></li>';
 					}
 					console.log(_html);
 					$(".analysis ul").html(_html);
@@ -243,6 +272,7 @@ function getQueryString(name) {
 							sum += parseInt(answerinfo[k].COUNT);
 						}
 						$(".round_n_orange span").eq(j).text((sum-right_num)+"/"+sum);
+						$(".erro_num").eq(j).text((sum-right_num)+"/"+sum);
 						$(".round_n_red span").eq(j).text(((sum-right_num)/sum).toFixed(2)*100+"%");
 						$(".option").eq(j).find("ul").html(option_html);
 						
@@ -268,9 +298,26 @@ function getQueryString(name) {
 			
 			$(".star").eq(index).find("ul").html(li_html);
 		}
+	$(document).on("click",".round_n_orange",function(){
+		var question_id = $(this).closest("li").attr("data-id");
+		var student_html="";
+		$.ajax({
+			url:url+"/SunvoteEducation/api/v1/qstudentinfo",
+			async:false,
+			type:"post",
+			data:{question_id:question_id,test_id:testpaperId},
+			success:function(data){
+				console.log(data);
+				for(var i=0;i<data.data.length;i++){
+					student_html+='<tr><td>'+(i+1)+'</td><td>'+data.data[i].NAME+'</td><td>'+data.data[i].ANSWER+'</td><td>'+data.data[i].PRESS_TIME+'秒</td></tr>';
+				}
+				$(".student_list").html(student_html);
+			}
+		});
+		$('#myModal').modal('show');
+	})	
 		
-		
-		console.log(${pd.A});
+
 	</script>
 	
 </html>

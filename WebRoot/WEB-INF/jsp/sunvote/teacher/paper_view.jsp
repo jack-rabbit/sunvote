@@ -102,7 +102,7 @@
 	<script src="../static/js/echars.js"></script>
 	<script src="../static/js/loading.js"></script>
 	<script>
-	var url="http://127.0.0.1:8080/SunvoteEducation";
+	var url="";
 	var question_box=[];
 	function slide(obj){                      //查看解析
 		obj.closest(".star_box").siblings(".resolve").slideToggle(function(){
@@ -123,24 +123,36 @@ function getQueryString(name) {
 	var userid=getQueryString("userid");
 	
 	var _html="";
+	var question_id_arry="";
 	$(document).ready(function(){
 		window.top.loading.remove();
+			var data=JSON.parse(sessionStorage.getItem("data")); 
+				console.log(data);
+				$("#paper_title").html(data.title);
+				$("#time").html(data.exam_time);
+				if(data.questions.length>0){
+					for(var i=0;i<data.questions.length;i++){
+						question_id_arry+=data.questions[i].question_id+',';
+					}
+					getQuestionInfo(question_id_arry);
+				}
+		
+	})
+	function getQuestionInfo(id){
 		$.ajax({
-			url:url+"/api/v1/paperinfo",
-			async:false,
+			url:url+"/SunvoteEducation/api/v1/question",
+			async:true,
 			type:"post",
-			data:{PAPER_ID:PAPER_ID},
+			data:{ID:id},
 			success:function(data){
 				console.log(data);
-				$("#paper_title").html(data.data.title);
-				$("#time").html(data.data.exam_time);
-				if(data.data.questions.length>0){				
-					for(var i=0;i<data.data.questions.length;i++){
-						_html += '<li class="question_li" data-id="'+data.data.questions[i].question_id+'"><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【答案】 '+data.data.questions[i].answer+'</p><p><span>【解析】</span>'+data.data.questions[i].analysis+'</p></div><div class="clearfix"></div></div><div class="star_box"><div class="col-md-6 move"><img src="../static/images/up_ico.png" class="up"/><img src="../static/images/down_ico.png" class="down"/></div><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a></div></div><div class="clearfix"></div></div></li>';
+				if(data.data.length>0){				
+					for(var i=0;i<data.data.length;i++){
+						_html += '<li class="question_li" data-id="'+data.data[i].QUESTION_ID+'"><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【答案】 '+data.data[i].ANSWER+'</p><p><span>【解析】</span>'+data.data[i].ANALYSIS+'</p></div><div class="clearfix"></div></div><div class="star_box"><div class="col-md-6 move"><img src="../static/images/up_ico.png" class="up"/><img src="../static/images/down_ico.png" class="down"/></div><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a></div></div><div class="clearfix"></div></div></li>';
 					}
 					console.log(_html);
 					$(".analysis ul").html(_html);
-					for(var j=0;j<data.data.questions.length;j++){
+					for(var j=0;j<data.data.length;j++){
 						var option_html="";
 						var sum=0;
 						var right_num=0;
@@ -148,22 +160,23 @@ function getQueryString(name) {
 						var data2=[];
 						var answer="";
 						var color=[];
-						$(".analysis li .stem").eq(j).append('<span class="li_index">'+(j+1)+'</span>、'+data.data.questions[j].content);
-						var arry_option=data.data.questions[j].option_content;
-						arry_option=arry_option.replace("[","");
-						arry_option=arry_option.replace("]","");
-						arry_option=arry_option.split(",");
+						$(".analysis li .stem").eq(j).append('<span class="li_index">'+(j+1)+'</span>、'+data.data[j].CONTENT);
+						var arry_option=data.data[j].OPTION_CONTENT;
+						//arry_option=arry_option.replace("[","");
+						//arry_option=arry_option.replace("]","");
+						//arry_option=arry_option.split(",");
 
 						for(var x=0;x<arry_option.length;x++){
 							option_html += '<li><span>'+String.fromCharCode(64 + parseInt(x+1))+'.</span>'+arry_option[x]+'</li>';
 						}
 						$(".option").eq(j).html(option_html);
-						star(j,parseInt(data.data.questions[j].difficulty));
+						star(j,parseInt(data.data[j].DIFFICULTY));
 					}
 				}
 			}
 		})
-	})
+		
+	}
 	function star(index,num){                //难度星级
 			$(".star").eq(index).append('<ul></ul>');
 			var li_html="";
@@ -244,7 +257,7 @@ function getQueryString(name) {
 			};
 			//console.log(data);
 			$.ajax({
-			url:url+"/api/v1/publishpaper",
+			url:url+"/SunvoteEducation/api/v1/publishpaper",
 			async:false,
 			type:"post",
 			dataType: "json",

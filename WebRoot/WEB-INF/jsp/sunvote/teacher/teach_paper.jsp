@@ -217,7 +217,7 @@
 		});
 		function setQUestion(){
 			if($(".classList .active").length>0){
-				location.href="set_question.do?subject_id="+subject_id+"&class_id="+class_id;
+				location.href="set_question.do?subject_id="+subject_id+"&class_id="+class_id+"&user_id="+user_id;
 			}else{
 				alert("请先选择班级");
 			}

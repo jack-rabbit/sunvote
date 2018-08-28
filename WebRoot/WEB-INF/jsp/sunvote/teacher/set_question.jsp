@@ -9,7 +9,7 @@
     <!-- Bootstrap -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../static/css/teach.css" rel="stylesheet">
-	<link href="../static/css/set_quetion.css?t=11" rel="stylesheet">
+	<link href="../static/css/set_quetion.css?t=12" rel="stylesheet">
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -140,6 +140,9 @@
 				</li> -->
 				
 			</ul>
+			<div class="view_more">
+				<p>点击查看更多<span>︾</span></p>
+			</div>
 		</div>
 	</div>
 	</div>
@@ -191,6 +194,8 @@
 	var TEXTBOOK_ID="";
 	var question_box=[];
 	var question_num=0;
+	var pageNum=0;
+	var end=0;
 	
 	
 	$(document).ready(function(){
@@ -208,6 +213,7 @@
 	
 	var subject_id=getQueryString("subject_id");
 	var class_id=getQueryString("class_id");
+	var user_id=getQueryString("user_id");
 	
 	//alert(subject_id+";"+class_id);
 	
@@ -256,7 +262,7 @@
 			url:url+"/SunvoteEducation/api/v1/point",
 			async:false,			
 			type:"post",
-			data:{depth:"",subject_id:20,p_id:id,knowledge_from:101},
+			data:{depth:"",subject_id:subject_id,p_id:id,knowledge_from:101},
 			success:function(data){
 				console.log(data);
 				obj.append('<ul></ul>');
@@ -295,19 +301,22 @@
 			url:url+"/SunvoteEducation/api/v1/questions",
 			async:true,
 			type:"post",
-			data:{chapter_id:chapter_id,teachingmaterial_id:"",knowledge_id:knowledge_id,question_from:101,user_id:"",problem_type:"",subject_id:"",count:"5"},
+			data:{chapter_id:chapter_id,teachingmaterial_id:"",knowledge_id:knowledge_id,question_from:101,user_id:"",problem_type:"",subject_id:subject_id,count:"5",pageNum:pageNum},
 			success:function(data){
 			window.top.loading.remove();
+			console.log(data);
 			if(data.data.length>0){
 				for(var i=0;i<data.data.length;i++){
 					_html += '<li data-id="'+data.data[i].QUESTION_ID+'"><div class="content"></div><div class="option"><ul></ul></div><div class="resolve"><div class="resolve_box"><p><span>【答案】</span> '+data.data[i].ANSWER+'</p><p><span>【解析】</span>'+data.data[i].ANALYSIS+'</p></div></div><div class="star_box"><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a><div class="check_box"></div></div></div><div class="clearfix"></div></div></li>';
 				}
-				$(".question_box ul").html(_html);
-				for(var j=0;j<data.data.length;j++){
+				$(".question_box").children("ul").append(_html);
+				console.log(5*pageNum);
+				for(var j=5*pageNum;j<(data.data.length+5*pageNum);j++){
 					var option_html="";
-					$(".question_box li .content").eq(j).append('<span>'+(j+1)+'、</span>'+data.data[j].CONTENT);
-					var arry_option=data.data[j].OPTION_CONTENT;
-					if(question_box.indexOf(data.data[j].QUESTION_ID)>=0){
+					//console.log(data.data[j-5*pageNum].CONTENT);
+					$(".question_box li .content").eq(j).append('<span>'+(j+1)+'、</span>'+data.data[j-5*pageNum].CONTENT);
+					var arry_option=data.data[j-5*pageNum].OPTION_CONTENT;
+					if(question_box.indexOf(data.data[j-5*pageNum].QUESTION_ID)>=0){
 						$(".check_box").eq(j).addClass("checked");
 					}
 					//arry_option=arry_option.replace("[","");
@@ -318,11 +327,13 @@
 					}
 					$(".option").eq(j).find("ul").html(option_html);
 					
-					star(j,parseInt(data.data[j].DIFFICULTY));
+					star(j,parseInt(data.data[j-5*pageNum].DIFFICULTY));
 					
 				}
 			}else{
-				$(".question_box ul").html("");
+				$(".question_box").children("ul").html("");
+				pageNum-=1;
+				end=1;
 			}
 			
 			}
@@ -448,12 +459,16 @@
 		$(".section").on("click","span",function(event){       //点击菜单获取题目
 			window.top.loading.show();
 			event.stopPropagation();
-			
+			$(".question_box ul").html("");
 			var that=$(this).closest("li");
 			if($(".tab .active").attr("data-index")==1){				
 					getQuestion(that);
+					$(".menu_active").removeClass();
+					that.addClass("menu_active");
 			}else{
 					getQuestion(that);
+					$(".menu_active").removeClass();
+					that.addClass("menu_active");
 			}
 
 		});
@@ -524,6 +539,14 @@
 			else
 				alert("请先选择题目")
 		});
+		$(".view_more").click(function(){
+			pageNum++;
+			if(end>0){
+				$(".view_more p").html("没有更多了");
+				return;
+			}
+			getQuestion($(".menu_active"));
+		})
 		$("#submit").click(function(){
 			var question_arry=[];
 			for(var i=0;i<question_num;i++){
@@ -540,27 +563,29 @@
 				title: $("#title").val(),
 				exam_time: $("#time").val(),
 				paper_type: "101",
-				subject_id: "20",
+				subject_id: subject_id,
 				grade_id: "",
 				class_id: class_id,
-				user_id: "8dbef15bb6d043ec94b719ede583b033",
+				user_id: user_id,
 				score: "100",
 				questions: question_arry
 			};
 			//console.log(data);
-			$.ajax({
-			url:url+"/SunvoteEducation/api/v1/publishpaper",
-			async:false,
-			type:"post",
-			dataType: "json",
-			headers: {'Content-Type': 'application/json'},
-			data:JSON.stringify(data),
-			success:function(data){
-				alert("上传成功");
-				$('#myModal').modal('hide');
-				window.history.go(-1);
-			}
-		})	
+			sessionStorage.setItem("data",JSON.stringify(data));
+			location.href="paper_view.do?classID="+class_id+"&userid="+user_id;
+			/* $.ajax({
+				url:url+"/SunvoteEducation/api/v1/publishpaper",
+				async:false,
+				type:"post",
+				dataType: "json",
+				headers: {'Content-Type': 'application/json'},
+				data:JSON.stringify(data),
+				success:function(data){
+					alert("上传成功");
+					$('#myModal').modal('hide');
+					window.history.go(-1);
+				}
+			}) */	
 			
 		})
 	</script>

@@ -227,7 +227,7 @@
 		}
 		function jump(obj){
 			var id=obj.attr("data-id");
-			location.href="paper_view1.do?testpaperId="+id + "&a={a:b}";
+			location.href="paper_view1.do?testpaperId="+id;
 		}
 		$(".classList").on("click","li",function(){
 			$(this).siblings().removeClass("active");
