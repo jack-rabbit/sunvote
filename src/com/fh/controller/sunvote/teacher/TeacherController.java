@@ -213,6 +213,24 @@ public class TeacherController extends BaseController {
 	 * @param page
 	 * @throws Exception
 	 */
+	@RequestMapping(value = "/paper_view2")
+	public ModelAndView paper_view2(Page page) throws Exception {
+		logBefore(logger, Jurisdiction.getUsername() + "列表Paper");
+		String userId = this.getUserID();
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/teacher/paper_view2");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 * 列表
+	 * 
+	 * @param page
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/paper_view1")
 	public ModelAndView paper_view1(Page page) throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "列表Paper");

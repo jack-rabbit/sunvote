@@ -2276,6 +2276,21 @@ public class V1 extends BaseController {
 			pd.put("KNOWLEDGE_IDS", ids);
 			pd.remove("KNOWLEDGE_ID");
 		}
+		int pageNumI = 0 ;
+		int count = 30 ;
+		String pageNum = pd.getString("PAGENUM");
+		String countStr = pd.getString("COUNT");
+		if(pageNum != null && !"".equals(pageNum) && countStr != null && !"".equals(countStr)){
+			pageNumI = Integer.parseInt(pageNum);
+			count = Integer.parseInt(countStr);
+			if(pageNumI >= 1){
+				pageNumI = (pageNumI -1 ) * count; 
+			}else{
+				pageNumI = 0 ;
+			}
+			pd.put("PAGENUM", "" + pageNumI);
+			pd.put("COUNT", "" + count);
+		}
 		List<PageData> list = questionService.listAllquestion(pd);
 		for(PageData pad:list){
 			String optionContent = pad.getString("OPTION_CONTENT");
