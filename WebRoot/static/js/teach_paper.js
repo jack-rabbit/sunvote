@@ -5,7 +5,7 @@
 			subject_id="",
 			class_id="";
 		$(document).ready(function(){
-			getList();
+			
 			timeList();
 			$.ajax({
 				url:url+"/SunvoteEducation/teacher/info",
@@ -25,6 +25,7 @@
 						$(".classList li").eq(0).addClass("active");
 						$("#dealer_id_2").html(option_html);
 					}
+					getList();
 				}
 			})
 

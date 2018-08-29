@@ -67,7 +67,7 @@
 						<th class="center"><div style="width:80px;">课程总分</div></th>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<th class="center kc"><a
-								 onclick="paper('${info.CLASS_ID}','${var.TESTPAPER_ID}');"><div style="width:180px;" class="font">${var.NAME}</br><span>${var.CREATE_DATE}</span></div></a></th>
+								 onclick="paper('${info.CLASS_ID}','${var.TESTPAPER_ID}');"><div style="width:180px;     margin: 0 auto;" class="font">${var.NAME}</br><span>${var.CREATE_DATE}</span></div></a></th>
 						</c:forEach>
 					</tr>
 				</thead>
@@ -249,35 +249,26 @@
 		$(document).ready(function(){
 			window.top.loading.remove();
 			
+			var sour = "${testpaperList}";
 			
-			
-			//alert(window.top.document.getElmentById("mainFrame").clienHeight);
-			var _width = $('#mainFrame', parent.document).width()-40;
-			var _heigh = $('#mainFrame', parent.document).height()-100;
-			//console.log(_heigh);
-			
-			var options = {
-            width: _width,
-            height: _heigh,
-            pinnedRows: 4,
-            pinnedCols: 3,
-            container: "#scrollableTable",
-            removeOriginal: true
-        	};
-
-			var sour = ${testpaperList};
-			
-			if(sour != null && sour.length > 0){
-			$("#simple-table").tablescroller(options);
-	        var name_height = $(".kc").last().parent().height()-18.5;
-	        console.log(name_height);
-	        $(".th_name").height(name_height);
+			if(sour != null && sour.length > 3){
+				var _width = $('#mainFrame', parent.document).width()-40;
+				var _heigh = $('#mainFrame', parent.document).height()-100;
+				var options = {
+	            width: _width,
+	            height: _heigh,
+	            pinnedRows: 4,
+	            pinnedCols: 3,
+	            container: "#scrollableTable",
+	            removeOriginal: true
+	        	};
+				$("#simple-table").tablescroller(options);
+		        var name_height = $(".kc").last().parent().height()-18.5;
+		        console.log(name_height);
+		        $(".th_name").height(name_height);
 			}
 				
 		});
-		
-		
-		//console.log('${studentList}');
 		
 	</script>
 

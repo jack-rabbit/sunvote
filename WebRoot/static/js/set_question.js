@@ -7,6 +7,8 @@ var url="";
 	var pageNum=1;
 	var end=0;
 	var flag=0;
+	var paper_title = "" ;
+	var paper_time = "0" ;
 	
 	
 	$(document).ready(function(){
@@ -34,6 +36,9 @@ var url="";
 				var point_html="";
 				for(var i=0;i<data.data.length;i++){
 					point_html +='<li data-id="'+data.data[i].KNOWLEDGE_ID+'" data-img-click=0 data-span-click=0><img src="../static/images/add.png" class="add" /><span>'+(i+1)+data.data[i].NAME+'</span></li>';
+				}
+				if(data.data.length > 0){
+					paper_title = data.data[0].NAME;
 				}
 				$(".section").children("ul").html(point_html);
 				getQuestion($(".section li").eq(0));
@@ -269,11 +274,13 @@ var url="";
 			pageNum=1;
 			$(".question_box ul").html("");
 			var that=$(this).closest("li");
-			if($(".tab .active").attr("data-index")==1){				
+			if($(".tab .active").attr("data-index")==1){	
+					paper_title = this.textContent;
 					getQuestion(that);
 					$(".menu_active").removeClass();
 					that.addClass("menu_active");
 			}else{
+					paper_title = this.textContent;
 					getQuestion(that);
 					$(".menu_active").removeClass();
 					that.addClass("menu_active");
@@ -339,10 +346,14 @@ var url="";
 			}
 		});
 		$(".topic").click(function(){
-			if(parseInt($("#all_que_num").text())>0)
+			if(parseInt($("#all_que_num").text())>0){
+				paper_time = parseInt($("#all_que_num").text()) > 75 ? "150" : (parseInt($("#all_que_num").text()) * 2);
+				$("#title").val(paper_title);
+				$("#time").val(paper_time);
 				$('#myModal').modal('show');
-			else
+			}else{
 				alert("请先选择题目")
+			}
 		});
 		$(".view_more").click(function(){                     //加载更多
 			flag++;
@@ -376,7 +387,7 @@ var url="";
 				grade_id: "",
 				class_id: class_id,
 				user_id: user_id,
-				score: "100",
+				score: "",
 				questions: question_arry
 			};
 			sessionStorage.setItem("data",JSON.stringify(data));

@@ -101,7 +101,7 @@
 						</ul>
 					</li>
 					<li>
-						<p>云测验测验分析</p>
+						<p>即时测测验分析</p>
 						<ul class="menu_2">
 						<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
 							<li onclick="event.stopPropagation();report2('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>

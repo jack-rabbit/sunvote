@@ -124,5 +124,5 @@
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="../static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<script src="../static/ace/js/bootbox.js"></script>
-	<script src="../static/js/teach_paper.js?a=1"></script>
+	<script src="../static/js/teach_paper.js?a=2"></script>
 </html>

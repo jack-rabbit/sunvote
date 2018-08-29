@@ -25,7 +25,7 @@
 		<div class="box_header">
 			<div class="head_box_l">
 				<p>
-					<span class="right_b"></span>云测验测验分析
+					<span class="right_b"></span>即时测测验分析
 				</p>
 			</div>
 			<div class="head_box_r">
@@ -46,9 +46,9 @@
 				<thead>
 					<tr>
 						<th>序号</th>
-						<th>创建时间</th>
+						<th>测验名称</th>
 						<th>班级</th>
-						<th>试卷名称</th>
+						<th>创建时间</th>
 						<th>查看</th>
 					</tr>
 				</thead>
@@ -79,5 +79,8 @@
 	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="../static/ace/js/date-time/bootstrap-datepicker.js"></script>
-	<script src="../static/js/test_list.js"></script>
+	<script type="text/javascript">
+		var user_id= "${pd.userId}";
+	</script>
+	<script src="../static/js/test_list.js?a=2"></script>
 </html>
