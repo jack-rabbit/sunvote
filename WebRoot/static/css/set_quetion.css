@@ -5,7 +5,7 @@ li{list-style:none;}
 .left_menu{box-shadow:0 0 10px #ccc;margin-top:10px;}
 .left_menu .tab{border-bottom:1px solid #ccc;}
 .left_menu .tab ul{padding:0;margin:0;}
-.left_menu .tab li{width:50%;box-sizing:border-box;float:left;font-size:26px;text-align:center;padding:10px 0;}
+.left_menu .tab li{width:50%;box-sizing:border-box;float:left;font-size:26px;text-align:center;padding:10px 0;cursor:pointer;}
 .left_menu .tab li p{margin:0;}
 .left_menu .tab .active{border-bottom: 2px solid #3c7ae3;}
 .left_menu .tab .active p{color:#3c7ae3;}
@@ -35,7 +35,8 @@ li{list-style:none;}
 .tag dt,dd{display:inline-block;}
 
 .right_content{box-sizing:border-box;padding-bottom:80px;}
-.view_more p{font-size: 18px;width: 100%;text-align: center;background: #ccc;color: #fff;line-height:40px;}
+.view_more{display:none;}
+.view_more p{font-size: 18px;width: 100%;text-align: center;background: #ccc;color: #fff;line-height:40px;cursor:pointer; }
 .view_more p span{vertical-align:sub;margin-left:8px;}
 
 .option{padding:10px 0;}

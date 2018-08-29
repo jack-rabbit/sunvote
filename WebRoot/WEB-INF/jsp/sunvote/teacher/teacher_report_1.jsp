@@ -265,12 +265,15 @@
             removeOriginal: true
         	};
 
-       		 $("#simple-table").tablescroller(options);
-       		 
-        
-        var name_height = $(".kc").last().parent().height()-18.5;
-        console.log(name_height);
-        $(".th_name").height(name_height);
+			var sour = ${testpaperList};
+			
+			if(sour != null && sour.length > 0){
+			$("#simple-table").tablescroller(options);
+	        var name_height = $(".kc").last().parent().height()-18.5;
+	        console.log(name_height);
+	        $(".th_name").height(name_height);
+			}
+				
 		});
 		
 		

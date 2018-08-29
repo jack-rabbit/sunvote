@@ -60,6 +60,7 @@ public class ReportController extends BaseController {
 		pd.put("CLASS_ID", pd.get("CLASSID"));
 		List<PageData> studentList = studentService.listAllClass(pd);
 		// 2查询班级考试
+		pd.put("TEST_TYPE", "1");
 		List<PageData> testpaperList = testpaperService.listAll(pd);
 		mv.addObject("testpaperList", testpaperList);
 		info.put("testsize", testpaperList != null ? testpaperList.size() : 0);

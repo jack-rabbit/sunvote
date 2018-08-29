@@ -496,7 +496,7 @@ public class V1 extends BaseController {
 				int currentPage = Integer.parseInt(CURRENTPAGE);
 				int showcount = Integer.parseInt(SHOWCOUNT);
 				currentPage = (currentPage > 0 ? currentPage -1 : 0) * showcount;
-				pd.put("CURRENTPAGE", currentPage);
+				pd.put("CURRENTPAGE", "" + currentPage);
 			}
 			List<PageData> pageList = paperService.listAllByType(pd);
 			res.setData(pageList);

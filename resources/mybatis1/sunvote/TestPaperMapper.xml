@@ -143,10 +143,10 @@
 		<if test="NAME != null and NAME != ''"><!-- 关键词检索 -->
 			and (NAME = #{NAME})
 		</if>
-		<if test="TEST_TYPE != null and TEST_TYPE == '1'"><!-- 关键词检索 -->
+		<if test="TEST_TYPE != null and TEST_TYPE == '1'.toString()"><!-- 关键词检索 -->
 			and (TEST_TYPE = #{TEST_TYPE} or TEST_TYPE IS NULL)
 		</if>
-		<if test="TEST_TYPE != null and TEST_TYPE == '101'"><!-- 关键词检索 -->
+		<if test="TEST_TYPE != null and TEST_TYPE == '101'.toString()"><!-- 关键词检索 -->
 			and (TEST_TYPE = #{TEST_TYPE})
 		</if>
 		<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
