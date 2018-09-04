@@ -55,6 +55,11 @@ function getQueryString(name) {
 					}
 				}
 				window.top.loading.remove();
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		})
 	})

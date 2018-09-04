@@ -66,6 +66,11 @@ function getQueryString(name) {
 						star(j,parseInt(data.data[j].DIFFICULTY));
 					}
 				}
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		})
 		
@@ -157,6 +162,11 @@ function getQueryString(name) {
 			success:function(data){
 				alert("上传成功");
 				window.history.go(-2);
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		})	
 	 })

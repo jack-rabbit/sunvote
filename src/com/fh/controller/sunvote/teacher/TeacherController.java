@@ -184,6 +184,7 @@ public class TeacherController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("userId", userId);
 		mv.setViewName("sunvote/teacher/test_list");
 		mv.addObject("pd", pd);
 		return mv;
@@ -202,6 +203,7 @@ public class TeacherController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("userId", userId);
 		mv.setViewName("sunvote/teacher/paper_view");
 		mv.addObject("pd", pd);
 		return mv;
@@ -220,6 +222,7 @@ public class TeacherController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("userId", userId);
 		mv.setViewName("sunvote/teacher/paper_view2");
 		mv.addObject("pd", pd);
 		return mv;
@@ -238,6 +241,7 @@ public class TeacherController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("userId", userId);
 		mv.setViewName("sunvote/teacher/paper_view1");
 		mv.addObject("pd", pd);
 		return mv;
@@ -253,8 +257,10 @@ public class TeacherController extends BaseController {
 	public ModelAndView set_question(Page page) throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "列表Paper");
 		ModelAndView mv = this.getModelAndView();
+		String userId = this.getUserID();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("userId", userId);
 		mv.setViewName("sunvote/teacher/set_question");
 		mv.addObject("pd", pd);
 		return mv;

@@ -10,8 +10,7 @@ function getQueryString(name) {
 	return null;
 }
 var class_id = getQueryString("classid");
-$(document)
-		.ready(
+$(document).ready(
 				function() {
 					
 					$.ajax({
@@ -32,6 +31,11 @@ $(document)
 										$("#dealer_id_2").html(option_html);
 									}
 									getList();
+								},
+								error: function (XMLHttpRequest, textStatus, errorThrown) {
+									// 错误信息   
+									alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+									window.top.loading.remove();
 								}
 							})
 					// 日期框
@@ -76,6 +80,11 @@ function getList(start_date, end_date, class_id) { // 获取测验列表
 								+ '" >查看</a></td></tr>'
 					}
 					$("#tab_body").html(tab_html);
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					// 错误信息   
+					alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+					window.top.loading.remove();
 				}
 			});
 }
@@ -109,7 +118,12 @@ function getClassName(id) { // 获取班级中文名
 		},
 		success : function(data) {
 			className = data.data;
-		}
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
+			}
 	})
 	return className;
 }

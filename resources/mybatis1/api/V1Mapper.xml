@@ -181,6 +181,44 @@
 	</select>
 	
 	
+   <select id="getLastWrongQuestionInfo"  parameterType="pd" resultType="pd">
+   
+		 SELECT
+				sv_question.QUESTION_ID,
+				sv_question.CONTENT,
+				sv_testpaper.`NAME`,
+				sv_paper.TITLE,
+				sv_testpaperinfo.TESTPAPERINFO_ID,
+				sv_testpaperinfo.PAPER_ID,
+				sv_testpaperinfo.TEST_ID,
+				sv_testpaper.CREATE_DATE,
+				count(*) AS WRONG_NUM
+			FROM
+				sv_testpaperinfo
+			LEFT JOIN sv_question ON sv_question.QUESTION_ID = sv_testpaperinfo.QUESTION_ID
+			LEFT JOIN sv_testpaper ON sv_testpaperinfo.TEST_ID = sv_testpaper.TESTPAPER_ID
+			LEFT JOIN sv_paper ON sv_testpaperinfo.PAPER_ID = sv_paper.PAPER_ID
+			WHERE 
+				sv_testpaperinfo.`RIGHT` = '0'
+			AND sv_question.QUESTION_FROM = '101'
+			<if test="START_DATE != null and START_DATE != ''">
+				AND sv_testpaper.CREATE_DATE &gt; #{START_DATE}
+			</if>
+			<if test="END_DATE != null and END_DATE != ''">
+				AND sv_testpaper.CREATE_DATE &lt; #{END_DATE}
+			</if>
+			GROUP BY
+				sv_testpaperinfo.QUESTION_ID,sv_testpaperinfo.TEST_ID
+			ORDER BY
+				WRONG_NUM DESC
+				
+			<if test="COUNT != null and COUNT != ''">
+				LIMIT ${COUNT}
+			</if>
+			<if test="COUNT == null or COUNT == ''">
+				LIMIT 5
+			</if>
+   </select>
 	
 	
 	

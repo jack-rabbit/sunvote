@@ -42,6 +42,11 @@ var url="";
 				}
 				$(".section").children("ul").html(point_html);
 				getQuestion($(".section li").eq(0));
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		})
 	}
@@ -63,6 +68,11 @@ var url="";
 					}
 				}
 				getQuestion($(".section li").eq(0));
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		})
 	}
@@ -83,6 +93,11 @@ var url="";
 					_html +='<li data-id="'+data.data[i].KNOWLEDGE_ID+'" data-img-click=0 data-span-click=0 ><img src="../static/images/add.png" class="add"/><span>'+(i+1)+data.data[i].NAME+'</span></li>';
 				}
 				obj.children('ul').html(_html);
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		})
 	}
@@ -153,7 +168,7 @@ var url="";
 				// 状态
 				console.log(XMLHttpRequest.readyState);
 				// 错误信息   
-				console.log(textStatus);
+				alert(textStatus);
 				flag=0;
 				pageNum-=1;
 				if(pageNum<1)
@@ -203,7 +218,12 @@ var url="";
 				$("#book_name").text($(".name").eq(0).text()+"/"+$(".float_box").eq(0).find('li').eq(0).text());
 				}
 				
-			}	
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
+			}
 		})
 		
 	}
@@ -220,6 +240,11 @@ var url="";
 						textBookName[i]={"name":data.data[i].NAME,"id":data.data[i].ID};
 					}
 				}
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		})
 		return textBookName;
@@ -232,6 +257,11 @@ var url="";
 			data:{id:class_id},
 			success:function(data){
 				$(".classList li").html(data.data);
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		})
 	}

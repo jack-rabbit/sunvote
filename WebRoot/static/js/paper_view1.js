@@ -119,6 +119,8 @@ function getQueryString(name) {
 						}
 						for(k=0;k<answerinfo.length;k++){
 							data1[k]=parseInt(answerinfo[k].COUNT);
+							if(answerinfo[k].ANSWER=="")
+								answerinfo[k].ANSWER="未答";
 							data2[k]=answerinfo[k].ANSWER;
 							color[k]="#fcb35b";
 							if(answerinfo[k].ISRIGHT==1){
@@ -140,6 +142,11 @@ function getQueryString(name) {
 							$(".analysis ul").children("li").eq(j).append('<div class="chou">抽</div>');
 					}
 				}
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		})
 	})
@@ -166,9 +173,16 @@ function getQueryString(name) {
 			success:function(data){
 				console.log(data);
 				for(var i=0;i<data.data.length;i++){
+					if(typeof(data.data[i].ANSWER)=="undefined")
+						data.data[i].ANSWER="未答";
 					student_html+='<tr><td>'+(i+1)+'</td><td>'+data.data[i].NAME+'</td><td>'+data.data[i].ANSWER+'</td><td>'+data.data[i].PRESS_TIME+'秒</td></tr>';
 				}
 				$(".student_list").html(student_html);
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 			}
 		});
 		$('#myModal').modal('show');

@@ -561,10 +561,10 @@ public class V1 extends BaseController {
 									.getString("PROBLEM_TYPE_ID"));
 							question.setRank(qpd.getString("RANK"));
 							question.setNo_name(qpd.getString("NO_NAME"));
+							question.setQuestions(new ArrayList<Question>());
 							if ("-1".equals("" + qpd.getString("P_ID"))) {
 								PageData pidPd = new PageData();
 								pidPd.put("PID", question.getQuestion_id());
-								question.setQuestions(new ArrayList<Question>());
 								List<PageData> qs = v1Service
 										.getQuestionsByPID(pidPd);
 								for (PageData q : qs) {
@@ -1471,7 +1471,7 @@ public class V1 extends BaseController {
 						testPaper.getCreateDate() == null ? Tools
 								.date2Str(new Date()) : testPaper
 								.getCreateDate());
-				testPd.put("TEST_TYPE", testPaper.getTest_type() != null ? testPaper.getTest_type() :"101");
+				testPd.put("TEST_TYPE", testPaper.getTest_type() != null ? testPaper.getTest_type() :"1");
 				List<PageData> listData = testpaperService.listAll(testPd);
 				if (!(listData != null && listData.size() > 0)) {
 					testPd.put("START_DATE", testPaper.getStartDate());
@@ -1563,7 +1563,7 @@ public class V1 extends BaseController {
 
 		return res.toJson();
 
-	}
+	} 
 
 	/**
 	 *  上传测验成绩
@@ -1590,7 +1590,7 @@ public class V1 extends BaseController {
 						testPaper.getCreateDate() == null ? Tools
 								.date2Str(new Date()) : testPaper
 								.getCreateDate());
-				testPd.put("TEST_TYPE", testPaper.getTest_type() != null ? testPaper.getTest_type() :"101");
+				testPd.put("TEST_TYPE", testPaper.getTest_type() != null ? testPaper.getTest_type() :"1");
 				List<PageData> listData = testpaperService.listAll(testPd);
 				if ((listData != null && listData.size() > 0)) {
 					testPaperId = listData.get(0).getString("TESTPAPER_ID");
@@ -1794,7 +1794,7 @@ public class V1 extends BaseController {
 		} else {
 			res.setDataError();
 		}
-		logger.info("uploadupdatetestpaper cost time:"
+		logger.info("uploadupdateTestpaper2 cost time:"
 				+ (System.currentTimeMillis() - cur));
 		
 		return res.toJson();
@@ -2784,6 +2784,23 @@ public class V1 extends BaseController {
 		}else{
 			res.setDataError();
 		}
+		return res.toJson();
+		
+	}
+	
+	/**
+	 * 根据ID班级名称
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/wrongquestion", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public  String wrongquestion() throws Exception {
+		ResponseGson<List<PageData>> res = new ResponseGson();
+		PageData pageData = this.getPageData();
+		List<PageData> list = v1Service.getLastWrongQuestionInfo(pageData);
+		res.setData(list);
 		return res.toJson();
 		
 	}

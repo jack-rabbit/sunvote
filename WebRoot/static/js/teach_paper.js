@@ -26,6 +26,11 @@
 						$("#dealer_id_2").html(option_html);
 					}
 					getList();
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
 				}
 			})
 
@@ -60,7 +65,12 @@
 					}
 					$("#tab_body").html(tab_html);
 					window.top.loading.remove();
-				}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
+			}
 			});
 		}
 		$('#ids').on('click', function(){
@@ -106,7 +116,12 @@
 				data:{id:id},
 				success:function(data){
 					subjectName=data.data;
-				}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
+			}
 			})
 			return subjectName;
 		}
@@ -119,7 +134,12 @@
 				data:{id:id},
 				success:function(data){
 					className=data.data;
-				}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+				// 错误信息   
+				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				window.top.loading.remove();
+			}
 			})
 			return className;
 		}
