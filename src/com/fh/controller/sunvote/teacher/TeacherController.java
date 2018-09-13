@@ -296,6 +296,23 @@ public class TeacherController extends BaseController {
 		mv.addObject("QX", Jurisdiction.getHC()); // 按钮权限
 		return mv;
 	}
+	
+	/**
+	 * 列表
+	 * 
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/index")
+	public ModelAndView index() throws Exception {
+		logBefore(logger, Jurisdiction.getUsername() + "列表Teacher");
+		// if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
+		// //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+		ModelAndView mv = this.getModelAndView();
+		mv.setViewName("sunvote/teacher/indexPage");
+		mv.addObject("pd", this.getPageData());
+		return mv;
+	}
 
 	/**
 	 * 去新增页面

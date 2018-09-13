@@ -118,7 +118,7 @@
 		</div>
 	</div>
 	<div class="content_r">
-		<iframe name="mainFrame" id="mainFrame" frameborder="0" src="../paper/list2.do?" width="100%" height="100%"></iframe>
+		<iframe name="mainFrame" id="mainFrame" frameborder="0" src="../teacher/index.do?" width="100%" height="100%"></iframe>
 		
 	</div>
 
