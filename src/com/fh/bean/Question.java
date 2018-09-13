@@ -43,7 +43,7 @@ public class Question {
 	private String sug_part_score;
 	
 	private String questionType ;
-
+	
 	private List<Question> questions;
 
 	public void setSubject_id(String subject_id) {

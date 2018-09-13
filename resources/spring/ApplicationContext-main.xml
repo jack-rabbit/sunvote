@@ -35,5 +35,6 @@
 	</bean> 
    
    <bean id="springBeanFactoryUtils" class="com.fh.util.SpringBeanFactoryUtils"/>
+   <bean id="progressListener" class="com.fh.controller.api.FileUploadProgressListener"/>
    
 </beans>

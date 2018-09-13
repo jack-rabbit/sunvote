@@ -1397,6 +1397,7 @@ public class V1 extends BaseController {
 					pqPd.put("NO_NAME", question.getNo_name());
 					pqPd.put("PAPERQUESTION_ID", this.get32UUID());
 					pqPd.put("P_ID", "0");
+					pqPd.put("KNOWLEDGE_ID", question.getKnowledge_id());//
 					paperquestionService.save(pqPd);
 
 				}
@@ -2805,6 +2806,21 @@ public class V1 extends BaseController {
 		
 	}
 	
+	/**
+	 * 根据ID班级名称
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/printmsg", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public  String printmsg() throws Exception {
+		ResponseGson<Map> res = new ResponseGson();
+		res.setData(FileUploadProgressListener.map);
+		return res.toJson();
+		
+	}
+	
 	@RequestMapping(value = "/uploadfile", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String uploadFile(@RequestParam(value="file",required=false)MultipartFile file, HttpServletRequest request) throws Exception{
@@ -2830,6 +2846,8 @@ public class V1 extends BaseController {
 		}
 		return res.toJson();
 	}
+	
+	
 	
 	
 	
