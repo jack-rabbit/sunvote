@@ -2820,6 +2820,20 @@ public class V1 extends BaseController {
 		return res.toJson();
 		
 	}
+	/**
+	 * 根据ID班级名称
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/printresult", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public  String printresult() throws Exception {
+		ResponseGson<Map> res = new ResponseGson();
+		res.setData(FileUploadProgressListener.result);
+		return res.toJson();
+		
+	}
 	
 	@RequestMapping(value = "/uploadfile", produces = "application/json;charset=UTF-8")
 	@ResponseBody
