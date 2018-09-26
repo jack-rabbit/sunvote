@@ -117,7 +117,6 @@ public class SClassController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"列表SClass");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -136,6 +135,23 @@ public class SClassController extends BaseController {
 		mv.addObject("grades", grades);
 		List<PageData> classTypes = classtypeService.listAll(pd);
 		mv.addObject("classTypes", classTypes);
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
+	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/listcs")
+	public ModelAndView listcs(Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表SClass");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = this.getPageData();
+		mv.setViewName("sunvote/sclass/sclass_list2");
+		List<PageData>	varList = sclassService.listAll(pd);	//列出SClass列表
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限

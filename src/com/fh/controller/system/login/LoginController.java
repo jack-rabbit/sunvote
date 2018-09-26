@@ -29,6 +29,8 @@ import com.fh.service.api.V1Manager;
 import com.fh.service.fhoa.datajur.DatajurManager;
 import com.fh.service.sunvote.event.EventManager;
 import com.fh.service.sunvote.school.SchoolManager;
+import com.fh.service.sunvote.schooladmin.SchoolAdminManager;
+import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.system.appuser.AppuserManager;
 import com.fh.service.system.buttonrights.ButtonrightsManager;
@@ -48,7 +50,6 @@ import com.fh.util.Tools;
 
 /**
  * 总入口
- * @author fh QQ 3 1 3 5 9 6 7 9 0[青苔]
  * 修改日期：2015/11/2
  */
 /**
@@ -82,9 +83,16 @@ public class LoginController extends BaseController {
 
 	@Resource(name = "v1Service")
 	private V1Manager v1Service;
+	
+	@Resource(name="schooladminService")
+	private SchoolAdminManager schooladminService;
 
 	@Resource(name = "eventService")
 	private EventManager eventService;
+	
+	@Resource(name="sclassService")
+	private SClassManager sclassService;
+	
 
 	/**
 	 * 访问登录页
@@ -161,6 +169,18 @@ public class LoginController extends BaseController {
 						user.setTeacherID(pageData.getString("ID"));
 					}
 				}
+				if("51824b61dd6941f19c673996374781e5".equals(pd
+						.getString("ROLE_ID"))){
+					map.put("admin",  pd.getString("RIGHTS"));
+					PageData tpd = new PageData();
+					tpd.put("ACCOUT", pd.get("USERNAME"));
+					tpd.put("PASSWORD", passwd);
+					PageData pageData = schooladminService.findByusername(tpd);
+					if(pageData != null){
+						user.setTeacherID(pageData.getString("SCHOOLADMIN_ID"));
+						user.setUSER_ID(pageData.getString("SCHOOLADMIN_ID"));
+					}
+				}
 				user.setLAST_LOGIN(pd.getString("LAST_LOGIN"));
 				user.setIP(pd.getString("IP"));
 				user.setSTATUS(pd.getString("STATUS"));
@@ -209,12 +229,12 @@ public class LoginController extends BaseController {
 			User user = (User) session.getAttribute(Const.SESSION_USER); // 读取session中的用户信息(单独用户信息)
 			if (user != null) {
 				User userr = (User) session.getAttribute(Const.SESSION_USERROL); // 读取session中的用户信息(含角色信息)
-				if (null == userr) {
-					user = userService.getUserAndRoleById(user.getUSER_ID()); // 通过用户ID读取用户信息和角色信息
-					session.setAttribute(Const.SESSION_USERROL, user); // 存入session
-				} else {
-					user = userr;
-				}
+//				if (null == userr) {
+//					userr = userService.getUserAndRoleById(user.getUSER_ID()); // 通过用户ID读取用户信息和角色信息
+//					session.setAttribute(Const.SESSION_USERROL, user); // 存入session
+//				} else {
+//					user = userr;
+//				}
 				String USERNAME = user.getUSERNAME();
 				if ("teacher".equals(changeMenu)) {
 					PageData tpd = new PageData();
@@ -244,6 +264,41 @@ public class LoginController extends BaseController {
 					}
 					session.setAttribute(Const.SESSION_USERNAME, USERNAME); // 放入用户名到session
 					mv.setViewName("sunvote/teacher/teacher_main");
+					mv.addObject("user", user);
+					pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
+					mv.addObject("pd", pd);
+					return mv;
+				}else if("admin".equals(changeMenu)){
+					PageData tpd = new PageData();
+					tpd.put("ID", user.getUSER_ID());
+					
+					List<PageData> adminInfos = v1Service.getAdminInfo(tpd);
+					List<PageData> gradeInfos = new ArrayList<PageData>();
+					List<PageData> subjectInfos = new ArrayList<PageData>();
+					//  查询学校信息
+					for(PageData pad : adminInfos){
+						PageData tmpd = new PageData();
+						Object gradeId = pad.get("GRADE_ID");
+						tmpd.put("SNAME", pad.get("SNAME"));// 学校名称
+						tmpd.put("SCHOOL_ID", pad.get("SCHOOL_ID"));//学校ID
+						tmpd.put("GRADE_ID", pad.get("GRADE_ID"));//年级id
+						tmpd.put("GNAME", pad.get("GNAME"));//年级名称
+						tmpd.put("SUBJECT_ID", pad.get("SUBJECT_ID"));// 科目id
+						tmpd.put("SCNAME", pad.get("SCNAME"));// 科目名称
+						if(gradeId != null && !"".equals(gradeId)){
+							List<PageData> classInfos = sclassService.listAll(tmpd);
+							tmpd.put("classInfos", classInfos);
+							gradeInfos.add(tmpd);
+						}else{
+							subjectInfos.add(tmpd);
+						}
+						mv.addObject("SNAME", pad.get("SNAME"));
+						mv.addObject("SCHOOL_ID", pad.get("SCHOOL_ID"));
+					}
+					mv.addObject("gradeInfos", gradeInfos);
+					mv.addObject("subjectInfos", subjectInfos);
+					session.setAttribute(Const.SESSION_USERNAME, USERNAME); // 放入用户名到session
+					mv.setViewName("sunvote/admin/admin_main");
 					mv.addObject("user", user);
 					pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
 					mv.addObject("pd", pd);

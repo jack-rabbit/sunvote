@@ -109,6 +109,8 @@
 							saveCookie();
 							if(data.teacher != null){
 								window.location.href="main/teacher";
+							}else if(data.admin != null){
+								window.location.href="main/admin";
 							}else{
 								window.location.href="main/index";
 							}

@@ -1,6 +1,7 @@
 package com.fh.service.sunvote.subject;
 
 import java.util.List;
+
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
@@ -41,6 +42,9 @@ public interface SubjectManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
+	
+	
+	public List<PageData> listAllSchool(PageData pd)throws Exception;
 	
 	/**通过id获取数据
 	 * @param pd

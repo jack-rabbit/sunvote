@@ -1,4 +1,4 @@
-package com.fh.service.sunvote.coursemanagement.impl;
+package com.fh.service.sunvote.schooladmin.impl;
 
 import java.util.List;
 import javax.annotation.Resource;
@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
-import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
+import com.fh.service.sunvote.schooladmin.SchoolAdminManager;
 
 /** 
- * 说明： 任课管理
+ * 说明： 学校管理员
  * 创建人：FH Q313596790
- * 创建时间：2018-04-26
+ * 创建时间：2018-09-17
  * @version
  */
-@Service("coursemanagementService")
-public class CourseManagementService implements CourseManagementManager{
+@Service("schooladminService")
+public class SchoolAdminService implements SchoolAdminManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -25,7 +25,7 @@ public class CourseManagementService implements CourseManagementManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception{
-		dao.save("CourseManagementMapper.save", pd);
+		dao.save("SchoolAdminMapper.save", pd);
 	}
 	
 	/**删除
@@ -33,7 +33,7 @@ public class CourseManagementService implements CourseManagementManager{
 	 * @throws Exception
 	 */
 	public void delete(PageData pd)throws Exception{
-		dao.delete("CourseManagementMapper.delete", pd);
+		dao.delete("SchoolAdminMapper.delete", pd);
 	}
 	
 	/**修改
@@ -41,7 +41,7 @@ public class CourseManagementService implements CourseManagementManager{
 	 * @throws Exception
 	 */
 	public void edit(PageData pd)throws Exception{
-		dao.update("CourseManagementMapper.edit", pd);
+		dao.update("SchoolAdminMapper.edit", pd);
 	}
 	
 	/**列表
@@ -50,7 +50,7 @@ public class CourseManagementService implements CourseManagementManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("CourseManagementMapper.datalistPage", page);
+		return (List<PageData>)dao.findForList("SchoolAdminMapper.datalistPage", page);
 	}
 	
 	/**列表(全部)
@@ -59,11 +59,7 @@ public class CourseManagementService implements CourseManagementManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("CourseManagementMapper.listAll", pd);
-	}
-	@SuppressWarnings("unchecked")
-	public List<PageData> listCourse(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("CourseManagementMapper.listCourse", pd);
+		return (List<PageData>)dao.findForList("SchoolAdminMapper.listAll", pd);
 	}
 	
 	/**通过id获取数据
@@ -71,7 +67,15 @@ public class CourseManagementService implements CourseManagementManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("CourseManagementMapper.findById", pd);
+		return (PageData)dao.findForObject("SchoolAdminMapper.findById", pd);
+	}
+	
+	/**通过id获取数据
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData findByusername(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("SchoolAdminMapper.findByusername", pd);
 	}
 	
 	/**批量删除
@@ -79,7 +83,7 @@ public class CourseManagementService implements CourseManagementManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.delete("CourseManagementMapper.deleteAll", ArrayDATA_IDS);
+		dao.delete("SchoolAdminMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
 }

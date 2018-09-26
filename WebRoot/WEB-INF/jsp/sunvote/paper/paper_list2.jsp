@@ -103,8 +103,6 @@
 				</c:choose>
 				</tbody>
 			</table>
-	
-	
 			<div class="footer">
 				<div class="creat">
 					<input type="button"  onclick="parent.$('.title_time').modal('show');" value="新建试卷" />

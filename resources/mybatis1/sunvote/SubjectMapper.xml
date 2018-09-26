@@ -94,6 +94,21 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAllSchool" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		
+		INNER JOIN sv_schoolgradesubject ON sv_subject.ID = sv_schoolgradesubject.SUBJECT_ID
+		WHERE 1 =1 
+		<if test="SCHOOL_ID != null and SCHOOL_ID != ''">
+			and	sv_schoolgradesubject.SCHOOL_ID = #{SCHOOL_ID}
+		</if>
 	</select>
 	
 	<!-- 批量删除 -->
@@ -107,5 +122,4 @@
 		</foreach>
 	</delete>
 	
-	<!-- fh313596790qq(青苔) -->
 </mapper>

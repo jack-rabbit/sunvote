@@ -27,6 +27,7 @@ public class CustomMultipartResolver extends CommonsMultipartResolver {
 	@SuppressWarnings("unchecked")
 	public MultipartParsingResult parseRequest(HttpServletRequest request)
 			throws MultipartException {
+		FileUploadProgressListener.count++;
 		String encoding = determineEncoding(request);
 		FileUpload fileUpload = prepareFileUpload(encoding);
 		FileUploadProgressListener progressListener = new FileUploadProgressListener();
@@ -47,8 +48,9 @@ public class CustomMultipartResolver extends CommonsMultipartResolver {
 		}
 		catch (FileUploadException ex) {
 			throw new MultipartException("Could not parse multipart servlet request", ex);
+		}finally{
+			FileUploadProgressListener.count--;
 		}
-
 	}
 
 

@@ -59,7 +59,9 @@
 	 
 	 function category(index,data1,data2){
 		var myChart = echarts.init(document.getElementById('main'+index));
-		console.log(data2)
+		console.log("-----------------------------------");
+		console.log(data1);
+		console.log(data2);
 		var option = {
 			xAxis: {
 				type: 'category',
@@ -79,21 +81,25 @@
 	function getData(){
 	var dw="byte/s";
 	var _html="";
-	var i=0;
-	var j=0;
+	
 		$.ajax({
 			url:"/SunvoteEducation/api/v1/printmsg",
 			type:"post",
 			async:"true",
 			success:function(data){
+				
+				var j=0;
 				console.log(data.data);
 				for(var js2 in data.data){
-					j++;
+					
 					console.log(j);
 					var data1=[];
 					var data2=[];
+					var i=-1;
+					var speedNumN ;
+					var dwN ; 
 					for(var js1 in data.data[js2]){
-						data1[i] = i;
+						data1[i] = parseInt(js1);
 						var speedNum=parseInt(data.data[js2][js1]);
 						data2[i]=speedNum.toFixed(2);
 						if(speedNum>1024){
@@ -105,24 +111,14 @@
 							dw="Mb/s";
 						}
 						speedNum=speedNum.toFixed(2);
-						
-						i++;
-					}
-					if(typeof(data.data[js2][js1])=="undefined"){
-						var speedNum=0;
-					}else{
-						var speedNum=parseInt(data.data[js2][js1]);
-						if(speedNum>1024){
-							dw="kb/s";
-							speedNum=parseInt(data.data[js2][js1])/1024;
+						if(data1[i] > i){
+							i = data1[i];
+							speedNumN = speedNum;
+							dwN = dw;
 						}
-						 if(speedNum>1024){
-							speedNum = speedNum/1024;
-							dw="Mb/s";
-						}
-						speedNum=speedNum.toFixed(2);
 					}
-					_html+='<li><div class="libox"><span>'+js2+'</span><img src="down.png" /><span class="speed">'+speedNum+dw+'</span></div><div class="tabBox"><div id="main'+j+'" style="width: 1000px;height:400px;margin:0 auto;"></div></div></li>';
+					
+					_html+='<li><div class="libox"><span>'+js2+'</span><img src="down.png" /><span class="speed">'+speedNumN+dwN+'</span></div><div class="tabBox"><div id="main'+j+'" style="width: 1000px;height:400px;margin:0 auto;"></div></div></li>';
 					$(".container ul").html(_html);	
 					console.log(data2);
 					if(data1.length==0){
@@ -130,22 +126,27 @@
 					}else{
 						category(j,data1,data2);
 					}
-										
+						
+					j++;				
 				}	
 
 			}
 		})
+		if(time == 1){
+			setTimeout("getData()",1000);
+		}
 	}
 	getData();
 	$(document).on("click","img",function(){
 		$(this).parent('.libox').eq(0).siblings('.tabBox').toggle();
 	})
-	var timer;
+	var time = 0;
 	$("#start").click(function(){
-		timer=self.setInterval("getData()",1000);
+		time = 1;
+		setTimeout("getData()",1000);
 	})
 	$("#stop").click(function(){
-		timer=window.clearInterval(timer)
+		time = 0 ;
 	})
 	
 	</script>

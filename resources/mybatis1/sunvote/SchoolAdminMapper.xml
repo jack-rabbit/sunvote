@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="TeacherMapper">
+<mapper namespace="SchoolAdminMapper">
 	
 	<!--表名 -->
 	<sql id="tableName">
-		SV_TEACHER
+		SV_SCHOOL_ADMIN
 	</sql>
 	
 	<!-- 字段 -->
 	<sql id="Field">
 		SCHOOL_ID,	
-		NAME,	
-		PHONE,	
-		SEAT_PHONE,	
-		CARD_NO,	
 		ACCOUT,	
 		PASSWORD,	
-		SEX,	
-		SUBJECT_IDS,	
-		KEYPAD_ID,	
-		ID
+		ROLE,	
+		REMARK,	
+		SCHOOLADMIN_ID
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
 		#{SCHOOL_ID},	
-		#{NAME},	
-		#{PHONE},	
-		#{SEAT_PHONE},	
-		#{CARD_NO},	
 		#{ACCOUT},	
 		#{PASSWORD},	
-		#{SEX},	
-		#{SUBJECT_IDS},	
-		#{KEYPAD_ID},	
-		#{ID}
+		#{ROLE},	
+		#{REMARK},	
+		#{SCHOOLADMIN_ID}
 	</sql>
 	
 	<!-- 新增-->
@@ -42,29 +32,9 @@
 		insert into 
 	<include refid="tableName"></include>
 		(
-			ID,
-			SCHOOL_ID,	
-			NAME,	
-			PHONE,	
-			SEAT_PHONE,	
-			CARD_NO,	
-			ACCOUT,	
-			PASSWORD,	
-			SEX,	
-			SUBJECT_IDS,	
-			KEYPAD_ID
+	<include refid="Field"></include>
 		) values (
-		#{ID},
-		#{SCHOOL_ID},	
-		#{NAME},	
-		#{PHONE},	
-		#{SEAT_PHONE},	
-		#{CARD_NO},	
-		#{ACCOUT},	
-		#{PASSWORD},	
-		#{SEX},	
-		#{SUBJECT_IDS},	
-		#{KEYPAD_ID}
+	<include refid="FieldValue"></include>
 		)
 	</insert>
 	
@@ -73,7 +43,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			ID = #{ID}
+			SCHOOLADMIN_ID = #{SCHOOLADMIN_ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -82,18 +52,13 @@
 		<include refid="tableName"></include>
 		set 
 			SCHOOL_ID = #{SCHOOL_ID},
-			NAME = #{NAME},
-			PHONE = #{PHONE},
-			SEAT_PHONE = #{SEAT_PHONE},
-			CARD_NO = #{CARD_NO},
 			ACCOUT = #{ACCOUT},
 			PASSWORD = #{PASSWORD},
-			SEX = #{SEX},
-			SUBJECT_IDS = #{SUBJECT_IDS},
-			KEYPAD_ID = #{KEYPAD_ID},
-		ID = ID
+			ROLE = #{ROLE},
+			REMARK = #{REMARK},
+		SCHOOLADMIN_ID = SCHOOLADMIN_ID
 		where 
-		ID = #{ID}
+		SCHOOLADMIN_ID = #{SCHOOLADMIN_ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -103,23 +68,18 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			ID = #{ID}
+			SCHOOLADMIN_ID = #{SCHOOLADMIN_ID}
 	</select>
 	
-	<!-- 通过ID获取数据 -->
-	<select id="getUserInfo" parameterType="pd" resultType="pd">
+	<!-- 通过用户名 和密码 获取数据 -->
+	<select id="findByusername" parameterType="pd" resultType="pd">
 		select 
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
-		where 1 = 1 
-		<if test="ACCOUT !=null and PASSWORD!=null">
-			and ACCOUT = #{ACCOUT} and PASSWORD=#{PASSWORD}
-		</if>
-		<if test="KEYPAD_ID !=null">
-		and KEYPAD_ID = #{KEYPAD_ID}
-		</if>
-		limit 1
+		where 
+			ACCOUT = #{ACCOUT}
+		and PASSWORD = #{PASSWORD}
 	</select>
 	
 	<!-- 列表 -->
@@ -139,11 +99,6 @@
 				-->
 				)
 		</if>
-		
-		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''"><!-- 关键词检索 -->
-			and
-				(SCHOOL_ID = #{pd.SCHOOL_ID})
-		</if>
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -152,11 +107,6 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
-		where 1 = 1
-		<if test="SCHOOL_ID != null and SCHOOL_ID != ''"><!-- 关键词检索 -->
-			and
-				(SCHOOL_ID = #{SCHOOL_ID})
-		</if>
 	</select>
 	
 	<!-- 批量删除 -->
@@ -164,7 +114,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			ID in
+			SCHOOLADMIN_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>

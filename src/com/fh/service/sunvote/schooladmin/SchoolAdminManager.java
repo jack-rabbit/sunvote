@@ -1,4 +1,4 @@
-package com.fh.service.sunvote.coursemanagement;
+package com.fh.service.sunvote.schooladmin;
 
 import java.util.List;
 
@@ -6,12 +6,12 @@ import com.fh.entity.Page;
 import com.fh.util.PageData;
 
 /** 
- * 说明： 任课管理接口
- * 创建人：Elvis
- * 创建时间：2018-04-26
+ * 说明： 学校管理员接口
+ * 创建人：FH Q313596790
+ * 创建时间：2018-09-17
  * @version
  */
-public interface CourseManagementManager{
+public interface SchoolAdminManager{
 
 	/**新增
 	 * @param pd
@@ -55,8 +55,13 @@ public interface CourseManagementManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
 	
-	
-	public List<PageData> listCourse(PageData pd)throws Exception;
+	/**
+	 * 
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public PageData findByusername(PageData pd)throws Exception;
 	
 }
 

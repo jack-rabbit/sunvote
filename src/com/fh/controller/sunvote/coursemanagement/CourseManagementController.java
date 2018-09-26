@@ -142,6 +142,23 @@ public class CourseManagementController extends BaseController {
 		return mv;
 	}
 	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/listcs")
+	public ModelAndView listcs() throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		List<PageData>	varList = coursemanagementService.listCourse(pd);	//列出CourseManagement列表
+		mv.setViewName("sunvote/coursemanagement/coursemanagement_list2");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
+	
 	/**去新增页面
 	 * @param
 	 * @throws Exception
