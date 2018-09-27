@@ -131,7 +131,7 @@ var url="";
 			console.log(data);
 			if(data.data.length>0){
 				for(var i=0;i<data.data.length;i++){
-					_html += '<li data-id="'+data.data[i].QUESTION_ID+'"><div class="content"></div><div class="option"><ul></ul></div><div class="resolve"><div class="resolve_box"><p><span>【答案】</span> '+data.data[i].ANSWER+'</p><p><span>【解析】</span>'+data.data[i].ANALYSIS+'</p></div></div><div class="star_box"><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a><div class="check_box"></div></div></div><div class="clearfix"></div></div></li>';
+					_html += '<li data-id="'+data.data[i].QUESTION_ID+'" data-knowledge="' + knowledge_id + '"><div class="content"></div><div class="option"><ul></ul></div><div class="resolve"><div class="resolve_box"><p><span>【答案】</span> '+data.data[i].ANSWER+'</p><p><span>【解析】</span>'+data.data[i].ANALYSIS+'</p></div></div><div class="star_box"><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a><div class="check_box"></div></div></div><div class="clearfix"></div></div></li>';
 				}
 				$(".question_box").children("ul").append(_html);
 				console.log(5*(pageNum-1));
@@ -344,12 +344,19 @@ var url="";
 			
 			if($(this).hasClass("checked")){
 				var id=$(this).closest("li").attr("data-id");
-				var que_index=question_box.indexOf(id);
+				var que_index= -1 ;
+				for(var tp = 0 ; tp < question_box.length; tp++){
+					if(question_box[tp].id == id){
+						que_index = tp;
+					}
+				}
 				$(this).removeClass("checked");
 				question_box.splice(que_index,1);
 				question_num--;
 			}else{
-				question_box[question_num]=$(this).closest("li").attr("data-id");
+				//question_box[question_num].id =$(this).closest("li").attr("data-id");
+				//question_box[question_num].knowledge_id =$(this).closest("li").attr("data-knowledge");
+				question_box[question_num] = {id:$(this).closest("li").attr("data-id"),knowledge_id:$(this).closest("li").attr("data-knowledge")};
 				question_num++;
 				$(this).addClass("checked");
 			}
@@ -403,7 +410,8 @@ var url="";
 				question_arry[i]={
 						score: "0",
 						part_score: "0",
-						question_id: question_box[i],
+						question_id: question_box[i].id,
+						knowledge_id:question_box[i].knowledge_id,
 						rank: i.toString(),
 						no_name: i.toString()
 					};

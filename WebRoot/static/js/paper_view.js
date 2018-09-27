@@ -30,11 +30,11 @@ function getQueryString(name) {
 					for(var i=0;i<data.questions.length;i++){
 						question_id_arry+=data.questions[i].question_id+',';
 					}
-					getQuestionInfo(question_id_arry);
+					getQuestionInfo(question_id_arry,data.questions);
 				}
 		
 	})
-	function getQuestionInfo(id){      //获取试题详情
+	function getQuestionInfo(id,knowledge_ids){      //获取试题详情
 		$.ajax({
 			url:url+"/SunvoteEducation/api/v1/question",
 			async:true,
@@ -44,7 +44,7 @@ function getQueryString(name) {
 				console.log(data);
 				if(data.data.length>0){				
 					for(var i=0;i<data.data.length;i++){
-						_html += '<li class="question_li" data-id="'+data.data[i].QUESTION_ID+'"><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【答案】 '+data.data[i].ANSWER+'</p><p><span>【解析】</span>'+data.data[i].ANALYSIS+'</p></div><div class="clearfix"></div></div><div class="star_box"><div class="col-md-6 move"><img src="../static/images/up_ico.png" class="up"/><img src="../static/images/down_ico.png" class="down"/></div><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a></div></div><div class="clearfix"></div></div></li>';
+						_html += '<li class="question_li" data-id="'+data.data[i].QUESTION_ID+'" data-knowledge="' +getknowledgeid(data.data[i].QUESTION_ID,knowledge_ids) + '"><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【答案】 '+data.data[i].ANSWER+'</p><p><span>【解析】</span>'+data.data[i].ANALYSIS+'</p></div><div class="clearfix"></div></div><div class="star_box"><div class="col-md-6 move"><img src="../static/images/up_ico.png" class="up"/><img src="../static/images/down_ico.png" class="down"/></div><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a></div></div><div class="clearfix"></div></div></li>';
 					}
 					console.log(_html);
 					$(".analysis ul").html(_html);
@@ -73,6 +73,16 @@ function getQueryString(name) {
 				window.top.loading.remove();
 			}
 		})
+		
+	}
+	
+	function getknowledgeid(question_id,knowledge_ids){
+		for(var i = 0 ; i < knowledge_ids.length; i++){
+			if(knowledge_ids[i].question_id == question_id){
+				return knowledge_ids[i].knowledge_id;
+			}
+		}
+		return '';
 		
 	}
 	function star(index,num){                //难度星级
@@ -135,6 +145,7 @@ function getQueryString(name) {
 						score: "0",
 						part_score: "0",
 						question_id: $(".question_li").eq(i).attr("data-id"),
+						knowledge_id: $(".question_li").eq(i).attr("data-knowledge"),
 						rank: i.toString(),
 						no_name: i.toString()
 					};
