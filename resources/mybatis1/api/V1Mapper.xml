@@ -100,7 +100,7 @@
 			FROM
 				sv_paperquestion
 			LEFT JOIN sv_question ON sv_paperquestion.QUESTION_ID = sv_question.QUESTION_ID
-			where 1 = 1 and (sv_question.P_ID = '-1' or sv_question.P_ID = '0')
+			where 1 = 1 and (sv_question.P_ID = '-1' or sv_question.P_ID = '0' or sv_question.P_ID IS NULL)
 			<if test="PAPER_ID != null and PAPER_ID != ''">
 				and sv_paperquestion.PAPER_ID = #{PAPER_ID}
 			</if>

@@ -18,6 +18,8 @@ function getQueryString(name) {
 	var classId=getQueryString("classId");
 	var userid=getQueryString("userid");
 	
+	var gradleId =  getQueryString("gradleid");
+	
 	var _html="";
 	var question_id_arry="";
 	$(document).ready(function(){
@@ -155,8 +157,8 @@ function getQueryString(name) {
 				title: $("#paper_title").html(),
 				exam_time: $("#time").html(),
 				paper_type: "101",
-				subject_id: "20",
-				grade_id: "",
+				subject_id: subjectId,
+				grade_id: gradleId,
 				class_id: classId,
 				user_id: userid,
 				score: "100",

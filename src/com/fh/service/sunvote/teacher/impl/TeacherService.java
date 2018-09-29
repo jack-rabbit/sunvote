@@ -88,6 +88,26 @@ public class TeacherService implements TeacherManager{
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("TeacherMapper.deleteAll", ArrayDATA_IDS);
 	}
+
+	@Override
+	public List<PageData> diffcultClassReport(PageData pd) throws Exception {
+		return (List<PageData>)dao.findForList("TeacherMapper.diffcultClassReport", pd);
+	}
+
+	@Override
+	public List<PageData> diffcultStudentReport(PageData pd) throws Exception {
+		return (List<PageData>)dao.findForList("TeacherMapper.diffcultStudentReport", pd);
+	}
+
+	@Override
+	public List<PageData> knowadgeClassReport(PageData pd) throws Exception {
+		return (List<PageData>)dao.findForList("TeacherMapper.knowadgeClassReport", pd);
+	}
+
+	@Override
+	public List<PageData> knowadgeStudentReport(PageData pd) throws Exception {
+		return (List<PageData>)dao.findForList("TeacherMapper.knowadgeStudentReport", pd);
+	}
 	
 }
 

@@ -42,6 +42,34 @@ public interface TeacherManager{
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
 	
+	/**
+	 * knowadgeClassReport
+	 * @param pd
+	 * @throws Exception
+	 */
+	public List<PageData> diffcultClassReport(PageData pd)throws Exception;
+	
+	/**
+	 * diffcultStudentReport
+	 * @param pd
+	 * @throws Exception
+	 */
+	public List<PageData> diffcultStudentReport(PageData pd)throws Exception;
+	
+	/**
+	 * knowadgeClassReport
+	 * @param pd
+	 * @throws Exception
+	 */
+	public List<PageData> knowadgeClassReport(PageData pd)throws Exception;
+	
+	/**
+	 * 根据难度统计学生掌握掌握情况
+	 * @param pd
+	 * @throws Exception
+	 */
+	public List<PageData> knowadgeStudentReport(PageData pd)throws Exception;
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

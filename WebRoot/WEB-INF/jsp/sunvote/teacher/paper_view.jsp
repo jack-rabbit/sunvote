@@ -55,9 +55,12 @@
 		<input type="button" value="保存" class="btn btn-primary btn-lg topic save" />
 	</div>
 	</div>
+	<script>
+		var subjectId = '${pd.subject_id}';
+	</script>
 	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 	<script src="../static/js/echars.js"></script>
-	<script src="../static/js/paper_view.js"></script>
+	<script src="../static/js/paper_view.js?a=2"></script>
 	
 </html>
 

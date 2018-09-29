@@ -125,5 +125,7 @@
 				<!-- /section:basics/sidebar.layout.minimize -->
 				<script type="text/javascript">
 					try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					
+					console.log('${menuList}');
 				</script>
 			</div>

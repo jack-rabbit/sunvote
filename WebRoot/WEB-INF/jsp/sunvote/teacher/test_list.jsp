@@ -49,7 +49,7 @@
 						<th>测验名称</th>
 						<th>班级</th>
 						<th>创建时间</th>
-						<th>查看</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 			</table>
@@ -82,5 +82,5 @@
 	<script type="text/javascript">
 		var user_id= "${pd.userId}";
 	</script>
-	<script src="../static/js/test_list.js?a=2"></script>
+	<script src="../static/js/test_list.js"></script>
 </html>

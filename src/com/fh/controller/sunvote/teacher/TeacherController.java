@@ -204,11 +204,24 @@ public class TeacherController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("userId", userId);
+		pd.put("subject_id",  getSubjectID(userId));
 		mv.setViewName("sunvote/teacher/paper_view");
 		mv.addObject("pd", pd);
 		return mv;
 	}
 	
+	private String getSubjectID(String userId) {
+		PageData pt = new PageData();
+		pt.put("TEACHER_ID", userId);
+		try {
+			List<PageData> subjectList = v1Service.getTeacherSubjectInfo(pt);
+			if (subjectList != null && subjectList.size() > 0) {
+				return subjectList.get(0).getString("SUBJECT_ID");
+			}
+		}catch(Exception ex){}
+		return null;
+	}
+
 	/**
 	 * 列表
 	 * 
@@ -245,6 +258,63 @@ public class TeacherController extends BaseController {
 		mv.setViewName("sunvote/teacher/paper_view1");
 		mv.addObject("pd", pd);
 		return mv;
+	}
+	
+	/**
+	 * 列表
+	 * 
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/classansync")
+	public ModelAndView classansync(Page page) throws Exception {
+		logBefore(logger, Jurisdiction.getUsername() + "列表Paper");
+		String userId = this.getUserID();
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("userId", userId);
+		if(pd.get("TEST_ID") == null){
+			pd.put("TEST_ID", pd.get("TESTPAPERID"));
+		}
+		List<PageData> diffcultClassList = teacherService.diffcultClassReport(pd);
+		List<PageData> diffcultClass = new ArrayList<PageData>();
+		for(int i = 0 ; i < diffcultClassList.size() ; ){
+			PageData tpd0 = diffcultClassList.get(i);
+			PageData tpd1 = new PageData();
+			PageData data = new PageData();
+			if(i + 1 < diffcultClassList.size()){
+				tpd1 = diffcultClassList.get(i+1);
+			}
+			if(tpd0.get("DIFFICULTY").equals(tpd1.get("DIFFICULTY"))){
+				
+				i= i+2 ;
+			}else{
+				i ++ ;
+			}
+		}
+		
+		
+		mv.setViewName("sunvote/teacher/paper_view1");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	
+	private String getPensent(PageData p1 , PageData p2){
+		double pencent = 0.0;
+		if(p2 != null){
+			String p1AnswerNum = p1.getString("ANSWER_NUM");
+			String p2AnswerNum = p2.getString("ANSWER_NUM");
+			double d1 = Double.parseDouble(p1AnswerNum);
+			double d2 = Double.parseDouble(p2AnswerNum);
+			pencent = d2 / (d1 + d2) ;
+		}else{
+			if("1".equals(p1.get("RIGHT"))){
+				pencent = 1.0 ;
+			}
+		}
+		return String.format("%.4f", pencent);
 	}
 
 	/**
@@ -385,9 +455,6 @@ public class TeacherController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "批量删除Teacher");
-		if (!Jurisdiction.buttonJurisdiction(menuUrl, "del")) {
-			return null;
-		} // 校验权限
 		PageData pd = new PageData();
 		Map<String, Object> map = new HashMap<String, Object>();
 		pd = this.getPageData();
@@ -414,9 +481,6 @@ public class TeacherController extends BaseController {
 	@RequestMapping(value = "/excel")
 	public ModelAndView exportExcel() throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "导出Teacher到excel");
-		if (!Jurisdiction.buttonJurisdiction(menuUrl, "cha")) {
-			return null;
-		}
 		ModelAndView mv = new ModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -511,5 +575,7 @@ public class TeacherController extends BaseController {
 		
 		return res.toJson();
 	}
+	
+	
 
 }

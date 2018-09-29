@@ -226,15 +226,15 @@ public class LoginController extends BaseController {
 		try {
 			Session session = Jurisdiction.getSession();
 
-			User user = (User) session.getAttribute(Const.SESSION_USER); // 读取session中的用户信息(单独用户信息)
+			User user = (User)session.getAttribute(Const.SESSION_USER);						//读取session中的用户信息(单独用户信息)
 			if (user != null) {
-				User userr = (User) session.getAttribute(Const.SESSION_USERROL); // 读取session中的用户信息(含角色信息)
-//				if (null == userr) {
-//					userr = userService.getUserAndRoleById(user.getUSER_ID()); // 通过用户ID读取用户信息和角色信息
-//					session.setAttribute(Const.SESSION_USERROL, user); // 存入session
-//				} else {
-//					user = userr;
-//				}
+				User userr = (User)session.getAttribute(Const.SESSION_USERROL);				//读取session中的用户信息(含角色信息)
+				if(null == userr){
+					user = userService.getUserAndRoleById(user.getUSER_ID());				//通过用户ID读取用户信息和角色信息
+					session.setAttribute(Const.SESSION_USERROL, user);						//存入session	
+				}else{
+					user = userr;
+				}
 				String USERNAME = user.getUSERNAME();
 				if ("teacher".equals(changeMenu)) {
 					PageData tpd = new PageData();
@@ -242,7 +242,7 @@ public class LoginController extends BaseController {
 					List<PageData> teacherInfos = v1Service.getTeacherInfo(tpd);
 					pd.put("TEACHER", teacherInfos);
 					if (teacherInfos != null && teacherInfos.size() > 0) {
-						PageData sData = teacherInfos.get(0);
+						PageData sData = teacherInfos.get(0); 
 						session.setAttribute(USERNAME + Const.SCHOOL_ID,
 								sData.get("SCHOOL_ID"));
 						session.setAttribute(USERNAME + Const.SCHOOL_NAME,

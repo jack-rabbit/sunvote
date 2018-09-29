@@ -77,7 +77,8 @@ function getList(start_date, end_date, class_id) { // 获取测验列表
 								+ data.data[i].createDate
 								+ '</td><td><a onclick="window.top.loading.show();jump($(this));" data-id="'
 								+ data.data[i].testpaperId
-								+ '" >查看</a></td></tr>'
+								+ '" >查看详情</a> &nbsp;&nbsp;&nbsp;&nbsp; <a onclick="window.top.loading.show();ansync($(this)); " data-id="' 
+								+ data.data[i].testpaperId + '" >班级分析</a></td></tr>'
 					}
 					$("#tab_body").html(tab_html);
 				},
@@ -92,6 +93,13 @@ function jump(obj) { // 预览测验详情
 	var id = obj.attr("data-id");
 	location.href = "paper_view1.do?testpaperId=" + id;
 }
+
+function ansync(obj){
+	// 班级分析
+	var id = obj.attr("data-id");
+	location.href = "classansync.do?testpaperId=" + id;
+}
+
 function getSubjectName(id) { // 获取科目中文名
 	var subjectName = "";
 	$.ajax({
