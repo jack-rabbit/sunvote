@@ -51,7 +51,7 @@
 			AND sv_term.END_DATE &gt; NOW()
 			AND SCLASS_ID = #{SCLASS_ID}
 			
-			order by sv_student.`SNO`
+			order by (sv_student.NUMBER ) * 1,(sv_student.KEYPAD_ID * 1),(sv_student.SNO*1)
 	</select>
 	
 	<!--  通过教师ID获取科目数据

@@ -251,7 +251,7 @@
 			
 			var sour = "${testpaperList}";
 			
-			if(sour != null && sour.length > 3){
+			 if(sour != null && sour.length > 3){
 				var _width = $('#mainFrame', parent.document).width()-40;
 				var _heigh = $('#mainFrame', parent.document).height()-100;
 				var options = {
@@ -266,7 +266,7 @@
 		        var name_height = $(".kc").last().parent().height()-18.5;
 		        console.log(name_height);
 		        $(".th_name").height(name_height);
-			}
+			} 
 				
 		});
 		
