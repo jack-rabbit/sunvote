@@ -29,9 +29,9 @@
 	</style>
 </head>
 
-<body style="background:#fff;overflow-y:hidden;">
+<body style="background:#fff;">
 	<div style="padding:20px 20px;">
-		<form action="report/report.do" method="post" name="Form" id="Form">
+		<form action="report/report.do" method="post" name="Form" id="Form" style="margin-bottom:0;">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
 			<table style="margin-top:5px;margin-bottom:20px;">
 				<tr>

@@ -271,7 +271,7 @@
 						difficulty: "0",
 						analysis: "",
 						question_from: "1",
-						score: parseInt($(".section").eq(i).attr("data-fraction")),
+						score: parseFloat($(".section").eq(i).attr("data-fraction")),
 						part_score: "0",
 						remark: "",
 						rank: rank,
@@ -298,12 +298,13 @@
 /*ajax封装函数*/
 function ajax_submit(url,data){
 	$(".loading").css("display","block");
-
+	console.log(data);
 	$.ajax({
 		url:url,
 		type:"POST",
 		data:data,
 		dataType:"json",
+		contentType:"application/x-www-form-urlencoded; charset=utf-8",
 		success:function(data){
       $(".loading").css("display","none");
       		window.location.href = JUMP_URL ;

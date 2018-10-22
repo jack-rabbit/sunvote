@@ -178,7 +178,6 @@ public class LoginController extends BaseController {
 					PageData pageData = schooladminService.findByusername(tpd);
 					if(pageData != null){
 						user.setTeacherID(pageData.getString("SCHOOLADMIN_ID"));
-						user.setUSER_ID(pageData.getString("SCHOOLADMIN_ID"));
 					}
 				}
 				user.setLAST_LOGIN(pd.getString("LAST_LOGIN"));

@@ -146,6 +146,9 @@
 		<if test="STUDENT_ID != null and STUDENT_ID != ''">
 			and sv_studenttest.STUDENT_ID = #{STUDENT_ID}
 		</if>
+		<if test="TEACHER_ID != null and TEACHER_ID != ''">
+			and sv_testpaper.TEACHER_ID = #{TEACHER_ID}
+		</if>
 		<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
 			and (CREATE_DATE &gt; #{START_DATE})
 		</if>

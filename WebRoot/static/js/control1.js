@@ -174,7 +174,7 @@
 			        symbolSize: 5,
 			        lineStyle: {
 			            normal: {
-			                color: 'green',
+			                color: '#93D150',
 			                width: 2,
 			                type: 'dashed'
 			            }
@@ -182,8 +182,8 @@
 			        itemStyle: {
 			            normal: {
 			                borderWidth: 2,
-			                borderColor: 'green',
-			                color: 'green'
+			                borderColor: '#93D150',
+			                color: '#93D150'
 			            }
 			        }
 			    },{
@@ -194,7 +194,7 @@
 			        symbolSize: 5,
 			        lineStyle: {
 			            normal: {
-			                color: 'yellow',
+			                color: '#FFC004',
 			                width: 2,
 			                type: 'dashed',
 			            }
@@ -202,8 +202,8 @@
 			        itemStyle: {
 			            normal: {
 			                borderWidth: 2,
-			                borderColor: 'yellow',
-			                color: 'yellow'
+			                borderColor: '#FFC004',
+			                color: '#FFC004'
 			            }
 			        }
 			    },{
@@ -214,7 +214,7 @@
 			        symbolSize: 10,
 			        lineStyle: {
 			            normal: {
-			                color: 'blue',
+			                color: '#45a6f3',
 			                width: 4,
 			                type: 'solid'
 			            }
@@ -222,9 +222,9 @@
 			        itemStyle: {
 			            normal: {
 			                borderWidth: 3,
-			                borderColor: 'blue',
-			                color: 'blue',
-			                label : {show: true}
+			                borderColor: '#45a6f3',
+			                color: '#45a6f3',
+			                label : {show: true,color:'#000'}
 			            }
 			        }
 			    }]

@@ -108,7 +108,7 @@ input[type="text"],select {
 				<p><span style="color:#f00">*</span>键盘ID:</p>
 				<div class="li_r">
 					<input type="text" name="KEYPAD_ID" id="KEYPAD_ID"
-						value="${pd.KEYPAD_ID}" maxlength="10" placeholder="这里输入键盘ID"
+						value="${pd.KEYPAD_ID}" placeholder="这里输入键盘ID"
 						title="键盘ID" />
 				</div>
 			</li>
@@ -171,11 +171,10 @@ input[type="text"],select {
 				return false;
 			}
 
-			if ($("#KEYPAD_ID").val() == ""
-					|| $("#KEYPAD_ID").val().length != 10) {
+			if ($("#KEYPAD_ID").val() == "") {
 				$("#KEYPAD_ID").tips({
 					side : 3,
-					msg : '输入十位有效编号',
+					msg : '输入有效编号',
 					bg : '#AE81FF',
 					time : 2
 				});

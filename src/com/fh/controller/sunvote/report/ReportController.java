@@ -51,6 +51,7 @@ public class ReportController extends BaseController {
 		pd.put("SCLASS_ID", pd.get("CLASSID"));
 		pd.put("ID", pd.get("CLASSID"));
 		pd.put("TEST_TYPE", "1");
+		pd.put("TEACHER_ID", getUserID());
 		// 1 查询班级信息
 		PageData classPageData = sclassService.findById(pd);
 		PageData info = new PageData();
@@ -144,6 +145,7 @@ public class ReportController extends BaseController {
 		ResponseGson<PageData> ret = new ResponseGson();
 //		pd.put("CLASS_ID", pd.get("CLASSID"));
 		List<PageData> studentList = studentService.listAllClass(pd);
+		pd.put("TEACHER_ID", getUserID());
 		List<PageData> testpaperList = testpaperService.listAll(pd);
 		pd.put("ID", pd.get("CLASS_ID"));
 		PageData classPageData = sclassService.findById(pd);
@@ -181,6 +183,7 @@ public class ReportController extends BaseController {
 				if(pd.containsKey("END_DATE")){
 					search.put("END_DATE", pd.getString("END_DATE"));
 				}
+				search.put("TEACHER_ID", getUserID());
 				List<PageData> studentTestList = studenttestService.reportListData(search);
 				studentPageData.put("testList", studentTestList);
 				

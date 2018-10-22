@@ -163,19 +163,17 @@
 	<select id="diffcultClassReport" parameterType="pd" resultType="pd">
 		SELECT
 			sv_question.DIFFICULTY,
-			sv_testpaperinfo.`RIGHT`,
-			count(sv_testpaperinfo.`RIGHT`) AS ANSWER_NUM
+			sum(sv_testpaperinfo.`RIGHT`) as RIGHT_NUM,
+			count(sv_testpaperinfo.`RIGHT`) AS ALL_NUM
 		FROM
 			sv_testpaperinfo
 		LEFT JOIN sv_question ON sv_testpaperinfo.QUESTION_ID = sv_question.QUESTION_ID
 		WHERE
 			sv_testpaperinfo.TEST_ID = #{TEST_ID}
 		GROUP BY
-			sv_question.DIFFICULTY,
-			sv_testpaperinfo.`RIGHT`
-		ORDER BY 
-			sv_question.DIFFICULTY,
-			sv_testpaperinfo.`RIGHT`
+			sv_question.DIFFICULTY
+		ORDER BY
+			sv_question.DIFFICULTY
 	</select>
 	
 	<!-- 根据难度统计学生掌握掌握情况 -->
@@ -184,8 +182,8 @@
 			sv_student.`NAME`,
 			sv_testpaperinfo.STUDENT_ID,
 			sv_question.DIFFICULTY,
-			sv_testpaperinfo.`RIGHT`,
-			count(sv_testpaperinfo.`RIGHT`) AS ANSWER_NUM
+			sum(sv_testpaperinfo.`RIGHT`) AS RIGHT_NUM,
+			count(sv_testpaperinfo.`RIGHT`) AS ALL_NUM
 		FROM
 			sv_testpaperinfo
 		LEFT JOIN sv_student ON sv_testpaperinfo.STUDENT_ID = sv_student.ID
@@ -194,42 +192,37 @@
 			sv_testpaperinfo.TEST_ID = #{TEST_ID}
 		GROUP BY
 			sv_testpaperinfo.STUDENT_ID,
-			sv_question.DIFFICULTY,
-			sv_testpaperinfo.`RIGHT`
+			sv_question.DIFFICULTY
 		ORDER BY
 			sv_student.NUMBER,
-			sv_question.DIFFICULTY,
-			sv_testpaperinfo.`RIGHT`
+			sv_question.DIFFICULTY
 	</select>
 
 	<!-- 根据难度统计学生掌握掌握情况 -->
 	<select id="knowadgeClassReport" parameterType="pd" resultType="pd">
 		SELECT
-			sv_knowledge.`NAME`,
-			sv_testpaperinfo.`RIGHT`,
-			count(sv_testpaperinfo.`RIGHT`) AS ANSWER_NUM
+			sv_knowledge.`NAME`,	
+			SUM(sv_testpaperinfo.`RIGHT`) as RIGHT_NUM,
+			count(sv_testpaperinfo.`RIGHT`) AS ALL_NUM
 		FROM
 			sv_testpaperinfo
 		LEFT JOIN sv_knowledge ON sv_testpaperinfo.KNOWLEDGE_ID = sv_knowledge.KNOWLEDGE_ID
 		WHERE
 			sv_testpaperinfo.TEST_ID = #{TEST_ID}
 		GROUP BY
-			sv_knowledge.`NAME`,
-			sv_testpaperinfo.`RIGHT`
-		ORDER BY
-			sv_knowledge.KNOWLEDGE_ID,
-			sv_testpaperinfo.`RIGHT`
+			sv_knowledge.`NAME`
+		ORDER BY sv_knowledge.`NAME`
 	</select> 
 	
 	<!-- 根据难度统计学生掌握掌握情况 -->
 	<select id="knowadgeStudentReport" parameterType="pd" resultType="pd">
 		SELECT
-			sv_student.`NAME` as STUDENT_NAME,
+			sv_student.`NAME` AS STUDENT_NAME,
 			sv_testpaperinfo.STUDENT_ID,
-			sv_knowledge.`NAME` as KNOWLEDGE_NAME,
+			sv_knowledge.`NAME` AS KNOWLEDGE_NAME,
 			sv_knowledge.KNOWLEDGE_ID,
-			sv_testpaperinfo.`RIGHT`,
-			count(sv_testpaperinfo.`RIGHT`) AS ANSWER_NUM
+			sum(sv_testpaperinfo.`RIGHT`) AS RIGHT_NUM,
+			count(sv_testpaperinfo.`RIGHT`) AS ALL_NUM
 		FROM
 			sv_testpaperinfo
 		LEFT JOIN sv_knowledge ON sv_testpaperinfo.KNOWLEDGE_ID = sv_knowledge.KNOWLEDGE_ID
@@ -238,10 +231,9 @@
 			sv_testpaperinfo.TEST_ID = #{TEST_ID}
 		GROUP BY
 			sv_testpaperinfo.STUDENT_ID,
-			sv_knowledge.`NAME`, 
-			sv_testpaperinfo.`RIGHT`
+			sv_knowledge.`NAME`
 		ORDER BY
-			sv_student.NUMBER,sv_knowledge.KNOWLEDGE_ID,sv_testpaperinfo.`RIGHT`
+			sv_student.NUMBER
 	</select>
 	
 	<!-- 批量删除 -->

@@ -61,7 +61,8 @@ public class SchoolAdminController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("USER_ID", pd.getString("ID")); // ID 主键
+		String uuid = this.get32UUID();
+		pd.put("USER_ID", uuid); // ID 主键
 		pd.put("LAST_LOGIN", ""); // 最后登录时间
 		pd.put("IP", ""); // IP
 		pd.put("STATUS", "0"); // 状态
@@ -75,7 +76,7 @@ public class SchoolAdminController extends BaseController {
 
 		if (null == userService.findByUsername(pd)) { // 判断用户名是否存在
 			userService.saveU(pd); // 执行保存
-			pd.put("SCHOOLADMIN_ID", this.get32UUID());	//主键
+			pd.put("SCHOOLADMIN_ID",uuid );	//主键
 			schooladminService.save(pd);
 		}
 		

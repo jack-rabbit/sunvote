@@ -111,7 +111,7 @@ public class TeacherController extends BaseController {
 			return;
 		} // 校验权限
 		PageData pd = new PageData();
-		pd = this.getPageData();
+		pd = this.getPageData();                        
 		pd.put("USER_ID", pd.get("ID"));
 		teacherService.delete(pd);
 		userService.deleteU(pd);
@@ -278,44 +278,50 @@ public class TeacherController extends BaseController {
 			pd.put("TEST_ID", pd.get("TESTPAPERID"));
 		}
 		List<PageData> diffcultClassList = teacherService.diffcultClassReport(pd);
-		List<PageData> diffcultClass = new ArrayList<PageData>();
-		for(int i = 0 ; i < diffcultClassList.size() ; ){
-			PageData tpd0 = diffcultClassList.get(i);
-			PageData tpd1 = new PageData();
-			PageData data = new PageData();
-			if(i + 1 < diffcultClassList.size()){
-				tpd1 = diffcultClassList.get(i+1);
-			}
-			if(tpd0.get("DIFFICULTY").equals(tpd1.get("DIFFICULTY"))){
-				
-				i= i+2 ;
-			}else{
-				i ++ ;
-			}
+		for(PageData diffcultPd : diffcultClassList){
+			double rightNum = Double.parseDouble(diffcultPd.getString("RIGHT_NUM"));
+			double allNum = Double.parseDouble(diffcultPd.getString("ALL_NUM"));
+			double persent = rightNum * 100.0 / allNum ;
+			diffcultPd.put("RIGHT_PERSENT", String.format("%.2f", persent));
 		}
 		
+		List<PageData> diffcultStudentList = teacherService.diffcultStudentReport(pd);
+		for(PageData diffcultPd : diffcultStudentList){
+			double rightNum = Double.parseDouble(diffcultPd.getString("RIGHT_NUM"));
+			double allNum = Double.parseDouble(diffcultPd.getString("ALL_NUM"));
+			double persent = rightNum * 100.0 / allNum ;
+			diffcultPd.put("RIGHT_PERSENT", String.format("%.2f", persent));
+		}
 		
-		mv.setViewName("sunvote/teacher/paper_view1");
+		List<PageData> knowadgeClassList = teacherService.knowadgeClassReport(pd);
+		for(PageData diffcultPd : knowadgeClassList){
+			double rightNum = Double.parseDouble(diffcultPd.getString("RIGHT_NUM"));
+			double allNum = Double.parseDouble(diffcultPd.getString("ALL_NUM"));
+			double persent = rightNum * 100.0 / allNum ;
+			diffcultPd.put("RIGHT_PERSENT", String.format("%.2f", persent));
+		}
+		
+		List<PageData> knowadgeStudentList = teacherService.knowadgeStudentReport(pd);
+		for(PageData diffcultPd : knowadgeStudentList){
+			double rightNum = Double.parseDouble(diffcultPd.getString("RIGHT_NUM"));
+			double allNum = Double.parseDouble(diffcultPd.getString("ALL_NUM"));
+			double persent = rightNum * 100.0 / allNum ;
+			diffcultPd.put("RIGHT_PERSENT", String.format("%.2f", persent));
+		}
+		mv.addObject("diffcultClassList", diffcultClassList);
+		mv.addObject("diffcultClassListSize", diffcultClassList.size());
+		mv.addObject("diffcultStudentList", diffcultStudentList);
+		mv.addObject("knowadgeClassList", knowadgeClassList);
+		mv.addObject("knowadgeClassListSize", knowadgeClassList.size());
+		mv.addObject("knowadgeStudentList", knowadgeStudentList);
+		
+		mv.setViewName("sunvote/teacher/paper_report");
 		mv.addObject("pd", pd);
 		return mv;
 	}
 	
 	
-	private String getPensent(PageData p1 , PageData p2){
-		double pencent = 0.0;
-		if(p2 != null){
-			String p1AnswerNum = p1.getString("ANSWER_NUM");
-			String p2AnswerNum = p2.getString("ANSWER_NUM");
-			double d1 = Double.parseDouble(p1AnswerNum);
-			double d2 = Double.parseDouble(p2AnswerNum);
-			pencent = d2 / (d1 + d2) ;
-		}else{
-			if("1".equals(p1.get("RIGHT"))){
-				pencent = 1.0 ;
-			}
-		}
-		return String.format("%.4f", pencent);
-	}
+	
 
 	/**
 	 * 列表
