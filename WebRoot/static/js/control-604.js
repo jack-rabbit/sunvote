@@ -1,10 +1,12 @@
 ﻿$(function(){
 	/*快速创建答案列表*/
 	var score=0;
+	var total_score = 0;
+	var questionNUm = 0 ;
 	function creat(str_ans,a_num,fraction){
-		$(".section").remove();
+//		$(".section").remove();
+		answer_index_b=$(".section").length+1;
 		/*$(".content").append('<div class="section section-1 single" data-fraction="'+fraction+'" data-score=""> <div class="title"> <h3><span class="que_num">一、</span><span class="que_name">单选</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>')*/
-		$(".content").append('<div class="section section-1 single" data-fraction="'+fraction+'" data-score=""><div class="title"><h3><span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span></h3> </div><div class="question_list"></div></div>');
 		var str=str_ans.split('');
 		console.log(str);
 		for(i=0;i<str.length;i++){
@@ -14,28 +16,32 @@
 			}
 		}
 		q_num=str.length;
+		$(".content").append('<div class="section section-' + answer_index_b +' single" data-fraction="'+fraction+'" data-score=""><div class="title"><h3>第' +answer_index_b +'大题总分: ' + (q_num * fraction)+'分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span> --></h3> </div><div class="question_list"></div></div>');
 		for(var i=0;i<q_num;i++){
 			str_temp=str[i];
 			str_temp=str_temp.toUpperCase()
 			code = str_temp.charCodeAt(); 
 			on_index=code-65;
+			questionNUm++;
 			if(code<(65+a_num)){
 				console.log(str_temp);
-				$(".question_list").append('<div class="question question'+(i+1)+'"><span>'+(i+1)+'、</span><ul></ul></div>');
+				$(".section-" +answer_index_b +" .question_list").append('<div class="question question'+(questionNUm)+'"><span>'+(questionNUm)+'、</span><ul></ul></div>');
 				for(var j=0;j<a_num;j++){
 					option=String.fromCharCode(0x41+j);
 					if(on_index==j){
 						console.log(on_index+"---"+j);
-						$(".question"+(i+1)+' ul').append('<li class="btn btn-default on">'+option+'</li>');
+						$(".question"+(questionNUm)+' ul').append('<li class="btn btn-default on">'+option+'</li>');
 					}else
-						$(".question"+(i+1)+' ul').append('<li class="btn btn-default">'+option+'</li>');
+						$(".question"+(questionNUm)+' ul').append('<li class="btn btn-default">'+option+'</li>');
 				}	
 			}else{
 				alert("题目"+(i+1)+":"+String.fromCharCode(code)+"答案错误，超出选项数");
 				//return;
 			}
 		}
-		$(".section-1").attr("data-score",$(".section-1").find(".question").length*fraction);
+		$(".section-" +answer_index_b).attr("data-score",$(".section-1").find(".question").length*fraction);
+		total_score += q_num * fraction;
+		$("#score_all").text(total_score);
 	}
 
 	/***********
@@ -105,15 +111,18 @@
 						}		
 				}*/
 			case 5:                                             //多选题
-				$(".content").html("");
-				$(".content").append('<div class="section section0'+' check" data-fraction="'+fraction2+'" data-score=""> <div class="title"><h3><span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span></h3> </div> <div class="question_list"></div></div>');
+//				$(".content").html("");
+				$(".content").append('<div class="section section-'+ answer_index_b +' check" data-fraction="'+fraction2+'" data-score=""> <div class="title"><h3>第' +answer_index_b +'大题总分: ' + ((index_e_2- index_s_2 + 1 )* fraction2)+'分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span>--></h3> </div> <div class="question_list"></div></div>');
 				for(var i=index_s_2;i<=index_e_2;i++){
-						$(".section0" +" .question_list").append('<div class="question question'+i+'"><span>'+i+'、</span><ul></ul></div>');
+						questionNUm++;
+						$(".section-" + answer_index_b +" .question_list").append('<div class="question question'+questionNUm+'"><span>'+questionNUm+'、</span><ul></ul></div>');
 						for(var j=0;j<a_num;j++){
 							option=String.fromCharCode(0x41+j);
-							$(".section0"+" .question"+i+' ul').append('<li class="btn btn-default">'+option+'</li>');
+							$(".section-" + answer_index_b +" .question"+questionNUm+' ul').append('<li class="btn btn-default">'+option+'</li>');
 						}		
 				}
+				total_score +=((index_e_2- index_s_2 + 1 )* fraction2);
+				$("#score_all").text(total_score);
 			break;
 		}
 //		$(".section-"+answer_index_b).attr("data-score",$(".section-"+answer_index_b).find(".question").length*fraction2);
@@ -125,7 +134,7 @@
 	})
 	
 	$("#fast_submit").click(function(){           //点击确定，创建答案列表
-		$("#addQuestion").attr("disabled","disabled");
+//		$("#addQuestion").attr("disabled","disabled");
 		var answer=$("#answer").val();
 		var num_ans=$("#num_ans").val();
 		var fraction=$("#fraction").val();
@@ -136,7 +145,7 @@
 			alert("请输入题目分数");
 			return;
 		}
-		var frac = parseInt(fraction);
+		var frac = parseFloat(fraction);
 		if(frac > 0){
 			$('.fast').modal('hide');
 			//score += parseInt(fraction)*answer.split(",").length;
@@ -149,13 +158,13 @@
 
 	/*添加试题的确定按钮*/
 	$("#addQuestion_submit").click(function(){
-		$("#fast").attr("disabled","disabled");
+//		$("#fast").attr("disabled","disabled");
 		var type_2=5;//parseInt($("#type").val())
 		var index_s_2=1;//parseInt($("#index_s_2").val())
 		var index_e_2=parseInt($("#index_s_2").val());
 		//var answer_2=$("#answer_2").val();
 		var num_ans_2=$("#num_ans_2").val();
-		var fraction2=parseInt($("#fraction2").val());
+		var fraction2=parseFloat($("#fraction2").val());
 		if(isNaN(index_s_2)){
 			alert("请输入题目开始序号");
 			return;
@@ -213,7 +222,7 @@
 	$("#save").click(function(){
 		var url=URL;
 		for(i=0;i<$(".section").length;i++){
-			score+=parseInt($(".section").eq(i).attr("data-score"));
+			score+=parseFloat($(".section").eq(i).attr("data-score"));
 		}
 		var data={
 			title: $(".header_box h1").text(),
@@ -260,7 +269,7 @@
 						alert("还有试题未编辑答案。");
 						return;
 					}
-					data.questions[j]={
+					data.questions[rank-1]={
 						chapter_id: "0",
 						problem_type_id: "0",
 						knowledge_id: "0",
@@ -275,7 +284,7 @@
 						part_score: "0",
 						remark: "",
 						rank: rank,
-						no_name: (j+1),
+						no_name: rank,
 					}
 				}
 			}
