@@ -55,6 +55,14 @@ public interface StudentManager{
 	 */
 	public PageData findById(PageData pd)throws Exception;
 	
+	/**
+	 * 
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public PageData findByName(PageData pd)throws Exception;
+	
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

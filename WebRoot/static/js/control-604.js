@@ -16,7 +16,7 @@
 			}
 		}
 		q_num=str.length;
-		$(".content").append('<div class="section section-' + answer_index_b +' single" data-fraction="'+fraction+'" data-score=""><div class="title"><h3>第' +answer_index_b +'大题总分: ' + (q_num * fraction)+'分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span> --></h3> </div><div class="question_list"></div></div>');
+		$(".content").append('<div class="section section-' + answer_index_b +' single" data-fraction="'+fraction+'" data-score="'+(q_num * fraction)+'"><div class="title"><h3>第' +answer_index_b +'大题总分: ' + (q_num * fraction)+'分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span> --></h3> </div><div class="question_list"></div></div>');
 		for(var i=0;i<q_num;i++){
 			str_temp=str[i];
 			str_temp=str_temp.toUpperCase()
@@ -112,7 +112,7 @@
 				}*/
 			case 5:                                             //多选题
 //				$(".content").html("");
-				$(".content").append('<div class="section section-'+ answer_index_b +' check" data-fraction="'+fraction2+'" data-score=""> <div class="title"><h3>第' +answer_index_b +'大题总分: ' + ((index_e_2- index_s_2 + 1 )* fraction2)+'分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span>--></h3> </div> <div class="question_list"></div></div>');
+				$(".content").append('<div class="section section-'+ answer_index_b +' check" data-fraction="'+fraction2+'" data-score="' + ((index_e_2- index_s_2 + 1 )* fraction2)+ '"> <div class="title"><h3>第' +answer_index_b +'大题总分: ' + ((index_e_2- index_s_2 + 1 )* fraction2)+'分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span>--></h3> </div> <div class="question_list"></div></div>');
 				for(var i=index_s_2;i<=index_e_2;i++){
 						questionNUm++;
 						$(".section-" + answer_index_b +" .question_list").append('<div class="question question'+questionNUm+'"><span>'+questionNUm+'、</span><ul></ul></div>');
@@ -221,9 +221,7 @@
 	/*提交保存数据*/
 	$("#save").click(function(){
 		var url=URL;
-		for(i=0;i<$(".section").length;i++){
-			score+=parseFloat($(".section").eq(i).attr("data-score"));
-		}
+		
 		var data={
 			title: $(".header_box h1").text(),
 		    exam_time: parseInt($("#time").text()),
@@ -231,32 +229,32 @@
 		    subject_id: testData.subject_id,
 		    grade_id: testData.grade_id,
 		    user_id: testData.user_id,
-		    score:score,
+		    score:total_score,
 		    questions:[]
 		}
 		
 		if($(".section").length>0){
 			var rank=0
 			for(i=0;i<$(".section").length;i++){
-				/*rank++;
+				//rank++;
 				data.questions[i]={
 					chapter_id: "0",
 		            problem_type_id: "0",
 		            knowledge_id: "0",
-		            content: $(".section").eq(i).find(".que_name").text(),
+		           // content: $(".section").eq(i).find(".que_name").text(),
 		            option_num: "",
 		            option_content: "",
 		            answer: "",
 		            difficulty: "",
 		            analysis: "",
 		            question_from: "",
-		            score:parseInt($(".section").eq(i).attr("data-fraction")),
+		            score:parseFloat($(".section").eq(i).attr("data-score")),
 		            part_score: "",
 		            remark: "",
 		            rank: rank,
 		            no_name: $(".section").eq(i).find(".que_num").text(),
 		            questions:[]
-					}*/
+					}
 				for(j=0;j<$(".section").eq(i).find(".question_list").children(".question").length;j++){
 					rank++;
 					var on_num=$(".section").eq(i).find(".question").eq(j).find(".on").length;
@@ -269,7 +267,7 @@
 						alert("还有试题未编辑答案。");
 						return;
 					}
-					data.questions[rank-1]={
+					data.questions[i].questions[j]={
 						chapter_id: "0",
 						problem_type_id: "0",
 						knowledge_id: "0",
@@ -370,6 +368,7 @@ function creatHtml(data){
 		console.log(data);
 		$(".header_box h1").html(data.title);	
 		$("#time").html(data.exam_time);
+		$("#score_all").html(data.score);
 		
 		if(data.questions.length>0){
 			$(".time").removeAttr("data-target");
@@ -379,7 +378,7 @@ function creatHtml(data){
 		
 		for(var i=0;i<data.questions.length;i++){
 			if(data.questions[i].questions){
-				$(".content").append('<div class="section section-'+i+'" data-fraction="'+data.questions[i].score+'"> <h3><span class="que_num">'+data.questions[i].no_name+'</span>'+'<span class="que_name">'+data.questions[i].content+'</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" />  <div class="question_list"></div></div>');
+				$(".content").append('<div class="section section-'+i+'" data-fraction="'+data.questions[i].score+'" style="margin-top:20px;"> <h3><span class="que_num">'+'第'+ (i+1) + '大题总分:'+ data.questions[i].sug_score +'</span>'+'<span class="que_name">'+data.questions[i].content+'</span></h3><!-- <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> --> <div class="question_list"></div></div>');
 			}else{
 				if(i == 0){
 					$(".content").append('<div class="section section0"> <div class="question_list"></div></div>');

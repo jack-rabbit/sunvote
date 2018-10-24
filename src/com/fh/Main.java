@@ -9,29 +9,25 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		String username = "pressure_test" ;
-		String password = "123456" ;
-		String trueName = "" ;
-		
-		String url = "http://127.0.0.1:8080/SunvoteEducation/api/v1/tempcreateUser" ;
-		for(int i = 2 ; i <= 100 ; i++){
-			trueName = username + i ;
-			String keypadid = "0000" ;
-			if(i >= 100){
-				keypadid = keypadid + i ;
-			}else if(i > 9){
-				keypadid = keypadid + "0" + i ;
-			}else{
-				keypadid = keypadid + "00" + i ;
-			}
-			post(url + "?ACCOUT=" + trueName + "&password=" + password + "&SCHOOL_ID=4" + "&SEX=1" + "&NAME=" + trueName + "&KEYPAD_ID=" + keypadid);
-		}
+		report();
 
+	}
+	
+	
+	static void report(){
+		String url = "http://192.168.0.3:8668/sunvoteAPI/report/getReport?" ;
+//		String reportId = "62e7c27f-7f21-4e3c-8f86-5d9ba04cf4d6" ;
+		String reportId = "5a002abf-9d96-4307-9c35-3dd4230d2f0a" ;
+		url = url + "reportId="+reportId;
+		String message = post(url);
+		System.out.println(message);
 	}
 
 	
 	
-	static void post(String url){
+	
+	
+	static String post(String url){
 		try {
 		    //请求地址
 		    URL urlHttp = new URL(url);
@@ -72,10 +68,34 @@ public class Main {
 		    }
 		    bf.close();    // 重要且易忽略步骤 (关闭流,切记!)
 		    connection.disconnect(); // 销毁连接
+		    return sb.toString();
 
 		
 		} catch (Exception e) {
 		    e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	
+	static void createUser(){
+		String username = "pressure_test" ;
+		String password = "123456" ;
+		String trueName = "" ;
+		
+		String url = "http://127.0.0.1:8080/SunvoteEducation/api/v1/tempcreateUser" ;
+		for(int i = 2 ; i <= 100 ; i++){
+			trueName = username + i ;
+			String keypadid = "0000" ;
+			if(i >= 100){
+				keypadid = keypadid + i ;
+			}else if(i > 9){
+				keypadid = keypadid + "0" + i ;
+			}else{
+				keypadid = keypadid + "00" + i ;
+			}
+			post(url + "?ACCOUT=" + trueName + "&password=" + password + "&SCHOOL_ID=4" + "&SEX=1" + "&NAME=" + trueName + "&KEYPAD_ID=" + keypadid);
 		}
 	}
 }

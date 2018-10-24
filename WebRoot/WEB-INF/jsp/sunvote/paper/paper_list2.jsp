@@ -146,7 +146,7 @@
 			//var remove = new remove();
 			window.top.remove.init({"title":"删除","func":function(success){
 				if(success){
-					var url = "<%=basePath%>paper/delete.do?PAPER_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>paper/delete.do?PAPER_ID="+Id+"&qingsongkao=true&tm="+new Date().getTime();
 					window.top.loading.show();
 					$.get(url,function(data){
 						tosearch();

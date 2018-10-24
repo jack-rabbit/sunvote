@@ -102,6 +102,10 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		where 1=1
+		<if test="PAPER_ID != null and PAPER_ID != ''">
+			and PAPER_ID = #{PAPER_ID}
+		</if>
 	</select>
 	
 	<!-- 批量删除 -->
@@ -114,6 +118,8 @@
                  #{item}
 		</foreach>
 	</delete>
+	
+	
 	
 	<!-- 批量删除 -->
 	<delete id="deleteAllPaper" parameterType="String">

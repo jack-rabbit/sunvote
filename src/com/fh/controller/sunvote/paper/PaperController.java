@@ -28,6 +28,7 @@ import com.fh.entity.system.User;
 import com.fh.service.api.V1Manager;
 import com.fh.service.sunvote.paper.PaperManager;
 import com.fh.service.sunvote.paperquestion.PaperQuestionManager;
+import com.fh.service.sunvote.question.QuestionManager;
 import com.fh.util.AppUtil;
 import com.fh.util.Const;
 import com.fh.util.Jurisdiction;
@@ -48,6 +49,9 @@ public class PaperController extends BaseController {
 	
 	@Resource(name="paperquestionService")
 	private PaperQuestionManager paperquestionService;
+	
+	@Resource(name="questionService")
+	private QuestionManager questionService;
 	
 	@Resource(name = "v1Service")
 	private V1Manager v1Service ;
@@ -94,6 +98,17 @@ public class PaperController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		String[] ArrayDATA_IDS = new String[]{pd.getString("PAPER_ID")};
+		if(pd.getString("QINGSONGKAO") != null){
+			List<PageData> list = paperquestionService.listAll(pd);
+			String[] qids = new String[list.size()];
+			int i = 0 ;
+			for(PageData ptd : list){
+				qids[i++] = ptd.getString("QUESTION_ID");
+			}
+			if(qids.length > 0){
+				questionService.deleteAll(qids);
+			}
+		}
 		paperquestionService.deleteAllPaper(ArrayDATA_IDS);
 		paperService.delete(pd);
 		out.write("success");
@@ -178,8 +193,8 @@ public class PaperController extends BaseController {
 					question.setDifficulty(qpd.getString("DIFFICULTY"));
 					question.setAnalysis(qpd.getString("ANALYSIS"));
 					question.setQuestion_from(qpd.getString("QUESTION_FROM"));
-					question.setSug_score(qpd.getString("SUG_SCORE"));
-					question.setSug_part_score(qpd.getString("SUG_PART_SCORE"));
+					question.setSug_score(qpd.getString("SCORE"));
+					question.setSug_part_score(qpd.getString("PART_SCORE"));
 					question.setRank(qpd.getString("RANK"));
 					question.setNo_name(qpd.getString("NO_NAME"));
 					if("-1".equals("" + qpd.getString("P_ID"))){
@@ -201,8 +216,8 @@ public class PaperController extends BaseController {
 							qq.setDifficulty(q.getString("DIFFICULTY"));
 							qq.setAnalysis(q.getString("ANALYSIS"));
 							qq.setQuestion_from(q.getString("QUESTION_FROM"));
-							qq.setSug_score(q.getString("SUG_SCORE"));
-							qq.setSug_part_score(q.getString("SUG_PART_SCORE"));
+							qq.setSug_score(q.getString("SCORE"));
+							qq.setSug_part_score(q.getString("PART_SCORE"));
 							qq.setRank(q.getString("RANK"));
 							qq.setNo_name(q.getString("NO_NAME"));
 							question.getQuestions().add(qq);

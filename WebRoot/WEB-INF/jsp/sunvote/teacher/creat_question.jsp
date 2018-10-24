@@ -26,6 +26,7 @@
 		<h1 class="text-center"></h1>
 		<div class="btn_group">
 			<div class="time text-center" data-toggle="modal" data-target=".test_time"><h3>测验时长：<span class="bg-primary" id="time">45</span><span class="bg-primary">分钟</span></h3></div>
+			<div class="pull-left"><h3>总分：<span id='score_all'>0</span> 分</h3></div>
 			<div class="btn_box pull-right">
 				<input type="button" class="btn btn-success btn-lg" name="save" value="保存" id="save"/>
 				<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".fast" id="fast">单选出题</button>
