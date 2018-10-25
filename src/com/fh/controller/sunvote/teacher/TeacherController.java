@@ -171,6 +171,25 @@ public class TeacherController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
+	
+	/**
+	 * 列表
+	 * 
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/teach_paper1")
+	public ModelAndView teach_paper1(Page page) throws Exception {
+		logBefore(logger, Jurisdiction.getUsername() + "列表Paper");
+		String userId = this.getUserID();
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/teacher/teach_paper1");
+		pd.put("userId", userId);
+		mv.addObject("pd", pd);
+		return mv;
+	}
 	/**
 	 * 列表
 	 * 

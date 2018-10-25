@@ -92,7 +92,12 @@
 			<p>试卷管理<span class="right jiao"></span></p>
 				<ul class="menu_1">
 					<li >
-						<p id="qingsongkao_paper">轻松考试卷管理</p>
+						<p >轻松考试卷管理</p>
+						<ul class="menu_2">
+							<li ><p id="new_paper">出卷</p></li>
+							<li ><p id="qingsongkao_paper">查看所有试卷</p></li>
+							
+						</ul>
 					</li>
 					<li>
 						<p id="jishice_paper">即时测试卷管理</p>
@@ -107,18 +112,29 @@
 			
 			<ul class="menu_1">
 					<li >
-						<p>轻松考测验分析</p>
+						<p>轻松考统考</p>
+					</li>
+					<li >
+						<p>轻松考班级情况</p>
 						<ul class="menu_2">
-							<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-								<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
+							<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
+								<c:forEach items="${var.classInfos}" var="var1" varStatus="vs1">
+									<li onclick="event.stopPropagation();report('${var1.ID}')">
+										<p>${ var1.CLASS_NAME }</p>
+									</li>
+								</c:forEach>
 							</c:forEach>
 						</ul>
 					</li>
 					<li>
 						<p>即时测测验分析</p>
 							<ul class="menu_2">
-							<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-								<li onclick="event.stopPropagation();report2('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
+							<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
+								<c:forEach items="${var.classInfos}" var="var1" varStatus="vs1">
+									<li onclick="event.stopPropagation();report2('${var1.ID}')">
+										<p>${ var1.CLASS_NAME }</p>
+									</li>
+								</c:forEach>
 							</c:forEach>
 						</ul>
 					</li>
@@ -166,6 +182,7 @@
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
+	       
 	        <div class="form-group">
 			    <label for="enter_time" class="col-sm-4 control-label">测验时长（分钟）</label>
 			    <div class="col-sm-6">
@@ -173,7 +190,28 @@
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
-			
+			 <div class="form-group">
+			    <label for="enter_time" class="col-sm-4 control-label">年级</label>
+			    <div class="col-sm-6">
+			      <select class="chosen-select form-control" name="grade_id" id="grade_id" data-placeholder="这里输入所属学校">
+						<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
+							<option value="${var.GRADE_ID}">${var.GNAME}</option>
+						</c:forEach>
+				</select>
+			    </div>
+			    <div class="clearfix"></div>
+			</div>
+			 <div class="form-group">
+			    <label for="enter_time" class="col-sm-4 control-label">科目</label>
+			    <div class="col-sm-6">
+			      <select class="chosen-select form-control" name="subject_id" id="subject_id" data-placeholder="这里输入所属学校">
+						<c:forEach items="${subjectInfos}" var="var" varStatus="vs">
+							<option value="${var.SUBJECT_ID}">${var.SCNAME}</option>
+						</c:forEach>
+				</select>
+			    </div>
+			    <div class="clearfix"></div>
+			</div>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary" id="time_submit">确定</button>
@@ -191,6 +229,7 @@
 	<script src="../static/js/dailog.js"></script>
 	<script type="text/javascript">
 	
+		var schoolId = '${SCHOOL_ID}';
 		function subject(school_id){
 			var path = "../subject/listcs.do?school_id=" + school_id ;
 			//if($("#mainFrame").attr('src') != (path)){
@@ -240,10 +279,12 @@
 		$("#time_submit").click(function(){
 			var name = $("#enter_title").val();
 			var time = $("#enter_time").val();
+			var grade_id = $("#grade_id").val();
+			var subject_id = $("#subject_id").val();
 			if(name != null&& name != '' && time != null && time != ''){
 				var itime = parseInt(time);
 				if(itime > 0 && itime <= 300){
-					self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time ;
+					self.location.href = "<%=basePath%>" + "paper/npaper.do?paper_type=2&" + "name=" + name + "&grade_id=" + grade_id +"&subject_id=" + subject_id + "&school_id=" + schoolId + "&time=" + time ;
 					$(".title_time").modal("hide");
 				}else{
 					alert("请输入正确的时间，时间不能超过300分钟");
@@ -252,7 +293,16 @@
 		});
 		
 		$("#qingsongkao_paper").click(function (){
-			var path = "../paper/list2.do?" ;
+			var path = "../paper/list4.do?school_id=" + schoolId ;
+			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
+			if($("#mainFrame").attr('src') != (path)){
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
+			}
+		});
+		
+		$("#new_paper").click(function (){
+			var path = "../paper/list5.do?school_id=" + schoolId ;
 			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
 			if($("#mainFrame").attr('src') != (path)){
 				$("#mainFrame").attr('src',path);
@@ -261,7 +311,7 @@
 		});
 		
 		$("#jishice_paper").click(function (){
-			var path = "../teacher/teach_paper.do?" ;
+			var path = "../teacher/teach_paper.do?school_id=" + schoolId;
 			//if($("#mainFrame").attr('src') != (path)){
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();

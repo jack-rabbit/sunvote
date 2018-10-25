@@ -229,6 +229,7 @@
 		    subject_id: testData.subject_id,
 		    grade_id: testData.grade_id,
 		    user_id: testData.user_id,
+		    school_id: testData.school_id,
 		    score:total_score,
 		    questions:[]
 		}

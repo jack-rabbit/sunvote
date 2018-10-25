@@ -19,6 +19,16 @@ public class Paper {
 	private String user_id = "";
 	
 	private String class_id = "" ;
+	
+	private String school_id = "" ;
+
+	public String getSchool_id() {
+		return school_id;
+	}
+
+	public void setSchool_id(String school_id) {
+		this.school_id = school_id;
+	}
 
 	private List<Question> questions = new ArrayList<Question>();
 	

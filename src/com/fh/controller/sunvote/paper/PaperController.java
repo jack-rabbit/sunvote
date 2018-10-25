@@ -248,21 +248,29 @@ public class PaperController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		String paperType = pd.getString("PAPER_TYPE") ;
 		Paper paper = new Paper();
 		paper.setTitle(pd.getString("NAME"));
 		paper.setExam_time(pd.getString("TIME"));
 		Session session = Jurisdiction.getSession();
 		User user = (User)session.getAttribute(Const.SESSION_USER);
 		paper.setUser_id(user.getUSER_ID());
-		paper.setPaper_type("1");
-		paper.setSubject_id(getSubjectId());
-		paper.setGrade_id(getGradeID());
+		paper.setPaper_type(paperType == null ? "1" :paperType);
+		paper.setSubject_id(pd.getString("SUBJECT_ID") == null ? getSubjectId():pd.getString("SUBJECT_ID"));
+		paper.setGrade_id(pd.getString("GRADE_ID") == null ? getGradeID() : pd.getString("GRADE_ID"));
+		paper.setSchool_id(pd.getString("SCHOOL_ID") == null ? getSchoolID() : pd.getString("SCHOOL_ID"));
 		paper.setQuestions(new ArrayList<Question>());
+		
 		pd.put("JSON", paper.toJson());
 		logger.info(paper.toJson());
 		
 		mv.setViewName("sunvote/teacher/creat_question");
 		mv.addObject("pd", pd);
+		if(paperType != null && "2".equals(paperType)){
+			mv.addObject("JUMP_URL", "/main/admin");
+		}else{
+			mv.addObject("JUMP_URL", "/main/teacher");
+		}
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
@@ -325,6 +333,114 @@ public class PaperController extends BaseController {
 		return mv;
 	}
 	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/list4")
+	public ModelAndView list4(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String keywords = pd.getString("keywords");				//关键词检索条件
+		if(null != keywords && !"".equals(keywords)){
+			pd.put("keywords", keywords.trim());
+		}
+		pd.put("PAPER_TYPE","1");
+		page.setPd(pd);
+		List<PageData>	varList = paperService.list(page);	//列出Paper列表
+		pd.put("PAPER_TYPE","2");
+		List<PageData>	varList2 = paperService.list(page);	//列出Paper列表
+		varList.addAll(varList2);
+		mv.setViewName("sunvote/paper/paper_list4");
+		
+		for(PageData p:varList){
+			String examTime = p.getString("EXAM_TIME");
+			if(examTime != null){
+				try{
+					int et = Integer.parseInt(examTime);
+					String min = (et / 60 ) + "" ;
+					if(min.length() < 2){
+						min = "0" + min ;
+					}
+					String sec = (et % 60 ) + "" ;
+					if(sec.length() < 2){
+						sec = "0" + sec ;
+					}
+					if(et > 60){
+						examTime = min + ":" + sec; 
+					}else{
+						examTime = "00:" +  sec; 
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			if(examTime == null){
+				examTime = "00:00";
+			}
+			p.put("EXAM_TIME", examTime);
+		}
+		
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
+	
+	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/list5")
+	public ModelAndView list5(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String keywords = pd.getString("keywords");				//关键词检索条件
+		if(null != keywords && !"".equals(keywords)){
+			pd.put("keywords", keywords.trim());
+		}
+		pd.put("PAPER_TYPE","2");
+		pd.put("USER_ID", this.getUserID());
+		page.setPd(pd);
+		List<PageData>	varList = paperService.list(page);	//列出Paper列表
+		mv.setViewName("sunvote/paper/paper_list5");
+		
+		for(PageData p:varList){
+			String examTime = p.getString("EXAM_TIME");
+			if(examTime != null){
+				try{
+					int et = Integer.parseInt(examTime);
+					String min = (et / 60 ) + "" ;
+					if(min.length() < 2){
+						min = "0" + min ;
+					}
+					String sec = (et % 60 ) + "" ;
+					if(sec.length() < 2){
+						sec = "0" + sec ;
+					}
+					if(et > 60){
+						examTime = min + ":" + sec; 
+					}else{
+						examTime = "00:" +  sec; 
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			if(examTime == null){
+				examTime = "00:00";
+			}
+			p.put("EXAM_TIME", examTime);
+		}
+		
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
 	
 	/**列表
 	 * @param page

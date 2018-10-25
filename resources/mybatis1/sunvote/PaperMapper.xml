@@ -138,6 +138,9 @@
 		<if test="pd.PAPER_TYPE != null and pd.PAPER_TYPE != ''"><!-- 关键词检索 -->
 			and PAPER_TYPE = #{pd.PAPER_TYPE}
 		</if>
+		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''"><!-- 关键词检索 -->
+			and SCHOOL_ID = #{pd.SCHOOL_ID}
+		</if>
 		
 		order by CREATE_DATE DESC
 	</select>
@@ -148,6 +151,11 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		where 1 =1 
+		
+		<if test="SCHOOL_ID != null and SCHOOL_ID != ''"><!-- 关键词检索 -->
+			and SCHOOL_ID = #{SCHOOL_ID}
+		</if>
 		
 		order by CREATE_DATE DESC
 	</select>
@@ -171,6 +179,12 @@
 		</if>
 		<if test="pd.CLASS_ID != null and pd.CLASS_ID != ''">
 			and CLASS_ID = #{pd.CLASS_ID}
+		</if>
+		<if test="GRADE_ID != null and GRADE_ID != ''">
+			and GRADE_ID = #{pd.GRADE_ID}
+		</if>
+		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''">
+			and SCHOOL_ID = #{pd.SCHOOL_ID}
 		</if>
 		
 		<if test="pd.START_DATE != null and pd.START_DATE != ''"><!-- 关键词检索 -->

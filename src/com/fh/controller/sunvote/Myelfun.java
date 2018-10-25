@@ -158,7 +158,7 @@ public class Myelfun {
 		if(pageData != null){
 			return pageData.getString("NAME");
 		}else{
-			return "" ;
+			return "管理员" ;
 		}
 	}
 	

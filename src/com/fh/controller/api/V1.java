@@ -494,7 +494,7 @@ public class V1 extends BaseController {
 		long cur = System.currentTimeMillis();
 		PageData pd = this.getPageData();
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
-		if (pd.containsKey("PAPER_TYPE") && pd.containsKey("USER_ID")) {
+		if (pd.containsKey("PAPER_TYPE")) {
 			String CURRENTPAGE = pd.getString("CURRENTPAGE");
 			String SHOWCOUNT = pd.getString("SHOWCOUNT");
 			if (CURRENTPAGE != null && SHOWCOUNT != null
@@ -541,6 +541,7 @@ public class V1 extends BaseController {
 						paper.setSubject_id(ppd.getString("SUBJECT_ID"));
 						paper.setGrade_id(ppd.getString("GRADE_ID"));
 						paper.setScore(ppd.getString("SCORE"));
+						paper.setSchool_id(ppd.getString("SCHOOL_ID"));
 						paper.setQuestions(new ArrayList<Question>());
 
 						List<PageData> questList = v1Service
@@ -760,6 +761,7 @@ public class V1 extends BaseController {
 				+ (System.currentTimeMillis() - cur));
 		return res.toJson();
 	}
+	
 
 	/**
 	 * 试卷详细信息
@@ -1229,7 +1231,7 @@ public class V1 extends BaseController {
 			paperPd.put("PAPER_STATE", "0");
 			paperPd.put("REMARK", "");
 			String schoolID = Myelfun.getUserID(paper.getUser_id());
-			paperPd.put("SCHOOL_ID", schoolID);
+			paperPd.put("SCHOOL_ID", paper.getSchool_id() == null ? schoolID:paper.getSchool_id());
 			paperPd.put("CREATE_DATE", Tools.date2Str(new Date()));
 			paperPd.put("MODIFY_DATE", Tools.date2Str(new Date()));
 
