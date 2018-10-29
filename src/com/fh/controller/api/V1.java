@@ -1787,7 +1787,9 @@ public class V1 extends BaseController {
 							}
 						}
 					}
-					testpaperinfoService.batchSave(testInfoPdList);
+					if(testInfoPdList.size() > 0){
+						testpaperinfoService.batchSave(testInfoPdList);
+					}
 				}
 				res.setData(testPaperId);
 			} catch (Exception e) {

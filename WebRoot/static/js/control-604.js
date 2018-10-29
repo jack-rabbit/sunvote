@@ -1,8 +1,9 @@
-﻿$(function(){
+﻿	var questionNUm = 0 ;
+$(function(){
 	/*快速创建答案列表*/
 	var score=0;
 	var total_score = 0;
-	var questionNUm = 0 ;
+
 	function creat(str_ans,a_num,fraction){
 //		$(".section").remove();
 		answer_index_b=$(".section").length+1;
@@ -16,7 +17,7 @@
 			}
 		}
 		q_num=str.length;
-		$(".content").append('<div class="section section-' + answer_index_b +' single" data-fraction="'+fraction+'" data-score="'+(q_num * fraction)+'"><div class="title"><h3>第' +answer_index_b +'大题总分: ' + (q_num * fraction)+'分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span> --></h3> </div><div class="question_list"></div></div>');
+		$(".content").append('<div class="section section-' + answer_index_b +' single" data-fraction="'+fraction+'" data-score="'+(q_num * fraction)+'"><div class="title"><h3>第' +answer_index_b +'大题总分: ' + q_num + ' X ' + fraction + ' = ' + (q_num * fraction)+' 分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span> --></h3> </div><div class="question_list"></div></div>');
 		for(var i=0;i<q_num;i++){
 			str_temp=str[i];
 			str_temp=str_temp.toUpperCase()
@@ -112,7 +113,7 @@
 				}*/
 			case 5:                                             //多选题
 //				$(".content").html("");
-				$(".content").append('<div class="section section-'+ answer_index_b +' check" data-fraction="'+fraction2+'" data-score="' + ((index_e_2- index_s_2 + 1 )* fraction2)+ '"> <div class="title"><h3>第' +answer_index_b +'大题总分: ' + ((index_e_2- index_s_2 + 1 )* fraction2)+'分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span>--></h3> </div> <div class="question_list"></div></div>');
+				$(".content").append('<div class="section section-'+ answer_index_b +' check" data-fraction="'+fraction2+'" data-score="' + ((index_e_2- index_s_2 + 1 )* fraction2)+ '"> <div class="title"><h3>第' +answer_index_b +'大题总分: ' + (index_e_2- index_s_2 + 1 ) + ' X ' + fraction2 + ' = ' + ((index_e_2- index_s_2 + 1 )* fraction2)+' 分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span>--></h3> </div> <div class="question_list"></div></div>');
 				for(var i=index_s_2;i<=index_e_2;i++){
 						questionNUm++;
 						$(".section-" + answer_index_b +" .question_list").append('<div class="question question'+questionNUm+'"><span>'+questionNUm+'、</span><ul></ul></div>');
@@ -379,12 +380,12 @@ function creatHtml(data){
 		
 		for(var i=0;i<data.questions.length;i++){
 			if(data.questions[i].questions){
-				$(".content").append('<div class="section section-'+i+'" data-fraction="'+data.questions[i].score+'" style="margin-top:20px;"> <h3><span class="que_num">'+'第'+ (i+1) + '大题总分:'+ data.questions[i].sug_score +'</span>'+'<span class="que_name">'+data.questions[i].content+'</span></h3><!-- <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> --> <div class="question_list"></div></div>');
+				$(".content").append('<div class="section section-'+i+'" data-fraction="'+data.questions[i].score+'" style="margin-top:20px;"> <h3><span class="que_num">'+'第'+ (i+1) + '大题总分:'+data.questions[i].questions.length + " X " + (parseFloat(data.questions[i].sug_score) / data.questions[i].questions.length) + " = " +  data.questions[i].sug_score +'</span>'+'<span class="que_name">'+data.questions[i].content+'</span></h3><!-- <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> --> <div class="question_list"></div></div>');
 			}else{
 				if(i == 0){
 					$(".content").append('<div class="section section0"> <div class="question_list"></div></div>');
 				}
-				$(".section0").find(".question_list").append('<div class="question question'+(i+1)+'"><span>'+(i+1)+'、</span><ul></ul></div>');	
+				$(".section0").find(".question_list").append('<div class="question question'+(i+1)+'"><span>'+(++questionNUm)+'、</span><ul></ul></div>');	
 				for(var k=0;k<parseInt(data.questions[i].option_num);k++){
 					str_temp=data.questions[i].answer;
 					$(".section0").find(".question"+(i+1)+' ul').append('<li class="btn btn-default">'+String.fromCharCode(0x41+k)+'</li>');
@@ -401,7 +402,7 @@ function creatHtml(data){
 			
 			if(data.questions[i].questions){
 				for(var j=0;j<data.questions[i].questions.length;j++){
-					$(".section-"+i).find(".question_list").append('<div class="question question'+(j+1)+'"><span>'+(j+1)+'、</span><ul></ul></div>');	
+					$(".section-"+i).find(".question_list").append('<div class="question question'+(j+1)+'"><span>'+(++questionNUm)+'、</span><ul></ul></div>');	
 					if($(".section-"+i).find(".que_name").text()=="判断题"){
 						for(var k=0;k<parseInt(data.questions[i].questions[j].option_num);k++){
 							str_temp=data.questions[i].questions[j].answer;

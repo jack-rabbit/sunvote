@@ -93,7 +93,7 @@
 									<%-- <td class="center">${var.RIGHT}</td> --%>
 									<td class="center"><div style="width:80px;">${vs.index + 1}</div></td>
 									<c:forEach items="${questionInfo}" var="var1" varStatus="vs1">
-										<td class="center"><div style="width:80px;margin:0 auto;">${var.detail[vs1.index].ANSWER}</div></td>
+										<td class="center" <c:if test="${var.detail[vs1.index].RIGHT== '1'}">style="background:#0bb8b9"</c:if>div style="width:80px;margin:0 auto;">${var.detail[vs1.index].ANSWER}</div></td>
 									</c:forEach>
 									<%-- <td class="center">${var.OTHER_SCORE}</td> --%>
 									<td class="center"><div style="width:80px;margin:0 auto;">${var.GETSCORE}</div></td>

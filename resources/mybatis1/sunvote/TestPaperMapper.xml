@@ -23,6 +23,7 @@
 		TOTAL_SCORE,	
 		REMARK,	
 		TEST_TYPE,	
+		SUBJECT_ID,
 		TESTPAPER_ID
 	</sql>
 	
@@ -42,6 +43,7 @@
 		#{TOTAL_SCORE},	
 		#{REMARK},	
 		#{TEST_TYPE},	
+		#{SUBJECT_ID},	
 		#{TESTPAPER_ID}
 	</sql>
 	
@@ -83,6 +85,7 @@
 			TOTAL_SCORE = #{TOTAL_SCORE},
 			REMARK = #{REMARK},
 			TEST_TYPE = #{TEST_TYPE},
+			SUBJECT_ID = #{SUBJECT_ID},
 		TESTPAPER_ID = TESTPAPER_ID
 		where 
 		TESTPAPER_ID = #{TESTPAPER_ID}
@@ -143,6 +146,9 @@
 		<if test="NAME != null and NAME != ''"><!-- 关键词检索 -->
 			and (NAME = #{NAME})
 		</if>
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''"><!-- 关键词检索 -->
+			and (SUBJECT_ID = #{SUBJECT_ID})
+		</if>
 		<if test="TEST_TYPE != null and TEST_TYPE == '1'.toString()"><!-- 关键词检索 -->
 			and (TEST_TYPE = #{TEST_TYPE} or TEST_TYPE IS NULL)
 		</if>
@@ -184,6 +190,9 @@
 		</if>
 		<if test="TEACHER_ID != null and TEACHER_ID != ''"><!-- 关键词检索 -->
 			and (TEACHER_ID = #{TEACHER_ID})
+		</if>
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''"><!-- 关键词检索 -->
+			and (SUBJECT_ID = #{SUBJECT_ID})
 		</if>
 		<if test="CREATE_DATE != null and CREATE_DATE != ''"><!-- 关键词检索 -->
 			and (CREATE_DATE = #{CREATE_DATE})

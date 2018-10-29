@@ -255,10 +255,13 @@ public class PaperController extends BaseController {
 		Session session = Jurisdiction.getSession();
 		User user = (User)session.getAttribute(Const.SESSION_USER);
 		paper.setUser_id(user.getUSER_ID());
-		paper.setPaper_type(paperType == null ? "1" :paperType);
-		paper.setSubject_id(pd.getString("SUBJECT_ID") == null ? getSubjectId():pd.getString("SUBJECT_ID"));
-		paper.setGrade_id(pd.getString("GRADE_ID") == null ? getGradeID() : pd.getString("GRADE_ID"));
-		paper.setSchool_id(pd.getString("SCHOOL_ID") == null ? getSchoolID() : pd.getString("SCHOOL_ID"));
+		paper.setPaper_type(paperType == null || "".equals(paperType.trim()) ? "1" :paperType);
+		String subjectId = pd.getString("SUBJECT_ID");
+		paper.setSubject_id(subjectId == null || "".equals(subjectId.trim())? getSubjectId():subjectId);
+		String gradeId = pd.getString("GRADE_ID");
+		paper.setGrade_id( gradeId== null || "".equals(gradeId.trim())? getGradeID() : gradeId);
+		String schoolId = pd.getString("SCHOOL_ID") ;
+		paper.setSchool_id(schoolId == null || "".equals(schoolId.trim())? getSchoolID() : schoolId);
 		paper.setQuestions(new ArrayList<Question>());
 		
 		pd.put("JSON", paper.toJson());

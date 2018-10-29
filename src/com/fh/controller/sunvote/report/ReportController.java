@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.api.ResponseGson;
 import com.fh.controller.base.BaseController;
+import com.fh.service.api.V1Manager;
 import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.sunvote.student.StudentManager;
 import com.fh.service.sunvote.studenttest.StudentTestManager;
@@ -41,6 +42,9 @@ public class ReportController extends BaseController {
 	@Resource(name="testpaperinfoService")
 	private TestPaperInfoManager testpaperinfoService;
 	
+	@Resource(name = "v1Service")
+	private V1Manager v1Service;
+	
 	
 
 	@RequestMapping(value="/report")
@@ -51,7 +55,30 @@ public class ReportController extends BaseController {
 		pd.put("SCLASS_ID", pd.get("CLASSID"));
 		pd.put("ID", pd.get("CLASSID"));
 		pd.put("TEST_TYPE", "1");
-		pd.put("TEACHER_ID", getUserID());
+		String role = pd.getString("ROLE");
+		if( role != null && "admin".equals(role)){
+			PageData tpd = new PageData();
+			tpd.put("ID", getUserID());
+			List<PageData> adminInfos = v1Service.getAdminInfo(tpd);
+			List<PageData> subjectInfos = new ArrayList<PageData>();
+			for(PageData pad : adminInfos){
+				PageData tmpd = new PageData();
+				Object gradeId = pad.get("GRADE_ID");
+				tmpd.put("SNAME", pad.get("SNAME"));// 学校名称
+				tmpd.put("SCHOOL_ID", pad.get("SCHOOL_ID"));//学校ID
+				tmpd.put("GRADE_ID", pad.get("GRADE_ID"));//年级id
+				tmpd.put("GNAME", pad.get("GNAME"));//年级名称
+				tmpd.put("SUBJECT_ID", pad.get("SUBJECT_ID"));// 科目id
+				tmpd.put("SCNAME", pad.get("SCNAME"));// 科目名称
+				if(gradeId != null && !"".equals(gradeId)){
+				}else{
+					subjectInfos.add(tmpd);
+				}
+			}
+			mv.addObject("subjectInfos", subjectInfos);
+		}else{
+			pd.put("TEACHER_ID", getUserID());
+		}
 		// 1 查询班级信息
 		PageData classPageData = sclassService.findById(pd);
 		PageData info = new PageData();
@@ -60,6 +87,9 @@ public class ReportController extends BaseController {
 		info.put("CLASS_ID", classPageData.getString("ID"));
 		pd.put("CLASS_ID", pd.get("CLASSID"));
 		List<PageData> studentList = studentService.listAllClass(pd);
+		
+		
+		
 		// 2查询班级考试
 		pd.put("TEST_TYPE", "1");
 		List<PageData> testpaperList = testpaperService.listAll(pd);
@@ -110,6 +140,7 @@ public class ReportController extends BaseController {
 		mv.addObject("info", info);
 		mv.addObject("start_date", pd.get("START_DATE"));
 		mv.addObject("end_date", pd.get("END_DATE"));
+		mv.addObject("pd", pd);
 		mv.setViewName("sunvote/teacher/teacher_report_1");
 		return mv;
 	}

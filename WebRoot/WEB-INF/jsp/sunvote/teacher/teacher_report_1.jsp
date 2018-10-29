@@ -33,6 +33,7 @@
 	<div style="padding:20px 20px;">
 		<form action="report/report.do" method="post" name="Form" id="Form" style="margin-bottom:0;">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
+			<input type="hidden" name="ROLE" id="ROLE" value="${pd.ROLE}" />
 			<table style="margin-top:5px;margin-bottom:20px;">
 				<tr>
 					<td><div style="width:150px;text-align:center;">课程统计: ${info.testsize}</div></td>
@@ -40,6 +41,16 @@
 				
 					<td><div style="width:150px;text-align:center;"><span>学生人数: ${info.STUDENT_NUM}</span></div></td>
 					<td></td>
+					<c:if test="${not empty subjectInfos}">
+						<td>
+							<select class="chosen-select form-control" name="SUBJECT_ID" id="SUBJECT_ID" data-placeholder="这里输入所属学校">
+										<option value="">全部</option>
+										<c:forEach var="item" items="${subjectInfos}">
+											<option value="${item.SUBJECT_ID}" <c:if test="${pd.SUBJECT_ID == item.SUBJECT_ID }">selected = ture</c:if>>${item.SCNAME}</option>
+										</c:forEach>
+							</select>
+						</td>
+					</c:if>
 					<td style="padding-left:2px;">
 					<input
 						class="span10 date-picker" name="lastStart" id="lastStart"
@@ -211,6 +222,7 @@
 					});
 		});
 		
+		var role = '${pd.ROLE}';
 		
 		function precent(avg,total){
 			if(total == 0){
@@ -223,7 +235,11 @@
 			var url = "<%=basePath%>report/report.do?classid=${info.CLASS_ID}" ;
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
-			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
+			var subject_id =  $("#SUBJECT_ID").val();
+			url = url + "&start_date=" + startDate + "&end_date=" + endDate + "&SUBJECT_ID=" + subject_id;
+			if(role == "admin"){
+				url = url + "&ROLE=admin" ;
+			}
 			window.location.href = url;
 			/* $("#Form").sumbit(); */
 		}

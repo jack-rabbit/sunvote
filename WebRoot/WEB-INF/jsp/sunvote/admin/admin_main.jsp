@@ -262,17 +262,17 @@
 		}
 		
 		function report(classId){
-			//window.open('<%=basePath%>report/report.do?classid=' + classId);
-			//if($("#mainFrame").attr('src') != ('<%=basePath%>report/report.do?classid=' + classId)){
-				$("#mainFrame").attr('src','<%=basePath%>report/report.do?classid=' + classId);
+			//window.open('<%=basePath%>report/report.do?role=admin&classid=' + classId);
+			//if($("#mainFrame").attr('src') != ('<%=basePath%>report/report.do?role=admin&classid=' + classId)){
+				$("#mainFrame").attr('src','<%=basePath%>report/report.do?role=admin&classid=' + classId);
 				window.top.loading.show();
 			//}
 		}
 		function report2(classId){
 			//window.open('<%=basePath%>report/report.do?classid=' + classId);
 			//if($("#mainFrame").attr('src') != ('<%=basePath%>report/report.do?classid=' + classId)){
-				$("#mainFrame").attr('src','<%=basePath%>teacher/test_list.do?classid=' + classId);
-				window.top.loading.show();
+			//	$("#mainFrame").attr('src','<%=basePath%>teacher/test_list.do?classid=' + classId);
+			//	window.top.loading.show();
 			//}
 		}
 		
@@ -313,8 +313,8 @@
 		$("#jishice_paper").click(function (){
 			var path = "../teacher/teach_paper.do?school_id=" + schoolId;
 			//if($("#mainFrame").attr('src') != (path)){
-				$("#mainFrame").attr('src',path);
-				window.top.loading.show();
+		//		$("#mainFrame").attr('src',path);
+		//		window.top.loading.show();
 			//}
 		});
 	</script>
