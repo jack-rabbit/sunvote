@@ -28,6 +28,7 @@ import com.fh.entity.system.User;
 import com.fh.service.api.V1Manager;
 import com.fh.service.fhoa.datajur.DatajurManager;
 import com.fh.service.sunvote.event.EventManager;
+import com.fh.service.sunvote.pagetemplate.PageTemplateManager;
 import com.fh.service.sunvote.school.SchoolManager;
 import com.fh.service.sunvote.schooladmin.SchoolAdminManager;
 import com.fh.service.sunvote.sclass.SClassManager;
@@ -92,6 +93,9 @@ public class LoginController extends BaseController {
 	
 	@Resource(name="sclassService")
 	private SClassManager sclassService;
+	
+	@Resource(name="pagetemplateService")
+	private PageTemplateManager pagetemplateService;
 	
 
 	/**
@@ -260,6 +264,9 @@ public class LoginController extends BaseController {
 								sData.get("SUBJECT_NAME"));
 						session.setAttribute(USERNAME + Const.TERM_ID,
 								sData.get("TERM_ID"));
+						sData.put("USER_ID", user.getUSER_ID());
+						List<PageData> templateInfos = pagetemplateService.listAll(sData);
+						mv.addObject("templateInfos", templateInfos);
 					}
 					session.setAttribute(Const.SESSION_USERNAME, USERNAME); // 放入用户名到session
 					mv.setViewName("sunvote/teacher/teacher_main");

@@ -26,6 +26,7 @@ import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.entity.system.User;
 import com.fh.service.api.V1Manager;
+import com.fh.service.sunvote.pagetemplate.PageTemplateManager;
 import com.fh.service.sunvote.paper.PaperManager;
 import com.fh.service.sunvote.paperquestion.PaperQuestionManager;
 import com.fh.service.sunvote.question.QuestionManager;
@@ -55,6 +56,9 @@ public class PaperController extends BaseController {
 	
 	@Resource(name = "v1Service")
 	private V1Manager v1Service ;
+	
+	@Resource(name="pagetemplateService")
+	private PageTemplateManager pagetemplateService;
 	
 	/**保存
 	 * @param
@@ -266,6 +270,13 @@ public class PaperController extends BaseController {
 		
 		pd.put("JSON", paper.toJson());
 		logger.info(paper.toJson());
+		
+		String TEMPLATE_ID = pd.getString("TEMPLATE_ID");
+		if(TEMPLATE_ID != null && !"".equals(TEMPLATE_ID)){
+			pd.put("PAGETEMPLATE_ID", TEMPLATE_ID);
+			PageData template = pagetemplateService.findById(pd);
+			mv.addObject("TEMPLEATE", template);
+		}
 		
 		mv.setViewName("sunvote/teacher/creat_question");
 		mv.addObject("pd", pd);

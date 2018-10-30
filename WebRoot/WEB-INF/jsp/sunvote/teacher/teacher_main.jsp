@@ -145,6 +145,19 @@
 			    <div class="clearfix"></div>
 			</div>
 			
+			 <div class="form-group">
+			    <label for="enter_time" class="col-sm-4 control-label">模板</label>
+			    <div class="col-sm-6">
+			      <select class="chosen-select form-control" name="TEMPLATE_ID" id="TEMPLATE_ID" data-placeholder="这里输入所属学校">
+			      		<option value="">自定义</option>
+						<c:forEach items="${templateInfos}" var="var" varStatus="vs">
+							<option value="${var.PAGETEMPLATE_ID}">${var.NAME}</option>
+						</c:forEach>
+				</select>
+			    </div>
+			    <div class="clearfix"></div>
+			</div>
+			
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary" id="time_submit">确定</button>
@@ -188,10 +201,11 @@
 		$("#time_submit").click(function(){
 			var name = $("#enter_title").val();
 			var time = $("#enter_time").val();
+			var TEMPLATE_ID = $("#TEMPLATE_ID").val();
 			if(name != null&& name != '' && time != null && time != ''){
 				var itime = parseInt(time);
 				if(itime > 0 && itime <= 300){
-					self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time ;
+					self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time +"&TEMPLATE_ID=" + TEMPLATE_ID;
 					$(".title_time").modal("hide");
 				}else{
 					alert("请输入正确的时间，时间不能超过300分钟");
