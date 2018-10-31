@@ -44,6 +44,7 @@
 			</div>
 			<div class="head_box_r">
 				<input type="hidden" name="SCHOOL_ID" id="PAPER_ID" value="${pd.SCHOOL_ID}"/>
+				
 				<input class="date-picker" type="text" placeholder="开始日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.LASTSTART }"/> 
 				<input type="text" class="date-picker" placeholder="结束日期" name="lastEnd" name="lastEnd" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.LASTEND}"/>
 				 <a href="#" onclick="tosearch();"><img

@@ -32,7 +32,7 @@ $(function() {
 		}
 		q_num = str.length;
 		$(".content").append('<div class="section section-'	+ answer_index_b+ ' single" data-fraction="'+ fraction+ '" data-score="'
-								+ (q_num * fraction) + '"><div class="title"><h3>第'	+ answer_index_b+ '大题(单选)总分: '
+								+ (q_num * fraction) + '" style="margin-top:80px;"><div class="title"><h3>第'	+ answer_index_b+ '大题(单选)总分: '
 								+ q_num	+ ' X '	+ fraction	+ ' = '	+ (q_num * fraction)
 								+ ' 分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span> --></h3> </div><div class="question_list"></div></div>');
 		for (var i = 0; i < q_num; i++) {
@@ -66,7 +66,7 @@ $(function() {
 			}
 		}
 		$(".section-" + answer_index_b).attr("data-score",
-				$(".section-1").find(".question").length * fraction);
+				q_num * fraction);
 		total_score += q_num * fraction;
 		$("#score_all").text(total_score);
 	}
@@ -485,7 +485,7 @@ $(function() {
 										+ i
 										+ '" data-fraction="'
 										+ data.questions[i].score
-										+ '" style="margin-top:20px;"> <h3><span class="que_num">'
+										+ '" style="margin-top:80px;"> <h3><span class="que_num">'
 										+ '第'
 										+ (i + 1)
 										+ '大题总分:'
@@ -502,7 +502,7 @@ $(function() {
 				if (i == 0) {
 					$(".content")
 							.append(
-									'<div class="section section0"> <div class="question_list"></div></div>');
+									'<div class="section section0"> <div class="question_list" style="margin-top:80px"></div></div>');
 				}
 				$(".section0").find(".question_list").append(
 						'<div class="question question' + (i + 1) + '"><span>'
@@ -661,5 +661,13 @@ $(function() {
 			}
 		}
 		creatHtml(testData);
+	}else{
+		if(testData != null){
+			$(".header_box h1").html(testData.title);
+			$("#time").html(testData.exam_time);
+			if(data.score != null && testData.score > 0 && testData.score != ''){
+				$("#score_all").html(testData.score);
+			}
+		}
 	}
 })

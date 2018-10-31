@@ -205,7 +205,7 @@
 			if(name != null&& name != '' && time != null && time != ''){
 				var itime = parseInt(time);
 				if(itime > 0 && itime <= 300){
-					self.location.href = "<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time +"&TEMPLATE_ID=" + TEMPLATE_ID;
+					self.location.href = encodeURI("<%=basePath%>" + "paper/npaper.do?" + "name=" + name + "&time=" + time +"&TEMPLATE_ID=" + TEMPLATE_ID);
 					$(".title_time").modal("hide");
 				}else{
 					alert("请输入正确的时间，时间不能超过300分钟");
