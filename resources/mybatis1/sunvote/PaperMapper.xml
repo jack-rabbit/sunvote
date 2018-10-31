@@ -138,6 +138,13 @@
 		<if test="pd.PAPER_TYPE != null and pd.PAPER_TYPE != ''"><!-- 关键词检索 -->
 			and PAPER_TYPE = #{pd.PAPER_TYPE}
 		</if>
+		
+		<if test="pd.SUBJECT_ID != null and pd.SUBJECT_ID != ''"><!-- 关键词检索 -->
+			and SUBJECT_ID = #{pd.SUBJECT_ID}
+		</if>
+		<if test="pd.GRADE_ID != null and pd.GRADE_ID != ''"><!-- 关键词检索 -->
+			and GRADE_ID = #{pd.GRADE_ID}
+		</if>
 		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''"><!-- 关键词检索 -->
 			and SCHOOL_ID = #{pd.SCHOOL_ID}
 		</if>

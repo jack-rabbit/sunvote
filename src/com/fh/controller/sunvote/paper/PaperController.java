@@ -363,9 +363,9 @@ public class PaperController extends BaseController {
 		pd.put("PAPER_TYPE","1");
 		page.setPd(pd);
 		List<PageData>	varList = paperService.list(page);	//列出Paper列表
-		pd.put("PAPER_TYPE","2");
-		List<PageData>	varList2 = paperService.list(page);	//列出Paper列表
-		varList.addAll(varList2);
+//		pd.put("PAPER_TYPE","2");
+//		List<PageData>	varList2 = paperService.list(page);	//列出Paper列表
+//		varList.addAll(varList2);
 		mv.setViewName("sunvote/paper/paper_list4");
 		
 		for(PageData p:varList){
@@ -395,6 +395,32 @@ public class PaperController extends BaseController {
 			}
 			p.put("EXAM_TIME", examTime);
 		}
+		
+		PageData tpd = new PageData();
+		tpd.put("ID", getUserID());
+		List<PageData> adminInfos = v1Service.getAdminInfo(tpd);
+		List<PageData> gradeInfos = new ArrayList<PageData>();
+		List<PageData> subjectInfos = new ArrayList<PageData>();
+		//  查询学校信息
+		for(PageData pad : adminInfos){
+			PageData tmpd = new PageData();
+			Object gradeId = pad.get("GRADE_ID");
+			tmpd.put("SNAME", pad.get("SNAME"));// 学校名称
+			tmpd.put("SCHOOL_ID", pad.get("SCHOOL_ID"));//学校ID
+			tmpd.put("GRADE_ID", pad.get("GRADE_ID"));//年级id
+			tmpd.put("GNAME", pad.get("GNAME"));//年级名称
+			tmpd.put("SUBJECT_ID", pad.get("SUBJECT_ID"));// 科目id
+			tmpd.put("SCNAME", pad.get("SCNAME"));// 科目名称
+			if(gradeId != null && !"".equals(gradeId)){
+				gradeInfos.add(tmpd);
+			}else{
+				subjectInfos.add(tmpd);
+			}
+			mv.addObject("SNAME", pad.get("SNAME"));
+			mv.addObject("SCHOOL_ID", pad.get("SCHOOL_ID"));
+		}
+		mv.addObject("gradeInfos", gradeInfos);
+		mv.addObject("subjectInfos", subjectInfos);
 		
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);

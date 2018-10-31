@@ -44,7 +44,20 @@
 			</div>
 			<div class="head_box_r">
 				<input type="hidden" name="SCHOOL_ID" id="PAPER_ID" value="${pd.SCHOOL_ID}"/>
-				
+				 <label>年级: </label>&nbsp;&nbsp;
+			      <select name="grade_id" id="grade_id" data-placeholder="这里输入所属年级">
+			      		<option value="">全部</option>
+						<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
+							<option value="${var.GRADE_ID}">${var.GNAME}</option>
+						</c:forEach>
+				</select>
+				<label>科目: </label>&nbsp;&nbsp;
+			    <select name="subject_id" id="subject_id" data-placeholder="这里输入所属科目">
+			    		<option value="">全部</option>
+						<c:forEach items="${subjectInfos}" var="var" varStatus="vs">
+							<option value="${var.SUBJECT_ID}">${var.SCNAME}</option>
+						</c:forEach>
+				</select>&nbsp;&nbsp;&nbsp;&nbsp;
 				<input class="date-picker" type="text" placeholder="开始日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.LASTSTART }"/> 
 				<input type="text" class="date-picker" placeholder="结束日期" name="lastEnd" name="lastEnd" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.LASTEND}"/>
 				 <a href="#" onclick="tosearch();"><img
