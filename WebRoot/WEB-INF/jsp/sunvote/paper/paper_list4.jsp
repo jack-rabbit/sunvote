@@ -48,14 +48,14 @@
 			      <select name="grade_id" id="grade_id" data-placeholder="这里输入所属年级">
 			      		<option value="">全部</option>
 						<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
-							<option value="${var.GRADE_ID}">${var.GNAME}</option>
+							<option value="${var.GRADE_ID}" <c:if test="${pd.GRADE_ID==var.GRADE_ID}">selected="true"</c:if>>${var.GNAME}</option>
 						</c:forEach>
 				</select>
 				<label>科目: </label>&nbsp;&nbsp;
 			    <select name="subject_id" id="subject_id" data-placeholder="这里输入所属科目">
 			    		<option value="">全部</option>
 						<c:forEach items="${subjectInfos}" var="var" varStatus="vs">
-							<option value="${var.SUBJECT_ID}">${var.SCNAME}</option>
+							<option value="${var.SUBJECT_ID}" <c:if test="${pd.SUBJECT_ID==var.SUBJECT_ID}">selected="true"</c:if>>${var.SCNAME}</option>
 						</c:forEach>
 				</select>&nbsp;&nbsp;&nbsp;&nbsp;
 				<input class="date-picker" type="text" placeholder="开始日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.LASTSTART }"/> 

@@ -648,6 +648,13 @@ $(function() {
 							template[i].questionNum, template[i].score);
 				}
 			}
+			if(testData != null){
+				$(".header_box h1").html(testData.title);
+				$("#time").html(testData.exam_time);
+				if(testData.score != null && testData.score > 0 && testData.score != ''){
+					$("#score_all").html(testData.score);
+				}
+			}
 		
 	}else if (testData != null && testData.questions != null
 			&& testData.questions.length > 0) {
@@ -665,7 +672,7 @@ $(function() {
 		if(testData != null){
 			$(".header_box h1").html(testData.title);
 			$("#time").html(testData.exam_time);
-			if(data.score != null && testData.score > 0 && testData.score != ''){
+			if(testData.score != null && testData.score > 0 && testData.score != ''){
 				$("#score_all").html(testData.score);
 			}
 		}

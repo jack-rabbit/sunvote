@@ -241,6 +241,7 @@
 				url = url + "&ROLE=admin" ;
 			}
 			window.location.href = url;
+			window.top.loading.show();
 			/* $("#Form").sumbit(); */
 		}
 		

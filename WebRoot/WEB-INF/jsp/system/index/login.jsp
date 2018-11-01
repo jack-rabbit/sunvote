@@ -10,46 +10,64 @@
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>中天电子-教育管理系统</title>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中天电子-教育管理系统</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-	<link href="static/login/style_login.css" rel="stylesheet">
-	
-	<script src="static/js/jquery-1.7.2.js"></script>
-	<script src="static/login/js/jquery.easing.1.3.js"></script>
-		<script type="text/javascript" src="static/js/jQuery.md5.js"></script>
-	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
+<!-- Bootstrap -->
+<link
+	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="static/login/style_login.css" rel="stylesheet">
 
-    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
-    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
-    <!--[if lt IE 9]>
+<script src="static/js/jquery-1.7.2.js"></script>
+<script src="static/login/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="static/js/jQuery.md5.js"></script>
+<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
+<style type="text/css">
+.div_foot {
+	height: 30px;
+	line-height: 35px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	font-family: Arial;
+	font-size: 14px;
+	letter-spacing: 1px;
+}
+</style>
+
+<!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+<!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+<!--[if lt IE 9]>
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <div class="content">
+</head>
+<body>
+	<div class="content">
 		<div class="content_t">
-			<img src="static/login/title.png" alt="SunVote"/>
+			<img src="static/login/title.png" alt="SunVote" />
 		</div>
 		<div class="content_b">
-				<div class="form_box">
-			<form action="" method="post" name="loginbox" id="loginbox">
-					<input type="text" name="loginname" id="loginname" value="" placeholder="用户名" />
-					<input type="password" name="password" id="password" placeholder="密   码" value="" />
-					<a href="#" onclick="severCheck();" class="login_btn">登录</a>
-			</form>
-				</div>
-		</div>
-	</div>
+			<div class="form_box">
+				<form action="" method="post" name="loginbox" id="loginbox">
+					<input type="text" name="loginname" id="loginname" value=""
+						placeholder="用户名" /> <input type="password" name="password"
+						id="password" placeholder="密   码" value="" /> <a href="#"
+						onclick="severCheck();" class="login_btn">登录</a>
+				</form>
 
-   <script type="text/javascript">
+			</div>
+		</div>
+		<div class="div_foot">
+			&copy;长沙中天电子设计开发有限公司版权所有. 备案许可证号： <a target= "_blank" href="http://www.miitbeian.gov.cn/">湘ICP备09025927号-10</a>
+		</div>
+		<script type="text/javascript">
    
    		if(window.top != window.self){
 	   		window.top.location.href = "<%=basePath%>";
@@ -158,22 +176,26 @@
 			}
 		}
 	</script>
-	<script type="text/javascript" src="static/login/js/jquery-1.5.1.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>   
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="static/login/js/bootstrap.min.js"></script>
-	<script src="static/js/jquery-1.7.2.js"></script>
-	<script src="static/login/js/jquery.easing.1.3.js"></script>
-	<script src="static/login/js/jquery.mobile.customized.min.js"></script>
-	<script src="static/login/js/camera.min.js"></script>
-	<script src="static/login/js/templatemo_script.js"></script>
-	<script src="static/login/js/ban.js"></script>
-	<script type="text/javascript" src="static/js/jQuery.md5.js"></script>
-	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
-	
-	<!-- 软键盘控件start -->
-	<script type="text/javascript" src="static/login/keypad/js/form/keypad.js"></script>
-	<script type="text/javascript" src="static/login/keypad/js/framework.js"></script>
-  </body>
+		<script type="text/javascript"
+			src="static/login/js/jquery-1.5.1.min.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+		<script
+			src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="static/login/js/bootstrap.min.js"></script>
+		<script src="static/js/jquery-1.7.2.js"></script>
+		<script src="static/login/js/jquery.easing.1.3.js"></script>
+		<script src="static/login/js/jquery.mobile.customized.min.js"></script>
+		<script src="static/login/js/camera.min.js"></script>
+		<script src="static/login/js/templatemo_script.js"></script>
+		<script src="static/login/js/ban.js"></script>
+		<script type="text/javascript" src="static/js/jQuery.md5.js"></script>
+		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+		<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
+
+		<!-- 软键盘控件start -->
+		<script type="text/javascript"
+			src="static/login/keypad/js/form/keypad.js"></script>
+		<script type="text/javascript"
+			src="static/login/keypad/js/framework.js"></script>
+</body>
 </html>

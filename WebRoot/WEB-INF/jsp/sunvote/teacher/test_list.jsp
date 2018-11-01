@@ -81,6 +81,7 @@
 	<script src="../static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<script type="text/javascript">
 		var user_id= "${pd.userId}";
+		var url = "<%=basePath%>";
 	</script>
 	<script src="../static/js/test_list.js"></script>
 </html>

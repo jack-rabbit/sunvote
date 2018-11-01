@@ -1,4 +1,3 @@
-var url = "";
 var option_html = "";
 var subject_id = "";
 
@@ -14,7 +13,7 @@ $(document).ready(
 				function() {
 					
 					$.ajax({
-								url : url + "/SunvoteEducation/teacher/info",
+								url : url + "/teacher/info",
 								async : false,
 								type : "post",
 								success : function(data) {
@@ -51,7 +50,7 @@ function getList(start_date, end_date, class_id) { // 获取测验列表
 		class_id = getQueryString("classid");
 	}
 	$.ajax({
-				url : url + "/SunvoteEducation/api/v1/testpaper",
+				url : url + "/api/v1/testpaper",
 				async : false,
 				type : "post",
 				data : {
@@ -103,7 +102,7 @@ function ansync(obj){
 function getSubjectName(id) { // 获取科目中文名
 	var subjectName = "";
 	$.ajax({
-		url : url + "/SunvoteEducation/api/v1/subjectcname",
+		url : url + " /api/v1/subjectcname",
 		async : false,
 		type : "post",
 		data : {
@@ -118,7 +117,7 @@ function getSubjectName(id) { // 获取科目中文名
 function getClassName(id) { // 获取班级中文名
 	var className = "";
 	$.ajax({
-		url : url + "/SunvoteEducation/api/v1/classname",
+		url : url + "/api/v1/classname",
 		async : false,
 		type : "post",
 		data : {

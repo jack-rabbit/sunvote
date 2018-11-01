@@ -1,4 +1,3 @@
-		var url="";
 		var class_html="",
 			option_html="";
 		var user_id= "",
@@ -8,7 +7,7 @@
 			
 			timeList();
 			$.ajax({
-				url:url+"/SunvoteEducation/teacher/info",
+				url:url+"/teacher/info",
 				async:false,
 				type:"post",
 				success:function(data){
@@ -45,7 +44,7 @@
 		function getList(start_date,end_date,class_id){       //获取试卷列表
 			var tab_html="";
 			$.ajax({
-				url:url+"/SunvoteEducation/api/v1/paper",
+				url:url+"/api/v1/paper",
 				async:false,
 				type:"post",
 				data:{
@@ -110,7 +109,7 @@
 		function getSubjectName(id){           //获取科目中文名
 			var subjectName="";
 			$.ajax({
-				url:url+"/SunvoteEducation/api/v1/subjectcname",
+				url:url+"/api/v1/subjectcname",
 				async:false,
 				type:"post",
 				data:{id:id},
@@ -128,7 +127,7 @@
 		function getClassName(id){        //获取班级中文名
 			var className="";
 			$.ajax({
-				url:url+"/SunvoteEducation/api/v1/classname",
+				url:url+"/api/v1/classname",
 				async:false,
 				type:"post",
 				data:{id:id},
@@ -197,9 +196,9 @@
 			var id=obj.closest("tr").attr("data-id");
 			window.top.remove.init({"title":"删除","func":function(success){
 				if(success){
-					var url = "/SunvoteEducation/paper/delete.do?PAPER_ID="+id+"&tm="+new Date().getTime();
+					var url1 = url+ "/paper/delete.do?PAPER_ID="+id+"&tm="+new Date().getTime();
 					window.top.loading.show();
-					$.get(url,function(data){
+					$.get(url1,function(data){
 						tosearch();
 					});
 				}
@@ -224,7 +223,7 @@
 					}else{
 						$.ajax({
 								type: "POST",
-								url: '/SunvoteEducation/paper/deleteAll.do?tm='+new Date().getTime(),
+								url:url+ '/paper/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
 								//beforeSend: validateData,
