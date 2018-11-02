@@ -52,14 +52,14 @@
 			</div>
 			<div style="padding:0 5%;background:#fff;">
 				<table class="table table-striped">
-				<col style="width: 5%" />
+				<col style="width: 10%" />
 				<col style="width: 15%" />
 				<col style="width: 15%" />
+				<col style="width: 10%" />
+				<col style="width: 10%" />
 				<col style="width: 15%" />
 				<col style="width: 15%" />
-				<col style="width: 15%" />
-				<col style="width: 15%" />
-				<col style="width: 5%" />
+				<col style="width: 10%" />
 				<thead>
 					<tr>
 						<th><input type="checkbox"  name='ids' id="ids" />序号</th>
@@ -77,14 +77,14 @@
 		</div>
 		<div class="table_box">
 			<table class="table table-striped">
-				<col style="width: 5%" />
+				<col style="width: 10%" />
 				<col style="width: 15%" />
 				<col style="width: 15%" />
+				<col style="width: 10%" />
+				<col style="width: 10%" />
 				<col style="width: 15%" />
 				<col style="width: 15%" />
-				<col style="width: 15%" />
-				<col style="width: 15%" />
-				<col style="width: 5%" />
+				<col style="width: 10%" />
 				<tbody>
 				<c:choose>
 					<c:when test="${not empty varList}">

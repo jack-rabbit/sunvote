@@ -169,6 +169,7 @@ public class ReportController extends BaseController {
 		mv.setViewName("sunvote/teacher/stduent_report");
 		mv.addObject("start_date", pd.get("START_DATE"));
 		mv.addObject("end_date", pd.get("END_DATE"));
+		mv.addObject("pd", pd);
 		return mv;
 	}
 	

@@ -16,7 +16,6 @@
 		$.ajax({
 			url:URL+ attend,
 			type:"get",
-			async:false,
 			dataType:"json",
 			success:function(data){
 				data_temp=data;
@@ -29,13 +28,14 @@
 				}
 				$(".content_l ul").html(_html);
 				console.log(_index);
+				dataMethod(_index,data_temp);
+				$(".content_l li").eq(_index).siblings().removeClass("on");
+				$(".content_l li").eq(_index).addClass("on");
 				window.top.loading.remove();
 			}
 			
 		});
-		data(_index,data_temp);
-		$(".content_l li").eq(_index).siblings().removeClass("on");
-		$(".content_l li").eq(_index).addClass("on");
+	
 	}		
 	$( document ).ready(function() {
 		//alert($("input[type=radio][checked]").val());
@@ -52,12 +52,12 @@
 		 $(this).siblings().removeClass("on");
 			$(this).addClass("on");
 			_index=$(this).index();
-			data(_index,data_temp);
+			dataMethod(_index,data_temp);
 			studentid = 0;
 		 })
 		 $("input[type=radio]").change(function(){
 			//alert($("input[type='radio']:checked").val());
-			data(_index,data_temp);
+			 dataMethod(_index,data_temp);
 		})
 		
 		$("#search").click(function(){
@@ -79,7 +79,7 @@
 			 }
 			$(".content_l li").eq(_index).siblings().removeClass("on");
 			$(".content_l li").eq(_index).addClass("on");
-			 data(_index,data_temp);
+			dataMethod(_index,data_temp);
 		 })
 		 $(".next").click(function(){
 			 _index+=1;
@@ -88,12 +88,12 @@
 			 }
 			$(".content_l li").eq(_index).siblings().removeClass("on");
 			$(".content_l li").eq(_index).addClass("on");
-			 data(_index,data_temp);
+			dataMethod(_index,data_temp);
 		 })
     });
 	
 	
-	function data(index,data){
+	function dataMethod(index,data){
 		console.log(data);
 		//data0=[];data1=[];data2=[];data3=[];
 		var GETSCORE = parseInt(data.data.studentList[index].GETSCORE);
