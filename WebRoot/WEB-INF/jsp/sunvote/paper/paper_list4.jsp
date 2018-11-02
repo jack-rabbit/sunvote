@@ -72,8 +72,7 @@
 				<col style="width: 10%" />
 				<col style="width: 10%" />
 				<col style="width: 10%" />
-				<col style="width: 10%" />
-				<col style="width: 10%" />
+				<col style="width: 20%" />
 				<col style="width: 10%" />
 				<col style="width: 10%" />
 				<thead>
@@ -86,7 +85,6 @@
 						<th>创建时间</th>
 						<th>建议考试时长</th>
 						<th>总分</th>
-						<th>操作</th>
 					</tr>
 				</thead>
 			</table>
@@ -99,8 +97,7 @@
 				<col style="width: 10%" />
 				<col style="width: 10%" />
 				<col style="width: 10%" />
-				<col style="width: 10%" />
-				<col style="width: 10%" />
+				<col style="width: 20%" />
 				<col style="width: 10%" />
 				<col style="width: 10%" />
 				<tbody>
@@ -116,9 +113,6 @@
 								<td >${var.CREATE_DATE}</td>
 								<td >${var.EXAM_TIME}</td>
 								<td >${var.SCORE}</td>
-								<td>
-								<a href="#" onclick="del('${var.PAPER_ID}');"><img src="../static/images/remove.png" /></a>
-								</td>
 							</tr>
 						
 						</c:forEach>

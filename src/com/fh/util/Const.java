@@ -26,6 +26,7 @@ public class Const {
 	public static final String SUBJECT_ID = "SUBJECT_ID";
 	public static final String SUBJECT_NAME = "SUBJECT_NAME";
 	public static final String TERM_ID = "TERM_ID";
+	public static final String ROLE_ID = "ROLE_ID";
 	
 	public static final String FALSE = "F";
 	public static final String LOGIN = "/login_toLogin.do";					//登录地址

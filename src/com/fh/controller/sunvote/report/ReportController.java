@@ -161,7 +161,11 @@ public class ReportController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		
 		PageData pd = getPageData();
-		mv.addObject("URL", "report/student_report_data?class_id=" +pd.getString("CLASS_ID"));
+		String url = "report/student_report_data?class_id=" +pd.getString("CLASS_ID");
+		if(pd.getString("SUBJECT_ID") != null){
+			url += "&SUBJECT_ID=" + pd.getString("SUBJECT_ID");
+		}
+		mv.addObject("URL",url);
 		mv.setViewName("sunvote/teacher/stduent_report");
 		mv.addObject("start_date", pd.get("START_DATE"));
 		mv.addObject("end_date", pd.get("END_DATE"));
@@ -176,7 +180,9 @@ public class ReportController extends BaseController {
 		ResponseGson<PageData> ret = new ResponseGson();
 //		pd.put("CLASS_ID", pd.get("CLASSID"));
 		List<PageData> studentList = studentService.listAllClass(pd);
-		pd.put("TEACHER_ID", getUserID());
+		if ("teacher".equals(getRole())) {
+			pd.put("TEACHER_ID", getUserID());
+		}
 		List<PageData> testpaperList = testpaperService.listAll(pd);
 		pd.put("ID", pd.get("CLASS_ID"));
 		PageData classPageData = sclassService.findById(pd);
@@ -214,7 +220,12 @@ public class ReportController extends BaseController {
 				if(pd.containsKey("END_DATE")){
 					search.put("END_DATE", pd.getString("END_DATE"));
 				}
-				search.put("TEACHER_ID", getUserID());
+				if("teacher".equals(getRole())){
+					search.put("TEACHER_ID", getUserID());
+				}
+				if(pd.containsKey("SUBJECT_ID")){
+					search.put("SUBJECT_ID", pd.getString("SUBJECT_ID"));
+				}
 				List<PageData> studentTestList = studenttestService.reportListData(search);
 				studentPageData.put("testList", studentTestList);
 				

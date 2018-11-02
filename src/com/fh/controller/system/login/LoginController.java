@@ -264,10 +264,13 @@ public class LoginController extends BaseController {
 								sData.get("SUBJECT_NAME"));
 						session.setAttribute(USERNAME + Const.TERM_ID,
 								sData.get("TERM_ID"));
+						
 						sData.put("USER_ID", user.getUSER_ID());
 						List<PageData> templateInfos = pagetemplateService.listAll(sData);
 						mv.addObject("templateInfos", templateInfos);
 					}
+					session.setAttribute(USERNAME + Const.ROLE_ID,
+							"teacher");
 					session.setAttribute(Const.SESSION_USERNAME, USERNAME); // 放入用户名到session
 					mv.setViewName("sunvote/teacher/teacher_main");
 					mv.addObject("user", user);
@@ -301,6 +304,8 @@ public class LoginController extends BaseController {
 						mv.addObject("SNAME", pad.get("SNAME"));
 						mv.addObject("SCHOOL_ID", pad.get("SCHOOL_ID"));
 					}
+					session.setAttribute(USERNAME + Const.ROLE_ID,
+							"admin");
 					mv.addObject("gradeInfos", gradeInfos);
 					mv.addObject("subjectInfos", subjectInfos);
 					session.setAttribute(Const.SESSION_USERNAME, USERNAME); // 放入用户名到session
@@ -328,6 +333,8 @@ public class LoginController extends BaseController {
 					session.setAttribute(USERNAME + Const.SESSION_QX2,
 							this.getUQX2(USERNAME)); // 副职角色按钮权限放到session中
 				}
+				session.setAttribute(USERNAME + Const.ROLE_ID,
+						"systemadmin");
 				this.getRemortIP(USERNAME); // 更新登录IP
 				menuList = this.changeMenuF(allmenuList, session, USERNAME,
 						changeMenu); // 切换菜单

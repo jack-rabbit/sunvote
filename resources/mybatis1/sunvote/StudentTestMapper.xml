@@ -155,6 +155,9 @@
 		<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
 			and (CREATE_DATE &lt; #{END_DATE})
 		</if>
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''"><!-- 关键词检索 -->
+			and (sv_testpaper.SUBJECT_ID = #{SUBJECT_ID})
+		</if>
 		
 		order by CREATE_DATE
 		

@@ -246,10 +246,15 @@
 		}
 		
 		function student(classid,studentid){
+		
 			var url = "<%=basePath%>report/student_report?studentid=" + studentid + "&class_id=" + classid ;
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
 			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
+			var SUBJECT_ID = $("#SUBJECT_ID").val();
+			if(SUBJECT_ID != null && SUBJECT_ID != ''){
+				url = url + "&SUBJECT_ID="+ SUBJECT_ID ;
+			}
 			window.self.location.href = url;
 			window.top.loading.show();
 		}
