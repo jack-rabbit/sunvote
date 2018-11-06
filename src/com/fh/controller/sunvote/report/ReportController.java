@@ -351,6 +351,33 @@ public class ReportController extends BaseController {
 			}
 			
 		});
+		for(int i = 0 ; i < studentList.size(); i++){
+			PageData tpd1 = studentList.get(i);
+			if(i == 0){
+				tpd1.put("RANK_NUM", (i+1));
+			}else{
+				PageData tpd2 = studentList.get(i-1);
+				String o1GetScore = tpd1.getString("GETSCORE");
+				String o2GetScore = tpd2.getString("GETSCORE");
+				float o1score = 0 ;
+				float o2score = 0 ;
+				try{
+					o1score = Float.parseFloat(o1GetScore);
+				}catch(Exception e){
+					o1score = -1 ;
+				}
+				try{
+					o2score = Float.parseFloat(o2GetScore);
+				}catch(Exception e){
+					o2score = -1 ;
+				}
+				if(o2score - o1score == 0){
+					tpd1.put("RANK_NUM",tpd2.get("RANK_NUM"));
+				}else{
+					tpd1.put("RANK_NUM", (i+1));
+				}
+			}
+		}
 		
 		classPageData.put("studentNum", studentList.size());
 		mv.addObject("classInfo", classPageData);
