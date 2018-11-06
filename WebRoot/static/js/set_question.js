@@ -131,12 +131,14 @@ var url="";
 			console.log(data);
 			if(data.data.length>0){
 				for(var i=0;i<data.data.length;i++){
+					
 					_html += '<li data-id="'+data.data[i].QUESTION_ID+'" data-knowledge="' + knowledge_id + '"><div class="content"></div><div class="option"><ul></ul></div><div class="resolve"><div class="resolve_box"><p><span>【答案】</span> '+data.data[i].ANSWER+'</p><p><span>【解析】</span>'+data.data[i].ANALYSIS+'</p></div></div><div class="star_box"><div class="col-md-6"><div class="star"><span style="float:left;">难度</span></div><div class="resolve_click"><a  onclick="slide($(this))">查看解析</a><div class="check_box"></div></div></div><div class="clearfix"></div></div></li>';
 				}
 				$(".question_box").children("ul").append(_html);
 				console.log(5*(pageNum-1));
 				for(var j=5*(pageNum-1);j<(data.data.length+5*(pageNum-1));j++){
 					var option_html="";
+					data.data[j-5*(pageNum-1)].CONTENT = data.data[j-5*(pageNum-1)].CONTENT.replace('<fill></fill>','______');
 					$(".question_box li .content").eq(j).append('<span>'+(j+1)+'、</span>'+data.data[j-5*(pageNum-1)].CONTENT);
 					var arry_option=data.data[j-5*(pageNum-1)].OPTION_CONTENT;
 					if(question_box.indexOf(data.data[j-5*(pageNum-1)].QUESTION_ID)>=0){
@@ -186,37 +188,49 @@ var url="";
 			data:{subject_id:subject_id},
 			success:function(data){
 				console.log(data);
-				if(data.data.length>0){
-					var teach_html="";
-					
-					
-					for(var i=0;i<data.data.length;i++){
-						teach_html += '<li data-id="'+data.data[i].ID+'" class="li_name"><p class="name">'+data.data[i].NAME+'</p><img src="../static/images/arrow_right.png" /><div class="clearfix"></div></li>';	
-					}
-					$(".book_box ul").html(teach_html);
-					var li_length=$(".book_box ul li").length;
-					for(var k=0;k<li_length;k++){
-						var books=[];
-						var book_html="";
-						var book_id=$(".book_box ul").children("li").eq(k).attr("data-id");
-						
-						if(textBook(book_id).length>0){
-							
-							books=textBook($(".book_box ul li").eq(k).attr("data-id"));
-							$(".book_box ul li").eq(k).append('<div class="float_box"><ul><div class="clearfix"></div></ul></div>');
-							
-							for(var j=0;j<books.length;j++){
-								console.log("j:"+j);
-								book_html += '<li data-id='+books[j].id+'>'+books[j].name+'</li>';
-							}
-							$(".float_box").eq(k).children("ul").find(".clearfix").before(book_html);
-							TEXTBOOK_ID=books[0].id;
+					if (data.data.length > 0) {
+						var teach_html = "";
+						for (var i = 0; i < data.data.length; i++) {
+							teach_html += '<li data-id="'
+									+ data.data[i].ID
+									+ '" class="li_name"><p class="name">'
+									+ data.data[i].NAME
+									+ '</p><img src="../static/images/arrow_right.png" /><div class="clearfix"></div></li>';
 						}
-						
+						$(".book_box ul").html(teach_html);
+						var li_length = $(".book_box ul li").length;
+						for (var k = 0; k < li_length; k++) {
+							var books = [];
+							var book_html = "";
+							var book_id = $(".book_box ul").children("li")
+									.eq(k).attr("data-id");
+
+							if (textBook(book_id).length > 0) {
+
+								books = textBook($(".book_box ul li").eq(k)
+										.attr("data-id"));
+								$(".book_box ul li").eq(k).append('<div class="float_box"><ul><div class="clearfix"></div></ul></div>');
+
+								for (var j = 0; j < books.length; j++) {
+									console.log("j:" + j);
+									book_html += '<li data-id=' + books[j].id
+											+ '>' + books[j].name + '</li>';
+								}
+								$(".float_box").eq(k).children("ul").find(
+										".clearfix").before(book_html);
+								TEXTBOOK_ID = books[0].id;
+							}
+
+						}
+						getChapter(TEXTBOOK_ID);
+						$("#book_name").text(
+								$(".name").eq(0).text()
+										+ "/"
+										+ $(".float_box").eq(0).find('li')
+												.eq(0).text());
+					}else{
+						window.top.loading.remove();
 					}
-				getChapter(TEXTBOOK_ID);
-				$("#book_name").text($(".name").eq(0).text()+"/"+$(".float_box").eq(0).find('li').eq(0).text());
-				}
 				
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
