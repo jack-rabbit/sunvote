@@ -134,6 +134,7 @@
 		
 		$(document).ready(function(){
 			window.top.loading.remove();
+			$(".table_box").css("padding-top",$(".head_box").height());
 		});
 		
 		function tosearch(){

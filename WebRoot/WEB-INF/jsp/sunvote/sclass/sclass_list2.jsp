@@ -62,7 +62,7 @@
 			<!-- 检索  -->
 
 		</div>
-		<div class="table_box" style="padding:0%;">
+		<div class="table_box" style="padding:0px">
 			<table class="table table-striped">
 				<col style="width: 10%" />
 				<col style="width: 22%" />
@@ -125,6 +125,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			window.top.loading.remove();
+			$(".table_box").css("padding-top",$(".head_box").height());
 		});
 	</script>
 

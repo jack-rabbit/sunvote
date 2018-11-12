@@ -22,7 +22,7 @@
 				console.log(data);
 				var _html='';
 				for(var i=0;i<data.data.studentList.length;i++){
-					_html+='<li><p>'+data.data.studentList[i].NAME+'</p></li>';
+					_html+='<li style="cursor:pointer"><p>'+data.data.studentList[i].NAME+'</p></li>';
 					if(studentid==data.data.studentList[i].ID)
 						_index=i;
 				}

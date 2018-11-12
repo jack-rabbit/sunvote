@@ -65,7 +65,7 @@
 			</div>
 			<div class="clear"></div>
 			</div>
-			<div style="padding:0 5%;background:#fff;">
+			<div style="padding:0 5%;background:#fff;" class="paper_title">
 				<table class="table table-striped">
 				<col style="width: 10%" />
 				<col style="width: 10%" />
@@ -147,6 +147,7 @@
 		
 		$(document).ready(function(){
 			window.top.loading.remove();
+			$(".table_box").css("padding-top",$(".head_box").height());
 		});
 		
 		function tosearch(){
