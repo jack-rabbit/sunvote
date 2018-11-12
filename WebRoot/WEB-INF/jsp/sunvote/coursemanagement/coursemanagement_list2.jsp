@@ -19,19 +19,15 @@
 	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="static/css/teach.css" rel="stylesheet">
-<!-- jsp文件头和头部 -->
-<%@ include file="../../system/index/top.jsp"%>
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 </head>
+
 <body class="no-skin">
-
-
 
 	<!-- 检索  -->
 	<form action="coursemanagement/listcs.do" method="post" name="Form"
-		id="Form">
-
+		id="Form" style="background:#fff;">
 		<div class="head_box">
 			<div class="box_header">
 				<div class="head_box_l">
@@ -61,7 +57,7 @@
 				</table>
 			</div>
 		</div>
-	<div class="table_box">
+		<div class="table_box" >
 			<table class="table table-striped">
 				<col style="width: 10%" />
 				<col style="width: 30%" />
@@ -88,7 +84,15 @@
 				</c:choose>
 				</tbody>
 			</table>
-			
+			<div class="footer">
+				<div class="creat"></div>
+				<div class="removeAll"></div>
+				<div class="page_box">
+
+					<div class="pagination"
+						style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div>
+				</div>
+			</div>
 		</div>
 	</form>
 	<!-- /.main-container -->

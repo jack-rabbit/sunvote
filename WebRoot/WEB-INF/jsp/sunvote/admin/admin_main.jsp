@@ -267,18 +267,14 @@
 	
 		function chooseListClass(school_id,gradle_id){
 			var path = "../sclass/listcs.do?school_id=" + school_id + "&grade_id=" + gradle_id ;
-			if($("#mainFrame").attr('src') != (path)){
-				$("#mainFrame").attr('src',path);
-				window.top.loading.show();
-			}
+			$("#mainFrame").attr('src',path);
+			window.top.loading.show();
 		}
 		
 		function report(classId){
 			//window.open('<%=basePath%>report/report.do?role=admin&classid=' + classId);
-			//if($("#mainFrame").attr('src') != ('<%=basePath%>report/report.do?role=admin&classid=' + classId)){
 				$("#mainFrame").attr('src','<%=basePath%>report/report.do?role=admin&classid=' + classId);
 				window.top.loading.show();
-			//}
 		}
 		function report2(classId){
 			//window.open('<%=basePath%>report/report.do?classid=' + classId);
@@ -307,19 +303,15 @@
 		$("#qingsongkao_paper").click(function (){
 			var path = "../paper/list4.do?school_id=" + schoolId ;
 			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
-			if($("#mainFrame").attr('src') != (path)){
-				$("#mainFrame").attr('src',path);
-				window.top.loading.show();
-			}
+			$("#mainFrame").attr('src',path);
+			window.top.loading.show();
 		});
 		
 		$("#new_paper").click(function (){
 			var path = "../paper/list5.do?school_id=" + schoolId ;
 			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
-			if($("#mainFrame").attr('src') != (path)){
-				$("#mainFrame").attr('src',path);
-				window.top.loading.show();
-			}
+			$("#mainFrame").attr('src',path);
+			window.top.loading.show();
 		});
 		
 		$("#jishice_paper").click(function (){

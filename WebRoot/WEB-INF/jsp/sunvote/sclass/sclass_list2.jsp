@@ -38,7 +38,7 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div style="padding:0 5%;background:#fff;">
+			<div style="background:#fff;">
 
 				<table class="table table-striped">
 					<col style="width: 10%" />
@@ -62,7 +62,7 @@
 			<!-- 检索  -->
 
 		</div>
-		<div class="table_box">
+		<div class="table_box" style="padding:0%;">
 			<table class="table table-striped">
 				<col style="width: 10%" />
 				<col style="width: 22%" />
