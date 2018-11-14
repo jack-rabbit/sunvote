@@ -159,7 +159,7 @@
 			and (CREATE_DATE &gt; #{START_DATE})
 		</if>
 		<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
-			and (CREATE_DATE &lt; #{END_DATE})
+			and (CREATE_DATE &lt; CONCAT(#{END_DATE},"A"))
 		</if>
 		
 		order by CREATE_DATE DESC

@@ -424,7 +424,7 @@ $(function() {
 			contentType : "application/x-www-form-urlencoded; charset=utf-8",
 			success : function(data) {
 				$(".loading").css("display", "none");
-				window.location.href = JUMP_URL;
+				window.location.href = JUMP_URL + "&src=";
 			}
 		})
 	}

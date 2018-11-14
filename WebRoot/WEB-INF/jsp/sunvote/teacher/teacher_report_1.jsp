@@ -236,7 +236,13 @@
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
 			var subject_id =  $("#SUBJECT_ID").val();
-			url = url + "&start_date=" + startDate + "&end_date=" + endDate + "&SUBJECT_ID=" + subject_id;
+			url = url + "&start_date=" + startDate ;
+			if(endDate != null){
+				url = url + + "&end_date=" + endDate;
+			}
+			if(subject_id != null){
+				url = url + "&SUBJECT_ID=" + subject_id;
+			}
 			if(role == "admin"){
 				url = url + "&ROLE=admin" ;
 			}
