@@ -424,7 +424,11 @@ $(function() {
 			contentType : "application/x-www-form-urlencoded; charset=utf-8",
 			success : function(data) {
 				$(".loading").css("display", "none");
-				window.location.href = JUMP_URL + "&src=";
+				if(testData.paper_type == '1'){
+					window.location.href = JUMP_URL + "?a=1&defaulturl=../paper/list2.do";
+				}else{
+					window.location.href = JUMP_URL + "?a=1&defaulturl=../paper/list4.do?school_id=" + testData.school_id ;
+				}
 			}
 		})
 	}

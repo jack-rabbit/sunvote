@@ -275,12 +275,15 @@ public class LoginController extends BaseController {
 					mv.setViewName("sunvote/teacher/teacher_main");
 					mv.addObject("user", user);
 					pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
+					if(pd.get("DEFAULTURL") == null){
+						pd.put("DEFAULTURL", "../paper/list2.do");
+					}
 					mv.addObject("pd", pd);
 					return mv;
 				}else if("admin".equals(changeMenu)){
 					PageData tpd = new PageData();
 					tpd.put("ID", user.getUSER_ID());
-					
+					String schoolId = "" ;
 					List<PageData> adminInfos = v1Service.getAdminInfo(tpd);
 					List<PageData> gradeInfos = new ArrayList<PageData>();
 					List<PageData> subjectInfos = new ArrayList<PageData>();
@@ -301,6 +304,7 @@ public class LoginController extends BaseController {
 						}else{
 							subjectInfos.add(tmpd);
 						}
+						schoolId = pad.getString("SCHOOL_ID");
 						mv.addObject("SNAME", pad.get("SNAME"));
 						mv.addObject("SCHOOL_ID", pad.get("SCHOOL_ID"));
 					}
@@ -312,7 +316,12 @@ public class LoginController extends BaseController {
 					mv.setViewName("sunvote/admin/admin_main");
 					mv.addObject("user", user);
 					pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
+					if(pd.get("DEFAULTURL") == null){
+						pd.put("DEFAULTURL", "../paper/list4.do?school_id=" + schoolId);
+					}
+					//
 					mv.addObject("pd", pd);
+					
 					return mv;
 				}
 

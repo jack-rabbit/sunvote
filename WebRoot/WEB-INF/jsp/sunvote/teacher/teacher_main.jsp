@@ -229,6 +229,11 @@
 				window.top.loading.show();
 			//}
 		});
+		
+		var defaultUrl = '${pd.DEFAULTURL}' ;
+		if(defaultUrl != '' && defaultUrl != ''){
+			$("#mainFrame").attr('src',defaultUrl);
+		}
 	</script>
 </body>
 </html>
