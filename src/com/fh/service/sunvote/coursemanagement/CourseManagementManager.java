@@ -57,6 +57,7 @@ public interface CourseManagementManager{
 	
 	
 	public List<PageData> listCourse(PageData pd)throws Exception;
+	public List<PageData> listCourse(Page pd)throws Exception;
 	
 }
 

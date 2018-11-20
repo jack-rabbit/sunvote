@@ -399,12 +399,13 @@ public class TeacherController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/listcs")
-	public ModelAndView listcs() throws Exception {
+	public ModelAndView listcs(Page page) throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "列表Teacher");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		List<PageData> varList = teacherService.listAll(pd); // 列出Teacher列表
+		page.setPd(pd);
+		List<PageData> varList = teacherService.list(page); // 列出Teacher列表
 		mv.setViewName("sunvote/teacher/teacher_list2");
 		mv.addObject("varList", varList);
 		

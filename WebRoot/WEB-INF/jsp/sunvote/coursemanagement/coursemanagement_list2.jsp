@@ -28,6 +28,7 @@
 	<!-- 检索  -->
 	<form action="coursemanagement/listcs.do" method="post" name="Form"
 		id="Form" style="background:#fff;">
+		<input type="hidden" name="SCHOOL_ID" id="PAPER_ID" value="${pd.SCHOOL_ID}"/>
 		<div class="head_box">
 			<div class="box_header">
 				<div class="head_box_l">

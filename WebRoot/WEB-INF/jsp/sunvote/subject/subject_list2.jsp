@@ -82,7 +82,7 @@
 					</c:choose>
 				</tbody>
 			</table>
-			<div class="footer">
+			<div class="footer" style="width:auto">
 				<div class="creat"></div>
 				<div class="removeAll"></div>
 				<div class="page_box">

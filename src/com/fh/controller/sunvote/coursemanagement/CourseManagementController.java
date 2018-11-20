@@ -147,11 +147,12 @@ public class CourseManagementController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/listcs")
-	public ModelAndView listcs() throws Exception{
+	public ModelAndView listcs(Page page) throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		List<PageData>	varList = coursemanagementService.listCourse(pd);	//列出CourseManagement列表
+		page.setPd(pd);
+		List<PageData>	varList = coursemanagementService.listCourse(page);	//列出CourseManagement列表
 		mv.setViewName("sunvote/coursemanagement/coursemanagement_list2");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);

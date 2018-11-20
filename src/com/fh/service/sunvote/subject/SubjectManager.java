@@ -46,6 +46,8 @@ public interface SubjectManager{
 	
 	public List<PageData> listAllSchool(PageData pd)throws Exception;
 	
+	public List<PageData> listAllSchool(Page pd)throws Exception;
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

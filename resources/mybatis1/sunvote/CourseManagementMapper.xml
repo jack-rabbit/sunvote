@@ -150,6 +150,28 @@
 		
 	</select>
 	
+	<!-- 列表(全部) -->
+	<select id="listCourselistPage" parameterType="page" resultType="pd">
+		SELECT
+			sv_teacher.`NAME`,
+			sv_teacher.`ID` AS TID,
+			sv_sclass.CLASS_NAME,
+			sv_sclass.ID AS CID,
+			sv_subject.CNAME,
+			sv_subject.ID AS SID,
+		SV_COURSEMANAGEMENT.HEAD_MASTER
+		FROM
+			SV_COURSEMANAGEMENT
+		LEFT JOIN sv_sclass ON SV_COURSEMANAGEMENT.CLASS_ID = sv_sclass.ID
+		LEFT JOIN sv_schoolgradesubject ON sv_sclass.GRADE_ID = sv_schoolgradesubject.GRADE_ID
+		AND sv_sclass.SCHOOL_ID = sv_schoolgradesubject.SCHOOL_ID
+		LEFT JOIN sv_teacher ON sv_coursemanagement.TEACHER_ID = sv_teacher.ID
+		LEFT JOIN sv_subject on sv_coursemanagement.SUBJECT_ID = sv_subject.ID
+		WHERE
+			sv_schoolgradesubject.SCHOOL_ID = #{pd.SCHOOL_ID}
+		
+	</select>
+	
 	
 	
 	<!-- 批量删除 -->

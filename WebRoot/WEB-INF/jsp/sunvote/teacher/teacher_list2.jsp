@@ -98,7 +98,18 @@
 							</c:choose>
 						</tbody>
 					</table>
+					<div class="footer" style="width:auto">
+			<!-- 	<div class="creat">
+					<input type="button"  onclick="parent.$('.title_time').modal('show');" value="添加老师" />
 				</div>
+				<div class="removeAll">
+					<input type="button" onclick="deleteAll()" value="删除" />
+				</div> -->
+				<div class="page_box">
+					<div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div>
+				</div>
+			</div>
+		</div>
 	</form>
 
 

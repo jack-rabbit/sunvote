@@ -71,6 +71,15 @@ public class SubjectService implements SubjectManager{
 		return (List<PageData>)dao.findForList("SubjectMapper.listAllSchool", pd);
 	}
 	
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllSchool(Page pd)throws Exception{
+		return (List<PageData>)dao.findForList("SubjectMapper.listAllSchoollistPage", pd);
+	}
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

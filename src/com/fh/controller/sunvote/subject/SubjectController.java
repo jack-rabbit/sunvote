@@ -116,13 +116,14 @@ public class SubjectController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/listcs")
-	public ModelAndView listcs() throws Exception{
+	public ModelAndView listcs(Page page) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"列表Subject");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		List<PageData>	varList = subjectService.listAllSchool(pd);	//列出Subject列表
+		page.setPd(pd);
+		List<PageData>	varList = subjectService.listAllSchool(page);	//列出Subject列表
 		mv.setViewName("sunvote/subject/subject_list2");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
