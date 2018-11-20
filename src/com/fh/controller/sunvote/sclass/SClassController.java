@@ -150,8 +150,9 @@ public class SClassController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"列表SClass");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
+		page.setPd(pd);
 		mv.setViewName("sunvote/sclass/sclass_list2");
-		List<PageData>	varList = sclassService.listAll(pd);	//列出SClass列表
+		List<PageData>	varList = sclassService.list(page);	//列出SClass列表
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限

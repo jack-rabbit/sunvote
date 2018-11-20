@@ -92,21 +92,19 @@
 					</c:choose>
 				</tbody>
 			</table>
-			<%-- <div class="footer">
+			<div class="footer" style="width:auto">
 				<div class="creat">
-					<input type="button" onclick="add();" value="添加学生" />
+					<!-- <input type="button" onclick="add();" value="添加学生" /> -->
 				</div>
 				<div class="creat">
-					<input type="button" onclick="upload();" value="批量导入" />
+					<!-- <input type="button" onclick="upload();" value="批量导入" /> -->
 				</div>
-				<div class="removeAll">
-					<input type="button" onclick="deleteAll();" value="批量删除" />
-				</div>
+				
 				<div class="page_box">
 					<div class="pagination"
 						style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div>
 				</div>
-			</div> --%>
+			</div> 
 		</div>
 	</form>
 	<!-- basic scripts -->
