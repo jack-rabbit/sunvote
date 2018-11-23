@@ -18,6 +18,9 @@ import com.fh.service.api.V1Manager;
 import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.sunvote.student.StudentManager;
 import com.fh.service.sunvote.studenttest.StudentTestManager;
+import com.fh.service.sunvote.subject.SubjectManager;
+import com.fh.service.sunvote.teacher.TeacherManager;
+import com.fh.service.sunvote.teacher.impl.TeacherService;
 import com.fh.service.sunvote.testpaper.TestPaperManager;
 import com.fh.service.sunvote.testpaperinfo.TestPaperInfoManager;
 import com.fh.util.Jurisdiction;
@@ -44,6 +47,12 @@ public class ReportController extends BaseController {
 	
 	@Resource(name = "v1Service")
 	private V1Manager v1Service;
+	
+	@Resource(name = "teacherService")
+	private TeacherManager teacherService;
+	
+	@Resource(name="subjectService")
+	private SubjectManager subjectService;
 	
 	
 
@@ -288,6 +297,16 @@ public class ReportController extends BaseController {
 		pd.put("TESTPAPER_ID", pd.get("TESTID"));
 		PageData testpaperPd = testpaperService.findById(pd);
 		
+		PageData teacherPd = new PageData();
+		teacherPd.put("ID", testpaperPd.get("TEACHER_ID"));
+		teacherPd = teacherService.findById(teacherPd);
+		
+		PageData subjectPd = new PageData();
+		subjectPd.put("ID", testpaperPd.get("SUBJECT_ID"));
+		subjectPd = subjectService.findById(subjectPd);
+		
+		
+		
 		// 查询班级学生
 		List<PageData> studentList = studentService.listAllClass(pd);
 		List<Integer> questionList = new ArrayList<Integer>();
@@ -384,6 +403,8 @@ public class ReportController extends BaseController {
 		mv.addObject("testpaperInfo", testpaperPd);
 		mv.addObject("questionInfo", questionList);
 		mv.addObject("studentInfo", studentList);
+		mv.addObject("teacherPd", teacherPd);
+		mv.addObject("subjectPd", subjectPd);
 		
 		mv.setViewName("sunvote/teacher/teacher_report_test");
 		return mv;

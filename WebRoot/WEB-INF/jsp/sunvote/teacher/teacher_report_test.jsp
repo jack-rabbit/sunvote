@@ -35,7 +35,11 @@
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
 			<table style="margin-top:5px;">
 				<tr style="height: 30px">
-					<td>测验名称: ${testpaperInfo.NAME}</td>
+					<td>测验名称: ${testpaperInfo.NAME}</td>  
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td>教师: ${teacherPd.NAME}</td> 
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td>科目名称: ${subjectPd.CNAME}</td>
 				</tr>
 				<tr style="height: 30px">
 					<td>收卷时间: ${testpaperInfo.END_DATE}</td>
@@ -138,7 +142,7 @@
             removeOriginal: true
         	};
 
-       		 $("#simple-table").tablescroller(options);
+       		$("#simple-table").tablescroller(options);
 		});
 		$(function() {
 
