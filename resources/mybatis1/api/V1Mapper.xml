@@ -260,6 +260,47 @@
    </select>
 	
 	
+	<select id="classReport"  parameterType="pd" resultType="pd">
+		SELECT
+			sv_student.`NAME`,
+			sv_studenttest.STUDENT_ID,
+			sv_studenttest.TEST_ID,
+			sv_studenttest.SCORE,
+			sv_testpaper.`NAME` AS PAPER_NAME,
+			sv_testpaper.CREATE_DATE,
+			sv_testpaper.AVG_SCORE,
+			sv_testpaper.TOTAL_SCORE
+		FROM
+			sv_testpaper
+		LEFT JOIN sv_studenttest ON sv_testpaper.TESTPAPER_ID = sv_studenttest.TEST_ID
+		LEFT JOIN sv_student ON sv_student.ID = sv_studenttest.STUDENT_ID
+		WHERE
+		 sv_student.`NAME` IS NOT NULL
+		 <if test="CLASS_ID != null and CLASS_ID != ''">
+			AND	sv_testpaper.SCLASS_ID = #{CLASS_ID}
+			AND sv_student.CLASS_ID =  #{CLASS_ID}
+		</if>
+		 <if test="TEACHER_ID != null and TEACHER_ID != ''">
+			AND	sv_testpaper.TEACHER_ID = #{TEACHER_ID}
+		</if>
+		 <if test="SUBJECT_ID != null and SUBJECT_ID != ''">
+			AND	sv_testpaper.SUBJECT_ID = #{SUBJECT_ID}
+		</if>
+		 <if test="TEST_TYPE != null and TEST_TYPE != ''">
+			AND	sv_testpaper.TEST_TYPE = #{TEST_TYPE}
+		</if>
+		 <if test="START_DATE != null and START_DATE != ''">
+			AND	sv_testpaper.CREATE_DATE &gt; #{START_DATE}
+		</if>
+		 <if test="END_DATE != null and END_DATE != ''">
+			AND	sv_testpaper.CREATE_DATE &lt; CONCAT(#{END_DATE},'A')
+		</if>
+		ORDER BY
+			(sv_student.NUMBER * 1),
+			sv_studenttest.STUDENT_ID,
+			sv_testpaper.CREATE_DATE
+	</select>
+	
 	
 	
 </mapper>

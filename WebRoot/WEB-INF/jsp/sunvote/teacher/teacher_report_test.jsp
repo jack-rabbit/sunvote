@@ -28,7 +28,7 @@
 </style>
 </head>
 
-<body style="background:#fff;overflow-y:hidden;">
+<body style="background:#fff;/* overflow-y:hidden; */">
 	<div style="padding:20px 20px;">
 
 		<form action="report/report_test.do" method="post" name="Form" id="Form">
@@ -36,10 +36,12 @@
 			<table style="margin-top:5px;">
 				<tr style="height: 30px">
 					<td>测验名称: ${testpaperInfo.NAME}</td>  
+					<c:if test="${display}">
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>教师: ${teacherPd.NAME}</td> 
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>科目名称: ${subjectPd.CNAME}</td>
+					</c:if>
 				</tr>
 				<tr style="height: 30px">
 					<td>收卷时间: ${testpaperInfo.END_DATE}</td>
@@ -78,8 +80,8 @@
 						<!-- <td class="center"></td> -->
 						<td class="center"><div style="width:80px;">--</div></td>
 						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
-							<td class="center"><div style="width:80px;margin:0 auto;"><fmt:formatNumber type="number"
-									value="${var == 0 ? 0: (var / classInfo.studentNum * 100)}"
+							<td class="center"><div style="width:80px;margin:0 auto;"><c:set var="key"><c:out value="${vs.index+1}" /></c:set><fmt:formatNumber type="number"
+									value="${(questionInfo[key] / classInfo.studentNum * 100)}"
 									maxFractionDigits="1" />%</div></td>
 						</c:forEach>
 						<!-- <td class="center"></td> -->
@@ -142,7 +144,7 @@
             removeOriginal: true
         	};
 
-       		$("#simple-table").tablescroller(options);
+//       		$("#simple-table").tablescroller(options);
 		});
 		$(function() {
 

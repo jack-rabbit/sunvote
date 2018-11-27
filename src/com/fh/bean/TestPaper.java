@@ -49,6 +49,8 @@ public class TestPaper {
 	
 	private String test_type ;
 	
+	private String subject_id ;
+	
 	private List<StudentAnswer> students = new ArrayList<StudentAnswer>();
 
 	public String getTestpaperId() {
@@ -187,6 +189,16 @@ public class TestPaper {
 		return gson.fromJson(json, TestPaper.class);
 	}
 	
+	
+	
+	public String getSubject_id() {
+		return subject_id;
+	}
+
+	public void setSubject_id(String subject_id) {
+		this.subject_id = subject_id;
+	}
+
 	public String toJson(){
 		Gson gson = new Gson();
 		return gson.toJson(this);

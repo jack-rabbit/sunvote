@@ -1607,6 +1607,7 @@ public class V1 extends BaseController {
 				testPd.put("LOW_SCORE", testPaper.getLowScore());
 				testPd.put("AVG_SCORE", testPaper.getAvgScore());
 				testPd.put("TOTAL_SCORE", testPaper.getTotalScore());
+				testPd.put("SUBJECT_ID", testPaper.getSubject_id());
 				testPd.put("REMARK", testPaper.getRemark());
 				testpaperService.save(testPd);
 				if (testPaper.getStudents() != null) {
@@ -1728,6 +1729,7 @@ public class V1 extends BaseController {
 				testPd.put("LOW_SCORE", testPaper.getLowScore());
 				testPd.put("AVG_SCORE", testPaper.getAvgScore());
 				testPd.put("TOTAL_SCORE", testPaper.getTotalScore());
+				testPd.put("SUBJECT_ID", testPaper.getSubject_id());
 				testPd.put("REMARK", testPaper.getRemark());
 				testpaperService.save(testPd);
 				if (testPaper.getStudents() != null) {

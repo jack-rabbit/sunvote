@@ -66,5 +66,11 @@ public class V1Service implements V1Manager {
 			throws Exception {
 		return (List<PageData>)dao.findForList("V1Mapper.getClassBySchoolAndGradle", pd);
 	}
+	
+	@Override
+	public List<PageData> classReport(PageData pd)
+			throws Exception {
+		return (List<PageData>)dao.findForList("V1Mapper.classReport", pd);
+	}
 
 }

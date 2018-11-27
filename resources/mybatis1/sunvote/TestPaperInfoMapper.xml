@@ -263,6 +263,29 @@
 				(sv_paperquestion.RANK * 1)
 	</select>
 	
+	<select id="reportTestPaperDetail" parameterType="pd" resultType="pd">
+		SELECT
+			sv_student.`NAME`,
+			sv_student.ID,
+			sv_student.KEYPAD_ID,
+			sv_student.NUMBER,
+			sv_testpaperinfo.STUDENT_ID,
+			sv_testpaperinfo.QUESTION_ID,
+			sv_testpaperinfo.SCORE,
+			sv_testpaperinfo.ANSWER,
+			sv_testpaperinfo.`RIGHT`,
+			sv_paperquestion.RANK
+		FROM
+			sv_testpaperinfo
+		LEFT JOIN sv_student ON sv_testpaperinfo.STUDENT_ID = sv_student.ID
+		LEFT JOIN sv_paperquestion ON sv_testpaperinfo.QUESTION_ID = sv_paperquestion.QUESTION_ID
+		WHERE
+			sv_testpaperinfo.TEST_ID = #{TEST_ID}
+		ORDER BY
+			sv_testpaperinfo.STUDENT_ID,
+			(sv_paperquestion.RANK * 1)
+	</select>
+	
 	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">

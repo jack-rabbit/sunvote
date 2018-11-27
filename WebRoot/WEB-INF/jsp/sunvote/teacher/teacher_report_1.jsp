@@ -238,7 +238,7 @@
 			var subject_id =  $("#SUBJECT_ID").val();
 			url = url + "&start_date=" + startDate ;
 			if(endDate != null){
-				url = url + + "&end_date=" + endDate;
+				url = url + "&end_date=" + endDate;
 			}
 			if(subject_id != null){
 				url = url + "&SUBJECT_ID=" + subject_id;

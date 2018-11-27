@@ -25,4 +25,6 @@ public interface V1Manager {
 	public List<PageData> getAdminInfo(PageData pd) throws Exception;
 	
 	public List<PageData> getClassBySchoolAndGradle(PageData pd) throws Exception;
+	
+	public List<PageData> classReport(PageData pd)	throws Exception;
 }

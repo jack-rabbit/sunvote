@@ -167,4 +167,8 @@ public class PageData extends HashMap implements Map{
 		return map.values();
 	}
 	
+	
+	public PageData(PageData tp){
+		this.map = new HashMap(tp.map);
+	}
 }

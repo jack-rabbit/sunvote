@@ -93,6 +93,11 @@ public class TestPaperInfoService implements TestPaperInfoManager{
 		return (List<PageData>)dao.findForList("TestPaperInfoMapper.reportPaperDetail", pd);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<PageData> reportTestPaperDetail(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("TestPaperInfoMapper.reportTestPaperDetail", pd);
+	}
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception
