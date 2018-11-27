@@ -277,7 +277,7 @@
 		$(document).ready(function(){
 			window.top.loading.remove();
 			
-			var sour = "${testpaperList}";
+			/* var sour = "${testpaperList}";
 			
 			 if(sour != null && sour.length > 3){
 				var _width = $('#mainFrame', parent.document).width()-40;
@@ -295,7 +295,7 @@
 		        console.log(name_height);
 		        $(".th_name").height(name_height);
 			} 
-				
+				 */
 		});
 		
 	</script>

@@ -76,8 +76,8 @@ function getList(start_date, end_date, class_id) { // 获取测验列表
 								+ data.data[i].createDate
 								+ '</td><td><a onclick="window.top.loading.show();jump($(this));" data-id="'
 								+ data.data[i].testpaperId
-								+ '" >查看详情</a> &nbsp;&nbsp;&nbsp;&nbsp; <a onclick="window.top.loading.show();ansync($(this)); " data-id="' 
-								+ data.data[i].testpaperId + '" >班级分析</a></td></tr>'
+								+ '" >查看详情</a> &nbsp;&nbsp;&nbsp;&nbsp; <!-- <a onclick="window.top.loading.show();ansync($(this)); " data-id="' 
+								+ data.data[i].testpaperId + '" >班级分析</a> --></td></tr>'
 					}
 					$("#tab_body").html(tab_html);
 				},
