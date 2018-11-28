@@ -96,11 +96,11 @@
 	function dataMethod(index,data){
 		console.log(data);
 		//data0=[];data1=[];data2=[];data3=[];
-		var GETSCORE = parseInt(data.data.studentList[index].GETSCORE);
-		var TOTALSCORE = parseInt(data.data.TOTAL_SCORE);
+		var GETSCORE = parseFloat(data.data.studentList[index].GETSCORE);
+		var TOTALSCORE = parseFloat(data.data.TOTAL_SCORE);
 		var ratio=(GETSCORE/TOTALSCORE*100).toFixed(2);
-		var class_avg= (parseInt(data.data.AVG_SCORE)/ parseInt(data.data.TOTAL_SCORE)*100).toFixed(2);
-		var class_max=(parseInt(data.data.MAX_SCORE)/ parseInt(data.data.TOTAL_SCORE)*100).toFixed(2);
+		var class_avg= (parseFloat(data.data.AVG_SCORE)/ parseFloat(data.data.TOTAL_SCORE)*100).toFixed(2);
+		var class_max=(parseFloat(data.data.MAX_SCORE)/ parseFloat(data.data.TOTAL_SCORE)*100).toFixed(2);
 		
 		var test_num=data.data.studentList[index].testList.length;
 		var part_num=test_num;

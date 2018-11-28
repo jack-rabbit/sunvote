@@ -117,7 +117,7 @@ li {
 	<script type="">
 		var URL = '<%=basePath%>${URL}';
 	</script>
-	<script src="../static/js/control1.js?a=4"></script>
+	<script src="../static/js/control1.js?a=1"></script>
 	<!-- 日期框 -->
 	<script>
 	//lay('#version').html('-v'+ laydate.v);

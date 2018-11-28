@@ -164,6 +164,47 @@
 		
 	</select>
 	
+	
+	<select id="reportClassListData" parameterType="pd" resultType="pd">
+		SELECT
+			sv_student.ID,
+			sv_student.`NAME` AS NAME,
+			sv_testpaper.`NAME` AS TNAME,
+			sv_studenttest.SCORE AS SCORE,
+			sv_testpaper.TOTAL_SCORE AS TOTAL_SCORE,
+			sv_testpaper.CREATE_DATE,
+			sv_testpaper.AVG_SCORE AS AVG_SCORE,
+			sv_testpaper.HIGHT_SCORE AS MAX_SCORE
+		FROM
+			sv_student
+		LEFT JOIN sv_studenttest ON sv_student.ID = sv_studenttest.STUDENT_ID
+		LEFT JOIN sv_testpaper ON sv_testpaper.TESTPAPER_ID = sv_studenttest.TEST_ID
+		WHERE 1 = 1
+		<if test="CLASS_ID != null and CLASS_ID != ''">
+			AND	sv_student.CLASS_ID = #{CLASS_ID}
+			AND sv_testpaper.SCLASS_ID = #{CLASS_ID}
+		</if>
+		AND sv_testpaper.`NAME` IS NOT NULL
+		<if test="TEACHER_ID != null and TEACHER_ID != ''">
+			and sv_testpaper.TEACHER_ID = #{TEACHER_ID}
+		</if>
+		<if test="TEST_TYPE != null and TEST_TYPE != ''">
+			and sv_testpaper.TEST_TYPE = #{TEST_TYPE}
+		</if>
+		<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &gt; #{START_DATE})
+		</if>
+		<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
+			and (CREATE_DATE &lt; #{END_DATE})
+		</if>
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''"><!-- 关键词检索 -->
+			and (sv_testpaper.SUBJECT_ID = #{SUBJECT_ID})
+		</if>
+		ORDER BY
+			sv_student.NUMBER,
+			sv_testpaper.CREATE_DATE
+	</select>
+	
 		<select id="reportListDataCalc"  parameterType="pd" resultType="pd">
 	
 		SELECT

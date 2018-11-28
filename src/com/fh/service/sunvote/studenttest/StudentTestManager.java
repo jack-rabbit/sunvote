@@ -1,6 +1,7 @@
 package com.fh.service.sunvote.studenttest;
 
 import java.util.List;
+
 import com.fh.entity.Page;
 import com.fh.util.PageData;
 
@@ -58,6 +59,9 @@ public interface StudentTestManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
+	
+	
+	public List<PageData> reportClassListData(PageData pd) throws Exception;
 	
 }
 

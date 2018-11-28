@@ -86,5 +86,10 @@ public class StudentTestService implements StudentTestManager{
 		return (List<PageData>)dao.findForList("StudentTestMapper.reportListData", pd);
 	}
 	
+	@Override
+	public List<PageData> reportClassListData(PageData pd) throws Exception {
+		return (List<PageData>)dao.findForList("StudentTestMapper.reportClassListData", pd);
+	}
+	
 }
 

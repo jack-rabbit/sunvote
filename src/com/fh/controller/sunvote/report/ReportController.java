@@ -94,13 +94,8 @@ public class ReportController extends BaseController {
 		info.put("CLASS_CODE", classPageData.getString("CLASS_CODE"));
 		info.put("CLASS_ID", classPageData.getString("ID"));
 		pd.put("CLASS_ID", pd.get("CLASSID"));
-		
 		// 2查询班级考试
 		pd.put("TEST_TYPE", "1");
-//		List<PageData> testpaperList = testpaperService.listAll(pd);
-//		mv.addObject("testpaperList", testpaperList);
-//		info.put("testsize", testpaperList != null ? testpaperList.size() : 0);
-		
 		// modify 根據班級查詢班級報表
 		List<PageData> reportData = v1Service.classReport(pd);
 		List<PageData> testpaperList = new ArrayList();
@@ -199,48 +194,6 @@ public class ReportController extends BaseController {
 		mv.addObject("testpaperList", testpaperList);
 		info.put("testsize", testpaperList != null ? testpaperList.size() : 0);
 		
-	/*	
-		List<PageData> studentList = studentService.listAllClass(pd);
-		// 查询学生名单及人数
-		if(studentList != null && studentList.size() > 0){
-			for(PageData studentPageData : studentList){
-				studentPageData.put("STUDENT_ID", studentPageData.getString("ID"));
-				List<PageData> studentTestList = studenttestService.listAll(studentPageData);
-				for(PageData studentTestPageData :studentTestList){
-					String score = studentTestPageData.getString("SCORE");
-					if(!"0".equals(score)){
-						studentPageData.put(studentTestPageData.getString("TEST_ID"), studentTestPageData.getString("SCORE"));
-					}else{
-						studentPageData.put(studentTestPageData.getString("TEST_ID"), "--");
-					}
-				}
-				int totalScore = 0 ;
-				int getScore = 0 ;
-				for(PageData testPaperPageData:testpaperList){
-					String totalScoreStr = testPaperPageData.getString("TOTAL_SCORE");
-					if(totalScoreStr != null){
-						try{
-							totalScore += Integer.parseInt(totalScoreStr);
-						}catch(Exception ex){
-							logger.info(ex);
-						}
-					}
-					String getScoreStr = studentPageData.getString(testPaperPageData.getString("TESTPAPER_ID"));
-					if(getScoreStr != null){
-						try{
-							getScore += Integer.parseInt(getScoreStr);
-						}catch(Exception ex){
-							logger.info(ex);
-						}
-					}
-				}
-				studentPageData.put("TOTALSCORE", totalScore);
-				studentPageData.put("GETSCORE", getScore);
-				
-			}
-		}*/
-		// 课程平均得分率
-		// 课程总分
 		mv.addObject("studentList", studentList);
 		info.put("STUDENT_NUM", studentList != null ? studentList.size() : 0);
 		mv.addObject("info", info);
@@ -294,17 +247,72 @@ public class ReportController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"学生报表数据");
 		PageData pd = getPageData();
 		ResponseGson<PageData> ret = new ResponseGson();
-//		pd.put("CLASS_ID", pd.get("CLASSID"));
-		List<PageData> studentList = studentService.listAllClass(pd);
 		if ("teacher".equals(getRole())) {
 			pd.put("TEACHER_ID", getUserID());
 		}
-		List<PageData> testpaperList = testpaperService.listAll(pd);
+		pd.put("TEST_TYPE", "1");
+		List<PageData> dataList = studenttestService.reportClassListData(pd);
+		List<PageData> studentList = new ArrayList();
+		List<PageData> studentTestList = new ArrayList();
+		PageData studentPd = null;
+		float getScore = 0f ;
+		float allGetScore = 0;
+		float maxScore = 0 ;
+		for(PageData tmp : dataList){
+			if(studentPd != null && tmp.get("ID").equals(studentPd.get("ID"))){
+				String getScoreStr = tmp.getString("SCORE");
+				float score = 0 ;
+				if(getScoreStr != null){
+					try{
+						score = Float.parseFloat(getScoreStr);
+					}catch(Exception ex){
+						logger.info(ex);
+					}
+				}
+				getScore += score;
+				allGetScore += score;
+				tmp.put("NAME", tmp.get("TNAME"));
+				studentTestList.add(tmp);
+			}else{
+				if(studentPd != null){
+					if(getScore > maxScore){
+						maxScore = getScore ;
+					}
+					studentPd.put("GETSCORE", getScore);
+					studentPd.put("testList", studentTestList);
+					studentList.add(studentPd);
+				}
+				studentPd = new PageData();
+				studentTestList = new ArrayList();
+				getScore = 0 ;
+				String getScoreStr = tmp.getString("SCORE");
+				float score = 0 ;
+				if(getScoreStr != null){
+					try{
+						score = Float.parseFloat(getScoreStr);
+					}catch(Exception ex){
+						logger.info(ex);
+					}
+				}
+				getScore += score;
+				allGetScore += score;
+				studentPd.put("NAME", tmp.get("NAME"));
+				studentPd.put("ID", tmp.get("ID"));
+				tmp.put("NAME", tmp.get("TNAME"));
+				studentTestList.add(tmp);
+				
+			}
+		}
+		if(studentPd != null){
+			studentPd.put("GETSCORE", getScore);
+			studentPd.put("testList", studentTestList);
+			studentList.add(studentPd);
+		}
 		pd.put("ID", pd.get("CLASS_ID"));
 		PageData classPageData = sclassService.findById(pd);
 		float totalScore = 0 ;
 		float avgScore = 0;
-		for(PageData testPaperPageData:testpaperList){
+		for(PageData testPaperPageData:studentTestList){
 			String totalScoreStr = testPaperPageData.getString("TOTAL_SCORE");
 			if(totalScoreStr != null){
 				try{
@@ -323,61 +331,7 @@ public class ReportController extends BaseController {
 			}
 			
 		}
-		float allGetScore = 0;
-		float maxScore = 0 ;
-		// 查询学生名单及人数
-		if(studentList != null && studentList.size() > 0){
-			for(PageData studentPageData : studentList){
-				PageData search = new PageData();
-				search.put("STUDENT_ID", studentPageData.getString("ID"));
-				if(pd.containsKey("START_DATE")){
-					search.put("START_DATE", pd.getString("START_DATE"));
-				}
-				if(pd.containsKey("END_DATE")){
-					search.put("END_DATE", pd.getString("END_DATE"));
-				}
-				if("teacher".equals(getRole())){
-					search.put("TEACHER_ID", getUserID());
-				}
-				if(pd.containsKey("SUBJECT_ID")){
-					search.put("SUBJECT_ID", pd.getString("SUBJECT_ID"));
-				}
-				List<PageData> studentTestList = studenttestService.reportListData(search);
-				studentPageData.put("testList", studentTestList);
-				
-				float getScore = 0 ;
-				for(PageData studentTestPageData:studentTestList){
-					String getScoreStr = studentTestPageData.getString("SCORE");
-					if(getScoreStr != null){
-						try{
-							getScore += Float.parseFloat(getScoreStr);
-						}catch(Exception ex){
-							logger.info(ex);
-						}
-					}
-					
-					studentTestPageData.getString("TEST_ID");
-					
-				}
-//				studentPageData.put("TOTALSCORE", totalScore);
-				studentPageData.put("GETSCORE", getScore);
-				studentPageData.remove("GROUPID");
-				studentPageData.remove("REMARK");
-				studentPageData.remove("PARENT_PHONE");
-				studentPageData.remove("PARENT_NAME");
-				studentPageData.remove("NUMBER");
-				studentPageData.remove("SIGN_NO");
-				studentPageData.remove("KEYPAD_ID");
-				studentPageData.remove("SNO");
-				studentPageData.remove("SEX");
-				
-				allGetScore += getScore;
-				if(getScore > maxScore){
-					maxScore = getScore ;
-				}
-				
-			}
-		}
+		
 		classPageData.remove("SCHOOL_ID");
 		classPageData.remove("GRADE_ID");
 		classPageData.remove("BASESTATION_ID");

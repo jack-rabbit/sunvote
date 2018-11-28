@@ -118,7 +118,7 @@
 										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
 									</td> --%>
 									<td class="center"><div style="width:150px;cursor:hand"><a
-										 onclick="student('${info.CLASS_ID}','${var.ID}')">${var.NAME}</a></div>
+										 onclick="student('${info.CLASS_ID}','${var.STUDENT_ID}')">${var.NAME}</a></div>
 									</td>
 									<td class="center"><div style="width:150px;"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
