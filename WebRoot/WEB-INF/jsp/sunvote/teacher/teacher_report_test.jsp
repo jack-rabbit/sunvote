@@ -58,12 +58,12 @@
 				style="margin-top:0px;margin-bottom:0;">
 				<thead>
 					<tr>
-						<th class="center"><div style="width:109px;">键盘</div></th>
-						<th class="center"><div style="width:80px;">学号</div></th>
 						<th class="center"><div style="width:80px;">姓名</div></th>
-						<th class="center"><div style="width:80px;">得分</div></th>
-						<!-- <th class="center"><div style="width:80px;">正确率</div></th> -->
 						<th class="center"><div style="width:80px;">排名</div></th>
+						<th class="center"><div style="width:80px;">得分</div></th>
+						<th class="center"><div style="width:80px;">学号</div></th>
+						<th class="center"><div style="width:109px;">键盘</div></th>
+						<!-- <th class="center"><div style="width:80px;">正确率</div></th> -->
 						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
 							<th class="center"><div style="width:80px;margin:0 auto;">题目${vs.index+1}</div></th>
 						</c:forEach>
@@ -92,12 +92,12 @@
 						<c:when test="${not empty studentInfo}">
 							<c:forEach items="${studentInfo}" var="var" varStatus="vs">
 								<tr>
-									<td class="center"><div style="width:109px;">${var.KEYPAD_ID}</div></td>
-									<td class="center"><div style="width:80px;">${var.NUMBER}</div></td>
 									<td class="center"><div style="width:80px;">${var.NAME}</div></td>
-									<td class="center"><div style="width:80px;">${var.GETSCORE}</div></td>
-									<%-- <td class="center">${var.RIGHT}</td> --%>
 									<td class="center"><div style="width:80px;">${var.RANK_NUM}</div></td>
+									<td class="center"><div style="width:80px;">${var.GETSCORE}</div></td>
+									<td class="center"><div style="width:80px;">${var.NUMBER}</div></td>
+									<td class="center"><div style="width:109px;">${var.KEYPAD_ID}</div></td>
+									<%-- <td class="center">${var.RIGHT}</td> --%>
 									<c:forEach items="${questionInfo}" var="var1" varStatus="vs1">
 										<td class="center" <c:if test="${var.detail[vs1.index].RIGHT== '1'}">style="background:#0bb8b9"</c:if>div style="width:80px;margin:0 auto;">${var.detail[vs1.index].ANSWER}</div></td>
 									</c:forEach>
