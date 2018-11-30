@@ -281,6 +281,7 @@
 		LEFT JOIN sv_paperquestion ON sv_testpaperinfo.QUESTION_ID = sv_paperquestion.QUESTION_ID
 		WHERE
 			sv_testpaperinfo.TEST_ID = #{TEST_ID}
+			AND sv_student.ID IS NOT NULL
 		ORDER BY
 			sv_testpaperinfo.STUDENT_ID,
 			(sv_paperquestion.RANK * 1)

@@ -1,5 +1,6 @@
 package com.fh.controller.sunvote.report;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -101,8 +102,8 @@ public class ReportController extends BaseController {
 		List<PageData> testpaperList = new ArrayList();
 		List<PageData> studentList = new ArrayList();
 		PageData studentPd = null;
-		float totalScore = 0 ;
-		float getScore = 0 ;
+		double totalScore = 0 ;
+		double getScore = 0 ;
 		for(PageData item : reportData){
 			
 			// 学生列表
@@ -117,14 +118,14 @@ public class ReportController extends BaseController {
 				String totalScoreStr = item.getString("TOTAL_SCORE");
 				if(totalScoreStr != null){
 					try{
-						totalScore +=Float.parseFloat(totalScoreStr);
+						totalScore = new BigDecimal(totalScoreStr).add(new BigDecimal(Double.toString(totalScore))).doubleValue();
 					}catch(Exception ex){
 						logger.info(ex);
 					}
 				}
 				if(score != null){
 					try{
-						getScore += Float.parseFloat(score);
+						getScore = new BigDecimal(score).add(new BigDecimal(Double.toString(getScore))).doubleValue();
 					}catch(Exception ex){
 						logger.info(ex);
 					}
@@ -149,14 +150,14 @@ public class ReportController extends BaseController {
 				String totalScoreStr = item.getString("TOTAL_SCORE");
 				if(totalScoreStr != null){
 					try{
-						totalScore += Float.parseFloat(totalScoreStr);
+						totalScore = new BigDecimal(totalScoreStr).add(new BigDecimal(Double.toString(totalScore))).doubleValue();
 					}catch(Exception ex){
 						logger.info(ex);
 					}
 				}
 				if(score != null){
 					try{
-						getScore += Float.parseFloat(score);
+						getScore = new BigDecimal(score).add(new BigDecimal(Double.toString(getScore))).doubleValue();
 					}catch(Exception ex){
 						logger.info(ex);
 					}
