@@ -37,9 +37,9 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div style="background:#fff;">
+			<div style="background:#fff;" >
 
-				<table class="table table-striped">
+				<table class="table table-striped" style="margin: 0px 5%">
 					<col style="width: 10%" />
 					<col style="width: 22%" />
 					<col style="width: 22%" />
@@ -62,7 +62,7 @@
 
 		</div>
 		<div class="table_box" style="padding:0px">
-			<table class="table table-striped">
+			<table class="table table-striped" style="margin: 0px 5%">
 				<col style="width: 10%" />
 				<col style="width: 22%" />
 				<col style="width: 22%" />
@@ -91,13 +91,13 @@
 					</c:choose>
 				</tbody>
 			</table>
-			<div class="footer" style="width:auto">
+			<div class="footer" style="width:auto;margin: 0px 5%;">
 				<div class="creat">
-					<!-- <input type="button" onclick="add();" value="添加学生" /> -->
+					<input type="button" onclick="add();" value="添加班级" />
 				</div>
-				<div class="creat">
-					<!-- <input type="button" onclick="upload();" value="批量导入" /> -->
-				</div>
+				 <div class="removeAll">
+					<input type="button" onclick="delete();" value="删除" />
+				</div> 
 				
 				<div class="page_box">
 					<div class="pagination"
@@ -123,6 +123,16 @@
 		$(document).ready(function() {
 			window.top.loading.remove();
 			$(".table_box").css("padding-top",$(".head_box").height());
+		});
+		
+		$('#ids').on('click', function(){
+				var th_checked = $("#ids").prop('checked');//checkbox inside "TH" table header
+				
+				$(".table_box .table").find('tbody > tr').each(function(){
+					var row = this;
+					if(th_checked) $(row).find('input[type=checkbox]').eq(0).prop('checked', true);
+					else $(row).find('input[type=checkbox]').eq(0).prop('checked', false);
+				});
 		});
 	</script>
 

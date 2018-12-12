@@ -201,7 +201,11 @@ public class ReportController extends BaseController {
 		mv.addObject("start_date", pd.get("START_DATE"));
 		mv.addObject("end_date", pd.get("END_DATE"));
 		mv.addObject("pd", pd);
-		mv.setViewName("sunvote/teacher/teacher_report_1");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/teacher_report_1");
+		}else{
+			mv.setViewName("sunvote/teacher/en_teacher_report_1");
+		}
 		return mv;
 	}
 	
@@ -235,7 +239,11 @@ public class ReportController extends BaseController {
 			url += "&SUBJECT_ID=" + pd.getString("SUBJECT_ID");
 		}
 		mv.addObject("URL",url);
-		mv.setViewName("sunvote/teacher/stduent_report");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/stduent_report");
+		}else{
+			mv.setViewName("sunvote/teacher/en_stduent_report");
+		}
 		mv.addObject("start_date", pd.get("START_DATE"));
 		mv.addObject("end_date", pd.get("END_DATE"));
 		mv.addObject("pd", pd);
@@ -534,8 +542,11 @@ public class ReportController extends BaseController {
 		mv.addObject("studentInfo", studentList);
 		mv.addObject("teacherPd", teacherPd);
 		mv.addObject("subjectPd", subjectPd);
-		
-		mv.setViewName("sunvote/teacher/teacher_report_test");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/teacher_report_test");
+		}else{
+			mv.setViewName("sunvote/teacher/en_teacher_report_test");
+		}
 		return mv;
 	}
 	

@@ -154,7 +154,7 @@
 		var num_ans=$("#num_ans").val();
 		var fraction=$("#fraction").val();
 		if(answer==''){
-			alert("请输入题目答案，以分号隔开");
+			alert("请输入题目答案");
 			return;
 		}else if(fraction==''){
 			alert("请输入题目分数");

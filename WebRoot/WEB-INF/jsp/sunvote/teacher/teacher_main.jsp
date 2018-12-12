@@ -148,7 +148,7 @@
 			 <div class="form-group">
 			    <label for="enter_time" class="col-sm-4 control-label">模板</label>
 			    <div class="col-sm-6">
-			      <select class="chosen-select form-control" name="TEMPLATE_ID" id="TEMPLATE_ID" data-placeholder="这里输入所属学校">
+			      <select class="chosen-select form-control" name="TEMPLATE_ID" id="TEMPLATE_ID" data-placeholder="">
 			      		<option value="">自定义</option>
 						<c:forEach items="${templateInfos}" var="var" varStatus="vs">
 							<option value="${var.PAGETEMPLATE_ID}">${var.NAME}</option>

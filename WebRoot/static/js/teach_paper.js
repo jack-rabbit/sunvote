@@ -27,17 +27,13 @@
 					getList();
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-				// 错误信息   
-				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				// wrong massage   
+				alert("Status code:"+XMLHttpRequest.status+"Status"+XMLHttpRequest.readyState+"wrong massage："+textStatus+"");
 				window.top.loading.remove();
 				}
 			})
 
-			//日期框
-			$('.date-picker').datepicker({
-				autoclose: true,
-				todayHighlight: true
-			});
+			
 			window.top.loading.remove();
 		})
 		
@@ -60,14 +56,14 @@
 				success:function(data){
 					console.log(data);
 					for(var i=0;i<data.data.length;i++){
-						tab_html += '<tr data-id="'+data.data[i].PAPER_ID+'" data-classid="'+data.data[i].CLASS_ID+'"><td><input type="checkbox" name="ids" id="ids" value="'+data.data[i].PAPER_ID+'"/>'+(i+1)+'</td><td>'+data.data[i].TITLE+'</td><td>'+getClassName(data.data[i].CLASS_ID)+'</td><td>'+getSubjectName(data.data[i].SUBJECT_ID)+'</td><td>'+data.data[i].EXAM_TIME+'分钟</td><td>'+data.data[i].CREATE_DATE+'</td><td><a onclick="jump($(this))">查看</a></td><td><a href="#" onclick="del($(this));"><img src="../static/images/remove.png" /></a></td></tr>';
+						tab_html += '<tr data-id="'+data.data[i].PAPER_ID+'" data-classid="'+data.data[i].CLASS_ID+'"><td><input type="checkbox" name="ids" id="ids" value="'+data.data[i].PAPER_ID+'"/>'+(i+1)+'</td><td>'+data.data[i].TITLE+'</td><td>'+getClassName(data.data[i].CLASS_ID)+'</td><td>'+getSubjectName(data.data[i].SUBJECT_ID)+'</td><td>'+data.data[i].EXAM_TIME+'分钟</td><td>'+data.data[i].CREATE_DATE+'</td><td><a onclick="jump($(this))">' + view + '</a></td><td><a href="#" onclick="del($(this));"><img src="../static/images/remove.png" /></a></td></tr>';
 					}
 					$("#tab_body").html(tab_html);
 					window.top.loading.remove();
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-				// 错误信息   
-				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				// wrong massage   
+				alert("Status code:"+XMLHttpRequest.status+"Status"+XMLHttpRequest.readyState+"wrong massage："+textStatus+"");
 				window.top.loading.remove();
 			}
 			});
@@ -100,7 +96,7 @@
 				class_id=$(".classList .active").attr("data-classid");
 				location.href="set_question.do?subject_id="+subject_id+"&class_id="+class_id+"&user_id="+user_id;
 			}else{
-				alert("请先选择班级");
+				alert("Please select class first");
 			}
 			window.top.loading.show();
 				console.log($(".classList .active").length);
@@ -117,8 +113,8 @@
 					subjectName=data.data;
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-				// 错误信息   
-				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				// wrong massage   
+				alert("Status code:"+XMLHttpRequest.status+"Status"+XMLHttpRequest.readyState+"wrong massage："+textStatus+"");
 				window.top.loading.remove();
 			}
 			})
@@ -135,8 +131,8 @@
 					className=data.data;
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-				// 错误信息   
-				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				// wrong massage   
+				alert("Status code:"+XMLHttpRequest.status+"Status:"+XMLHttpRequest.readyState+"wrong massage："+textStatus+"");
 				window.top.loading.remove();
 			}
 			})
@@ -194,7 +190,7 @@
 		function del(obj){       //删除
 			//var remove = new remove();
 			var id=obj.closest("tr").attr("data-id");
-			window.top.remove.init({"title":"删除","func":function(success){
+			window.top.remove.init({"title":"Delete","func":function(success){
 				if(success){
 					var url1 = url+ "/paper/delete.do?PAPER_ID="+id+"&tm="+new Date().getTime();
 					window.top.loading.show();
@@ -209,7 +205,7 @@
 			window.top.remove.show();
 		}
 		function deleteAll(){       //批量删除
-			window.top.remove.init({"title":"删除","func":function(success){
+			window.top.remove.init({"title":"Delete","func":function(success){
 				if(success){
 					var str = '';
 					for(var i=0;i < document.getElementsByName('ids').length;i++){

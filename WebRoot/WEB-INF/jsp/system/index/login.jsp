@@ -27,6 +27,12 @@
 <script type="text/javascript" src="static/js/jQuery.md5.js"></script>
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript" src="static/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="static/js/lang.js"></script>
+<script type="text/javascript" >
+	if(lang() != 'zh'){
+		
+	}
+</script>
 <style type="text/css">
 .div_foot {
 	height: 30px;
@@ -187,7 +193,6 @@
 		<script src="static/login/js/jquery.mobile.customized.min.js"></script>
 		<script src="static/login/js/camera.min.js"></script>
 		<script src="static/login/js/templatemo_script.js"></script>
-		<script src="static/login/js/ban.js"></script>
 		<script type="text/javascript" src="static/js/jQuery.md5.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript" src="static/js/jquery.cookie.js"></script>

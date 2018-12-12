@@ -110,7 +110,11 @@ public class LoginController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd = this.setLoginPd(pd); // 设置登录页面的配置参数
-		mv.setViewName("system/index/login");
+		if(isChineseLanguageClient()){
+			mv.setViewName("system/index/login");
+		}else{
+			mv.setViewName("system/index/en_login");
+		}
 		mv.addObject("pd", pd);
 		return mv;
 	}
@@ -272,7 +276,11 @@ public class LoginController extends BaseController {
 					session.setAttribute(USERNAME + Const.ROLE_ID,
 							"teacher");
 					session.setAttribute(Const.SESSION_USERNAME, USERNAME); // 放入用户名到session
-					mv.setViewName("sunvote/teacher/teacher_main");
+					if(isChineseLanguageClient()){
+						mv.setViewName("sunvote/teacher/teacher_main");
+					}else{
+						mv.setViewName("sunvote/teacher/en_teacher_main");
+					}
 					mv.addObject("user", user);
 					pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
 					if(pd.get("DEFAULTURL") == null){
@@ -313,7 +321,11 @@ public class LoginController extends BaseController {
 					mv.addObject("gradeInfos", gradeInfos);
 					mv.addObject("subjectInfos", subjectInfos);
 					session.setAttribute(Const.SESSION_USERNAME, USERNAME); // 放入用户名到session
-					mv.setViewName("sunvote/admin/admin_main");
+					if(isChineseLanguageClient()){
+						mv.setViewName("sunvote/admin/admin_main");
+					}else{
+						mv.setViewName("sunvote/admin/en_admin_main");
+					}
 					mv.addObject("user", user);
 					pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
 					if(pd.get("DEFAULTURL") == null){
@@ -352,10 +364,18 @@ public class LoginController extends BaseController {
 				mv.addObject("user", user);
 				mv.addObject("menuList", menuList);
 			} else {
-				mv.setViewName("system/index/login");// session失效后跳转登录页面
+				if(isChineseLanguageClient()){
+					mv.setViewName("system/index/login");
+				}else{
+					mv.setViewName("system/index/en_login");
+				}
 			}
 		} catch (Exception e) {
-			mv.setViewName("system/index/login");
+			if(isChineseLanguageClient()){
+				mv.setViewName("system/index/login");
+			}else{
+				mv.setViewName("system/index/en_login");
+			}
 			logger.error(e.getMessage(), e);
 		}
 		pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
@@ -593,7 +613,11 @@ public class LoginController extends BaseController {
 		pd = this.getPageData();
 		pd.put("msg", pd.getString("msg"));
 		pd = this.setLoginPd(pd); // 设置登录页面的配置参数
-		mv.setViewName("system/index/login");
+		if(isChineseLanguageClient()){
+			mv.setViewName("system/index/login");
+		}else{
+			mv.setViewName("system/index/en_login");
+		}
 		mv.addObject("pd", pd);
 		return mv;
 	}

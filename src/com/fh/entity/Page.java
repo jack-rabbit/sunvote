@@ -57,23 +57,56 @@ public class Page {
 		this.currentPage = currentPage;
 	}
 	
+	
+	private String total = "共" ;
+	private String articles = "条";
+	private String frist = "首页" ;
+	private String previous = "上一页";
+	private String next = "下一页";
+	private String tail = "尾页" ;
+	private String jump = "跳转" ;
+	private String pageNumber = "页码";
+	private String displayNumber = "显示条数" ;
+	public void setLangIsChina(boolean is){
+		if(is){
+			total = "共" ;
+			articles = "条";
+			frist = "首页" ;
+			previous = "上一页";
+			next = "下一页";
+			tail = "尾页" ;
+			jump = "跳转" ;
+			pageNumber = "页码";
+			displayNumber = "显示条数" ;
+		}else{
+			total = "" ;
+			articles = " articles";
+			frist = "Frist" ;
+			previous = "Previous";
+			next = "Next";
+			tail = "Tail" ;
+			jump = "JUMP" ;
+			pageNumber = "Page number";
+			displayNumber = "Display Number" ;
+		}
+	}
 	//拼接分页 页面及JS函数
 	public String getPageStr() {
 		StringBuffer sb = new StringBuffer();
 		if(totalResult>0){
 			sb.append("	<ul class=\"pagination pull-right no-margin\">\n");
 			if(currentPage==1){
-				sb.append("	<li><a>共"+totalResult+"条</a></li>\n");
-				sb.append("	<li><span style='padding:0'><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:50px;text-align:center;float:left\" placeholder=\"页码\"/></span></li>\n");
-				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"toTZ();\"  class=\"btn btn-mini btn-success\">跳转</a></li>\n");
-				sb.append("	<li><a>首页</a></li>\n");
-				sb.append("	<li><a>上页</a></li>\n");
+				sb.append("	<li><a>" + total +totalResult+articles + "</a></li>\n");
+				sb.append("	<li><span style='padding:0'><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:50px;text-align:center;float:left\" placeholder=\"" + pageNumber + "\"/></span></li>\n");
+				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"toTZ();\"  class=\"btn btn-mini btn-success\">" + jump + "</a></li>\n");
+				sb.append("	<li><a>" + frist + "</a></li>\n");
+				sb.append("	<li><a>" + previous + "</a></li>\n");
 			}else{
-				sb.append("	<li><a>共<font color=red>"+totalResult+"</font>条</a></li>\n");
-				sb.append("	<li><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:50px;text-align:center;float:left\" placeholder=\"页码\"/></li>\n");
-				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"toTZ();\"  class=\"btn btn-mini btn-success\">跳转</a></li>\n");
-				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage(1)\">首页</a></li>\n");
-				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage("+(currentPage-1)+")\">上页</a></li>\n");
+				sb.append("	<li><a>"+ total +"<font color=red>"+totalResult+"</font>" + articles + "</a></li>\n");
+				sb.append("	<li><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:50px;text-align:center;float:left\" placeholder=\"" + pageNumber + "\"/></li>\n");
+				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"toTZ();\"  class=\"btn btn-mini btn-success\">" + jump + "</a></li>\n");
+				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage(1)\">" + frist + "</a></li>\n");
+				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage("+(currentPage-1)+")\">" + previous + "</a></li>\n");
 			}
 			int showTag = 5;//分页标签显示数量
 			int startTag = 1;
@@ -88,14 +121,14 @@ public class Page {
 					sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage("+i+")\">"+i+"</a></li>\n");
 			}
 			if(currentPage==totalPage){
-				sb.append("	<li><a>下页</a></li>\n");
-				sb.append("	<li><a>尾页</a></li>\n");
+				sb.append("	<li><a>" + next + "</a></li>\n");
+				sb.append("	<li><a>" + tail + "</a></li>\n");
 			}else{
-				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage("+(currentPage+1)+")\">下页</a></li>\n");
-				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage("+totalPage+")\">尾页</a></li>\n");
+				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage("+(currentPage+1)+")\">" + next + "</a></li>\n");
+				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage("+totalPage+")\">" + tail + "</a></li>\n");
 			}
-			sb.append("	<li><a>共"+totalPage+"页</a></li>\n");
-			sb.append("	<li><span class=\"enter\"><select title='显示条数' style=\"width:55px;float:left;height:32px;margin-top:1px;border:0\" onchange=\"changeCount(this.value)\">\n");
+			sb.append("	<li><a>" + total +totalResult+articles + "</a></li>\n");
+			sb.append("	<li><span class=\"enter\"><select title='" + displayNumber + "' style=\"width:55px;float:left;height:32px;margin-top:1px;border:0\" onchange=\"changeCount(this.value)\">\n");
 			sb.append("	<option value='"+showCount+"'>"+showCount+"</option>\n");
 			sb.append("	<option value='10'>10</option>\n");
 			sb.append("	<option value='20'>20</option>\n");
@@ -215,5 +248,6 @@ public class Page {
 	public void setPd(PageData pd) {
 		this.pd = pd;
 	}
+	
 	
 }

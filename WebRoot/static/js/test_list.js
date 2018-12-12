@@ -33,7 +33,7 @@ $(document).ready(
 								},
 								error: function (XMLHttpRequest, textStatus, errorThrown) {
 									// 错误信息   
-									alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+									alert("Status code："+XMLHttpRequest.status+"Status："+XMLHttpRequest.readyState+"wrong massage："+textStatus+"");
 									window.top.loading.remove();
 								}
 							})
@@ -83,7 +83,7 @@ function getList(start_date, end_date, class_id) { // 获取测验列表
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
 					// 错误信息   
-					alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+					alert("Status code："+XMLHttpRequest.status+"Status："+XMLHttpRequest.readyState+"wrong massage："+textStatus+"");
 					window.top.loading.remove();
 				}
 			});
@@ -128,7 +128,7 @@ function getClassName(id) { // 获取班级中文名
 		},
 		error: function (XMLHttpRequest, textStatus, errorThrown) {
 				// 错误信息   
-				alert("状态码："+XMLHttpRequest.status+"状态："+XMLHttpRequest.readyState+"错误信息："+textStatus+"");
+				alert("Status code："+XMLHttpRequest.status+"Status："+XMLHttpRequest.readyState+"wrong massage："+textStatus+"");
 				window.top.loading.remove();
 			}
 	})

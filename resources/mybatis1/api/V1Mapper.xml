@@ -139,10 +139,12 @@
 		 	SELECT
 				sv_teacher.`NAME` AS TEACHER_NAME,
 				sv_grade.`NAME` AS GRADE_NAME,
+				sv_grade.`ENAME` AS GRADE_ENAME,
 				sv_grade.ID AS GRADE_ID,
 				sv_sclass.CLASS_NAME AS CLASS_NAME,
 				sv_sclass.ID AS CLASS_ID,
 				sv_subject.CNAME AS SUBJECT_NAME,
+				sv_subject.ENAME AS SUBJECT_ENAME,
 				sv_subject.ID AS SUBJECT_ID,
 			  	sv_school.`NAME` as SCHOOL_NAME,
 			  	sv_school.ID AS SCHOOL_ID,

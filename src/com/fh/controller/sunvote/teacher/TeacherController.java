@@ -166,7 +166,11 @@ public class TeacherController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		mv.setViewName("sunvote/teacher/teach_paper");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/teach_paper");
+		}else{
+			mv.setViewName("sunvote/teacher/en_teach_paper");
+		}
 		pd.put("userId", userId);
 		mv.addObject("pd", pd);
 		return mv;
@@ -204,7 +208,11 @@ public class TeacherController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("userId", userId);
-		mv.setViewName("sunvote/teacher/test_list");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/test_list");
+		}else{
+			mv.setViewName("sunvote/teacher/en_test_list");
+		}
 		mv.addObject("pd", pd);
 		return mv;
 	}
@@ -224,7 +232,11 @@ public class TeacherController extends BaseController {
 		pd = this.getPageData();
 		pd.put("userId", userId);
 		pd.put("subject_id",  getSubjectID(userId));
-		mv.setViewName("sunvote/teacher/paper_view");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/paper_view");
+		}else{
+			mv.setViewName("sunvote/teacher/en_paper_view");
+		}
 		mv.addObject("pd", pd);
 		return mv;
 	}
@@ -255,7 +267,11 @@ public class TeacherController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("userId", userId);
-		mv.setViewName("sunvote/teacher/paper_view2");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/paper_view2");
+		}else{
+			mv.setViewName("sunvote/teacher/en_paper_view2");
+		}
 		mv.addObject("pd", pd);
 		return mv;
 	}
@@ -356,7 +372,11 @@ public class TeacherController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("userId", userId);
-		mv.setViewName("sunvote/teacher/set_question");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/set_question");
+		}else{
+			mv.setViewName("sunvote/teacher/en_set_question");
+		}
 		mv.addObject("pd", pd);
 		return mv;
 	}

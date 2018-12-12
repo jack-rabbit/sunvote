@@ -107,8 +107,11 @@ public class StudentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		mv.addObject("pd", getPageData());
 		
-		
-		mv.setViewName("sunvote/student/uploadexcel");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/student/uploadexcel");
+		}else{
+			mv.setViewName("sunvote/student/en_uploadexcel");
+		}
 		return mv;
 	}
 	
@@ -257,7 +260,12 @@ public class StudentController extends BaseController {
 		pd = this.getPageData();
 		page.setPd(pd);
 		List<PageData>	varList = studentService.datalistclassPage(page);	//列出Student列表
-		mv.setViewName("sunvote/student/student_list2");
+		page.setLangIsChina(isChineseLanguageClient());
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/student/student_list2");
+		}else{
+			mv.setViewName("sunvote/student/en_student_list2");
+		}
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
@@ -288,7 +296,11 @@ public class StudentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		mv.setViewName("sunvote/student/student_edit2");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/student/student_edit2");
+		}else{
+			mv.setViewName("sunvote/student/en_student_edit2");
+		}
 		mv.addObject("msg", "save2");
 		mv.addObject("pd", pd);
 		return mv;
@@ -320,7 +332,11 @@ public class StudentController extends BaseController {
 		String classID = pd.getString("CLASS_ID");
 		pd = studentService.findById(pd);	//根据ID读取
 		pd.put("CLASS_ID", classID);
-		mv.setViewName("sunvote/student/student_edit2");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/student/student_edit2");
+		}else{
+			mv.setViewName("sunvote/student/en_student_edit2");
+		}
 		mv.addObject("msg", "edit2");
 		mv.addObject("pd", pd);
 		return mv;

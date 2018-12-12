@@ -1,6 +1,7 @@
 package com.fh.controller.base;
 
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.session.Session;
@@ -146,6 +147,34 @@ public class BaseController {
 		Session session = Jurisdiction.getSession();
 		String schoolName = (String)session.getAttribute(getUsername() + Const.CLASS_NAME);
 		return schoolName;
+	}
+	
+	public String getCookieLanguage(){
+		Cookie[] cookies = getRequest().getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("lang")) {
+					return cookie.getValue();
+				}
+			}
+		}
+		return null;
+	}
+	
+	public String getLang() {
+		String lang = getCookieLanguage();
+		if(lang == null){
+			lang = getRequest().getLocale().getLanguage();
+		}
+		return lang;
+	}
+	
+	public boolean isChineseLanguageClient(){
+		String lang = getLang();
+		if(lang != null && lang.length() >= 2){
+			lang = lang.substring(0,2);
+		}
+		return "zh".equals(getLang());
 	}
 	
 }

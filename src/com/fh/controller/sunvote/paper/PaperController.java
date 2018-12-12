@@ -239,7 +239,11 @@ public class PaperController extends BaseController {
 				ex.printStackTrace();
 			}
 		}
-		mv.setViewName("sunvote/teacher/creat_question");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/creat_question");
+		}else{
+			mv.setViewName("sunvote/teacher/en_creat_question");
+		}
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
@@ -278,7 +282,11 @@ public class PaperController extends BaseController {
 			mv.addObject("TEMPLEATE", template);
 		}
 		
-		mv.setViewName("sunvote/teacher/creat_question");
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/creat_question");
+		}else{
+			mv.setViewName("sunvote/teacher/en_creat_question");
+		}
 		mv.addObject("pd", pd);
 		if(paperType != null && "2".equals(paperType)){
 			mv.addObject("JUMP_URL", "/main/admin");
@@ -311,14 +319,19 @@ public class PaperController extends BaseController {
 		pd.put("PAPER_TYPE","1");
 		page.setPd(pd);
 		List<PageData>	varList = paperService.list(page);	//列出Paper列表
-		mv.setViewName("sunvote/paper/paper_list2");
+		page.setLangIsChina(isChineseLanguageClient());
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/paper/paper_list2");
+		}else{
+			mv.setViewName("sunvote/paper/en_paper_list2");
+		}
 		
 		for(PageData p:varList){
 			String examTime = p.getString("EXAM_TIME");
 			if(examTime != null){
 				try{
 					int et = Integer.parseInt(examTime);
-					String min = (et / 60 ) + "" ;
+					String min = (et / 60 ) + "" ;	
 					if(min.length() < 2){
 						min = "0" + min ;
 					}

@@ -119,7 +119,12 @@
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
   	<script type="text/javascript">
-  		var url = "<%=basePath%>"
+  		var url = "<%=basePath%>" ;
+  		$('.date-picker').datepicker({
+				autoclose: true,
+				todayHighlight: true,
+			});
+			var view = "查看" ;
   	</script>
  
 	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
