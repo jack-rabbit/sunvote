@@ -18,7 +18,7 @@ $(function() {
 		/*
 		 * $(".content").append('<div class="section section-1 single"
 		 * data-fraction="'+fraction+'" data-score=""> <div class="title"> <h3><span
-		 * class="que_num">一、</span><span class="que_name">单选</span></h3>
+		 * class="que_num">一.</span><span class="que_name">单选</span></h3>
 		 * <input type="button" class="btn btn-danger pull-right remove"
 		 * name="remove" value="删除" /> </div> <div class="question_list"></div></div>')
 		 */
@@ -46,7 +46,7 @@ $(function() {
 				$(".section-" + answer_index_b + " .question_list").append(
 						'<div class="question question' + (questionNUm)
 								+ '"><span>' + (questionNUm)
-								+ '、</span><ul></ul></div>');
+								+ '.</span><ul></ul></div>');
 				for (var j = 0; j < a_num; j++) {
 					option = String.fromCharCode(0x41 + j);
 					if (on_index == j) {
@@ -72,7 +72,7 @@ $(function() {
 	}
 
 	/***************************************************************************
-	 * 1、单选题 2、完形填空 3、阅读理解 4、判断题 5、多选题
+	 * 1.单选题 2.完形填空 3.阅读理解 4.判断题 5.多选题
 	 **************************************************************************/
 
 	function addQuestion(type, a_num, index_s_2, index_e_2, fraction2) {
@@ -90,12 +90,12 @@ $(function() {
 									+ fraction2
 									+ '" data-score=""> <div class="title"> <h3><span class="que_num">'
 									+ question_num
-									+ '、</span>'
+									+ '.</span>'
 									+ '<span class="que_name">单选</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>');
 			for (i = index_s_2; i <= index_e_2; i++) {
 				$(".section-" + answer_index_b + " .question_list").append(
 						'<div class="question question' + i + '"><span>' + i
-								+ '、</span><ul></ul></div>');
+								+ '.</span><ul></ul></div>');
 				for (var j = 0; j < a_num; j++) {
 					option = String.fromCharCode(0x41 + j);
 					$(".section-" + answer_index_b + " .question" + i + ' ul')
@@ -114,11 +114,11 @@ $(function() {
 									+ fraction2
 									+ '" data-score=""> <div class="title"> <h3><span class="que_num">'
 									+ question_num
-									+ '、</span><span class="que_name">完形填空</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>');
+									+ '.</span><span class="que_name">完形填空</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>');
 			for (var i = index_s_2; i <= index_e_2; i++) {
 				$(".section-" + answer_index_b + " .question_list").append(
 						'<div class="question question' + i + '"><span>' + i
-								+ '、</span><ul></ul></div>');
+								+ '.</span><ul></ul></div>');
 				for (var j = 0; j < a_num; j++) {
 					option = String.fromCharCode(0x41 + j);
 					$(".section-" + answer_index_b + " .question" + i + ' ul')
@@ -137,11 +137,11 @@ $(function() {
 									+ fraction2
 									+ '" data-score=""> <div class="title"> <h3><span class="que_num">'
 									+ question_num
-									+ '、</span><span class="que_name">阅读理解</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>');
+									+ '.</span><span class="que_name">阅读理解</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>');
 			for (var i = index_s_2; i <= index_e_2; i++) {
 				$(".section-" + answer_index_b + " .question_list").append(
 						'<div class="question question' + i + '"><span>' + i
-								+ '、</span><ul></ul></div>');
+								+ '.</span><ul></ul></div>');
 				for (var j = 0; j < a_num; j++) {
 					option = String.fromCharCode(0x41 + j);
 					$(".section-" + answer_index_b + " .question" + i + ' ul')
@@ -160,11 +160,11 @@ $(function() {
 									+ fraction2
 									+ '" data-score=""> <div class="title"> <h3><span class="que_num">'
 									+ question_num
-									+ '、</span><span class="que_name">判断题</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>');
+									+ '.</span><span class="que_name">判断题</span></h3> <input type="button" class="btn btn-danger pull-right remove" name="remove" value="删除" /> </div> <div class="question_list"></div></div>');
 			for (var i = index_s_2; i <= index_e_2; i++) {
 				$(".section-" + answer_index_b + " .question_list").append(
 						'<div class="question question' + i + '"><span>' + i
-								+ '、</span><ul></ul></div>');
+								+ '.</span><ul></ul></div>');
 				for (var j = 0; j < a_num; j++) {
 					if (j % 2 == 0)
 						option = "√";
@@ -181,12 +181,12 @@ $(function() {
 		 * case 5: //多选题 $(".content").append('<div class="section
 		 * section-'+answer_index_b+' check" data-fraction="'+fraction2+'"
 		 * data-score=""> <div class="title"> <h3><span
-		 * class="que_num">'+question_num+'、</span><span class="que_name">多选题</span></h3>
+		 * class="que_num">'+question_num+'.</span><span class="que_name">多选题</span></h3>
 		 * <input type="button" class="btn btn-danger pull-right remove"
 		 * name="remove" value="删除" /> </div> <div class="question_list"></div></div>');
 		 * for(var i=index_s_2;i<=index_e_2;i++){
 		 * $(".section-"+answer_index_b+" .question_list").append('<div
-		 * class="question question'+i+'"><span>'+i+'、</span><ul></ul></div>');
+		 * class="question question'+i+'"><span>'+i+'.</span><ul></ul></div>');
 		 * for(var j=0;j<a_num;j++){ option=String.fromCharCode(0x41+j);
 		 * $(".section-"+answer_index_b+" .question"+i+' ul').append('<li class="btn btn-default">'+option+'</li>'); } }
 		 */
@@ -214,7 +214,7 @@ $(function() {
 				$(".section-" + answer_index_b + " .question_list").append(
 						'<div class="question question' + questionNUm
 								+ '"><span>' + questionNUm
-								+ '、</span><ul></ul></div>');
+								+ '.</span><ul></ul></div>');
 				for (var j = 0; j < a_num; j++) {
 					option = String.fromCharCode(0x41 + j);
 					$(
@@ -510,7 +510,7 @@ $(function() {
 				}
 				$(".section0").find(".question_list").append(
 						'<div class="question question' + (i + 1) + '"><span>'
-								+ (++questionNUm) + '、</span><ul></ul></div>');
+								+ (++questionNUm) + '.</span><ul></ul></div>');
 				for (var k = 0; k < parseInt(data.questions[i].option_num); k++) {
 					str_temp = data.questions[i].answer;
 					$(".section0").find(".question" + (i + 1) + ' ul').append(
@@ -535,7 +535,7 @@ $(function() {
 					$(".section-" + i).find(".question_list").append(
 							'<div class="question question' + (j + 1)
 									+ '"><span>' + (++questionNUm)
-									+ '、</span><ul></ul></div>');
+									+ '.</span><ul></ul></div>');
 					if ($(".section-" + i).find(".que_name").text() == "判断题") {
 						for (var k = 0; k < parseInt(data.questions[i].questions[j].option_num); k++) {
 							str_temp = data.questions[i].questions[j].answer;
@@ -603,7 +603,7 @@ $(function() {
 		}
 		$("#answer").val(result);
 		if (answerStr.length > 0) {
-			$(".tips").text("Total number of questions" + answerStr.length + " ");
+			$(".tips").text("Total number of questions " + answerStr.length + " ");
 		} else {
 			$(".tips").text("");
 		}

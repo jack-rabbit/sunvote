@@ -41,7 +41,7 @@
 		<div class="clear"></div>
 	</div>
 	<div class="content">
-		<div class="content_l">
+		<div class="content_l" style="min-width:300px">
 			<div class="info_tab">
 				<div class="head_pic">
 					<img src="../static/images/head_defult.png" />
@@ -54,29 +54,29 @@
 			</div>
 			<div class="class tab1">
 				<p>
-					Class Management<span class="right jiao"></span>
+					Classes<span class="right jiao"></span>
 				</p>
 				<ul class="menu_1">
 					<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-						<li onclick="event.stopPropagation();chooseClass('${var.CLASS_ID}','${var.TERM_ID}')"><p>${var.GRADE_ENAME} ${var.SUBJECT_ENAME}
-								<span>${var.CLASS_NAME}</span></p>
+						<li onclick="event.stopPropagation();chooseClass('${var.CLASS_ID}','${var.TERM_ID}')"><p>${var.CLASS_NAME}
+								<span>${var.SUBJECT_ENAME}</span></p>
 						</li>
 			</c:forEach>
 
 			</ul>
 		</div>
 		<div class="testpaper tab1">
-			<p>Paper Management<span class="right jiao"></span></p>
+			<p>Test Papers<span class="right jiao"></span></p>
 				<ul class="menu_1">
 					<li >
-						<p id="qingsongkao_paper">E-exam Paper Management</p>
+						<p id="qingsongkao_paper">E-exam Papers</p>
 						<!-- <ul class="menu_2">
 							<li><p>高一数学 202班</p></li>
 							<li><p>高一数学 203班</p></li>
 						</ul> -->
 					</li>
 					<li>
-						<p id="jishice_paper">SunVote Class Paper Management</p>
+						<p id="jishice_paper">SunVote Class Papers</p>
 						
 						<!-- <ul class="menu_2">
 							<li><p>高一数学 202班</p></li>
@@ -93,15 +93,15 @@
 			
 			<ul class="menu_1">
 					<li >
-						<p>E-exam Examination Analysis</p>
+						<p>E-exam Tests</p>
 						<ul class="menu_2">
 						<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-							<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>${var.CLASS_NAME} Score</p></li>
+							<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>Result of ${var.CLASS_NAME}</p></li>
 						</c:forEach>
 						</ul>
 					</li>
 					<li>
-						<p>SunVote Class Exam Analysis</p>
+						<p>SunVote Class Tests</p>
 						<ul class="menu_2">
 						<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
 							<li onclick="event.stopPropagation();report2('${var.CLASS_ID}')"><p>${var.CLASS_NAME} Score</p></li>

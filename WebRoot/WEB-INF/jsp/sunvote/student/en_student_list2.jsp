@@ -113,6 +113,7 @@
 <script type="text/javascript">
 		$(document).ready(function(){
 			window.top.loading.remove();
+			$(".table_box").css("margin-top",$(".head_box").height() - 143);
 		});
 		function tosearch(){
 			$("#Form").submit();
@@ -157,7 +158,7 @@
 		
 		function edit(Id){
 			window.top.modal.init({
-			'title':'添加学生',
+			'title':'Add Student',
 			'url':'<%=basePath%>student/goEdit2.do?ID='+Id,
 			func:function() {
 				tosearch();
@@ -167,7 +168,7 @@
 		}
 		
 		function deleteAll(){
-			window.top.remove.init({"title":"Delete","func":function(success){
+			window.top.remove.init({"title":"Delete","ok":"OK","cancel":"Cancel","func":function(success){
 				if(success){
 					var str = '';
 					for(var i=0;i < document.getElementsByName('ids').length;i++){

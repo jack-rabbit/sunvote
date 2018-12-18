@@ -62,7 +62,7 @@
 						<th><input type="checkbox"  name='ids' id="ids" />Serial No.</th>
 						<th>Test Paper Title</th>
 						<th>Create Time</th>
-						<th>Advice Time</th>
+						<th>Suggested Time</th>
 						<th>Total Score</th>
 						<th>Operate</th>
 					</tr>
@@ -125,6 +125,7 @@
 		
 		$(document).ready(function(){
 			window.top.loading.remove();
+			$(".table_box").css("margin-top",$(".head_box").height() - 143);
 		});
 		
 		function tosearch(){

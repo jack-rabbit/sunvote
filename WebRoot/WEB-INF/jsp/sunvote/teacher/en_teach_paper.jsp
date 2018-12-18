@@ -147,5 +147,5 @@
 				
 				var view = "View" ;
   	</script>
-	<script src="../static/js/teach_paper.js?a=1"></script>
+	<script src="../static/js/en_teach_paper.js?a=2"></script>
 </html>

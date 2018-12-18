@@ -83,5 +83,5 @@
 		var user_id= "${pd.userId}";
 		var url = "<%=basePath%>";
 	</script>
-	<script src="../static/js/en_test_list.js?a=1"></script>
+	<script src="../static/js/en_test_list.js?a=0"></script>
 </html>

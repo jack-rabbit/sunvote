@@ -30,12 +30,12 @@
 				// wrong massage   
 				alert("Status code:"+XMLHttpRequest.status+"Status"+XMLHttpRequest.readyState+"wrong massage："+textStatus+"");
 				window.top.loading.remove();
-				$(".table_box").css("margin-top",$(".head_box").height() - 143);
 				}
 			})
 
 			
 			window.top.loading.remove();
+			$(".table_box").css("margin-top",$(".head_box").height() - 143);
 		})
 		
 		function getList(start_date,end_date,class_id){       //获取试卷列表
@@ -57,7 +57,7 @@
 				success:function(data){
 					console.log(data);
 					for(var i=0;i<data.data.length;i++){
-						tab_html += '<tr data-id="'+data.data[i].PAPER_ID+'" data-classid="'+data.data[i].CLASS_ID+'"><td><input type="checkbox" name="ids" id="ids" value="'+data.data[i].PAPER_ID+'"/>'+(i+1)+'</td><td>'+data.data[i].TITLE+'</td><td>'+getClassName(data.data[i].CLASS_ID)+'</td><td>'+getSubjectName(data.data[i].SUBJECT_ID)+'</td><td>'+data.data[i].EXAM_TIME+'分钟</td><td>'+data.data[i].CREATE_DATE+'</td><td><a onclick="jump($(this))">' + view + '</a></td><td><a href="#" onclick="del($(this));"><img src="../static/images/remove.png" /></a></td></tr>';
+						tab_html += '<tr data-id="'+data.data[i].PAPER_ID+'" data-classid="'+data.data[i].CLASS_ID+'"><td><input type="checkbox" name="ids" id="ids" value="'+data.data[i].PAPER_ID+'"/>'+(i+1)+'</td><td>'+data.data[i].TITLE+'</td><td>'+getClassName(data.data[i].CLASS_ID)+'</td><td>'+getSubjectName(data.data[i].SUBJECT_ID)+'</td><td>'+data.data[i].EXAM_TIME+' Minutes</td><td>'+data.data[i].CREATE_DATE+'</td><td><a style="cursor:pointer" onclick="jump($(this))">' + view + '</a></td><td><a href="#" onclick="del($(this));"><img src="../static/images/remove.png" /></a></td></tr>';
 					}
 					$("#tab_body").html(tab_html);
 					window.top.loading.remove();
@@ -106,7 +106,7 @@
 		function getSubjectName(id){           //获取科目中文名
 			var subjectName="";
 			$.ajax({
-				url:url+"/api/v1/subjectcname",
+				url:url+"/api/v1/subjectename",
 				async:false,
 				type:"post",
 				data:{id:id},

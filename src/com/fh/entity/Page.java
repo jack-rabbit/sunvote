@@ -84,9 +84,9 @@ public class Page {
 			frist = "Frist" ;
 			previous = "Previous";
 			next = "Next";
-			tail = "Tail" ;
-			jump = "JUMP" ;
-			pageNumber = "Page number";
+			tail = "Last" ;
+			jump = "Goto" ;
+			pageNumber = "PageNo.";
 			displayNumber = "Display Number" ;
 		}
 	}
@@ -97,13 +97,13 @@ public class Page {
 			sb.append("	<ul class=\"pagination pull-right no-margin\">\n");
 			if(currentPage==1){
 				sb.append("	<li><a>" + total +totalResult+articles + "</a></li>\n");
-				sb.append("	<li><span style='padding:0'><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:50px;text-align:center;float:left\" placeholder=\"" + pageNumber + "\"/></span></li>\n");
+				sb.append("	<li><span style='padding:0'><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:80px;text-align:center;float:left\" placeholder=\"" + pageNumber + "\"/></span></li>\n");
 				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"toTZ();\"  class=\"btn btn-mini btn-success\">" + jump + "</a></li>\n");
 				sb.append("	<li><a>" + frist + "</a></li>\n");
 				sb.append("	<li><a>" + previous + "</a></li>\n");
 			}else{
 				sb.append("	<li><a>"+ total +"<font color=red>"+totalResult+"</font>" + articles + "</a></li>\n");
-				sb.append("	<li><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:50px;text-align:center;float:left\" placeholder=\"" + pageNumber + "\"/></li>\n");
+				sb.append("	<li><input type=\"number\" value=\"\" id=\"toGoPage\" style=\"width:80px;text-align:center;float:left\" placeholder=\"" + pageNumber + "\"/></li>\n");
 				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"toTZ();\"  class=\"btn btn-mini btn-success\">" + jump + "</a></li>\n");
 				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage(1)\">" + frist + "</a></li>\n");
 				sb.append("	<li style=\"cursor:pointer;\"><a onclick=\"nextPage("+(currentPage-1)+")\">" + previous + "</a></li>\n");
