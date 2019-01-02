@@ -39,7 +39,7 @@
 					<td><div style="width:150px;text-align:center;">Tests: ${info.testsize}</div></td>
 					<td><div style="width:150px;text-align:center;">Class list: ${info.CLASS_NAME}</div></td>
 				
-					<td><div style="width:150px;text-align:center;"><span>Student number: ${info.STUDENT_NUM}</span></div></td>
+					<td><div style="width:150px;text-align:center;"><span>Students: ${info.STUDENT_NUM}</span></div></td>
 					<td></td>
 					<c:if test="${not empty subjectInfos}">
 						<td>
@@ -74,7 +74,7 @@
 				<thead>
 					<tr>
 						<th class="center th_name"><div style="width:150px;">Name</div></th>
-						<th class="center "><div style="width:150px;">Average Score Rate</div></th>
+						<th class="center "><div style="width:150px;">Correct Rate</div></th>
 						<th class="center"><div style="width:80px;">Total</div></th>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<th class="center kc"><a
@@ -84,25 +84,25 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="center"><div style="width:150px;">Total score</div></td>
-						<td class="center"><div style="width:150px;"></div></td>
-						<td class="center"><div style="width:80px;"></div></td>
+						<td class="center"><div style="width:150px;">Total Marks</div></td>
+						<td class="center"><div style="width:150px;">N/A</div></td>
+						<td class="center"><div style="width:80px;">N/A</div></td>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<td class="center"><div style="width:80px;margin:0 auto;">${var.TOTAL_SCORE}</div></td>
 						</c:forEach>
 					</tr>
 					<tr>
 						<td class="center"><div style="width:150px;">Average Score</div></td>
-						<td class="center"><div style="width:150px;"></div></td>
-						<td class="center"><div style="width:80px;"></div></td>
+						<td class="center"><div style="width:150px;">N/A</div></td>
+						<td class="center"><div style="width:80px;">N/A</div></td>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<td class="center"><div style="width:80px;margin:0 auto;">${var.AVG_SCORE}</div></td>
 						</c:forEach>
 					</tr>
 					<tr>
-						<td class="center"><div style="width:150px;">Average Score Rate</div></td>
-						<td class="center"><div style="width:150px;"></div></td>
-						<td class="center"><div style="width:80px;"></div></td>
+						<td class="center"><div style="width:150px;">Correct Rate</div></td>
+						<td class="center"><div style="width:150px;">N/A</div></td>
+						<td class="center"><div style="width:80px;">N/A</div></td>
 						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
 							<td class="center"><div style="width:80px;margin:0 auto;"><fmt:formatNumber type="number"
 									value="${var.TOTAL_SCORE == 0 ? 0: (var.AVG_SCORE / var.TOTAL_SCORE * 100)}"

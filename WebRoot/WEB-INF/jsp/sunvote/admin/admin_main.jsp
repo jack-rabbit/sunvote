@@ -151,7 +151,7 @@
 						
 					</li>
 					<li>
-						<p >年级设置</p>
+						<p onclick="event.stopPropagation();grade('${var.SCHOOL_ID}')">年级设置</p>
 					</li>
 					<li>
 						<p>年级升级</p>
@@ -248,6 +248,12 @@
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();
 			//}
+		}
+		
+		function grade(school_id){
+			var path = "../grade/listcs.do?school_id=" + school_id ;
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
 		}
 	
 		function coursemanager(school_id){

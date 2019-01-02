@@ -39,7 +39,7 @@
   <div class="container">
     <div class="page-header">
 	  <h3 class="col-md-6" id="paper_title"></h3>
-	   <h3 class="col-md-6">Exam Time:<span id="time"></span>Minutes</h3>
+	   <h3 class="col-md-6">Time Allowed:<span id="time"></span>Minutes</h3>
 		<div class="clearfix"></div>
 	</div>
 	<div class="content_report">
@@ -60,7 +60,7 @@
 	</script>
 	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 	<script src="../static/js/echars.js"></script>
-	<script src="../static/js/en_paper_view.js?a=2"></script>
+	<script src="../static/js/en_paper_view.js?a=0"></script>
 	
 </html>
 

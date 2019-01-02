@@ -25,8 +25,8 @@
 	  <div class="header_box  container">
 		<h1 class="text-center"></h1>
 		<div class="btn_group">
-			<div class="time text-center" data-toggle="modal" data-target=".test_time"><h3>Exam time:<span class="bg-primary" id="time">45</span><span class="bg-primary">Min</span></h3></div>
-			<div class="pull-left"><h3>Total score:<span id='score_all'>0</span> </h3></div>
+			<div class="time text-center" data-toggle="modal" data-target=".test_time"><h3>Time Allowed:<span class="bg-primary" id="time">45</span><span class="bg-primary">Min</span></h3></div>
+			<div class="pull-left"><h3>Total Marks:<span id='score_all'>0</span> </h3></div>
 			<div class="btn_box pull-right">
 				<input type="button" class="btn btn-success btn-lg" name="save" value="Save" id="save"/>
 				<button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".fast" id="fast">Set single choice question</button>

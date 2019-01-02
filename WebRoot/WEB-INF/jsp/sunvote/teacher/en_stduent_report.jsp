@@ -77,12 +77,12 @@ li {
 				<div class="info row">
 					<div class="col-md-6">
 						<p>
-							Average Class Score Rate<span id="class_avg">0.0</span>%
+							Class Average <span id="class_avg">0.0</span>%
 						</p>
 					</div>
 					<div class="col-md-6">
 						<p>
-							The highest scoring rate<span id="class_max">0.0</span>%
+							Class Highest <span id="class_max">0.0</span>%
 						</p>
 					</div>
 				</div>
@@ -91,20 +91,20 @@ li {
 			</div>
 			<div class="tabel_b">
 				<div class="tab_top row">
-					<div class="col-md-3">Correctness Rate Trend Contrast Chart</div>
+					<div class="col-md-3"></div>
 					<div class="col-md-9">
 						<div class="color">
 							<ul>
-								<li><span class="green"></span>Class average</li>
+								<li><span class="green"></span>Class Avg.</li>
+								<li><span class="yellow"></span>Class Highest</li>
 								<li><span class="blue"></span>Student</li>
-								<li><span class="yellow"></span>Best</li>
 								<div class="clear"></div>
 							</ul>
 						</div>
 						<div class="check_box">
 							<input type="radio" checked value="1" name="check" id="check1" />
-							<label for="check1">Score rate</label> <input type="radio" value="2"
-								name="check" id="check2" /> <label for="check2">Score</label>
+							<label for="check1">Correct Rate</label> <input type="radio" value="2"
+								name="check" id="check2" /> <label for="check2">Marks</label>
 						</div>
 					</div>
 				</div>
@@ -117,7 +117,7 @@ li {
 	<script type="">
 		var URL = '<%=basePath%>${URL}';
 	</script>
-	<script src="../static/js/en_control1.js?a=1"></script>
+	<script src="../static/js/en_control1.js?a=0"></script>
 	<!-- 日期框 -->
 	<script>
 	//lay('#version').html('-v'+ laydate.v);

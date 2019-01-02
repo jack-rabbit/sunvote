@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
@@ -23,6 +26,7 @@ import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
+import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
 import com.fh.service.sunvote.subject.SubjectManager;
 
 /** 
@@ -38,6 +42,9 @@ public class SubjectController extends BaseController {
 	@Resource(name="subjectService")
 	private SubjectManager subjectService;
 	
+	@Resource(name="schoolgradesubjectService")
+	private SchoolGradeSubjectManager schoolgradesubjectService;
+	
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -50,6 +57,23 @@ public class SubjectController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		subjectService.save(pd);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	/**保存
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/save2")
+	public ModelAndView save2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"新增SchoolGradeSubject");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("SCHOOLGRADESUBJECT_ID", this.get32UUID());	//主键
+		schoolgradesubjectService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
@@ -142,6 +166,23 @@ public class SubjectController extends BaseController {
 		pd = this.getPageData();
 		mv.setViewName("sunvote/subject/subject_edit");
 		mv.addObject("msg", "save");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
+	
+	/**去新增页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goAdd2")
+	public ModelAndView goAdd2()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/subject/subject_edit2");
+		List<PageData> varList = subjectService.listNotSchoolSubject(pd);
+		mv.addObject("varList", varList);
+		mv.addObject("msg", "save2");
 		mv.addObject("pd", pd);
 		return mv;
 	}	

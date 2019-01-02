@@ -76,7 +76,7 @@
 						</ul> -->
 					</li>
 					<li>
-						<p id="jishice_paper">SunVote Class Papers</p>
+						<p id="jishice_paper">E-class Papers</p>
 						
 						<!-- <ul class="menu_2">
 							<li><p>高一数学 202班</p></li>
@@ -88,7 +88,7 @@
 		</div>
 		<div class="analyse tab1">
 			<p>
-				Exam Analysis<span class="right jiao"></span>
+				Result Analysis<span class="right jiao"></span>
 			</p>
 			
 			<ul class="menu_1">
@@ -101,10 +101,10 @@
 						</ul>
 					</li>
 					<li>
-						<p>SunVote Class Tests</p>
+						<p>E-class Tests</p>
 						<ul class="menu_2">
 						<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-							<li onclick="event.stopPropagation();report2('${var.CLASS_ID}')"><p>${var.CLASS_NAME} Score</p></li>
+							<li onclick="event.stopPropagation();report2('${var.CLASS_ID}')"><p>Result of ${var.CLASS_NAME}</p></li>
 						</c:forEach>
 						</ul>
 					</li>

@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="static/ace/css/chosen.css" />
 <!-- jsp文件头和头部 -->
 <%@ include file="../../system/index/top.jsp"%>
+<link href="../static/css/teach.css" rel="stylesheet">
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 <link
@@ -25,6 +26,7 @@
 </head>
 <body class="no-skin">
 	<form action="subject/listcs.do" method="post" name="Form" id="Form">
+	<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
 		<div class="head_box">
 			<div class="box_header">
 				<div class="head_box_l">
@@ -46,7 +48,7 @@
 							<th><input type="checkbox" name='ids' id="ids" />序号</th>
 							<th class="center">中文名称</th>
 							<th class="center">英文名称</th>
-							<th class="center">备注</th>
+							<th class="center">操作</th>
 						</tr>
 					</thead>
 				</table>
@@ -57,7 +59,7 @@
 				<col style="width: 10%" />
 				<col style="width: 30%" />
 				<col style="width: 30%" />
-				<col style="width: 35%" />
+				<col style="width: 30%" />
 
 				<tbody>
 					<c:choose>
@@ -68,7 +70,7 @@
 										value="${var.ID}" />${vs.index+1}</td>
 									<td class='center'>${var.CNAME}</td>
 									<td class='center'>${var.ENAME}</td>
-									<td class='center'>${var.REMARK}</td>
+									<td class='center'></td>
 
 								</tr>
 
@@ -83,8 +85,12 @@
 				</tbody>
 			</table>
 			<div class="footer" style="width:auto">
-				<div class="creat"></div>
-				<div class="removeAll"></div>
+				<div class="creat">
+					<input type="button" onclick="add()" value="添加科目" />
+				</div>
+				<div class="removeAll">
+					<input type="button" onclick="del()" value="移除科目" />
+				</div>
 				<div class="page_box">
 
 					<div class="pagination"
@@ -113,6 +119,49 @@
 		$(document).ready(function(){
 			window.top.loading.remove();
 		});
+		function del(Id){
+			window.top.remove.init({"title":"删除","func":function(success){
+				if(success){
+					var str = '';
+					for(var i=0;i < document.getElementsByName('ids').length;i++){
+					  if(document.getElementsByName('ids')[i].checked){
+					  	if(str=='') str += document.getElementsByName('ids')[i].value;
+					  	else str += ',' + document.getElementsByName('ids')[i].value;
+					  }
+					}
+					if(str==''){
+						
+					}else{
+						$.ajax({
+								type: "POST",
+								url: '<%=basePath%>subject/deleteAll.do?tm='+new Date().getTime(),
+						    	data: {DATA_IDS:str},
+								dataType:'json',
+								//beforeSend: validateData,
+								cache: false,
+								success: function(data){
+									tosearch();
+								}
+							});
+					}
+				}
+				else{
+					console.log("false");
+				}
+			}});
+			window.top.remove.show();
+		}
+		
+		function add(){
+			window.top.modal.init({
+			'title':'添加科目',
+			'url':'<%=basePath%>subject/goAdd2.do?school_id=${pd.SCHOOL_ID}&grade_id=${pd.GRADE_ID}',
+			func:function() {
+				tosearch();
+			}
+			});
+			window.top.modal.show();
+		}
 	</script>
 
 

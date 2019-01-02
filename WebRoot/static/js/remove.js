@@ -9,7 +9,7 @@ var remove={
 		if(typeof(this.init.ok) ==  "undefined"){
 			this.init.ok = "确定";
 		}
-		if(typeof(this.init.ok) ==  "undefined"){
+		if(typeof(this.init.cancel) ==  "undefined"){
 			this.init.cancel = "取消" ;
 		}
 		},

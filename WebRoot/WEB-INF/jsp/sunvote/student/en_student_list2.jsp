@@ -130,7 +130,7 @@
 		});
 		
 		function del(Id){
-			window.top.remove.init({"title":"Delete","func":function(success){
+			window.top.remove.init({"title":"Delete","ok":"Ok","cancel":"Cancel","func":function(success){
 				if(success){
 					var url = "<%=basePath%>student/delete.do?ID="+Id+"&tm="+new Date().getTime();
 					window.top.loading.show();

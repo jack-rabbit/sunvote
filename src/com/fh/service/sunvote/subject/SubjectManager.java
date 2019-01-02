@@ -60,5 +60,7 @@ public interface SubjectManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
 	
+	public List<PageData> listNotSchoolSubject(PageData pd)throws Exception;
+	
 }
 

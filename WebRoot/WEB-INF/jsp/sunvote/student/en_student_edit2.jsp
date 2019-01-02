@@ -98,10 +98,10 @@ input[type="text"],select {
 				</div>
 			</li>
 			<li>
-				<p><span style="color:#f00">*</span>No.:</p>
+				<p><span style="color:#f00">*</span>Student ID:</p>
 				<div class="li_r">
 					<input type="text" name="NUMBER" id="NUMBER" value="${pd.NUMBER}"
-						maxlength="255" placeholder="please input the No." title="No." />
+						maxlength="255" placeholder="please input the Student ID" title="Student ID" />
 				</div>
 			</li>
 			<li>
@@ -118,8 +118,8 @@ input[type="text"],select {
 				<div class="li_r">
 					<select class="chosen-select form-control" name="SEX" id="SEX"
 						data-placeholder="please choose the sex">
-						<option value="1" <c:if test="${pd.SEX==1}">selected="true"</c:if>>Man</option>
-						<option value="0" <c:if test="${pd.SEX==0}">selected="true"</c:if>>Woman</option>
+						<option value="1" <c:if test="${pd.SEX==1}">selected="true"</c:if>>Male</option>
+						<option value="0" <c:if test="${pd.SEX==0}">selected="true"</c:if>>Female</option>
 					</select>
 				</div>
 			</li>

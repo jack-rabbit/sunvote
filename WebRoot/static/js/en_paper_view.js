@@ -5,7 +5,7 @@ var url="";
 			if($(".resolve").css("display") == "none")
 				obj.text("View Analysis");
 			else
-				obj.text("Fold analysis");
+				obj.text("Hide analysis");
 		});
 	}
 			
@@ -46,7 +46,7 @@ function getQueryString(name) {
 				console.log(data);
 				if(data.data.length>0){				
 					for(var i=0;i<data.data.length;i++){
-						_html += '<li class="question_li" data-id="'+data.data[i].QUESTION_ID+'" data-knowledge="' +getknowledgeid(data.data[i].QUESTION_ID,knowledge_ids) + '"><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【Answer】 '+data.data[i].ANSWER+'</p><p><span>【Analysis】</span>'+data.data[i].ANALYSIS+'</p></div><div class="clearfix"></div></div><div class="star_box"><div class="col-md-6 move"><img src="../static/images/up_ico.png" class="up"/><img src="../static/images/down_ico.png" class="down"/></div><div class="col-md-6"><div class="star"><span style="float:left;">Diffcult</span></div><div class="resolve_click"><a  onclick="slide($(this))">View Analysis</a></div></div><div class="clearfix"></div></div></li>';
+						_html += '<li class="question_li" data-id="'+data.data[i].QUESTION_ID+'" data-knowledge="' +getknowledgeid(data.data[i].QUESTION_ID,knowledge_ids) + '"><div class="stem"></div><div class="option"><ul></ul><div class="clearfix"></div></div><div class="resolve"><div class="resolve_box"><p>【Answer】 '+data.data[i].ANSWER+'</p><p><span>【Analysis】</span>'+data.data[i].ANALYSIS+'</p></div><div class="clearfix"></div></div><div class="star_box"><div class="col-md-6 move"><img src="../static/images/up_ico.png" class="up"/><img src="../static/images/down_ico.png" class="down"/></div><div class="col-md-6"><div class="star"><span style="float:left;">Difficulty Level </span></div><div class="resolve_click"><a  onclick="slide($(this))">View Analysis</a></div></div><div class="clearfix"></div></div></li>';
 					}
 					console.log(_html);
 					$(".analysis ul").html(_html);

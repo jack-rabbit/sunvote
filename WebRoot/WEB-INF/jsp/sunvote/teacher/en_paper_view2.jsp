@@ -40,7 +40,7 @@
   <div class="container">
     <div class="page-header">
 	  <h3 class="col-md-6" id="paper_title"></h3>
-	   <h3 class="col-md-6">Exam Time:<span id="time"></span> Minutes</h3>
+	   <h3 class="col-md-6">Time Allowed:<span id="time"></span> Minutes</h3>
 		<div class="clearfix"></div>
 	</div>
 	<div class="content_report">

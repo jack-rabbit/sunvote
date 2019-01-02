@@ -38,7 +38,7 @@
 		<div class="box_header">
 			<div class="head_box_l">
 				<p>
-					<span class="right_b"></span>Paper Management
+					<span class="right_b"></span>Exam Paper Management
 				</p>
 			</div>
 			<div class="head_box_r">
@@ -63,7 +63,7 @@
 						<th>Test Paper Title</th>
 						<th>Create Time</th>
 						<th>Suggested Time</th>
-						<th>Total Score</th>
+						<th>Total Marks</th>
 						<th>Operate</th>
 					</tr>
 				</thead>
@@ -146,7 +146,7 @@
 		
 		function del(Id){
 			//var remove = new remove();
-			window.top.remove.init({"title":"Delete","func":function(success){
+			window.top.remove.init({"title":"Delete","ok":"Ok","cancel":"Cancel","func":function(success){
 				if(success){
 					var url = "<%=basePath%>paper/delete.do?PAPER_ID="+Id+"&qingsongkao=true&tm="+new Date().getTime();
 					window.top.loading.show();
@@ -185,7 +185,7 @@
 		});
 		
 		function deleteAll(){
-			window.top.remove.init({"title":"Delete","func":function(success){
+			window.top.remove.init({"title":"Delete","ok":"Ok","cancel":"Cancel","func":function(success){
 				if(success){
 					var str = '';
 					for(var i=0;i < document.getElementsByName('ids').length;i++){

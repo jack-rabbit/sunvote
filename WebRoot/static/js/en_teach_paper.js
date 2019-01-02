@@ -191,7 +191,7 @@
 		function del(obj){       //删除
 			//var remove = new remove();
 			var id=obj.closest("tr").attr("data-id");
-			window.top.remove.init({"title":"Delete","func":function(success){
+			window.top.remove.init({"title":"Delete","ok":"Ok","cancel":"Cancel","func":function(success){
 				if(success){
 					var url1 = url+ "/paper/delete.do?PAPER_ID="+id+"&tm="+new Date().getTime();
 					window.top.loading.show();
@@ -206,7 +206,7 @@
 			window.top.remove.show();
 		}
 		function deleteAll(){       //批量删除
-			window.top.remove.init({"title":"Delete","func":function(success){
+			window.top.remove.init({"title":"Delete","ok":"Ok","cancel":"Cancel","func":function(success){
 				if(success){
 					var str = '';
 					for(var i=0;i < document.getElementsByName('ids').length;i++){

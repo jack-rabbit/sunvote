@@ -125,6 +125,26 @@
 		</if>
 	</select>
 	
+	<!-- 添加学校科目，从未添加的科目里面进行添加 -->
+	<select id="listNotSchoolSubject" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		WHERE 
+		sv_subject.ID NOT IN (
+		SELECT
+			sv_schoolgradesubject.SUBJECT_ID
+		FROM
+			sv_schoolgradesubject
+		WHERE 1 = 1 
+			<if test="SCHOOL_ID != null and SCHOOL_ID != ''">
+				and	sv_schoolgradesubject.SCHOOL_ID = #{SCHOOL_ID}
+			</if>
+		)
+		
+	</select>
+	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

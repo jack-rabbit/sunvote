@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SunVote Class</title>
+    <title>E-class</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -25,7 +25,7 @@
 		<div class="box_header">
 			<div class="head_box_l">
 				<p>
-					<span class="right_b"></span>SunVote Class Test Paper Management
+					<span class="right_b"></span>E-class Result Analysis
 				</p>
 			</div>
 			<div class="head_box_r">

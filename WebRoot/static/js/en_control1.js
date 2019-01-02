@@ -148,8 +148,8 @@
 		$("#class_avg").html(class_avg);
 		$("#class_max").html(class_max);
 		$(".name h1").html(data.data.studentList[index].NAME);
-		$(".circle .col-md-6").eq(1).html('<div id="myStathalf1" data-dimension="350" data-text="'+ratio+"%"+'" data-info="Student" data-width="10" data-fontsize="38" data-percent="'+ratio+'" data-fgcolor="#8ad254" data-bgcolor="#a9f9ff" data-type="half" data-fill="#50b5c9"></div>');
-		$(".circle .col-md-6").eq(0).html('<div id="myStathalf" data-dimension="350" data-text="'+part_num+'/'+test_num+'" data-info="Participation testing" data-width="10" data-fontsize="38" data-percent="'+partake+'" data-fgcolor="#8ad254" data-bgcolor="#a9f9ff" data-type="half" data-fill="#50b5c9"></div>');
+		$(".circle .col-md-6").eq(1).html('<div id="myStathalf1" data-dimension="350" data-text="'+ratio+"%"+'" data-info="Individual Average Correct Rate" data-width="10" data-fontsize="38" data-percent="'+ratio+'" data-fgcolor="#8ad254" data-bgcolor="#a9f9ff" data-type="half" data-fill="#50b5c9"></div>');
+		$(".circle .col-md-6").eq(0).html('<div id="myStathalf" data-dimension="350" data-text="'+part_num+'/'+test_num+'" data-info="Tests Paticipated" data-width="10" data-fontsize="38" data-percent="'+partake+'" data-fgcolor="#8ad254" data-bgcolor="#a9f9ff" data-type="half" data-fill="#50b5c9"></div>');
 		$('#myStathalf1').circliful();
 		$('#myStathalf').circliful();
 		 myChart.setOption({
@@ -167,7 +167,7 @@
 			        splitArea: {show: true}
 			    },
 			    series: [{
-			    	name:"Avg Score",
+			    	name:"Class Avg",
 			        data: data1,
 			        type: 'line',
 			        symbol: 'circle',
@@ -187,7 +187,7 @@
 			            }
 			        }
 			    },{
-			    	name:"Highest",
+			    	name:"Class Highest",
 			        data: data3,
 			        type: 'line',
 			        symbol: 'circle',
@@ -207,7 +207,7 @@
 			            }
 			        }
 			    },{
-			    	name:"Personal",
+			    	name:"Student",
 			        data: data2,
 			        type: 'line',
 			        symbol: 'circle',

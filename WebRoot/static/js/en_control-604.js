@@ -32,9 +32,9 @@ $(function() {
 		}
 		q_num = str.length;
 		$(".content").append('<div class="section section-'	+ answer_index_b+ ' single" data-fraction="'+ fraction+ '" data-score="'
-								+ (q_num * fraction) + '" style="margin-top:80px;"><div class="title"><h3>Total score of question number '	+ answer_index_b+ '(single choice) :'
-								+ q_num	+ ' X '	+ fraction	+ ' = '	+ (q_num * fraction)
-								+ ' 分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span> --></h3> </div><div class="question_list"></div></div>');
+								+ (q_num * fraction) + '" style="margin-top:80px;"><div class="title"><h3>Total marks of part '	+ answer_index_b+ '(single choice) :'
+								+ (q_num * fraction) 
+								+ ' <!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span> --></h3> </div><div class="question_list"></div></div>');
 		for (var i = 0; i < q_num; i++) {
 			str_temp = str[i];
 			str_temp = str_temp.toUpperCase()
@@ -200,15 +200,11 @@ $(function() {
 									+ fraction2
 									+ '" data-score="'
 									+ ((index_e_2 - index_s_2 + 1) * fraction2)
-									+ '"> <div class="title"><h3>Total score of question number '
+									+ '"> <div class="title"><h3>Total marks of part '
 									+ answer_index_b
-									+ '(multiple choice): '
-									+ (index_e_2 - index_s_2 + 1)
-									+ ' X '
-									+ fraction2
-									+ ' = '
+									+ '(multiple choice) '
 									+ ((index_e_2 - index_s_2 + 1) * fraction2)
-									+ ' 分<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span>--></h3> </div> <div class="question_list"></div></div>');
+									+ '<!--<span>请在试题选项上点击，亮色为该试题的正确答案&nbsp; </span>--></h3> </div> <div class="question_list"></div></div>');
 			for (var i = index_s_2; i <= index_e_2; i++) {
 				questionNUm++;
 				$(".section-" + answer_index_b + " .question_list").append(
@@ -490,13 +486,9 @@ $(function() {
 										+ '" data-fraction="'
 										+ data.questions[i].score
 										+ '" style="margin-top:80px;"> <h3><span class="que_num">'
-										+ 'Total score of question number '
+										+ 'Total marks of part '
 										+ (i + 1)
-										+ ':'
-										+ data.questions[i].questions.length
-										+ " X "
-										+ (parseFloat(data.questions[i].sug_score) / data.questions[i].questions.length)
-										+ " = "
+										+ ":"
 										+ data.questions[i].sug_score
 										+ '</span>'
 										+ '<span class="que_name">'

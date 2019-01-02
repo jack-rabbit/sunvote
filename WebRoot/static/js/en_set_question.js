@@ -27,7 +27,7 @@ var url="";
 	
 	
 	function getPoint(){             //获取知识点
-		$.ajax({
+		$.ajax({ 
 			url:url+"/SunvoteEducation/api/v1/point",
 			async:false,
 			type:"post",
@@ -106,7 +106,7 @@ var url="";
 			if($(".resolve").css("display") == "none")
 				obj.text("View Analysis");
 			else
-				obj.text("Fold analysis");
+				obj.text("Hide analysis");
 		});
 
 		}
@@ -132,7 +132,7 @@ var url="";
 			if(data.data.length>0){
 				for(var i=0;i<data.data.length;i++){
 					
-					_html += '<li data-id="'+data.data[i].QUESTION_ID+'" data-knowledge="' + knowledge_id + '"><div class="content"></div><div class="option"><ul></ul></div><div class="resolve"><div class="resolve_box"><p><span>【Answer】</span> '+data.data[i].ANSWER+'</p><p><span>【Analysis】</span>'+data.data[i].ANALYSIS+'</p></div></div><div class="star_box"><div class="col-md-6"><div class="star"><span style="float:left;">Diffcult </span></div><div class="resolve_click"><a  onclick="slide($(this))">View Analysis</a><div class="check_box"></div></div></div><div class="clearfix"></div></div></li>';
+					_html += '<li data-id="'+data.data[i].QUESTION_ID+'" data-knowledge="' + knowledge_id + '"><div class="content"></div><div class="option"><ul></ul></div><div class="resolve"><div class="resolve_box"><p><span>【Answer】</span> '+data.data[i].ANSWER+'</p><p><span>【Analysis】</span>'+data.data[i].ANALYSIS+'</p></div></div><div class="star_box"><div class="col-md-6"><div class="star"><span style="float:left;">Difficulty Level </span></div><div class="resolve_click"><a  onclick="slide($(this))">View Analysis</a><div class="check_box"></div></div></div><div class="clearfix"></div></div></li>';
 				}
 				$(".question_box").children("ul").append(_html);
 				console.log(5*(pageNum-1));

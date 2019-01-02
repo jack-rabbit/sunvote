@@ -28,6 +28,8 @@
 
 	<!-- 检索  -->
 	<form action="sclass/listcs.do" method="post" name="Form" id="Form">
+		<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
+		<input type="hidden" name="GRADE_ID" id="GRADE_ID" value="${pd.GRADE_ID}"/>
 		<div class="head_box">
 			<div class="box_header">
 				<div class="head_box_l">
@@ -96,7 +98,7 @@
 					<input type="button" onclick="add();" value="添加班级" />
 				</div>
 				 <div class="removeAll">
-					<input type="button" onclick="delete();" value="删除" />
+					<input type="button" onclick="del();" value="删除" />
 				</div> 
 				
 				<div class="page_box">
@@ -125,6 +127,10 @@
 			$(".table_box").css("padding-top",$(".head_box").height());
 		});
 		
+		function tosearch(){
+			$("#Form").submit();
+		}
+		
 		$('#ids').on('click', function(){
 				var th_checked = $("#ids").prop('checked');//checkbox inside "TH" table header
 				
@@ -134,6 +140,50 @@
 					else $(row).find('input[type=checkbox]').eq(0).prop('checked', false);
 				});
 		});
+		
+		function del(Id){
+			window.top.remove.init({"title":"删除","func":function(success){
+				if(success){
+					var str = '';
+					for(var i=0;i < document.getElementsByName('ids').length;i++){
+					  if(document.getElementsByName('ids')[i].checked){
+					  	if(str=='') str += document.getElementsByName('ids')[i].value;
+					  	else str += ',' + document.getElementsByName('ids')[i].value;
+					  }
+					}
+					if(str==''){
+						
+					}else{
+						$.ajax({
+								type: "POST",
+								url: '<%=basePath%>sclass/deleteAll.do?tm='+new Date().getTime(),
+						    	data: {DATA_IDS:str},
+								dataType:'json',
+								//beforeSend: validateData,
+								cache: false,
+								success: function(data){
+									tosearch();
+								}
+							});
+					}
+				}
+				else{
+					console.log("false");
+				}
+			}});
+			window.top.remove.show();
+		}
+		
+		function add(){
+			window.top.modal.init({
+			'title':'添加班级',
+			'url':'<%=basePath%>sclass/goAdd2.do?school_id=${pd.SCHOOL_ID}&grade_id=${pd.GRADE_ID}',
+			func:function() {
+				tosearch();
+			}
+			});
+			window.top.modal.show();
+		}
 	</script>
 
 

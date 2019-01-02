@@ -49,7 +49,7 @@
 				<tr style="height: 30px">
 					<td>Class list:${classInfo.CLASS_NAME}</td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td><span>Student number: ${classInfo.studentNum}</span></td>
+					<td><span>Students: ${classInfo.studentNum}</span></td>
 					
 				</tr>
 			</table>
@@ -60,7 +60,7 @@
 					<tr>
 						<th class="center"><div style="width:80px;">Name</div></th>
 						<th class="center"><div style="width:80px;">Ranking</div></th>
-						<th class="center"><div style="width:80px;">Score</div></th>
+						<th class="center"><div style="width:80px;">Marks</div></th>
 						<th class="center"><div style="width:80px;">Student ID</div></th>
 						<th class="center"><div style="width:109px;">Keypad</div></th>
 						<!-- <th class="center"><div style="width:80px;">正确率</div></th> -->
