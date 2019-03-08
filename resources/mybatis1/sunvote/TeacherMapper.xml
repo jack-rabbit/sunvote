@@ -19,6 +19,7 @@
 		SEX,	
 		SUBJECT_IDS,	
 		KEYPAD_ID,	
+		HEADMASTER,	
 		ID
 	</sql>
 	
@@ -34,6 +35,7 @@
 		#{SEX},	
 		#{SUBJECT_IDS},	
 		#{KEYPAD_ID},	
+		#{HEADMASTER},	
 		#{ID}
 	</sql>
 	
@@ -52,6 +54,7 @@
 			PASSWORD,	
 			SEX,	
 			SUBJECT_IDS,	
+			HEADMASTER,	
 			KEYPAD_ID
 		) values (
 		#{ID},
@@ -64,6 +67,7 @@
 		#{PASSWORD},	
 		#{SEX},	
 		#{SUBJECT_IDS},	
+		#{HEADMASTER},	
 		#{KEYPAD_ID}
 		)
 	</insert>
@@ -91,6 +95,7 @@
 			SEX = #{SEX},
 			SUBJECT_IDS = #{SUBJECT_IDS},
 			KEYPAD_ID = #{KEYPAD_ID},
+			HEADMASTER = #{HEADMASTER},
 		ID = ID
 		where 
 		ID = #{ID}

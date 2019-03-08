@@ -45,6 +45,7 @@ import com.fh.service.sunvote.classtype.ClassTypeManager;
 import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
 import com.fh.service.sunvote.event.EventManager;
 import com.fh.service.sunvote.grade.GradeManager;
+import com.fh.service.sunvote.homework.HomeworkManager;
 import com.fh.service.sunvote.keypad.KeypadManager;
 import com.fh.service.sunvote.keypadcheck.KeypadCheckManager;
 import com.fh.service.sunvote.knowledge.KnowledgeManager;
@@ -135,7 +136,10 @@ public class V1 extends BaseController {
 
 	@Resource(name = "sclassService")
 	private SClassManager sclassService;
-
+	
+	@Resource(name="homeworkService")
+	private HomeworkManager homeworkService;
+	
 	@Resource(name = "studentService")
 	private StudentManager studentService;
 
@@ -2791,6 +2795,24 @@ public class V1 extends BaseController {
 		res.setData(className);
 		return res.toJson();
 
+	}
+	
+	/**
+	 * 获取作业列表
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/listhomework", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String listhomework() throws Exception {
+		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
+		PageData pageData = this.getPageData();
+		List<PageData> list = homeworkService.listAll(pageData);
+		res.setData(list);
+		return res.toJson();
+		
 	}
 
 	/**
