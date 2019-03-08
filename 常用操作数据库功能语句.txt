@@ -1,0 +1,22 @@
+删除老师和班级名下的测试数据：
+
+-- DELETE
+-- FROM
+-- 	sv_studenttest
+-- WHERE
+-- 	TEST_ID IN (
+-- 		SELECT
+-- 			TESTPAPER_ID
+-- 		FROM
+-- 			sv_testpaper
+-- 		WHERE
+-- 			TEACHER_ID = 'e38a18e965bc4d7ca937404a192bcb70'
+-- 		AND SCLASS_ID = '59d0e1f86bc34ff7920b8d58097e6864'
+-- 	)
+-- 
+delete FROM
+			sv_testpaper
+		WHERE
+			TEACHER_ID = 'e38a18e965bc4d7ca937404a192bcb70'
+		AND SCLASS_ID = '59d0e1f86bc34ff7920b8d58097e6864'
+		
