@@ -18,6 +18,7 @@
 		RIGHT_ANSWER,	
 		SCORE,	
 		PART_SCORE,	
+		HOMEWORK_ID,	
 		HOMEWORKPROBLEM_ID
 	</sql>
 	
@@ -32,6 +33,7 @@
 		#{RIGHT_ANSWER},	
 		#{SCORE},	
 		#{PART_SCORE},	
+		#{HOMEWORK_ID},	
 		#{HOMEWORKPROBLEM_ID}
 	</sql>
 	
@@ -68,6 +70,7 @@
 			RIGHT_ANSWER = #{RIGHT_ANSWER},
 			SCORE = #{SCORE},
 			PART_SCORE = #{PART_SCORE},
+			HOMEWORK_ID = #{HOMEWORK_ID},
 		HOMEWORKPROBLEM_ID = HOMEWORKPROBLEM_ID
 		where 
 		HOMEWORKPROBLEM_ID = #{HOMEWORKPROBLEM_ID}
@@ -108,6 +111,38 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listHomeworkProblem" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1 = 1
+			<if test="pd.HOMEWORK_ID != null and pd.HOMEWORK_ID != ''">
+			and	HOMEWORK_ID = #{pd.HOMEWORK_ID}
+			</if>
+		ORDER BY RANK
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listProblem" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1 = 1
+		<if test="pd.HOMEWORK_ID != null and pd.HOMEWORK_ID != ''">
+			and	HOMEWORK_ID = #{pd.HOMEWORK_ID}
+		</if>
+		<if test="pd.P_HOMEWORK_PROBLEM_ID == null or pd.P_HOMEWORK_PROBLEM_ID == ''">
+			and	P_HOMEWORK_PROBLEM_ID is NULL
+		</if>
+		<if test="pd.P_HOMEWORK_PROBLEM_ID != null and pd.P_HOMEWORK_PROBLEM_ID != ''">
+			and	P_HOMEWORK_PROBLEM_ID = #{pd.P_HOMEWORK_PROBLEM_ID}
+		</if>
+		ORDER BY RANK
 	</select>
 	
 	<!-- 批量删除 -->

@@ -29,6 +29,7 @@
 					
 					<form action="subject/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
+						<input type="hidden" name="GRADE_ID" id="GRADE_ID" value="${pd.GRADE_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>

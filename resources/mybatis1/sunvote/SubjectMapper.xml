@@ -123,6 +123,9 @@
 		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''">
 			and	sv_schoolgradesubject.SCHOOL_ID = #{pd.SCHOOL_ID}
 		</if>
+		<if test="pd.GRADE_ID != null and pd.GRADE_ID != ''">
+			and	sv_schoolgradesubject.GRADE_ID = #{pd.GRADE_ID}
+		</if>
 	</select>
 	
 	<!-- 添加学校科目，从未添加的科目里面进行添加 -->
@@ -140,6 +143,9 @@
 		WHERE 1 = 1 
 			<if test="SCHOOL_ID != null and SCHOOL_ID != ''">
 				and	sv_schoolgradesubject.SCHOOL_ID = #{SCHOOL_ID}
+			</if>
+			<if test="GRADE_ID != null and GRADE_ID != ''">
+				and	sv_schoolgradesubject.GRADE_ID = #{GRADE_ID}
 			</if>
 		)
 		
