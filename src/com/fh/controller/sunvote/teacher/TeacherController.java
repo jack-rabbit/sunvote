@@ -490,6 +490,26 @@ public class TeacherController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
+	
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/goEdit2")
+	public ModelAndView goEdit2() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = teacherService.findById(pd); // 根据ID读取
+		mv.setViewName("sunvote/teacher/teacher_edit2");
+		List<PageData> schools = schoolService.listAll(pd);
+		mv.addObject("schools", schools);
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}
 
 	/**
 	 * 批量删除

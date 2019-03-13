@@ -15,6 +15,7 @@
 		CLASS_NAME,	
 		CLASS_CODE,	
 		BASESTATION_ID,	
+		HEADMASTER_ID,	
 		ID
 	</sql>
 	
@@ -26,6 +27,7 @@
 		#{CLASS_NAME},	
 		#{CLASS_CODE},	
 		#{BASESTATION_ID},	
+		#{HEADMASTER_ID},	
 		#{ID}
 	</sql>
 	
@@ -40,6 +42,7 @@
 			CLASS_NAME,	
 			CLASS_CODE,	
 			ID,	
+			HEADMASTER_ID,	
 			BASESTATION_ID
 		) values (
 		#{SCHOOL_ID},	
@@ -48,6 +51,7 @@
 		#{CLASS_NAME},	
 		#{CLASS_CODE},	
 		#{ID},	
+		#{HEADMASTER_ID},	
 		#{BASESTATION_ID}
 		)
 	</insert>
@@ -71,6 +75,7 @@
 			CLASS_NAME = #{CLASS_NAME},
 			CLASS_CODE = #{CLASS_CODE},
 			BASESTATION_ID = #{BASESTATION_ID},
+			HEADMASTER_ID = #{HEADMASTER_ID},
 		ID = #{ID}
 		where 
 		ID = #{ID}
@@ -119,6 +124,9 @@
 		</if>
 		<if test="CLASS_TYPE != null and CLASS_TYPE != ''">
 			and ( CLASS_TYPE = #{CLASS_TYPE} )
+		</if>
+		<if test="HEADMASTER_ID != null and HEADMASTER_ID != ''">
+			and ( HEADMASTER_ID = #{HEADMASTER_ID} )
 		</if>
 		
 	</select>

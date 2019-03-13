@@ -70,6 +70,14 @@ public class HeadmasterService implements HeadmasterManager{
 		return (PageData)dao.findForObject("HeadmasterMapper.findById", pd);
 	}
 	
+	/**通过用户名或密码获取数据
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData findByUsenameAndPassword(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("HeadmasterMapper.findByUsenameAndPassword", pd);
+	}
+	
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

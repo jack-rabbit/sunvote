@@ -15,6 +15,7 @@
 		SCHOOL_ID,	
 		PERMISSION,	
 		PHONE,	
+		KEYPAD_ID,	
 		HEADMASTER_ID
 	</sql>
 	
@@ -26,6 +27,7 @@
 		#{SCHOOL_ID},	
 		#{PERMISSION},	
 		#{PHONE},	
+		#{KEYPAD_ID},	
 		#{HEADMASTER_ID}
 	</sql>
 	
@@ -59,6 +61,7 @@
 			SCHOOL_ID = #{SCHOOL_ID},
 			PERMISSION = #{PERMISSION},
 			PHONE = #{PHONE},
+			KEYPAD_ID = #{KEYPAD_ID},
 		HEADMASTER_ID = HEADMASTER_ID
 		where 
 		HEADMASTER_ID = #{HEADMASTER_ID}
@@ -72,6 +75,22 @@
 		<include refid="tableName"></include>
 		where 
 			HEADMASTER_ID = #{HEADMASTER_ID}
+	</select>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findByUsenameAndPassword" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			<if test="pd.KEYPAD_ID != null and pd.KEYPAD_ID != ''">
+				KEYPAD_ID = #{KEYPAD_ID}
+			</if>
+			<if test="pd.KEYPAD_ID == null or pd.KEYPAD_ID != ''">
+				USERNAME = #{USERNAME} and
+				PASSWORD = #{PASSWORD}
+			</if>
 	</select>
 	
 	<!-- 列表 -->

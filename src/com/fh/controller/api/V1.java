@@ -45,6 +45,7 @@ import com.fh.service.sunvote.classtype.ClassTypeManager;
 import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
 import com.fh.service.sunvote.event.EventManager;
 import com.fh.service.sunvote.grade.GradeManager;
+import com.fh.service.sunvote.headmaster.HeadmasterManager;
 import com.fh.service.sunvote.homework.HomeworkManager;
 import com.fh.service.sunvote.homeworkproblem.HomeworkProblemManager;
 import com.fh.service.sunvote.keypad.KeypadManager;
@@ -149,6 +150,9 @@ public class V1 extends BaseController {
 
 	@Resource(name = "teacherService")
 	private TeacherManager teacherService;
+	
+	@Resource(name="headmasterService")
+	private HeadmasterManager headmasterService;
 
 	@Resource(name = "testpaperinfoService")
 	private TestPaperInfoManager testpaperinfoService;
@@ -213,7 +217,22 @@ public class V1 extends BaseController {
 		if (((pd.containsKey("USERNAME") || (pd.containsKey("ACCOUT") && pd
 				.get("ACCOUT") != null)) && pd.containsKey("PASSWORD"))
 				|| pd.containsKey("KEYPAD_ID")) {
+			PageData eventPd = new PageData();
+			eventPd.put("EVENT_ID", get32UUID());
+			eventPd.put("EVENT_NAME", "login");
+			eventPd.put("EVENT_USER", pd.getString("USERNAME"));
+			eventPd.put("EVENT_TYPE", "0");
+			eventPd.put("EVENT_START_TIME", Tools.date2Str(new Date()));
+			if (pd.getString("CLIENT_ID") != null) {
+				eventPd.put("CLIENT_ID", pd.getString("CLIENT_ID"));
+			} else {
+				eventPd.put("CLIENT_ID", "CLIENT");
+			}
+			eventPd.put("EVENT_IP", getRemoteIp());
+			eventService.save(eventPd);
+			
 			PageData pageData = teacherService.getUserInfo(pd);
+			PageData headerMaster = headmasterService.findByUsenameAndPassword(pd);
 			if (pageData != null && pageData.getString("ID") != null) {
 				pageData.put("PASSWORD", "");// 返回参数中不返回密码
 				PageData pt = new PageData();
@@ -231,23 +250,18 @@ public class V1 extends BaseController {
 
 				pageData.remove("SUBJECT_IDS");
 
-				PageData eventPd = new PageData();
-				eventPd.put("EVENT_ID", get32UUID());
-				eventPd.put("EVENT_NAME", "login");
-				eventPd.put("EVENT_USER", pageData.getString("ID"));
-				eventPd.put("EVENT_TYPE", "0");
-				eventPd.put("EVENT_START_TIME", Tools.date2Str(new Date()));
-				if (pd.getString("CLIENT_ID") != null) {
-					eventPd.put("CLIENT_ID", pd.getString("CLIENT_ID"));
-				} else {
-					eventPd.put("CLIENT_ID", "CLIENT");
-				}
-				eventPd.put("EVENT_IP", getRemoteIp());
-				eventService.save(eventPd);
-
+				
+				pageData.put("role", "teacher");
 				res.setData(pageData);
 				// 填充数据到返回数据中
-			} else {
+			} else if(headerMaster != null && headerMaster.get("HEADMASTER_ID") != null){
+				headerMaster.put("PASSWORD", "");
+				headerMaster.put("role", "headermaster");
+				List<PageData> classInfoList = sclassService.listAll(headerMaster);
+				headerMaster.put("classInfoList", classInfoList);
+				
+				
+			}else{
 				res.set1Error();
 			}
 		} else {
@@ -2469,19 +2483,19 @@ public class V1 extends BaseController {
 	 * @param apiName
 	 */
 	private void event(String apiName) {
-		PageData eventPd = new PageData();
-		eventPd.put("EVENT_ID", get32UUID());
-		eventPd.put("EVENT_NAME", apiName);
-		eventPd.put("EVENT_USER", getUsername());
-		eventPd.put("EVENT_TYPE", "-1");
-		eventPd.put("EVENT_START_TIME", Tools.date2Str(new Date()));
-		eventPd.put("CLIENT_ID", "SERVER");
-		eventPd.put("EVENT_IP", getRemoteIp());
-		try {
-			eventService.save(eventPd);
-		} catch (Exception e) {
-
-		}
+//		PageData eventPd = new PageData();
+//		eventPd.put("EVENT_ID", get32UUID());
+//		eventPd.put("EVENT_NAME", apiName);
+//		eventPd.put("EVENT_USER", getUsername());
+//		eventPd.put("EVENT_TYPE", "-1");
+//		eventPd.put("EVENT_START_TIME", Tools.date2Str(new Date()));
+//		eventPd.put("CLIENT_ID", "SERVER");
+//		eventPd.put("EVENT_IP", getRemoteIp());
+//		try {
+//			eventService.save(eventPd);
+//		} catch (Exception e) {
+//
+//		}
 	}
 
 	static int index = 0;

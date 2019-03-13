@@ -233,6 +233,30 @@ public class SClassController extends BaseController {
 		return mv;
 	}	
 	
+	/**去修改页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goEdit2")
+	public ModelAndView goEdit2()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = sclassService.findById(pd);	//根据ID读取
+		mv.setViewName("sunvote/sclass/sclass_edit2");
+		List<PageData> schools = schoolService.listAll(pd);
+		mv.addObject("schools",schools);
+		List<PageData> basestations = basestationService.listAll(pd);
+		mv.addObject("basestations",basestations);
+		List<PageData> grades = gradeService.listAll(pd);
+		mv.addObject("grades", grades);
+		List<PageData> classTypes = classtypeService.listAll(pd);
+		mv.addObject("classTypes", classTypes);
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
+	
 	 /**批量删除
 	 * @param
 	 * @throws Exception
