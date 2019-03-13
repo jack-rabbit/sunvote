@@ -48,8 +48,8 @@
 				</div>
 				<div class="name">
 					<p>欢迎！</p>
-					<p id="school">${SNAME }</p>
-					<p id="name">${SNAME } 管理员</p>
+					<p id="school" title="${SNAME }">${SNAME }</p>
+					<p id="name" title="${SNAME } 管理员">${SNAME } 管理员</p>
 					</br></br>
 				</div>
 			</div>

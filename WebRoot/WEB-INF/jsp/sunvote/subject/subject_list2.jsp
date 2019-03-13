@@ -15,7 +15,7 @@
 <!-- 下拉框 -->
 <link rel="stylesheet" href="static/ace/css/chosen.css" />
 <!-- jsp文件头和头部 -->
-<%@ include file="../../system/index/top.jsp"%>
+
 <link href="../static/css/teach.css" rel="stylesheet">
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
@@ -70,7 +70,7 @@
 										value="${var.ID}" />${vs.index+1}</td>
 									<td class='center'>${var.CNAME}</td>
 									<td class='center'>${var.ENAME}</td>
-									<td class='center'></td>
+									<td><a href="#" onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a href="#" onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
 
 								</tr>
 

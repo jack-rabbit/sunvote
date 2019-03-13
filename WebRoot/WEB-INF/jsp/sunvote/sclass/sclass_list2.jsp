@@ -16,12 +16,10 @@
 <!-- 下拉框 -->
 <link rel="stylesheet" href="static/ace/css/chosen.css" />
 <!-- jsp文件头和头部 -->
-<%@ include file="../../system/index/top.jsp"%>
+
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
-<link
-	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <link href="static/css/teach.css" rel="stylesheet">
 </head>
 <body class="no-skin">
@@ -39,14 +37,15 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div style="background:#fff;" >
+			<div style="background:#fff;padding:0 5%;" >
 
-				<table class="table table-striped" style="margin: 0px 5%">
+				<table class="table table-striped" >
 					<col style="width: 10%" />
-					<col style="width: 22%" />
-					<col style="width: 22%" />
-					<col style="width: 23%" />
-					<col style="width: 23%" />
+					<col style="width: 18%" />
+					<col style="width: 18%" />
+					<col style="width: 18%" />
+					<col style="width: 18%" />
+					<col style="width: 18%" />
 					<thead>
 						<tr>
 							<th><input type="checkbox" value="0" name='ids' id="ids" />序号</th>
@@ -54,6 +53,7 @@
 							<th class="center">班级类型</th>
 							<th class="center">班级编码</th>
 							<th class="center">班级基站</th>
+							<th class="center">操作</th>
 						</tr>
 					</thead>
 				</table>
@@ -63,13 +63,14 @@
 			<!-- 检索  -->
 
 		</div>
-		<div class="table_box" style="padding:0px">
-			<table class="table table-striped" style="margin: 0px 5%">
+		<div class="table_box" style="padding:0px 5%">
+			<table class="table table-striped" >
 				<col style="width: 10%" />
-				<col style="width: 22%" />
-				<col style="width: 22%" />
-				<col style="width: 23%" />
-				<col style="width: 23%" />
+				<col style="width: 18%" />
+				<col style="width: 18%" />
+				<col style="width: 18%" />
+				<col style="width: 18%" />
+				<col style="width: 18%" />
 				<tbody>
 					<!-- 开始循环 -->
 					<c:choose>
@@ -82,6 +83,7 @@
 									<td class='center'>${myelfun:findClassTypeName(var.CLASS_TYPE)}</td>
 									<td class='center'>${var.CLASS_CODE}</td>
 									<td class='center'>${myelfun:findBasestationName(var.BASESTATION_ID)}</td>
+									<td><a href="#" onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a href="#" onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
 								</tr>
 							</c:forEach>
 						</c:when>
@@ -102,8 +104,7 @@
 				</div> 
 				
 				<div class="page_box">
-					<div class="pagination"
-						style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div>
+					<div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div>
 				</div>
 			</div> 
 		</div>
@@ -140,6 +141,16 @@
 					else $(row).find('input[type=checkbox]').eq(0).prop('checked', false);
 				});
 		});
+		function edit(Id){
+			window.top.modal.init({
+			'title':'修改信息',
+			'url':'<%=basePath%>sclass/goEdit2.do?ID='+Id,
+			func:function() {
+				tosearch();
+			}
+			});
+			window.top.modal.show();
+		}
 		
 		function del(Id){
 			window.top.remove.init({"title":"删除","func":function(success){

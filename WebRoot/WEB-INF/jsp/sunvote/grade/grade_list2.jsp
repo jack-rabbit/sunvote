@@ -15,7 +15,6 @@
 <!-- 下拉框 -->
 <link rel="stylesheet" href="static/ace/css/chosen.css" />
 <!-- jsp文件头和头部 -->
-<%@ include file="../../system/index/top.jsp"%>
 <link href="../static/css/teach.css" rel="stylesheet">
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
