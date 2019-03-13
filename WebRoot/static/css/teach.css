@@ -1,4 +1,5 @@
 html,body{width:100%;height:100%;}
+table{font-size:16px;}
 .clear{clear:both;}
 .right{width:12px;height:12px;display:inline-block;background:url(../images/right.png) no-repeat;background-size:100%;}
 .right_b{width:20px;height:20px;margin-right:20px;display:inline-block;background:url(../images/right_b.png) no-repeat;background-size:100%;}
@@ -25,7 +26,7 @@ input[type="checkbox"]{margin-right:10px;}
 .content .content_l .info_tab{padding:10% 0;border-bottom:1px solid #80afb4;}
 .content .content_l .head_pic{width:88px;height:88px;border-radius:44px;overflow:hidden;float:left;margin-left:2%;}
 .content .content_l .name{margin-left:calc(88px + 10%);}
-.content .content_l .name p{color:#fff;}
+.content .content_l .name p{width:100%;color:#fff;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
 .content .content_l .name p:first-child{font-size:14px;}
 .content .content_l .name p:nth-child(2){font-size:20px;}
 .content .content_l .name p:nth-child(3){font-size:14px;}
