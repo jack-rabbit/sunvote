@@ -83,7 +83,16 @@
 					任课管理<span class="right jiao"></span>
 				</p>
 				<ul class="menu_1">
-					<li onclick="event.stopPropagation();subject('${SCHOOL_ID}')"><p>科目管理</p></li>
+					<li> <p>科目管理</p>
+						<ul  class="menu_2">
+							<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
+								<li onclick="event.stopPropagation();subject('${SCHOOL_ID}')">
+									<p>${ var.GNAME }</p>
+								</li>
+							</c:forEach>
+						</ul>
+					</li>
+						
 					<li onclick="event.stopPropagation();coursemanager('${SCHOOL_ID}')"><p>任课管理</p></li>
 					<li onclick="event.stopPropagation();teacher('${SCHOOL_ID}')"><p>教师管理</p></li>
 			</ul>
@@ -242,8 +251,8 @@
 	<script type="text/javascript">
 	
 		var schoolId = '${SCHOOL_ID}';
-		function subject(school_id){
-			var path = "../subject/listcs.do?school_id=" + school_id ;
+		function subject(school_id,grade_id){
+			var path = "../subject/listcs.do?school_id=" + school_id + "&grade_id=" + grade_id ;
 			//if($("#mainFrame").attr('src') != (path)){
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();

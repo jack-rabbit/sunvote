@@ -62,6 +62,15 @@ public class HomeworkService implements HomeworkManager{
 		return (List<PageData>)dao.findForList("HomeworkMapper.listAll", pd);
 	}
 	
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> qlistAll(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("HomeworkMapper.listAll", pd);
+	}
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

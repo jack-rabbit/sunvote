@@ -140,6 +140,43 @@
 		
 	</select>
 	
+	<!-- 列表(全部) -->
+	<select id="qlistAll" parameterType="pd" resultType="pd">
+		select
+			CODE,	
+			NAME,	
+			SUBJECT_ID,	
+			CLASS_ID,	
+			COMPLETE_DATE,	
+			COMPLETE_COUNT,	
+			ALL_SCORE,	
+			TEACHER_ID,	
+			HOMEWORK_ID
+		from 
+		<include refid="tableName"></include>
+		where 1 = 1
+		<if test="pd.SUBJECT_ID != null and pd.SUBJECT_ID != ''"><!-- 关键词检索 -->
+			and SUBJECT_ID = #{SUBJECT_ID}
+		</if>
+		<if test="pd.CLASS_ID != null and pd.CLASS_ID != ''"><!-- 关键词检索 -->
+			and CLASS_ID = #{CLASS_ID}
+		</if>
+		<if test="pd.GRADE_ID != null and pd.GRADE_ID != ''"><!-- 关键词检索 -->
+			and GRADE_ID = #{GRADE_ID}
+		</if>
+		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''"><!-- 关键词检索 -->
+			and SCHOOL_ID = #{SCHOOL_ID}
+		</if>
+		<if test="pd.TEACHER_ID != null and pd.TEACHER_ID != ''"><!-- 关键词检索 -->
+			and TEACHER_ID = #{TEACHER_ID}
+		</if>
+		<if test="pd.COMPLETE != null and pd.COMPLETE != ''"><!-- 关键词检索 -->
+			and COMPLETE_DATE &gt; #{COMPLETE_DATE}
+		</if>
+		
+		
+	</select>
+	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from

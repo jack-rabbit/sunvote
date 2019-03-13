@@ -62,6 +62,23 @@ public class HomeworkProblemService implements HomeworkProblemManager{
 		return (List<PageData>)dao.findForList("HomeworkProblemMapper.listAll", pd);
 	}
 	
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listHomeworkProblem(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("HomeworkProblemMapper.listHomeworkProblem", pd);
+	}
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listProblem(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("HomeworkProblemMapper.listProblem", pd);
+	}
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

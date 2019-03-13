@@ -46,6 +46,7 @@ import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
 import com.fh.service.sunvote.event.EventManager;
 import com.fh.service.sunvote.grade.GradeManager;
 import com.fh.service.sunvote.homework.HomeworkManager;
+import com.fh.service.sunvote.homeworkproblem.HomeworkProblemManager;
 import com.fh.service.sunvote.keypad.KeypadManager;
 import com.fh.service.sunvote.keypadcheck.KeypadCheckManager;
 import com.fh.service.sunvote.knowledge.KnowledgeManager;
@@ -190,7 +191,10 @@ public class V1 extends BaseController {
 
 	@Resource(name = "cacheService")
 	private CacheManager cacheService;
-
+	
+	@Resource(name="homeworkproblemService")
+	private HomeworkProblemManager homeworkproblemService;
+	
 	/**
 	 * 登录 可以通过账号密码登录、 可以通过教师卡登录
 	 * 
@@ -2809,8 +2813,57 @@ public class V1 extends BaseController {
 	public String listhomework() throws Exception {
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
 		PageData pageData = this.getPageData();
-		List<PageData> list = homeworkService.listAll(pageData);
+		List<PageData> list = homeworkService.qlistAll(pageData);
 		res.setData(list);
+		return res.toJson();
+		
+	}
+	
+	/**
+	 * 获取作业详情
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/homework", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String homework() throws Exception {
+		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
+		PageData pageData = this.getPageData();
+		List<PageData> list = homeworkproblemService.listProblem(pageData);
+		for(PageData pd : list){
+			if(pd.get("P_HOMEWORK_PROBLEM_ID") != null){
+				List<PageData> childList = homeworkproblemService.listProblem(pd);
+				pd.put("PROBLEMS", childList);
+			}
+			
+		}
+		res.setData(list);
+		return res.toJson();
+		
+	}
+	
+	/**
+	 * 获取作业详情
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/uploadhomework", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String uploadhomework() throws Exception {
+		ResponseGson<String> res = new ResponseGson<String>();
+		
+		PageData pd = this.getPageData();
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			
+			
+			
+			res.setData("success");
+		}
+		res.setDataError();
 		return res.toJson();
 		
 	}
