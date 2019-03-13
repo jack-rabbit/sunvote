@@ -32,7 +32,7 @@
 			<div class="box_header">
 				<div class="head_box_l">
 					<p>
-						<span class="right_b"></span>班级管理
+						<span class="right_b"></span>班级管理 
 					</p>
 				</div>
 				<div class="clearfix"></div>
