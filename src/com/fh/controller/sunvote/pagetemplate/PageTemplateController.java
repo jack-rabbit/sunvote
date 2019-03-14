@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.util.AppUtil;
@@ -24,6 +27,7 @@ import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
 import com.fh.util.Tools;
 import com.fh.service.sunvote.pagetemplate.PageTemplateManager;
+import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
 
 /** 
  * 说明：试卷模板管理
@@ -37,6 +41,9 @@ public class PageTemplateController extends BaseController {
 	String menuUrl = "pagetemplate/list.do"; //菜单地址(权限用)
 	@Resource(name="pagetemplateService")
 	private PageTemplateManager pagetemplateService;
+	
+	@Resource(name="schoolgradesubjectService")
+	private SchoolGradeSubjectManager schoolgradesubjectService;
 	
 	/**保存
 	 * 
@@ -136,7 +143,11 @@ public class PageTemplateController extends BaseController {
 		page.setPd(pd);
 		List<PageData>	varList = pagetemplateService.list(page);	//列出PageTemplate列表
 		mv.setViewName("sunvote/pagetemplate/pagetemplate_list2");
+		List<PageData>	gradeList = schoolgradesubjectService.listAllGrade(pd);
+		List<PageData>	subjectList = schoolgradesubjectService.listAllSubject(pd);
 		mv.addObject("varList", varList);
+		mv.addObject("gradeList", gradeList);
+		mv.addObject("subjectList", subjectList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
