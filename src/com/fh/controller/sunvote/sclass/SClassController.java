@@ -109,6 +109,22 @@ public class SClassController extends BaseController {
 		mv.setViewName("save_result");
 		return mv;
 	}
+	/**修改
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/edit2")
+	public ModelAndView edit2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"修改SClass");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		sclassService.edit(pd);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result2");
+		return mv;
+	}
 	
 	/**列表
 	 * @param page
@@ -252,7 +268,7 @@ public class SClassController extends BaseController {
 		mv.addObject("grades", grades);
 		List<PageData> classTypes = classtypeService.listAll(pd);
 		mv.addObject("classTypes", classTypes);
-		mv.addObject("msg", "edit");
+		mv.addObject("msg", "edit2");
 		mv.addObject("pd", pd);
 		return mv;
 	}	

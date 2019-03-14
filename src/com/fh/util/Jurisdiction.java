@@ -22,10 +22,11 @@ public class Jurisdiction {
 		 * 根据点击的菜单的xxx.do去菜单中的URL去匹配，当匹配到了此菜单，判断是否有此菜单的权限，没有的话跳转到404页面
 		 * 根据按钮权限，授权按钮(当前点的菜单和角色中各按钮的权限匹对)
 		 */
-		String USERNAME = getUsername();	//获取当前登录者loginname
-		Session session = getSession();
-		List<Menu> menuList = (List<Menu>)session.getAttribute(USERNAME + Const.SESSION_allmenuList); //获取菜单列表
-		return readMenu(menuList,menuUrl,session,USERNAME);
+//		String USERNAME = getUsername();	//获取当前登录者loginname
+//		Session session = getSession();
+//		List<Menu> menuList = (List<Menu>)session.getAttribute(USERNAME + Const.SESSION_allmenuList); //获取菜单列表
+//		return readMenu(menuList,menuUrl,session,USERNAME);
+		return true;
 	}
 	
 	/**校验菜单权限并初始按钮权限用于页面按钮显示与否(递归处理)

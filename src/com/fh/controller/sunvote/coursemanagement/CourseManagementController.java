@@ -21,17 +21,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.util.AppUtil;
-import com.fh.util.ObjectExcelView;
-import com.fh.util.PageData;
-import com.fh.util.Jurisdiction;
-import com.fh.util.Tools;
 import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
 import com.fh.service.sunvote.grade.GradeManager;
 import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.sunvote.subject.SubjectManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.sunvote.term.TermManager;
+import com.fh.util.AppUtil;
+import com.fh.util.Jurisdiction;
+import com.fh.util.ObjectExcelView;
+import com.fh.util.PageData;
 
 /** 
  * 说明：任课管理
@@ -114,6 +113,24 @@ public class CourseManagementController extends BaseController {
 		return mv;
 	}
 	
+	/**修改
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/edit2")
+	public ModelAndView edit2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"修改CourseManagement");
+		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		
+		coursemanagementService.edit(pd);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result2");
+		return mv;
+	}
+	
 	/**列表
 	 * @param page
 	 * @throws Exception
@@ -170,6 +187,32 @@ public class CourseManagementController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("sunvote/coursemanagement/coursemanagement_edit");
+		
+		List<PageData> teachers = teacherService.listAll(pd);
+		mv.addObject("teachers",teachers);
+		List<PageData> classs = sclassService.listAll(pd);
+		mv.addObject("classs",classs);
+		List<PageData> subjects = subjectService.listAll(pd);
+		mv.addObject("subjects", subjects);
+		
+		List<PageData> terms = termService.listAll(pd);
+		mv.addObject("terms", terms);
+		List<PageData> grades =  gradeService.listAll(pd);
+		mv.addObject("grades", grades);
+		mv.addObject("msg", "save");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
+	/**去新增页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goAdd2")
+	public ModelAndView goAdd2()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/coursemanagement/coursemanagement_edit2");
 		
 		List<PageData> teachers = teacherService.listAll(pd);
 		mv.addObject("teachers",teachers);
