@@ -16,6 +16,8 @@
 	<%@ include file="../../system/index/top.jsp"%>
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
+	<!-- 编辑页样式覆盖 -->
+	<link rel="stylesheet" href="static/css/edit.css" />
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
@@ -30,7 +32,7 @@
 					<form action="sclass/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="ID" id="ID" value="${pd.ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
-						<table id="table_report" class="table table-striped table-bordered table-hover">
+						<table id="table_report" class="table">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">所属学校:</td>
 								<td>
@@ -47,7 +49,7 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">所属年级:</td>
 								<td>
 								<%-- <input type="text" name="GRADE_ID" id="GRADE_ID" value="${pd.GRADE_ID}" maxlength="255" placeholder="这里输入所属年级" title="所属年级" style="width:98%;"/></td> --%>
-								<select class="chosen-select form-control" name="GRADE_ID" id="GRADE_ID" data-placeholder="这里输入所属年级" disabled="disabled">
+								<select class="chosen-select form-control" name="GRADE_ID" id="GRADE_ID" data-placeholder="这里输入所属年级" >
 									<c:forEach var="item" items="${grades}">
 										<option value="${item.ID}"  <c:if test="${pd.GRADE_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
 									</c:forEach>
@@ -87,7 +89,7 @@
 							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
-									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+									<a class="btn btn-mini btn-danger" onclick="window.top.modal.remove();">取消</a>
 								</td>
 							</tr>
 						</table>

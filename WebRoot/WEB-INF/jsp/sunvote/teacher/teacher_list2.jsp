@@ -89,7 +89,7 @@
 											<td class='center'>${var.ACCOUT}</td>
 											<td class='center'>${var.SEX == 1? "男":"女"}</td>
 											<td class='center'>${var.KEYPAD_ID}</td>
-											<td><a href="#" onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a href="#" onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
+											<td><a onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
 								
 										</tr>
 
@@ -208,7 +208,7 @@
 		
 		function edit(Id){
 			window.top.modal.init({
-			'title':'添加学生',
+			'title':'修改信息',
 			'url':'<%=basePath%>teacher/goEdit2.do?ID='+Id,
 			func:function() {
 				tosearch();

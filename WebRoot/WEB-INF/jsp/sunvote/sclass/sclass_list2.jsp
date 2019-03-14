@@ -83,6 +83,7 @@
 									<td class='center'>${myelfun:findClassTypeName(var.CLASS_TYPE)}</td>
 									<td class='center'>${var.CLASS_CODE}</td>
 									<td class='center'>${myelfun:findBasestationName(var.BASESTATION_ID)}</td>
+									
 									<td><a onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a href="#" onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
 								</tr>
 							</c:forEach>
