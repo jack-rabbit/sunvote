@@ -78,6 +78,15 @@
    		if(window.top != window.self){
 	   		window.top.location.href = "<%=basePath%>";
    		}
+   		
+   		document.onkeydown = function (e) { // 回车提交表单
+   		// 兼容FF和IE和Opera
+   		    var theEvent = window.event || e;
+   		    var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+   		    if (code == 13) {
+   		    	severCheck();
+   		    }
+   		}
    		//客户端校验
 		function check() {
 
