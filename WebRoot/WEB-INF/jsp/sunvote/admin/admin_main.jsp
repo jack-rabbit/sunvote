@@ -167,7 +167,7 @@
 						<p>年级升级</p>
 					</li>
 					<li>
-						<p>模板设置</p>
+						<p onclick="event.stopPropagation();pagetemplate('${var.SCHOOL_ID}')">模板设置</p>
 					</li>
 					<li>
 						<p>其他配置</p>
@@ -265,6 +265,11 @@
 		
 		function grade(school_id){
 			var path = "../grade/listcs.do?school_id=" + school_id ;
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
+		}
+		function pagetemplate(school_id){
+			var path = "../pagetemplate/listcs.do";
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();
 		}

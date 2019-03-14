@@ -16,6 +16,9 @@
 	<%@ include file="../../system/index/top.jsp"%>
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
+	<!-- 编辑页样式覆盖 -->
+	<link rel="stylesheet" href="static/css/edit.css" />
+	
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
@@ -30,7 +33,7 @@
 					<form action="coursemanagement/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="ID" id="ID" value="${pd.ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
-						<table id="table_report" class="table table-striped table-bordered table-hover">
+						<table id="table_report" class="table">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">老师:</td>
 								<td>
@@ -52,16 +55,7 @@
 								</select>
 								</td>
 							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">年级:</td>
-								<td>
-								<select class="chosen-select form-control" name="GRADE_ID" id="GRADE_ID" data-placeholder="这里输入班级类型">
-									<c:forEach var="item" items="${grades}">
-										<option value="${item.ID}"  <c:if test="${pd.GRADE_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
-									</c:forEach>
-								</select>
-								</td>
-							</tr>
+							
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">科目:</td>
 								<td>
@@ -86,7 +80,7 @@
 							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
-									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+									<a class="btn btn-mini btn-danger" onclick="window.top.modal.remove();">取消</a>
 								</td>
 							</tr>
 						</table>

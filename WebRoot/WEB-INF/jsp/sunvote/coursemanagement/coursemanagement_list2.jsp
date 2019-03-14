@@ -87,7 +87,7 @@
 			</table>
 			<div class="footer">
 				<div class="creat">
-					<input type="button"  value="分配任课" />
+					<input type="button"  onclick="add()" value="分配任课" />
 				</div>
 				<div class="removeAll">
 					<input type="button" onclick="deleteAll()" value="移除任课" />
@@ -117,8 +117,21 @@
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
-			window.top.loading.remove();
+		window.top.loading.remove();	
+	});
+	
+	//新增
+	function add(){
+		window.top.modal.init({
+		'title':'分配任课',
+		'url':'<%=basePath%>coursemanagement/goAdd2.do',
+		func:function() {
+			tosearch();
+		}
 		});
+		window.top.modal.show();
+	}
+	
 	</script>
 
 
