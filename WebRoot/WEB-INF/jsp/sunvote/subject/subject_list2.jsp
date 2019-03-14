@@ -70,7 +70,7 @@
 										value="${var.ID}" />${vs.index+1}</td>
 									<td class='center'>${var.CNAME}</td>
 									<td class='center'>${var.ENAME}</td>
-									<td><a href="#" onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a href="#" onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
+									<td><a onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
 
 								</tr>
 

@@ -16,6 +16,7 @@
 	<%@ include file="../../system/index/top.jsp"%>
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
+	<link rel="stylesheet" href="static/css/edit.css" />
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
@@ -31,7 +32,7 @@
 						<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
 						<input type="hidden" name="GRADE_ID" id="GRADE_ID" value="${pd.GRADE_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
-						<table id="table_report" class="table table-striped table-bordered table-hover">
+						<table id="table_report" class="table">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">科目名称:</td>
 								<td>
@@ -80,6 +81,8 @@
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
+			window.top.modal.remove();
+			tosearch();
 		}
 		
 		$(function() {
