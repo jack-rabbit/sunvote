@@ -39,7 +39,7 @@
 			</div>
 			<div style="padding:0 5%;background:#fff;">
 				<table class="table table-striped">
-					<col style="width: 10%" />
+					<col style="width: 8%" />
 					<col style="width: 10%" />
 					<col style="width: 10%" />
 					<col style="width: 10%" />
@@ -47,7 +47,7 @@
 					<col style="width: 15%" />
 					<col style="width: 7%" />
 					<col style="width: 15%" />
-					<col style="width: 7%" />
+					<col style="width: 9%" />
 					<thead>
 						<tr>
 							<th><input type="checkbox" value="0" name='ids' id="ids" />序号</th>
@@ -66,7 +66,7 @@
 		</div>
 		<div class="table_box">
 					<table class="table table-striped">
-						<col style="width: 10%" />
+						<col style="width: 8%" />
 						<col style="width: 10%" />
 						<col style="width: 10%" />
 						<col style="width: 10%" />
@@ -74,7 +74,7 @@
 						<col style="width: 15%" />
 						<col style="width: 7%" />
 						<col style="width: 15%" />
-						<col style="width: 7%" />
+						<col style="width: 9%" />
 						<tbody>
 							<!-- 开始循环 -->
 							<c:choose>
