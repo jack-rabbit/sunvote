@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.session.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -19,9 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fh.bean.Paper;
+import com.fh.bean.Question;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
+import com.fh.entity.system.User;
 import com.fh.util.AppUtil;
+import com.fh.util.Const;
 import com.fh.util.ObjectExcelView;
 import com.fh.util.PageData;
 import com.fh.util.Jurisdiction;
@@ -248,6 +253,53 @@ public class PageTemplateController extends BaseController {
 		dataMap.put("varList", varList);
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
+		return mv;
+	}
+	
+	@RequestMapping(value="/npaper")
+	public ModelAndView newpaper() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"Paper详细信息");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String paperType = pd.getString("PAPER_TYPE") ;
+		Paper paper = new Paper();
+		paper.setTitle(pd.getString("NAME"));
+		paper.setExam_time(pd.getString("TIME"));
+		Session session = Jurisdiction.getSession();
+		User user = (User)session.getAttribute(Const.SESSION_USER);
+		paper.setUser_id(user.getUSER_ID());
+		paper.setPaper_type(paperType == null || "".equals(paperType.trim()) ? "1" :paperType);
+		String subjectId = pd.getString("SUBJECT_ID");
+		paper.setSubject_id(subjectId == null || "".equals(subjectId.trim())? getSubjectId():subjectId);
+		String gradeId = pd.getString("GRADE_ID");
+		paper.setGrade_id( gradeId== null || "".equals(gradeId.trim())? getGradeID() : gradeId);
+		String schoolId = pd.getString("SCHOOL_ID") ;
+		paper.setSchool_id(schoolId == null || "".equals(schoolId.trim())? getSchoolID() : schoolId);
+		paper.setQuestions(new ArrayList<Question>());
+		
+		pd.put("JSON", paper.toJson());
+		logger.info(paper.toJson());
+		
+		String TEMPLATE_ID = pd.getString("TEMPLATE_ID");
+		if(TEMPLATE_ID != null && !"".equals(TEMPLATE_ID)){
+			pd.put("PAGETEMPLATE_ID", TEMPLATE_ID);
+			PageData template = pagetemplateService.findById(pd);
+			mv.addObject("TEMPLEATE", template);
+		}
+		
+		if(isChineseLanguageClient()){
+			mv.setViewName("sunvote/teacher/creat_template");
+		}else{
+			mv.setViewName("sunvote/teacher/en_creat_question");
+		}
+		mv.addObject("pd", pd);
+		if(paperType != null && "2".equals(paperType)){
+			mv.addObject("JUMP_URL", "/main/admin");
+		}else{
+			mv.addObject("JUMP_URL", "/main/teacher");
+		}
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
 	

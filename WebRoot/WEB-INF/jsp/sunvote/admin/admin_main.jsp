@@ -269,7 +269,7 @@
 				window.top.loading.show();
 		}
 		function pagetemplate(school_id){
-			var path = "../pagetemplate/listcs.do";
+			var path = "../pagetemplate/listcs.do?school_id=" + school_id ;
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();
 		}

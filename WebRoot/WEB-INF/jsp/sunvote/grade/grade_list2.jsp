@@ -64,8 +64,8 @@
 								<tr>
 									<td><input type="checkbox" name='ids' id="ids"
 										value="${var.ID}" />${vs.index+1}</td>
-									<td class='center'>${var.CNAME}</td>
-									<td class='center'>${var.ENAME}</td>
+									<td class='center'>${var.NAME}</td>
+									<td class='center'>${var.DESC}</td>
 									<td class='center'></td>
 
 								</tr>
@@ -82,10 +82,10 @@
 			</table>
 			<div class="footer" style="width:auto">
 				<div class="creat">
-					<input type="button"  value="添加年级" />
+					<input type="button"  onclick="add()" value="添加年级" />
 				</div>
 				<div class="removeAll">
-					<input type="button" onclick="deleteAll()" value="移除年级" />
+					<input type="button" onclick="del()" value="移除年级" />
 				</div>
 				<div class="page_box">
 
@@ -115,6 +115,61 @@
 		$(document).ready(function(){
 			window.top.loading.remove();
 		});
+		
+		function add(){
+			window.top.modal.init({
+			'title':'添加班级',
+			'url':'<%=basePath%>grade/goAdd2.do',
+			func:function() {
+				tosearch();
+			}
+			});
+			window.top.modal.show();
+		}
+		
+		$('#ids').on('click', function(){
+			var th_checked = $("#ids").prop('checked');//checkbox inside "TH" table header
+			
+			$(".table_box .table").find('tbody > tr').each(function(){
+				var row = this;
+				if(th_checked) $(row).find('input[type=checkbox]').eq(0).prop('checked', true);
+				else $(row).find('input[type=checkbox]').eq(0).prop('checked', false);
+			});
+	});
+		
+		function del(Id){
+			window.top.remove.init({"title":"删除","func":function(success){
+				if(success){
+					var str = '';
+					for(var i=0;i < document.getElementsByName('ids').length;i++){
+					  if(document.getElementsByName('ids')[i].checked){
+					  	if(str=='') str += document.getElementsByName('ids')[i].value;
+					  	else str += ',' + document.getElementsByName('ids')[i].value;
+					  }
+					}
+					if(str==''){
+						
+					}else{
+						$.ajax({
+								type: "POST",
+								url: '<%=basePath%>grade/deleteAll.do?tm='+new Date().getTime(),
+						    	data: {DATA_IDS:str},
+								dataType:'json',
+								//beforeSend: validateData,
+								cache: false,
+								success: function(data){
+									tosearch();
+								}
+							});
+					}
+				}
+				else{
+					console.log("false");
+				}
+			}});
+			window.top.remove.show();
+		}
+
 	</script>
 
 

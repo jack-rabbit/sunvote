@@ -153,6 +153,20 @@ public class GradeController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}	
+	/**去新增页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goAdd2")
+	public ModelAndView goAdd2()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/grade/grade_edit2");
+		mv.addObject("msg", "save");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
 	
 	 /**去修改页面
 	 * @param
