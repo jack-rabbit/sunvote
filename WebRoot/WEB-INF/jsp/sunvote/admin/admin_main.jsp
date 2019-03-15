@@ -157,20 +157,17 @@
 			
 			<ul class="menu_1">
 					<li >
-						<p>学校设置</p>
+						<p onclick="event.stopPropagation();school('${SCHOOL_ID}')">学校设置</p>
 						
 					</li>
 					<li>
-						<p onclick="event.stopPropagation();grade('${var.SCHOOL_ID}')">年级设置</p>
+						<p onclick="event.stopPropagation();grade('${SCHOOL_ID}')">年级设置</p>
 					</li>
 					<li>
-						<p>年级升级</p>
+						<p onclick="event.stopPropagation();pagetemplate('${SCHOOL_ID}')">模板设置</p>
 					</li>
 					<li>
-						<p onclick="event.stopPropagation();pagetemplate('${var.SCHOOL_ID}')">模板设置</p>
-					</li>
-					<li>
-						<p>其他配置</p>
+						<p onclick="event.stopPropagation();other('${SCHOOL_ID}')">其他配置</p>
 					</li>
 				</ul>
 		</div>
@@ -263,6 +260,16 @@
 			//}
 		}
 		
+		function school(schoolId){
+			var path = "../school/goEdit2.do?ID=" + schoolId ;
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
+		}
+		function other(schoolId){
+			var path = "../school/other.do?ID=" + schoolId ;
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
+		}
 		function grade(school_id){
 			var path = "../grade/listcs.do?school_id=" + school_id ;
 				$("#mainFrame").attr('src',path);

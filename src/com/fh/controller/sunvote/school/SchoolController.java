@@ -98,6 +98,7 @@ public class SchoolController extends BaseController {
 		return mv;
 	}
 	
+	
 	/**列表
 	 * @param page
 	 * @throws Exception
@@ -116,6 +117,53 @@ public class SchoolController extends BaseController {
 		page.setPd(pd);
 		List<PageData>	varList = schoolService.list(page);	//列出School列表
 		mv.setViewName("sunvote/school/school_list");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/listcs")
+	public ModelAndView listcs(Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表学校");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String keywords = pd.getString("keywords");				//关键词检索条件
+		if(null != keywords && !"".equals(keywords)){
+			pd.put("keywords", keywords.trim());
+		}
+		page.setPd(pd);
+		List<PageData>	varList = schoolService.list(page);	//列出School列表
+		mv.setViewName("sunvote/school/school_list2");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+	}
+	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/other")
+	public ModelAndView other(Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表学校");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String keywords = pd.getString("keywords");				//关键词检索条件
+		if(null != keywords && !"".equals(keywords)){
+			pd.put("keywords", keywords.trim());
+		}
+		page.setPd(pd);
+		List<PageData>	varList = schoolService.list(page);	//列出School列表
+		mv.setViewName("sunvote/school/other_edit");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
@@ -148,6 +196,21 @@ public class SchoolController extends BaseController {
 		pd = this.getPageData();
 		pd = schoolService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/school/school_edit");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
+ /**去修改页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goEdit2")
+	public ModelAndView goEdit2()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = schoolService.findById(pd);	//根据ID读取
+		mv.setViewName("sunvote/school/school_edit2");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;
