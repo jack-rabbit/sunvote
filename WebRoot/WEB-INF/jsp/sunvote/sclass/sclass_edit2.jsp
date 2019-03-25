@@ -49,7 +49,7 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">所属年级:</td>
 								<td>
 								<%-- <input type="text" name="GRADE_ID" id="GRADE_ID" value="${pd.GRADE_ID}" maxlength="255" placeholder="这里输入所属年级" title="所属年级" style="width:98%;"/></td> --%>
-								<select class="chosen-select form-control" name="GRADE_ID" id="GRADE_ID" data-placeholder="这里输入所属年级" >
+								<select class="chosen-select form-control" name="GRADE_ID" disabled="disabled" id="GRADE_ID" data-placeholder="这里输入所属年级" >
 									<c:forEach var="item" items="${grades}">
 										<option value="${item.ID}"  <c:if test="${pd.GRADE_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
 									</c:forEach>

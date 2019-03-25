@@ -67,16 +67,21 @@
 		from 
 		<include refid="tableName"></include>
 		where 1=1
-		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
-			and
-				(
-				<!--	根据需求自己加检索条件
-					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or 
-					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
-				-->
-				)
-		</if>
+		
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPageInSchool" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		,sv_schoolgradesubject.SCHOOLGRADESUBJECT_ID
+		FROM
+			sv_grade LEFT JOIN sv_schoolgradesubject on sv_grade.ID = sv_schoolgradesubject.GRADE_ID
+		WHERE 1 =1 
+			<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''"><!-- 关键词检索 -->
+				and	sv_schoolgradesubject.SCHOOL_ID = #{pd.SCHOOL_ID}
+			</if>
+		GROUP BY sv_grade.ID
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -85,6 +90,48 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAllNot" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+		sv_grade.ID not IN (
+				SELECT
+					GRADE_ID
+				FROM
+					sv_schoolgradesubject
+				WHERE
+				<if test="SCHOOL_ID != null and SCHOOL_ID != ''"><!-- 关键词检索 -->
+					sv_schoolgradesubject.SCHOOL_ID = #{SCHOOL_ID}
+				</if>
+				GROUP BY
+					GRADE_ID
+			)
+	</select>
+	
+	<!-- 列表学校年级信息 -->
+	<select id="listAllInschool" parameterType="pd" resultType="pd">
+		SELECT
+			<include refid="Field"></include>
+		FROM
+			<include refid="tableName"></include>
+		WHERE
+			sv_grade.ID IN (
+				SELECT
+					GRADE_ID
+				FROM
+					sv_schoolgradesubject
+				WHERE
+				<if test="SCHOOL_ID != null and SCHOOL_ID != ''"><!-- 关键词检索 -->
+					sv_schoolgradesubject.SCHOOL_ID = #{SCHOOL_ID}
+				</if>
+				GROUP BY
+					GRADE_ID
+			)
 	</select>
 	
 	<!-- 批量删除 -->

@@ -114,6 +114,28 @@ public class HeadmasterController extends BaseController {
 		return mv;
 	}
 	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/listcs")
+	public ModelAndView listcs(Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表Headmaster");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String keywords = pd.getString("keywords");				//关键词检索条件
+		if(null != keywords && !"".equals(keywords)){
+			pd.put("keywords", keywords.trim());
+		}
+		page.setPd(pd);
+		List<PageData>	varList = headmasterService.list(page);	//列出Headmaster列表
+		mv.setViewName("sunvote/headmaster/headmaster_list2");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
 	/**去新增页面
 	 * @param
 	 * @throws Exception

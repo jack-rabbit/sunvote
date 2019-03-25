@@ -21,17 +21,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.util.AppUtil;
-import com.fh.util.ObjectExcelView;
-import com.fh.util.PageData;
-import com.fh.util.Jurisdiction;
-import com.fh.util.Tools;
 import com.fh.service.sunvote.basestation.BasestationManager;
 import com.fh.service.sunvote.classtype.ClassTypeManager;
 import com.fh.service.sunvote.grade.GradeManager;
 import com.fh.service.sunvote.school.SchoolManager;
 import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.system.fhlog.FHlogManager;
+import com.fh.util.AppUtil;
+import com.fh.util.Jurisdiction;
+import com.fh.util.ObjectExcelView;
+import com.fh.util.PageData;
 
 /** 
  * 说明：班级
@@ -67,7 +66,6 @@ public class SClassController extends BaseController {
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"新增SClass");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -75,6 +73,23 @@ public class SClassController extends BaseController {
 		sclassService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	/**保存
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/save2")
+	public ModelAndView save2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"新增SClass");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("ID", get32UUID());
+		sclassService.save(pd);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result2");
 		return mv;
 	}
 	
@@ -116,7 +131,6 @@ public class SClassController extends BaseController {
 	@RequestMapping(value="/edit2")
 	public ModelAndView edit2() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"修改SClass");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -220,7 +234,7 @@ public class SClassController extends BaseController {
 		mv.addObject("grades", grades);
 		List<PageData> classTypes = classtypeService.listAll(pd);
 		mv.addObject("classTypes", classTypes);
-		mv.addObject("msg", "save");
+		mv.addObject("msg", "save2");
 		mv.addObject("pd", pd);
 		return mv;
 	}	

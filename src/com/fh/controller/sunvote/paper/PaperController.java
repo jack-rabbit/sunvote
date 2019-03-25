@@ -30,6 +30,7 @@ import com.fh.service.sunvote.pagetemplate.PageTemplateManager;
 import com.fh.service.sunvote.paper.PaperManager;
 import com.fh.service.sunvote.paperquestion.PaperQuestionManager;
 import com.fh.service.sunvote.question.QuestionManager;
+import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
 import com.fh.util.AppUtil;
 import com.fh.util.Const;
 import com.fh.util.Jurisdiction;
@@ -56,6 +57,9 @@ public class PaperController extends BaseController {
 	
 	@Resource(name = "v1Service")
 	private V1Manager v1Service ;
+	
+	@Resource(name="schoolgradesubjectService")
+	private SchoolGradeSubjectManager schoolgradesubjectService;
 	
 	@Resource(name="pagetemplateService")
 	private PageTemplateManager pagetemplateService;
@@ -411,27 +415,10 @@ public class PaperController extends BaseController {
 		
 		PageData tpd = new PageData();
 		tpd.put("ID", getUserID());
-		List<PageData> adminInfos = v1Service.getAdminInfo(tpd);
-		List<PageData> gradeInfos = new ArrayList<PageData>();
-		List<PageData> subjectInfos = new ArrayList<PageData>();
-		//  查询学校信息
-		for(PageData pad : adminInfos){
-			PageData tmpd = new PageData();
-			Object gradeId = pad.get("GRADE_ID");
-			tmpd.put("SNAME", pad.get("SNAME"));// 学校名称
-			tmpd.put("SCHOOL_ID", pad.get("SCHOOL_ID"));//学校ID
-			tmpd.put("GRADE_ID", pad.get("GRADE_ID"));//年级id
-			tmpd.put("GNAME", pad.get("GNAME"));//年级名称
-			tmpd.put("SUBJECT_ID", pad.get("SUBJECT_ID"));// 科目id
-			tmpd.put("SCNAME", pad.get("SCNAME"));// 科目名称
-			if(gradeId != null && !"".equals(gradeId)){
-				gradeInfos.add(tmpd);
-			}else{
-				subjectInfos.add(tmpd);
-			}
-			mv.addObject("SNAME", pad.get("SNAME"));
-			mv.addObject("SCHOOL_ID", pad.get("SCHOOL_ID"));
-		}
+		PageData adminInfos = v1Service.getAdminInfo(tpd);
+		List<PageData> gradeInfos = schoolgradesubjectService.listAllGrade(adminInfos);
+		List<PageData> subjectInfos = schoolgradesubjectService.listAllSubject(adminInfos);
+		
 		mv.addObject("gradeInfos", gradeInfos);
 		mv.addObject("subjectInfos", subjectInfos);
 		

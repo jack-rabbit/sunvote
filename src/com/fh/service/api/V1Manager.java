@@ -22,7 +22,7 @@ public interface V1Manager {
 	
 	public List<PageData> getLastWrongQuestionInfo(PageData pd) throws Exception;
 	
-	public List<PageData> getAdminInfo(PageData pd) throws Exception;
+	public PageData getAdminInfo(PageData pd) throws Exception;
 	
 	public List<PageData> getClassBySchoolAndGradle(PageData pd) throws Exception;
 	

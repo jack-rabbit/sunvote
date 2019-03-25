@@ -218,12 +218,13 @@ public class CourseManagementController extends BaseController {
 		mv.addObject("teachers",teachers);
 		List<PageData> classs = sclassService.listAll(pd);
 		mv.addObject("classs",classs);
-		List<PageData> subjects = subjectService.listAll(pd);
+		
+		List<PageData> subjects = subjectService.listAllSchool(pd);
 		mv.addObject("subjects", subjects);
 		
 		List<PageData> terms = termService.listAll(pd);
 		mv.addObject("terms", terms);
-		List<PageData> grades =  gradeService.listAll(pd);
+		List<PageData> grades =  gradeService.listAllInschool(pd);
 		mv.addObject("grades", grades);
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
@@ -265,7 +266,6 @@ public class CourseManagementController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"批量删除CourseManagement");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		pd = this.getPageData();

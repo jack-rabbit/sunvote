@@ -60,8 +60,8 @@
 				</p>
 				<ul class="menu_1">
 					<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
-						<li onclick="event.stopPropagation();chooseListClass('${var.SCHOOL_ID}','${var.GRADE_ID}')">
-							<p>${ var.GNAME }</p>
+						<li onclick="event.stopPropagation();chooseListClass('${var.SCHOOL_ID}','${var.ID}')">
+							<p>${ var.NAME }</p>
 						</li>
 			</c:forEach>
 
@@ -87,8 +87,8 @@
 					<li> <p>科目管理</p>
 						<ul  class="menu_2">
 							<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
-								<li onclick="event.stopPropagation();subject('${SCHOOL_ID}')">
-									<p>${ var.GNAME }</p>
+								<li onclick="event.stopPropagation();subject('${SCHOOL_ID}','${var.ID }')">
+									<p>${ var.NAME }</p>
 								</li>
 							</c:forEach>
 						</ul>
@@ -167,6 +167,9 @@
 						<p onclick="event.stopPropagation();pagetemplate('${SCHOOL_ID}')">模板设置</p>
 					</li>
 					<li>
+						<p onclick="event.stopPropagation();monitor('${SCHOOL_ID}')">班长管理</p>
+					</li>
+					<li>
 						<p onclick="event.stopPropagation();other('${SCHOOL_ID}')">其他配置</p>
 					</li>
 				</ul>
@@ -203,7 +206,8 @@
 			 <div class="form-group">
 			    <label for="enter_time" class="col-sm-4 control-label">年级</label>
 			    <div class="col-sm-6">
-			      <select class="chosen-select form-control" name="grade_id" id="grade_id" data-placeholder="这里输入所属学校">
+			      <select class="chosen-select form-control" name="grade_id" id="grade_id" onchange="getSubjects('${SCHOOL_ID}')" data-placeholder="这里输入所属学校">
+						<option value="-1">--请选择--</option>
 						<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
 							<option value="${var.GRADE_ID}">${var.GNAME}</option>
 						</c:forEach>
@@ -214,10 +218,7 @@
 			 <div class="form-group">
 			    <label for="enter_time" class="col-sm-4 control-label">科目</label>
 			    <div class="col-sm-6">
-			      <select class="chosen-select form-control" name="subject_id" id="subject_id" data-placeholder="这里输入所属学校">
-						<c:forEach items="${subjectInfos}" var="var" varStatus="vs">
-							<option value="${var.SUBJECT_ID}">${var.SCNAME}</option>
-						</c:forEach>
+			      <select class="chosen-select form-control" name="subject_id" id="subject_id" onchange="getTemplates()" data-placeholder="这里输入所属学校">
 				</select>
 			    </div>
 			    <div class="clearfix"></div>
@@ -227,13 +228,11 @@
 			    <div class="col-sm-6">
 			      <select class="chosen-select form-control" name="TEMPLATE_ID" id="TEMPLATE_ID" data-placeholder="这里输入所属学校">
 			      		<option value="">自定义</option>
-						<c:forEach items="${templateInfos}" var="var" varStatus="vs">
-							<option value="${var.PAGETEMPLATE_ID}">${var.NAME}</option>
-						</c:forEach>
 				</select>
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
+
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary" id="time_submit">确定</button>
@@ -260,6 +259,48 @@
 			//}
 		}
 		
+		function getSubjects(school_id){
+			var grade_id = $("#grade_id").val();
+			var path = "../subject/listdata?school_id=" + school_id + "&grade_id=" + grade_id ;
+			$("#subject_id").empty();
+			if(grade != '-1'){
+				 $.ajax({
+					          type: 'post',
+					          url : path,
+					          async: true,
+					         dataType: "json",
+					        success: function(data) {
+					        	for(var key in data){
+					        		$("#subject_id").append("<option value='"+data[key].ID+"'>"+data[key].CNAME+"</option>");
+					        	}
+					        	getTemplates();
+					        }
+				 });
+			}
+		}
+		
+		function getTemplates(){
+			var grade_id = $("#grade_id").val();
+			var subject_id = $("#subject_id").val();
+			var school_id = schoolId;
+			if(grade != '-1' && subject_id != ''){
+			var path = "../pagetemplate/listdata?school_id=" + school_id + "&grade_id=" + grade_id + "&subject_id=" + subject_id ;
+				$("#TEMPLATE_ID").empty();
+				$("#TEMPLATE_ID").append("<option value=''>自定义</option>");
+				 $.ajax({
+				          type: 'post',
+				          url : path,
+				          async: true,
+				          dataType: "json",
+					      success: function(data) {
+					      	for(var key in data){
+					         	$("#TEMPLATE_ID").append("<option value='"+data[key].PAGETEMPLATE_ID+"'>"+data[key].NAME+"</option>");
+					      	}
+					      }
+				 });
+			}
+		}
+		
 		function school(schoolId){
 			var path = "../school/goEdit2.do?ID=" + schoolId ;
 				$("#mainFrame").attr('src',path);
@@ -277,6 +318,12 @@
 		}
 		function pagetemplate(school_id){
 			var path = "../pagetemplate/listcs.do?school_id=" + school_id ;
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
+		}
+	
+		function monitor(school_id){
+			var path = "../headmaster/list.do?school_id=" + school_id ;
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();
 		}

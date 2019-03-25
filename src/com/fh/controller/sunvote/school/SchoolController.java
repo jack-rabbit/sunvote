@@ -56,6 +56,7 @@ public class SchoolController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		FHLOG.save(getUsername(), "新增学校:" + pd.getString("NAME"));
+		pd.put("ID", get32UUID());
 		schoolService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -96,6 +97,20 @@ public class SchoolController extends BaseController {
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
 		return mv;
+	}
+	
+	/**修改 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/edit2")
+	public ModelAndView edit2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"修改学校");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		schoolService.edit(pd);
+		return goEdit2();
 	}
 	
 	
@@ -211,7 +226,7 @@ public class SchoolController extends BaseController {
 		pd = this.getPageData();
 		pd = schoolService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/school/school_edit2");
-		mv.addObject("msg", "edit");
+		mv.addObject("msg", "edit2");
 		mv.addObject("pd", pd);
 		return mv;
 	}	

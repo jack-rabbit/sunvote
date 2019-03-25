@@ -25,6 +25,8 @@
 </head>
 <body class="no-skin">
 	<form action="grade/listcs.do" method="post" name="Form" id="Form">
+		<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
+		
 		<div class="head_box">
 			<div class="box_header">
 				<div class="head_box_l">
@@ -42,7 +44,7 @@
 					<col style="width: 45%" />
 					<thead>
 						<tr>
-							<th><input type="checkbox" name='ids' id="ids" />序号</th>
+							<th><input type="checkbox" name='ids' id="ids" value="${var.SCHOOLGRADESUBJECT_ID}" />序号</th>
 							<th class="center">年级名称</th>
 							<th class="center">年级描述</th>
 						</tr>
@@ -63,7 +65,7 @@
 							<c:forEach items="${varList}" var="var" varStatus="vs">
 								<tr>
 									<td><input type="checkbox" name='ids' id="ids"
-										value="${var.ID}" />${vs.index+1}</td>
+										value="${var.SCHOOLGRADESUBJECT_ID}" />${vs.index+1}</td>
 									<td class='center'>${var.NAME}</td>
 									<td class='center'>${var.DESC}</td>
 									<td class='center'></td>
@@ -116,10 +118,15 @@
 			window.top.loading.remove();
 		});
 		
+		//检索
+		function tosearch(){
+			$("#Form").submit();
+		}
+		
 		function add(){
 			window.top.modal.init({
-			'title':'添加班级',
-			'url':'<%=basePath%>grade/goAdd2.do',
+			'title':'添加年级',
+			'url':'<%=basePath%>grade/goAdd2.do?school_id=${pd.SCHOOL_ID}',
 			func:function() {
 				tosearch();
 			}
@@ -152,7 +159,7 @@
 					}else{
 						$.ajax({
 								type: "POST",
-								url: '<%=basePath%>grade/deleteAll.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>grade/deleteAll2.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
 								//beforeSend: validateData,

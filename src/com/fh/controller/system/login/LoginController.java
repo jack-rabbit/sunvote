@@ -31,6 +31,7 @@ import com.fh.service.sunvote.event.EventManager;
 import com.fh.service.sunvote.pagetemplate.PageTemplateManager;
 import com.fh.service.sunvote.school.SchoolManager;
 import com.fh.service.sunvote.schooladmin.SchoolAdminManager;
+import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
 import com.fh.service.sunvote.sclass.SClassManager;
 import com.fh.service.sunvote.teacher.TeacherManager;
 import com.fh.service.system.appuser.AppuserManager;
@@ -84,6 +85,9 @@ public class LoginController extends BaseController {
 
 	@Resource(name = "v1Service")
 	private V1Manager v1Service;
+	
+	@Resource(name="schoolgradesubjectService")
+	private SchoolGradeSubjectManager schoolgradesubjectService;
 	
 	@Resource(name="schooladminService")
 	private SchoolAdminManager schooladminService;
@@ -292,36 +296,16 @@ public class LoginController extends BaseController {
 					PageData tpd = new PageData();
 					tpd.put("ID", user.getUSER_ID());
 					String schoolId = "" ;
-					List<PageData> adminInfos = v1Service.getAdminInfo(tpd);
-					List<PageData> gradeInfos = new ArrayList<PageData>();
-					List<PageData> subjectInfos = new ArrayList<PageData>();
+					PageData adminInfos = v1Service.getAdminInfo(tpd);
 					//  查询学校信息
 					Object tgradleId = "" ;
-					for(PageData pad : adminInfos){
-						PageData tmpd = new PageData();
-						Object gradeId = pad.get("GRADE_ID");
-						tmpd.put("SNAME", pad.get("SNAME"));// 学校名称
-						tmpd.put("SCHOOL_ID", pad.get("SCHOOL_ID"));//学校ID
-						tmpd.put("GRADE_ID", pad.get("GRADE_ID"));//年级id
-						tmpd.put("GNAME", pad.get("GNAME"));//年级名称
-						tmpd.put("SUBJECT_ID", pad.get("SUBJECT_ID"));// 科目id
-						tmpd.put("SCNAME", pad.get("SCNAME"));// 科目名称
-						if(gradeId != null && !gradeId.equals(tgradleId)){
-							tgradleId = gradeId ;
-							List<PageData> classInfos = sclassService.listAll(tmpd);
-							tmpd.put("classInfos", classInfos);
-							gradeInfos.add(tmpd);
-							subjectInfos =  new ArrayList<PageData>();
-							tmpd.put("subjectInfos", subjectInfos);
-						}
-						subjectInfos.add(tmpd);
-						schoolId = pad.getString("SCHOOL_ID");
-						mv.addObject("SNAME", pad.get("SNAME"));
-						mv.addObject("SCHOOL_ID", pad.get("SCHOOL_ID"));
-					}
+					
 					session.setAttribute(USERNAME + Const.ROLE_ID,
 							"admin");
+					List<PageData> gradeInfos = schoolgradesubjectService.listAllGrade(adminInfos);
 					mv.addObject("gradeInfos", gradeInfos);
+					mv.addObject("adminInfos", adminInfos);
+					mv.addObject("SCHOOL_ID", adminInfos.get("ID"));
 					session.setAttribute(Const.SESSION_USERNAME, USERNAME); // 放入用户名到session
 					if(isChineseLanguageClient()){
 						mv.setViewName("sunvote/admin/admin_main");

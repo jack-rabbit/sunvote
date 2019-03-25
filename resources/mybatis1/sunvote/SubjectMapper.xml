@@ -109,6 +109,10 @@
 		<if test="SCHOOL_ID != null and SCHOOL_ID != ''">
 			and	sv_schoolgradesubject.SCHOOL_ID = #{SCHOOL_ID}
 		</if>
+		<if test="GRADE_ID != null and GRADE_ID != ''">
+			and	sv_schoolgradesubject.GRADE_ID = #{GRADE_ID}
+		</if>
+		group by sv_schoolgradesubject.SUBJECT_ID
 	</select>
 	
 	<!-- 列表(全部) -->

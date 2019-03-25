@@ -63,6 +63,8 @@
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
+	<form action="school/${msg }.do" name="Form" id="Form" method="post">
+		<input type="hidden" name="ID" id="ID" value="${pd.ID}"/>
 		<div class="head_box" style="position:relative;">
 			<div class="box_header">
 				<div class="head_box_l">
@@ -81,7 +83,7 @@
 			<div class="form-group">
 			    <label for="enter_title" class="col-sm-4 control-label">学校名称:</label>
 			    <div class="col-sm-8">
-			      <input type="text" class="form-control" id="enter_title" disabled placeholder="输入学校名称"  maxlength="100" minlength="1" value="${pd.NAME}">
+			      <input type="text" class="form-control" disabled placeholder="输入学校名称"  maxlength="100" minlength="1"  name="NAME" id="NAME" value="${pd.NAME}">
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
@@ -89,28 +91,28 @@
 	        <div class="form-group">
 			    <label for="enter_time" class="col-sm-4 control-label">学校地址:</label>
 			    <div class="col-sm-8">
-			      <input type="text" class="form-control" id="enter_time" disabled placeholder="输入学校地址" value="${pd.ADDRESS}" maxlength="255" >
+			      <input type="text" class="form-control" disabled placeholder="输入学校地址"  name="ADDRESS" id="ADDRESS" value="${pd.ADDRESS}" maxlength="255" >
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
 			 <div class="form-group">
 			    <label for="enter_time" class="col-sm-4 control-label">校长:</label>
 			    <div class="col-sm-8">
-			      <input type="text" class="form-control" id="enter_time" disabled placeholder="输入校长名称" value="${pd.PRESIDENT}" maxlength="255" >
+			      <input type="text" class="form-control" disabled placeholder="输入校长名称" name="PRESIDENT" id="PRESIDENT" value="${pd.PRESIDENT}" maxlength="255" >
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
 			 <div class="form-group">
 			    <label for="enter_time" class="col-sm-4 control-label">联系电话:</label>
 			    <div class="col-sm-8">
-			      <input type="text" class="form-control" id="enter_time" disabled placeholder="输入联系电话" value="${pd.PHONE}" maxlength="255" >
+			      <input type="text" class="form-control" disabled placeholder="输入联系电话" name="PHONE" id="PHONE" value="${pd.PHONE}" maxlength="255" >
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
 			 <div class="form-group">
 			    <label for="enter_time" class="col-sm-4 control-label">备注:</label>
 			    <div class="col-sm-8">
-			      <input type="text" class="form-control" id="enter_time" disabled placeholder="输入备注" value="${pd.REMARK}" maxlength="255" >
+			      <input type="text" class="form-control" disabled placeholder="输入备注"  name="REMARK" id="REMARK"  value="${pd.REMARK}" maxlength="255" >
 			    </div>
 			    <div class="clearfix"></div>
 			</div>
@@ -121,7 +123,7 @@
 			<div class="edit_btn">
 				<input type="button" class="edit_btn_sty" data-state="edit" id="btn" value="修改" />
 			</div>					
-		
+		</form>
 
 
 
@@ -145,6 +147,7 @@
 				$("#btn").val("保存");
 				$(this).attr({"class":"save_btn_sty","data-state":"save"});
 			}else if(state=="save"){
+				$("#Form").submit();
 				$(".form-control").attr("disabled","disabled");
 				$("#btn").val("修改");
 				$(this).attr({"class":"edit_btn_sty","data-state":"edit"});

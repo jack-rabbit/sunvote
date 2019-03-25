@@ -30,21 +30,20 @@
 					<div class="col-xs-12">
 					
 					<form action="grade/${msg }.do" name="Form" id="Form" method="post">
-						<input type="hidden" name="ID" id="ID" value="${pd.ID}"/>
+						<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">年级名称:</td>
-								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="255" placeholder="这里输入年级名称" title="年级名称" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">科目名称:</td>
+								<td>
+									<select class="chosen-select form-control" name="GRADE_ID" id="GRADE_ID" data-placeholder="">
+									<c:forEach var="item" items="${gradeList}">
+										<option value="${item.ID}">${item.NAME}</option>
+									</c:forEach>
+								</select>
+								</td>
 							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">年级描述:</td>
-								<td><input type="text" name="DESC" id="DESC" value="${pd.DESC}" maxlength="255" placeholder="这里输入年级描述" title="年级描述" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">备注:</td>
-								<td><input type="text" name="REMARK" id="REMARK" value="${pd.REMARK}" maxlength="255" placeholder="这里输入备注" title="备注" style="width:98%;"/></td>
-							</tr>
+							
 							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
@@ -80,34 +79,14 @@
 		$(top.hangge());
 		//保存
 		function save(){
-			if($("#NAME").val()==""){
-				$("#NAME").tips({
+			if($("#GRADE_ID").val()==""){
+				$("#GRADE_ID").tips({
 					side:3,
 		            msg:'请输入年级名称',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#NAME").focus();
-			return false;
-			}
-			if($("#DESC").val()==""){
-				$("#DESC").tips({
-					side:3,
-		            msg:'请输入年级描述',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#DESC").focus();
-			return false;
-			}
-			if($("#REMARK").val()==""){
-				$("#REMARK").tips({
-					side:3,
-		            msg:'请输入备注',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#REMARK").focus();
+				$("#GRADE_ID").focus();
 			return false;
 			}
 			$("#Form").submit();

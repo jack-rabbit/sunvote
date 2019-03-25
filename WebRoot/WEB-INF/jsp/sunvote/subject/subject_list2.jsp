@@ -27,6 +27,7 @@
 <body class="no-skin">
 	<form action="subject/listcs.do" method="post" name="Form" id="Form">
 	<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
+	<input type="hidden" name="GRADE_ID" id="GRADE_ID" value="${pd.GRADE_ID}"/>
 		<div class="head_box">
 			<div class="box_header">
 				<div class="head_box_l">
@@ -119,6 +120,9 @@
 		$(document).ready(function(){
 			window.top.loading.remove();
 		});
+		function tosearch(){
+			$("#Form").submit();
+		}
 		function del(Id){
 			window.top.remove.init({"title":"删除","func":function(success){
 				if(success){

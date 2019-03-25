@@ -166,24 +166,16 @@
 	<!-- 通过admin ID获取科目数据 -->
 	<select id="getAdminInfo" parameterType="pd" resultType="pd">
 		SELECT
-			sv_school.`NAME` AS SNAME,
-			sv_school_admin.SCHOOL_ID,
-			sv_schoolgradesubject.GRADE_ID,
-			sv_grade.`NAME` as GNAME,
-		  	sv_schoolgradesubject.SUBJECT_ID,
-			sv_subject.CNAME as SCNAME
-			FROM
-		sv_school_admin
+		sv_school.`NAME` AS SNAME,
+		sv_school_admin.SCHOOL_ID,
+		sv_school_admin.SCHOOL_ID AS ID
+		FROM
+			sv_school_admin
 		LEFT JOIN sv_school ON sv_school_admin.SCHOOL_ID = sv_school.ID
-		LEFT JOIN sv_schoolgradesubject ON sv_school_admin.SCHOOL_ID = sv_schoolgradesubject.SCHOOL_ID
-		LEFT JOIN sv_grade on sv_grade.ID = sv_schoolgradesubject.GRADE_ID
-		LEFT JOIN sv_subject on sv_subject.ID = sv_schoolgradesubject.SUBJECT_ID					
 		WHERE
 			sv_school_admin.SCHOOLADMIN_ID = #{ID}
-			
-			ORDER BY GRADE_ID , SUBJECT_ID
-		
 	</select>
+	
 	
 	
 	<!-- 通过admin ID获取科目数据 -->

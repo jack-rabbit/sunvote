@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.service.sunvote.grade.GradeManager;
+import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
 import com.fh.util.AppUtil;
 import com.fh.util.Jurisdiction;
 import com.fh.util.ObjectExcelView;
@@ -40,6 +41,9 @@ public class GradeController extends BaseController {
 	@Resource(name="gradeService")
 	private GradeManager gradeService;
 	
+	@Resource(name="schoolgradesubjectService")
+	private SchoolGradeSubjectManager schoolgradesubjectService;
+	
 	/**保存
 	 * @param
 	 * @throws Exception
@@ -55,6 +59,23 @@ public class GradeController extends BaseController {
 		gradeService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	/**保存
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/save2")
+	public ModelAndView save2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"新增Grade");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("SCHOOLGRADESUBJECT_ID",get32UUID());
+		schoolgradesubjectService.save(pd);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result2");
 		return mv;
 	}
 	
@@ -97,7 +118,7 @@ public class GradeController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"列表Grade");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+//		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -121,7 +142,6 @@ public class GradeController extends BaseController {
 	@RequestMapping(value="/listcs")
 	public ModelAndView listcs(Page page) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"列表Grade");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -131,7 +151,7 @@ public class GradeController extends BaseController {
 		}
 		page.setPd(pd);
 		
-		List<PageData>	varList = gradeService.list(page);	//列出Grade列表
+		List<PageData>	varList = gradeService.datalistPageInSchool(page);	//列出Grade列表
 		mv.setViewName("sunvote/grade/grade_list2");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
@@ -162,8 +182,10 @@ public class GradeController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		List<PageData> list = gradeService.listAllNot(pd);
+		mv.addObject("gradeList", list);
 		mv.setViewName("sunvote/grade/grade_edit2");
-		mv.addObject("msg", "save");
+		mv.addObject("msg", "save2");
 		mv.addObject("pd", pd);
 		return mv;
 	}	
@@ -201,6 +223,31 @@ public class GradeController extends BaseController {
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
 			gradeService.deleteAll(ArrayDATA_IDS);
+			pd.put("msg", "ok");
+		}else{
+			pd.put("msg", "no");
+		}
+		pdList.add(pd);
+		map.put("list", pdList);
+		return AppUtil.returnObject(pd, map);
+	}
+	
+	/**批量删除
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/deleteAll2")
+	@ResponseBody
+	public Object deleteAll2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"批量删除Grade");
+		PageData pd = new PageData();		
+		Map<String,Object> map = new HashMap<String,Object>();
+		pd = this.getPageData();
+		List<PageData> pdList = new ArrayList<PageData>();
+		String DATA_IDS = pd.getString("DATA_IDS");
+		if(null != DATA_IDS && !"".equals(DATA_IDS)){
+			String ArrayDATA_IDS[] = DATA_IDS.split(",");
+			schoolgradesubjectService.deleteAll(ArrayDATA_IDS);
 			pd.put("msg", "ok");
 		}else{
 			pd.put("msg", "no");

@@ -12,7 +12,7 @@
 
 <html lang="en">
 <head>
-	<title>创建试卷</title>
+	<title>创建模板</title>
 	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 	<link rel="stylesheet" href="../static/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../static/css/style.css"/>
@@ -114,17 +114,13 @@
 	<img src="../static/images/loading.gif" width="200px" style="position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;"/>
 </div>
 <script>
-	var testData = ${pd.JSON};
 	var template = ${TEMPLEATE == null ? "[]" : TEMPLEATE.CONTENT};
-	var URL = "<%=basePath%>api/v1/uploadpaper";
+	var URL = "<%=basePath%>pagetemplate/save2.do?user_id=${pd.USER_ID}&name=${pd.NAME}&subject_id=${pd.SUBJECT_ID}&school_id=${pd.SCHOOL_ID}&grade_id=${pd.GRADE_ID}&content=";
 	var JUMP_URL = "<%=basePath%>/${JUMP_URL}";  
-	if(testData.questions.length>0){
-		var title = testData.title;
-		if(title == null || title == ''){
-			title = "浏览试卷";
-		}
-		$("title").html(title);
-	}
+	var subject_id = '${pd.SUBJECT_ID}';
+	var school_id = '${pd.SCHOOL_ID}';
+	var grade_id = '${pd.GRADE_ID}';
+	var title = '${pd.NAME}';
 	$(document).ready(function(){
 		var _height = $(".page-header").height();
 		$(".content").css("padding-top",_height);
@@ -136,7 +132,7 @@
 	//var testData={"title":"TEST1","exam_time":46,"paper_type":"1","subject_id":"1","grade_id":"1","user_id":"1","score":5,"questions":[{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"单选","option_num":"","option_content":"","answer":"","difficulty":"","analysis":"","question_from":"","score":1,"part_score":"","remark":"","rank":"1","no_name":"一、","questions":[{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"A","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.1"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"B","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.2"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"C","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.3"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"D","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.4"},{"chapter_id":"0","problem_type_id":"0","knowledge_id":"0","content":"","option_num":4,"option_content":"","answer":"A","difficulty":"0","analysis":"","question_from":"1","score":1,"part_score":"0","remark":"","rank":"2","no_name":"1.5"}]}]};
 	//var testData={"title":"TEST1","exam_time":46,"paper_type":"1","subject_id":"1","grade_id":"1","user_id":"1","score":5,"questions":[]};
 </script>
-<script type="text/javascript" src="../static/js/control_template.js?a=3"></script>
+<script type="text/javascript" src="../static/js/control_template.js?a=0"></script>
 
 
 </body>

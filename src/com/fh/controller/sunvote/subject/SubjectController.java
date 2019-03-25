@@ -15,19 +15,20 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.util.AppUtil;
-import com.fh.util.ObjectExcelView;
-import com.fh.util.PageData;
-import com.fh.util.Jurisdiction;
-import com.fh.util.Tools;
 import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
 import com.fh.service.sunvote.subject.SubjectManager;
+import com.fh.util.AppUtil;
+import com.fh.util.Jurisdiction;
+import com.fh.util.ObjectExcelView;
+import com.fh.util.PageData;
+import com.google.gson.Gson;
 
 /** 
  * 说明：科目
@@ -75,7 +76,7 @@ public class SubjectController extends BaseController {
 		pd.put("SCHOOLGRADESUBJECT_ID", this.get32UUID());	//主键
 		schoolgradesubjectService.save(pd);
 		mv.addObject("msg","success");
-		mv.setViewName("save_result");
+		mv.setViewName("save_result2");
 		return mv;
 	}
 	
@@ -155,6 +156,20 @@ public class SubjectController extends BaseController {
 		return mv;
 	}
 	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/listdata",produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String listData() throws Exception{
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		List<PageData>	varList = subjectService.listAllSchool(pd);	//列出Subject列表
+		Gson gson = new Gson();
+		return gson.toJson(varList);
+	}
+	
 	/**去新增页面
 	 * @param
 	 * @throws Exception
@@ -227,7 +242,6 @@ public class SubjectController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"批量删除Subject");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		pd = this.getPageData();

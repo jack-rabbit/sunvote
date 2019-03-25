@@ -36,11 +36,20 @@ public interface GradeManager{
 	 */
 	public List<PageData> list(Page page)throws Exception;
 	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	public List<PageData> datalistPageInSchool(Page page)throws Exception;
+	
+	public List<PageData> listAllInschool(PageData pd)throws Exception;
+	
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception
 	 */
 	public List<PageData> listAll(PageData pd)throws Exception;
+	public List<PageData> listAllNot(PageData pd)throws Exception;
 	
 	/**通过id获取数据
 	 * @param pd

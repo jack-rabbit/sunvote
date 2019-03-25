@@ -28,7 +28,7 @@
 	<!-- 检索  -->
 	<form action="coursemanagement/listcs.do" method="post" name="Form"
 		id="Form" style="background:#fff;">
-		<input type="hidden" name="SCHOOL_ID" id="PAPER_ID" value="${pd.SCHOOL_ID}"/>
+		<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
 		<div class="head_box">
 			<div class="box_header">
 				<div class="head_box_l">
@@ -69,7 +69,7 @@
 					<c:when test="${not empty varList}">
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
-								<td><input type="checkbox" name='ids' id="ids" value="${var.PAPER_ID}"/>${vs.index+1}</td>
+								<td><input type="checkbox" name='ids' id="ids" value="${var.ID}"/>${vs.index+1}</td>
 								<td >${var.NAME}</td>
 								<td >${var.CLASS_NAME}</td>
 								<td >${var.CNAME}</td>
@@ -120,16 +120,53 @@
 		window.top.loading.remove();	
 	});
 	
+	function tosearch(){
+		$("#Form").submit();
+	}
+	
 	//新增
 	function add(){
 		window.top.modal.init({
 		'title':'分配任课',
-		'url':'<%=basePath%>coursemanagement/goAdd2.do',
+		'url':'<%=basePath%>coursemanagement/goAdd2.do?school_id=${pd.SCHOOL_ID}',
 		func:function() {
 			tosearch();
 		}
 		});
 		window.top.modal.show();
+	}
+	
+	function deleteAll(){
+		window.top.remove.init({"title":"移除任课","ok":"确定","cancel":"取消","func":function(success){
+			if(success){
+				var str = '';
+				for(var i=0;i < document.getElementsByName('ids').length;i++){
+				  if(document.getElementsByName('ids')[i].checked){
+				  	if(str=='') str += document.getElementsByName('ids')[i].value;
+				  	else str += ',' + document.getElementsByName('ids')[i].value;
+				  }
+				}
+				if(str==''){
+					
+				}else{
+					$.ajax({
+							type: "POST",
+							url: '<%=basePath%>coursemanagement/deleteAll.do?tm='+new Date().getTime(),
+					    	data: {DATA_IDS:str},
+							dataType:'json',
+							//beforeSend: validateData,
+							cache: false,
+							success: function(data){
+								tosearch();
+							}
+						});
+				}
+			}
+			else{
+				console.log("false");
+			}
+		}});
+		window.top.remove.show();
 	}
 	
 	</script>

@@ -100,15 +100,8 @@
 		from 
 		<include refid="tableName"></include>
 		where 1=1
-		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
-			and
-				(
-				<!--	根据需求自己加检索条件
-					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or 
-					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
-				-->
-				)
+		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''">
+			and SCHOOL_ID = #{pd.SCHOOL_ID}
 		</if>
 	</select>
 	
@@ -118,6 +111,10 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		where 1 = 1
+		<if test="SCHOOL_ID != null and SCHOOL_ID != ''">
+			and SCHOOL_ID = #{SCHOOL_ID}
+		</if>
 	</select>
 	
 	<!-- 批量删除 -->

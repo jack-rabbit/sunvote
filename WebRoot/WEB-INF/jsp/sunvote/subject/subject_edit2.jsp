@@ -28,7 +28,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 					
-					<form action="subject/${msg }.do" name="Form" id="Form" method="post">
+					<form action="subject/${msg}.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
 						<input type="hidden" name="GRADE_ID" id="GRADE_ID" value="${pd.GRADE_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
@@ -75,14 +75,13 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript">
-		$(top.hangge());
+	
 		//保存
 		function save(){
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
-			window.top.modal.remove();
-			tosearch();
+		//	window.top.modal.remove();
 		}
 		
 		$(function() {

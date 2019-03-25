@@ -189,24 +189,12 @@ $(function() {
 
 	/* 提交保存数据 */
 	$("#save").click(function() {
-						var url = URL;
-
-						var data = {
-							title : $(".header_box h1").text(),
-							//exam_time : parseInt($("#time").text()),
-							//paper_type : testData.paper_type,
-							subject_id : testData.subject_id,
-							grade_id : testData.grade_id,
-							user_id : testData.user_id,
-							school_id : testData.school_id,
-							score : total_score,
-							questions : []
-						};
+						var content = [];
 
 						if ($(".section").length > 0) {
 							var rank = 0;
 							for (i = 0; i < $(".section").length; i++) {
-								data.questions[i] = {
+								content[i] = {
 										index: i+1,
 										type: $(".section").eq(i).attr("data-type"),
 										questionNum: $(".section").eq(i).attr("data-questionNum"),
@@ -215,15 +203,7 @@ $(function() {
 								};	
 							}
 						}
-
-						if (data.questions.length > 0) {
-							data = JSON.stringify(data);
-							dataJson = {
-								"json" : data
-							};
-							ajax_submit(url, dataJson);
-						} else
-							alert("请添加试题");
+						self.location.href = URL + JSON.stringify(content) + "&page_score=" + total_score;
 					});
 
 	/* ajax封装函数 */

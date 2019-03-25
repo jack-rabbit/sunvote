@@ -26,9 +26,11 @@
 		insert into 
 	<include refid="tableName"></include>
 		(
+			ID,	
 			NAME,	
 			REMARK
 		) values (
+		#{ID},	
 		#{NAME},	
 		#{REMARK}
 		)

@@ -73,12 +73,13 @@
 									
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										<tr>
-											<td><input type="checkbox" name='ids' id="ids" value="${var.ID}" />${vs.index+1}</td>											
+											<td><input type="checkbox" name='ids' id="ids" value="${var.PAGETEMPLATE_ID}" />${vs.index+1}</td>											
 											<td class='center'>${var.NAME}</td>							
 											<td class='center'>${myelfun:findSubjectCName(var.SUBJECT_ID)}</td>
 											<td class='center'>${myelfun:findGradeName(var.GRADE_ID)}</td>
 											<td class='center'>${var.PAGE_SCORE}</td>
-											<td><a onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
+											<td><a hidden onclick="edit('${var.PAGETEMPLATE_ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a>
+											<a onclick="del('${var.PAGETEMPLATE_ID}');"><img src="static/images/remove.png" /></a></td>
 										</tr>
 									
 									</c:forEach>
@@ -98,7 +99,7 @@
 					<input type="button" onclick="$('.title_time').modal('show');" value="添加模板" />
 				</div>
 				<div class="removeAll">
-					<input type="button" onclick="del()" value="批量删除" />
+					<input type="button" onclick="del('')" value="批量删除" />
 				</div>
 				<div class="page_box">
 
@@ -189,7 +190,7 @@
 		var grade_id = $("#grade_id").val();
 		
 		if(name != null&& name != ''){
-			self.location.href = "<%=basePath%>" + "pagetemplate/npaper.do?name=" + name + "&grade_id=" + grade_id +"&subject_id=" + subject_id  ;
+			self.location.href = "<%=basePath%>" + "pagetemplate/npaper.do?school_id=${pd.SCHOOL_ID}&subject_id=" + subject_id + "&grade_id=" +  grade_id + "&name=" + name;
 			$(".title_time").modal("hide");
 		}else{
 			alert("请输入正确的模板名称");
@@ -233,17 +234,21 @@
 			 };
 			 diag.show();
 		}
-		
+		function tosearch(){
+			$("#Form").submit();
+		}
 		//删除
 		function del(Id){
 			window.top.remove.init({"title":"删除","func":function(success){
 				if(success){
-					var str = '';
-					for(var i=0;i < document.getElementsByName('ids').length;i++){
-					  if(document.getElementsByName('ids')[i].checked){
-					  	if(str=='') str += document.getElementsByName('ids')[i].value;
-					  	else str += ',' + document.getElementsByName('ids')[i].value;
-					  }
+					var str = Id;
+					if(str == ''){
+						for(var i=0;i < document.getElementsByName('ids').length;i++){
+						  if(document.getElementsByName('ids')[i].checked){
+						  	if(str=='') str += document.getElementsByName('ids')[i].value;
+						  	else str += ',' + document.getElementsByName('ids')[i].value;
+						  }
+						}
 					}
 					if(str==''){
 						

@@ -52,6 +52,14 @@ public class GradeService implements GradeManager{
 	public List<PageData> list(Page page)throws Exception{
 		return (List<PageData>)dao.findForList("GradeMapper.datalistPage", page);
 	}
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> datalistPageInSchool(Page page)throws Exception{
+		return (List<PageData>)dao.findForList("GradeMapper.datalistPageInSchool", page);
+	}
 	
 	/**列表(全部)
 	 * @param pd
@@ -60,6 +68,18 @@ public class GradeService implements GradeManager{
 	@SuppressWarnings("unchecked")
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("GradeMapper.listAll", pd);
+	}
+	
+	public List<PageData> listAllNot(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("GradeMapper.listAllNot", pd);
+	}
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> listAllInschool(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("GradeMapper.listAllInschool", pd);
 	}
 	
 	/**通过id获取数据

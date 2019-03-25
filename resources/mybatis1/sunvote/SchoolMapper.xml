@@ -32,12 +32,14 @@
 		insert into 
 	<include refid="tableName"></include>
 		(
+		ID,
 		NAME,	
 		ADDRESS,	
 		PRESIDENT,	
 		PHONE,	
 		REMARK
 		) values (
+		#{ID},	
 		#{NAME},	
 		#{ADDRESS},	
 		#{PRESIDENT},	

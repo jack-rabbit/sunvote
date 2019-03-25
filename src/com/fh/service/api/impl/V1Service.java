@@ -47,8 +47,8 @@ public class V1Service implements V1Manager {
 	}
 	
 	@Override
-	public List<PageData> getAdminInfo(PageData pd) throws Exception {
-		return (List<PageData>)dao.findForList("V1Mapper.getAdminInfo", pd);
+	public PageData getAdminInfo(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("V1Mapper.getAdminInfo", pd);
 	}
 	
 	@Override

@@ -181,7 +181,7 @@
 			
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" id="time_submit">确定</button>
+	        <button type="button" class="btn btn-primary" id="time_submit" onclick="save()">确定</button>
 	        <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
 	      </div>
 	    </div><!-- /.modal-content -->
@@ -215,6 +215,10 @@
 			}
 			});
 			window.top.modal.show();
+		}
+		
+		function save(){
+			
 		}
 	</script>
 

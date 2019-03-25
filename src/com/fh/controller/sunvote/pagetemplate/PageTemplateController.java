@@ -11,7 +11,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.shiro.session.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -20,19 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fh.bean.Paper;
-import com.fh.bean.Question;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
-import com.fh.entity.system.User;
-import com.fh.util.AppUtil;
-import com.fh.util.Const;
-import com.fh.util.ObjectExcelView;
-import com.fh.util.PageData;
-import com.fh.util.Jurisdiction;
-import com.fh.util.Tools;
 import com.fh.service.sunvote.pagetemplate.PageTemplateManager;
 import com.fh.service.sunvote.schoolgradesubject.SchoolGradeSubjectManager;
+import com.fh.util.AppUtil;
+import com.fh.util.Jurisdiction;
+import com.fh.util.ObjectExcelView;
+import com.fh.util.PageData;
+import com.google.gson.Gson;
 
 /** 
  * 说明：试卷模板管理
@@ -74,6 +69,30 @@ public class PageTemplateController extends BaseController {
 		return mv;
 	}
 	
+	/**保存
+	 * 
+	 * 模板内容（数组）
+	题型
+	小题个数
+	每个题目的选项数
+	每个题目的分数
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/save2")
+	public ModelAndView save2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"新增PageTemplate");
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		if(pd.get("PAGETEMPLATE_ID") == null){
+			pd.put("PAGETEMPLATE_ID", this.get32UUID());	//主键
+			pagetemplateService.save(pd);
+		}else{
+			pagetemplateService.edit(pd);
+		}
+		return this.listcs(getPage());
+	}
+	
 	/**删除
 	 * @param out
 	 * @throws Exception
@@ -81,7 +100,6 @@ public class PageTemplateController extends BaseController {
 	@RequestMapping(value="/delete")
 	public void delete(PrintWriter out) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"删除PageTemplate");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pagetemplateService.delete(pd);
@@ -134,10 +152,25 @@ public class PageTemplateController extends BaseController {
 	 * @param page
 	 * @throws Exception
 	 */
+	@RequestMapping(value = "/listdata", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String list() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表PageTemplate");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		List<PageData>	varList = pagetemplateService.listAll(pd);	//列出PageTemplate列表
+		Gson gson = new Gson();
+		return gson.toJson(varList);
+	}
+	
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/listcs")
 	public ModelAndView listcs(Page page) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"列表PageTemplate");
-		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -198,7 +231,6 @@ public class PageTemplateController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"批量删除PageTemplate");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		pd = this.getPageData();
@@ -258,47 +290,23 @@ public class PageTemplateController extends BaseController {
 	
 	@RequestMapping(value="/npaper")
 	public ModelAndView newpaper() throws Exception{
-		logBefore(logger, Jurisdiction.getUsername()+"Paper详细信息");
+		logBefore(logger, Jurisdiction.getUsername()+"新增模板");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		String paperType = pd.getString("PAPER_TYPE") ;
-		Paper paper = new Paper();
-		paper.setTitle(pd.getString("NAME"));
-		paper.setExam_time(pd.getString("TIME"));
-		Session session = Jurisdiction.getSession();
-		User user = (User)session.getAttribute(Const.SESSION_USER);
-		paper.setUser_id(user.getUSER_ID());
-		paper.setPaper_type(paperType == null || "".equals(paperType.trim()) ? "1" :paperType);
-		String subjectId = pd.getString("SUBJECT_ID");
-		paper.setSubject_id(subjectId == null || "".equals(subjectId.trim())? getSubjectId():subjectId);
-		String gradeId = pd.getString("GRADE_ID");
-		paper.setGrade_id( gradeId== null || "".equals(gradeId.trim())? getGradeID() : gradeId);
-		String schoolId = pd.getString("SCHOOL_ID") ;
-		paper.setSchool_id(schoolId == null || "".equals(schoolId.trim())? getSchoolID() : schoolId);
-		paper.setQuestions(new ArrayList<Question>());
-		
-		pd.put("JSON", paper.toJson());
-		logger.info(paper.toJson());
-		
 		String TEMPLATE_ID = pd.getString("TEMPLATE_ID");
 		if(TEMPLATE_ID != null && !"".equals(TEMPLATE_ID)){
 			pd.put("PAGETEMPLATE_ID", TEMPLATE_ID);
 			PageData template = pagetemplateService.findById(pd);
 			mv.addObject("TEMPLEATE", template);
 		}
-		
+		pd.put("USER_ID", getUserID());
 		if(isChineseLanguageClient()){
 			mv.setViewName("sunvote/teacher/creat_template");
 		}else{
-			mv.setViewName("sunvote/teacher/en_creat_question");
+			mv.setViewName("sunvote/teacher/en_creat_template");
 		}
 		mv.addObject("pd", pd);
-		if(paperType != null && "2".equals(paperType)){
-			mv.addObject("JUMP_URL", "/main/admin");
-		}else{
-			mv.addObject("JUMP_URL", "/main/teacher");
-		}
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
