@@ -135,32 +135,35 @@
 	</select>
 	
 	<!-- 通过教师ID获取科目数据 -->
+	<select id="getTeacherInfoGrade" parameterType="pd" resultType="pd">
+		 	SELECT
+			  sv_coursemanagement.CLASS_ID,
+				sv_sclass.CLASS_NAME,
+				sv_coursemanagement.SUBJECT_ID,
+			  sv_subject.CNAME
+			FROM
+				sv_coursemanagement
+			LEFT JOIN sv_sclass ON sv_coursemanagement.CLASS_ID = sv_sclass.ID
+			LEFT JOIN sv_subject on sv_coursemanagement.SUBJECT_ID = sv_subject.ID
+			LEFT JOIN sv_term on sv_coursemanagement.TERM_ID = sv_term.TERM_ID
+			WHERE sv_coursemanagement.TEACHER_ID =  #{ID} 
+					AND sv_term.START_DATE &lt; now() 
+					AND sv_term.END_DATE &gt; now();
+		
+	</select>
+	
+	<!-- 通过教师ID获取教师信息 -->
 	<select id="getTeacherInfo" parameterType="pd" resultType="pd">
 		 	SELECT
-				sv_teacher.`NAME` AS TEACHER_NAME,
-				sv_grade.`NAME` AS GRADE_NAME,
-				sv_grade.`ENAME` AS GRADE_ENAME,
-				sv_grade.ID AS GRADE_ID,
-				sv_sclass.CLASS_NAME AS CLASS_NAME,
-				sv_sclass.ID AS CLASS_ID,
-				sv_subject.CNAME AS SUBJECT_NAME,
-				sv_subject.ENAME AS SUBJECT_ENAME,
-				sv_subject.ID AS SUBJECT_ID,
-			  	sv_school.`NAME` as SCHOOL_NAME,
-			  	sv_school.ID AS SCHOOL_ID,
-			  	term.TERM_ID
+				sv_teacher.`NAME` AS TNAME,
+				sv_school.`NAME` AS SNAME,
+				sv_teacher.SCHOOL_ID,
+				sv_teacher.ID AS ID
 			FROM
-				sv_coursemanagement AS couse
-			LEFT JOIN sv_term AS term ON couse.TERM_ID = term.TERM_ID
-			LEFT JOIN sv_grade ON couse.GRADE_ID = sv_grade.ID
-			LEFT JOIN sv_teacher ON sv_teacher.ID = couse.TEACHER_ID
-			LEFT JOIN sv_sclass ON couse.CLASS_ID = sv_sclass.ID
-			LEFT JOIN sv_subject ON couse.SUBJECT_ID = sv_subject.ID
+				sv_teacher
 			LEFT JOIN sv_school ON sv_teacher.SCHOOL_ID = sv_school.ID
 			WHERE
-				TEACHER_ID = #{ID}
-			AND term.START_DATE &lt; now() 
-			AND term.END_DATE &gt; now();
+				sv_teacher.ID =  #{ID};
 		
 	</select>
 	<!-- 通过admin ID获取科目数据 -->

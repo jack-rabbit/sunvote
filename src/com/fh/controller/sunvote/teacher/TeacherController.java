@@ -97,6 +97,43 @@ public class TeacherController extends BaseController {
 		mv.setViewName("save_result");
 		return mv;
 	}
+	
+	/**
+	 * 保存
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/save2")
+	public ModelAndView save2() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("ID", this.get32UUID());
+		teacherService.save(pd);
+		
+		pd.put("USER_ID", pd.getString("ID")); // ID 主键
+		pd.put("LAST_LOGIN", ""); // 最后登录时间
+		pd.put("IP", ""); // IP
+		pd.put("STATUS", "0"); // 状态
+		pd.put("SKIN", "default");
+		pd.put("RIGHTS", "");
+		pd.put("USERNAME", pd.getString("ACCOUT"));
+		pd.put("ROLE_ID", "57bb1e6f138247a0b05cc721a5da1b64");
+		pd.put("PASSWORD",
+				new SimpleHash("SHA-1", pd.getString("ACCOUT"), pd
+						.getString("PASSWORD")).toString()); // 密码加密
+		
+		if (null == userService.findByUsername(pd)) { // 判断用户名是否存在
+			userService.saveU(pd); // 执行保存
+			FHLOG.save(Jurisdiction.getUsername(),
+					"新增系统用户：" + pd.getString("USERNAME"));
+		}
+		
+		mv.addObject("msg", "success");
+		mv.setViewName("save_result2");
+		return mv;
+	}
 
 	/**
 	 * 删除
@@ -135,21 +172,29 @@ public class TeacherController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		teacherService.edit(pd);
-
-		/*
-		 * pd.put("USER_ID", pd.getString("ID")); //ID 主键 pd.put("LAST_LOGIN",
-		 * ""); //最后登录时间 pd.put("IP", ""); //IP pd.put("STATUS", "0"); //状态
-		 * pd.put("SKIN", "default"); pd.put("RIGHTS", ""); pd.put("USERNAME",
-		 * pd.getString("ACCOUT")); pd.put("ROLE_ID",
-		 * "57bb1e6f138247a0b05cc721a5da1b64"); pd.put("PASSWORD", new
-		 * SimpleHash("SHA-1", pd.getString("ACCOUT"),
-		 * pd.getString("PASSWORD")).toString()); //密码加密
-		 * 
-		 * userService.saveU(pd);
-		 */
-
 		mv.addObject("msg", "success");
 		mv.setViewName("save_result");
+		return mv;
+	}
+	
+	/**
+	 * 修改
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/edit2")
+	public ModelAndView edit2() throws Exception {
+		logBefore(logger, Jurisdiction.getUsername() + "修改Teacher");
+		if (!Jurisdiction.buttonJurisdiction(menuUrl, "edit")) {
+			return null;
+		} // 校验权限
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		teacherService.edit(pd);
+		mv.addObject("msg", "success");
+		mv.setViewName("save_result2");
 		return mv;
 	}
 
@@ -470,6 +515,21 @@ public class TeacherController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
+	
+	@RequestMapping(value = "/goAdd2")
+	public ModelAndView goAdd2() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/teacher/teacher_edit2");
+		
+		List<PageData> schools = schoolService.listAll(pd);
+		mv.addObject("schools", schools);
+		
+		mv.addObject("msg", "save2");
+		mv.addObject("pd", pd);
+		return mv;
+	}
 
 	/**
 	 * 去修改页面
@@ -506,7 +566,7 @@ public class TeacherController extends BaseController {
 		mv.setViewName("sunvote/teacher/teacher_edit2");
 		List<PageData> schools = schoolService.listAll(pd);
 		mv.addObject("schools", schools);
-		mv.addObject("msg", "edit");
+		mv.addObject("msg", "edit2");
 		mv.addObject("pd", pd);
 		return mv;
 	}

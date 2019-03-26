@@ -48,73 +48,67 @@
 				</div>
 				<div class="name">
 					<p>欢迎！</p>
-					<p id="name">${pd.TEACHER[0].TEACHER_NAME }</p>
-					<p id="school">${pd.TEACHER[0].SCHOOL_NAME }</p>
+					<p id="name">${pd.TEACHER.TNAME }</p>
+					<p id="school">${pd.TEACHER.SNAME }</p>
 				</div>
+					<br/>
+			<br/>
+			<br/>
 			</div>
-			<div class="class tab1">
-				<p>
-					班级管理<span class="right jiao"></span>
-				</p>
-				<ul class="menu_1">
-					<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-						<li onclick="event.stopPropagation();chooseClass('${var.CLASS_ID}','${var.TERM_ID}')"><p>${var.GRADE_NAME}${var.SUBJECT_NAME}
-								<span>${var.CLASS_NAME}</span></p>
-						</li>
-			</c:forEach>
-
-			</ul>
-		</div>
+			
 		<div class="testpaper tab1">
-			<p>试卷管理<span class="right jiao"></span></p>
+			<p>轻松考<span class="right jiao"></span></p>
 				<ul class="menu_1">
 					<li >
-						<p id="qingsongkao_paper">轻松考试卷管理</p>
-						<!-- <ul class="menu_2">
-							<li><p>高一数学 202班</p></li>
-							<li><p>高一数学 203班</p></li>
-						</ul> -->
+						<p id="qingsongkao_paper">试卷管理</p>
 					</li>
-					<li>
-						<p id="jishice_paper">即时测试卷管理</p>
-						
-						<!-- <ul class="menu_2">
-							<li><p>高一数学 202班</p></li>
-							<li><p>高一数学 203班</p></li>
-						</ul> -->
+					<li >
+						<p>测验分析</p>
+						<ul class="menu_2">
+						<c:forEach items="${pd.CLASSINFO}" var="var" varStatus="vs">
+							<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>${var.CLASS_NAME}${var.CNAME} 成绩</p></li>
+						</c:forEach>
+						</ul>
 					</li>
 				</ul>
 			
 		</div>
 		<div class="analyse tab1">
 			<p>
-				测验分析<span class="right jiao"></span>
+				即时测<span class="right jiao"></span>
 			</p>
 			
 			<ul class="menu_1">
-					<li >
-						<p>轻松考测验分析</p>
-						<ul class="menu_2">
-						<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-							<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
-						</c:forEach>
-						</ul>
-					</li>
 					<li>
-						<p>即时测测验分析</p>
+						<p id="jishice_paper">试卷管理</p>
+					</li>
+					
+					<li>
+						<p>测验分析</p>
 						<ul class="menu_2">
-						<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-							<li onclick="event.stopPropagation();report2('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
+						<c:forEach items="${pd.CLASSINFO}" var="var" varStatus="vs">
+							<li onclick="event.stopPropagation();report2('${var.CLASS_ID}')"><p>${var.CLASS_NAME}${var.CNAME} 成绩</p></li>
 						</c:forEach>
 						</ul>
 					</li>
 				</ul>
+		</div>
+		<div class="analyse tab1">
+			<p>
+				课后练<span class="right jiao"></span>
+			</p>
 			
-		<%-- 	<ul class="menu_1">
-			<c:forEach items="${pd.TEACHER}" var="var" varStatus="vs">
-				<li onclick="event.stopPropagation();report('${var.CLASS_ID}')"><p>${var.CLASS_NAME} 成绩</p></li>
-			</c:forEach>
-			</ul> --%>
+			<ul class="menu_1">
+					<li>
+						<p id="practice_do">布置练习</p>
+					</li>
+					<li>
+						<p id="practice_manage">练习管理</p>
+					</li>
+					<li>
+						<p id="practice_report">练习报表</p>
+					</li>
+				</ul>
 		</div>
 	</div>
 	<div class="content_r">

@@ -71,7 +71,7 @@
 										value="${var.ID}" />${vs.index+1}</td>
 									<td class='center'>${var.CNAME}</td>
 									<td class='center'>${var.ENAME}</td>
-									<td><a onclick="edit('${var.ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
+									<td><a onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
 
 								</tr>
 
@@ -134,11 +134,22 @@
 					  }
 					}
 					if(str==''){
-						
+						if(Id != ''){
+							$.ajax({
+								type: "POST",
+								url: '<%=basePath%>schoolgradesubject/deleteAll.do?tm='+new Date().getTime(),
+						    	data: {DATA_IDS:Id},
+								dataType:'json',
+								cache: false,
+								success: function(data){
+									tosearch();
+								}
+							});
+						}
 					}else{
 						$.ajax({
 								type: "POST",
-								url: '<%=basePath%>subject/deleteAll.do?tm='+new Date().getTime(),
+								url: '<%=basePath%>schoolgradesubject/deleteAll.do?tm='+new Date().getTime(),
 						    	data: {DATA_IDS:str},
 								dataType:'json',
 								//beforeSend: validateData,

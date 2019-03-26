@@ -69,7 +69,6 @@ public class CourseManagementController extends BaseController {
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"新增CourseManagement");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -77,6 +76,22 @@ public class CourseManagementController extends BaseController {
 		coursemanagementService.save(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
+		return mv;
+	}
+	/**保存
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/save2")
+	public ModelAndView save2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"新增CourseManagement");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("ID", this.get32UUID());
+		coursemanagementService.save(pd);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result2");
 		return mv;
 	}
 	
@@ -203,6 +218,7 @@ public class CourseManagementController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}	
+
 	/**去新增页面
 	 * @param
 	 * @throws Exception
@@ -226,7 +242,7 @@ public class CourseManagementController extends BaseController {
 		mv.addObject("terms", terms);
 		List<PageData> grades =  gradeService.listAllInschool(pd);
 		mv.addObject("grades", grades);
-		mv.addObject("msg", "save");
+		mv.addObject("msg", "save2");
 		mv.addObject("pd", pd);
 		return mv;
 	}	

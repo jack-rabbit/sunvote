@@ -105,7 +105,7 @@
 					</table>
 					<div class="footer" style="width:auto">
 				<div class="creat">
-					<input type="button"  onclick="$('.title_time').modal('show');" value="添加老师" />
+					<input type="button"  onclick="add();" value="添加老师" />
 				</div>
 				<div class="removeAll">
 					<input type="button" onclick="deleteAll()" value="删除" />
@@ -209,7 +209,18 @@
 		function edit(Id){
 			window.top.modal.init({
 			'title':'修改信息',
-			'url':'<%=basePath%>teacher/goEdit2.do?ID='+Id,
+			'url':'<%=basePath%>teacher/goEdit2.do?school_id=${pd.SCHOOL_ID}&ID='+Id,
+			func:function() {
+				tosearch();
+			}
+			});
+			window.top.modal.show();
+		}
+		
+		function add(){
+			window.top.modal.init({
+			'title':'添加教师',
+			'url':'<%=basePath%>teacher/goAdd2.do?school_id=${pd.SCHOOL_ID}',
 			func:function() {
 				tosearch();
 			}

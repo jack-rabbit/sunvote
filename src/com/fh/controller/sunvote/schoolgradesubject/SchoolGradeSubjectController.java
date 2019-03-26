@@ -184,7 +184,6 @@ public class SchoolGradeSubjectController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"批量删除SchoolGradeSubject");
-		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
 		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
 		pd = this.getPageData();

@@ -17,6 +17,7 @@
 		REMARK,	
 		GRADE_ID,
 		TERM_ID,
+		SCHOOL_ID,
 		ID
 	</sql>
 	
@@ -30,6 +31,7 @@
 		#{REMARK},	
 		#{GRADE_ID},	
 		#{TERM_ID},	
+		#{SCHOOL_ID},	
 		#{ID}
 	</sql>
 	
@@ -46,6 +48,7 @@
 			END_DATE,	
 			GRADE_ID,
 			TERM_ID,
+			SCHOOL_ID,
 			REMARK
 		) values (
 		#{ID},	
@@ -56,6 +59,7 @@
 		#{END_DATE},	
 		#{GRADE_ID},	
 		#{TERM_ID},	
+		#{SCHOOL_ID},	
 		#{REMARK}
 		)
 	</insert>
@@ -81,6 +85,7 @@
 			REMARK = #{REMARK},
 			GRADE_ID = #{GRADE_ID},	
 			TERM_ID = #{TERM_ID},	
+			SCHOOL_ID = #{SCHOOL_ID},	
 		ID = ID
 		where 
 		ID = #{ID}

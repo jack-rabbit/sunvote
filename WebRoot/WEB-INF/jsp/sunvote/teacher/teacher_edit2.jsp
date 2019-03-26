@@ -32,19 +32,9 @@
 					
 					<form action="teacher/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="ID" id="ID" value="${pd.ID}"/>
+						<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
 						<table id="table_report" class="table">
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">所在学校:</td>
-								<td>
-								<select class="chosen-select form-control" name="SCHOOL_ID" id="SCHOOL_ID" data-placeholder="这里输入所属学校">
-									<c:forEach var="item" items="${schools}">
-										<option value="${item.ID}"  <c:if test="${pd.SCHOOL_ID==item.ID}">selected="true"</c:if>>${item.NAME}</option>
-									</c:forEach>
-								</select>
-								</td>
-								<%-- <input type="number" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}" maxlength="32" placeholder="这里输入所在学校" title="所在学校" style="width:98%;"/></td> --%>
-							</tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">姓名:</td>
 								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="255" placeholder="这里输入姓名" title="姓名" style="width:98%;"/></td>

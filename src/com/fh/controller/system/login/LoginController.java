@@ -250,33 +250,10 @@ public class LoginController extends BaseController {
 				if ("teacher".equals(changeMenu)) {
 					PageData tpd = new PageData();
 					tpd.put("ID", user.getUSER_ID());
-					List<PageData> teacherInfos = v1Service.getTeacherInfo(tpd);
-					pd.put("TEACHER", teacherInfos);
-					if (teacherInfos != null && teacherInfos.size() > 0) {
-						PageData sData = teacherInfos.get(0); 
-						session.setAttribute(USERNAME + Const.SCHOOL_ID,
-								sData.get("SCHOOL_ID"));
-						session.setAttribute(USERNAME + Const.SCHOOL_NAME,
-								sData.get("SCHOOL_NAME"));
-						session.setAttribute(USERNAME + Const.GRADE_ID,
-								sData.get("GRADE_ID"));
-						session.setAttribute(USERNAME + Const.GRADE_NAME,
-								sData.get("GRADE_NAME"));
-						session.setAttribute(USERNAME + Const.CLASS_ID,
-								sData.get("CLASS_ID"));
-						session.setAttribute(USERNAME + Const.CLASS_NAME,
-								sData.get("CLASS_NAME"));
-						session.setAttribute(USERNAME + Const.SUBJECT_ID,
-								sData.get("SUBJECT_ID"));
-						session.setAttribute(USERNAME + Const.SUBJECT_NAME,
-								sData.get("SUBJECT_NAME"));
-						session.setAttribute(USERNAME + Const.TERM_ID,
-								sData.get("TERM_ID"));
-						
-						sData.put("USER_ID", user.getUSER_ID());
-						List<PageData> templateInfos = pagetemplateService.listAll(sData);
-						mv.addObject("templateInfos", templateInfos);
-					}
+					PageData teacherInfo = v1Service.getTeacherInfo(tpd);
+					List<PageData> classInfos = v1Service.getTeacherInfoGrade(tpd);
+					pd.put("TEACHER", teacherInfo);
+					pd.put("CLASSINFO", classInfos);
 					session.setAttribute(USERNAME + Const.ROLE_ID,
 							"teacher");
 					session.setAttribute(Const.SESSION_USERNAME, USERNAME); // 放入用户名到session

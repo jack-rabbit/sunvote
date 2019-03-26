@@ -100,7 +100,10 @@
 	<!-- 列表(全部) -->
 	<select id="listAllSchool" parameterType="pd" resultType="pd">
 		select
-		<include refid="Field"></include>
+		CNAME,	
+		ENAME,	
+		REMARK,	
+		ID
 		from 
 		<include refid="tableName"></include>
 		
@@ -118,7 +121,10 @@
 	<!-- 列表(全部) -->
 	<select id="listAllSchoollistPage" parameterType="pd" resultType="pd">
 		select
-		<include refid="Field"></include>
+		CNAME,	
+		ENAME,	
+		REMARK,	
+		sv_schoolgradesubject.SCHOOLGRADESUBJECT_ID AS ID
 		from 
 		<include refid="tableName"></include>
 		
@@ -151,6 +157,7 @@
 			<if test="GRADE_ID != null and GRADE_ID != ''">
 				and	sv_schoolgradesubject.GRADE_ID = #{GRADE_ID}
 			</if>
+			and sv_schoolgradesubject.SUBJECT_ID != ''
 		)
 		
 	</select>
