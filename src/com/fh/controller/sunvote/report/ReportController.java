@@ -68,22 +68,22 @@ public class ReportController extends BaseController {
 		if( role != null && "admin".equals(role)){
 			PageData tpd = new PageData();
 			tpd.put("ID", getUserID());
-			List<PageData> adminInfos = v1Service.getAdminInfo(tpd);
+			PageData adminInfos = v1Service.getAdminInfo(tpd);
 			List<PageData> subjectInfos = new ArrayList<PageData>();
-			for(PageData pad : adminInfos){
-				PageData tmpd = new PageData();
-				Object gradeId = pad.get("GRADE_ID");
-				tmpd.put("SNAME", pad.get("SNAME"));// 学校名称
-				tmpd.put("SCHOOL_ID", pad.get("SCHOOL_ID"));//学校ID
-				tmpd.put("GRADE_ID", pad.get("GRADE_ID"));//年级id
-				tmpd.put("GNAME", pad.get("GNAME"));//年级名称
-				tmpd.put("SUBJECT_ID", pad.get("SUBJECT_ID"));// 科目id
-				tmpd.put("SCNAME", pad.get("SCNAME"));// 科目名称
-				if(gradeId != null && !"".equals(gradeId)){
-				}else{
-					subjectInfos.add(tmpd);
-				}
-			}
+//			for(PageData pad : adminInfos){
+//				PageData tmpd = new PageData();
+//				Object gradeId = pad.get("GRADE_ID");
+//				tmpd.put("SNAME", pad.get("SNAME"));// 学校名称
+//				tmpd.put("SCHOOL_ID", pad.get("SCHOOL_ID"));//学校ID
+//				tmpd.put("GRADE_ID", pad.get("GRADE_ID"));//年级id
+//				tmpd.put("GNAME", pad.get("GNAME"));//年级名称
+//				tmpd.put("SUBJECT_ID", pad.get("SUBJECT_ID"));// 科目id
+//				tmpd.put("SCNAME", pad.get("SCNAME"));// 科目名称
+//				if(gradeId != null && !"".equals(gradeId)){
+//				}else{
+//					subjectInfos.add(tmpd);
+//				}
+//			}
 			mv.addObject("subjectInfos", subjectInfos);
 		}else{
 			pd.put("TEACHER_ID", getUserID());

@@ -34,6 +34,7 @@ import com.fh.util.PathUtil;
 import com.fh.util.Tools;
 import com.fh.service.sunvote.classroster.ClassRosterManager;
 import com.fh.service.sunvote.student.StudentManager;
+import com.fh.service.sunvote.term.TermManager;
 
 /** 
  * 说明：学生管理
@@ -50,6 +51,9 @@ public class StudentController extends BaseController {
 	
 	@Resource(name="classrosterService")
 	private ClassRosterManager classrosterService;
+	
+	@Resource(name="termService")
+	private TermManager termService;
 	
 	/**保存
 	 * @param
@@ -80,6 +84,7 @@ public class StudentController extends BaseController {
 		String studentID = this.get32UUID();
 		pd.put("ID", studentID);
 		pd.put("STUDENT_ID", studentID);
+		pd.put("SNO", pd.get("NUMBER"));
 		studentService.save(pd);
 		
 		String termID = pd.getString("TERM_ID");
@@ -296,6 +301,7 @@ public class StudentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("TERM_ID", getTermId());
 		if(isChineseLanguageClient()){
 			mv.setViewName("sunvote/student/student_edit2");
 		}else{
@@ -329,9 +335,7 @@ public class StudentController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		String classID = pd.getString("CLASS_ID");
 		pd = studentService.findById(pd);	//根据ID读取
-		pd.put("CLASS_ID", classID);
 		if(isChineseLanguageClient()){
 			mv.setViewName("sunvote/student/student_edit2");
 		}else{
@@ -411,6 +415,14 @@ public class StudentController extends BaseController {
 		ObjectExcelView erv = new ObjectExcelView();
 		mv = new ModelAndView(erv,dataMap);
 		return mv;
+	}
+	
+	public String getTermId()  throws Exception{
+		PageData pd = termService.findCurrentId();
+		if(pd != null){
+			return pd.getString("TERM_ID");
+		}
+		return null;
 	}
 	
 	@InitBinder

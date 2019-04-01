@@ -84,10 +84,10 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			<if test="pd.KEYPAD_ID != null and pd.KEYPAD_ID != ''">
+			<if test="KEYPAD_ID != null and KEYPAD_ID != ''">
 				KEYPAD_ID = #{KEYPAD_ID}
 			</if>
-			<if test="pd.KEYPAD_ID == null or pd.KEYPAD_ID != ''">
+			<if test="KEYPAD_ID == null or KEYPAD_ID == ''">
 				USERNAME = #{USERNAME} and
 				PASSWORD = #{PASSWORD}
 			</if>

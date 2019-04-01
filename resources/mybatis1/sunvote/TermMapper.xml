@@ -68,6 +68,17 @@
 			TERM_ID = #{TERM_ID}
 	</select>
 	
+	<!-- 通过ID获取数据 -->
+	<select id="findCurrentId" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where
+		START_DATE &lt; NOW()
+		AND sv_term.END_DATE &gt; NOW()
+	</select>
+	
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select

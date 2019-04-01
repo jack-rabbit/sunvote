@@ -177,4 +177,5 @@ public class BaseController {
 		return "zh".equals(getLang());
 	}
 	
+	
 }

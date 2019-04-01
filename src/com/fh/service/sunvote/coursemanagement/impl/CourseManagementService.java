@@ -71,6 +71,12 @@ public class CourseManagementService implements CourseManagementManager{
 		return (List<PageData>)dao.findForList("CourseManagementMapper.listCourselistPage", pd);
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public List<PageData> listTeacherClass(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("CourseManagementMapper.listTeacherClass", pd);
+	}
+	
 	/**通过id获取数据
 	 * @param pd
 	 * @throws Exception

@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fh.bean.Paper;
 import com.fh.bean.Point;
 import com.fh.bean.Question;
+import com.fh.bean.ResultHomework;
+import com.fh.bean.ResultHomework.ResultStudent;
 import com.fh.bean.StudentAnswer;
 import com.fh.bean.TestPaper;
 import com.fh.bean.TestPaperInfo;
@@ -47,6 +49,7 @@ import com.fh.service.sunvote.event.EventManager;
 import com.fh.service.sunvote.grade.GradeManager;
 import com.fh.service.sunvote.headmaster.HeadmasterManager;
 import com.fh.service.sunvote.homework.HomeworkManager;
+import com.fh.service.sunvote.homework.HomeworkReportManager;
 import com.fh.service.sunvote.homeworkproblem.HomeworkProblemManager;
 import com.fh.service.sunvote.keypad.KeypadManager;
 import com.fh.service.sunvote.keypadcheck.KeypadCheckManager;
@@ -199,6 +202,9 @@ public class V1 extends BaseController {
 	@Resource(name="homeworkproblemService")
 	private HomeworkProblemManager homeworkproblemService;
 	
+	@Resource(name="homeworkReporService")
+	private HomeworkReportManager homeworkReporkService;
+	
 	/**
 	 * 登录 可以通过账号密码登录、 可以通过教师卡登录
 	 * 
@@ -259,7 +265,7 @@ public class V1 extends BaseController {
 				headerMaster.put("role", "headermaster");
 				List<PageData> classInfoList = sclassService.listAll(headerMaster);
 				headerMaster.put("classInfoList", classInfoList);
-				
+				res.setData(headerMaster);
 				
 			}else{
 				res.set1Error();
@@ -2872,12 +2878,117 @@ public class V1 extends BaseController {
 		
 		PageData pd = this.getPageData();
 		if (!StringUtils.isEmpty(pd.getJsonString())) {
-			
-			
-			
-			res.setData("success");
+			ResultHomework resultHomework = ResultHomework.parse(pd.getJsonString());
+			PageData homePd = new PageData();
+			homePd.put("HOMEWORK_ID", resultHomework.getHOMEWORK_ID());
+			homePd.put("CLASS_ID", resultHomework.getCLASS_ID());
+			homePd.put("GET_SCORE", resultHomework.getGET_SCORE());
+			homePd.put("GET_SCORE_PERSENT", resultHomework.getGET_SCORE_PERSENT());
+			homePd.put("COMPLETE_DESC", resultHomework.getCOMPLETE_DESC());
+			homePd.put("GET_MAX_SCORE", resultHomework.getGET_MAX_SCORE());
+			homeworkService.edit(homePd);
+			List<PageData> list = homeworkReporkService.findByHomeworkID(homePd);
+			if(list == null || list.size() == 0){
+				// 初始化班級作业数据
+				// 1. 根据班级id 查询班级学生列表
+				List<PageData> student = studentService.findByClassId(homePd);
+				for(PageData ptd : student){
+					ptd.put("STUDENT_NAME", ptd.get("NAME"));
+					ptd.put("STUDENT_NO", ptd.get("SNO"));
+					ptd.put("RANK", student.size() + "");
+					ptd.put("KEYBOARD", ptd.get("KEYPAD_ID"));
+					ptd.put("RIGHT_PERSENT", "0%");
+					ptd.put("GET_SCORE", "0");
+					ptd.put("ANSWER", "");
+					ptd.put("HOMEWORK_ID", resultHomework.getHOMEWORK_ID());
+				}
+				// 2. 根据学生列表生成初始化成绩
+				homeworkReporkService.batchSave(student);
+			}
+			List<ResultStudent> students = resultHomework.getSTUDENTS();
+			for(ResultStudent student:students){
+				// update 学生作业情况
+				PageData tpd = new PageData();
+				tpd.put("STUDENT_NAME", student.getSTUDENT_NAME());
+				tpd.put("STUDENT_NO", student.getSTUDENT_NO());
+				tpd.put("RANK", student.getRANK());
+				tpd.put("KEYBOARD", student.getKEYBOARD());
+				tpd.put("RIGHT_PERSENT", student.getRIGHT_PERSENT());
+				tpd.put("GET_SCORE", student.getGET_SCORE());
+				tpd.put("ANSWER", student.getANSWER());
+				tpd.put("HOMEWORK_ID", resultHomework.getHOMEWORK_ID());
+				homeworkReporkService.update(tpd);
+			}
+			res.setData(resultHomework.getHOMEWORK_ID());
+		}else{
+			res.setDataError();
 		}
-		res.setDataError();
+		
+		return res.toJson();
+		
+	}
+	
+	
+	/**
+	 * 更新学生详情
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/uploadshomework", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String uploadshomework() throws Exception {
+		ResponseGson<String> res = new ResponseGson<String>();
+		
+		PageData pd = this.getPageData();
+		if (!StringUtils.isEmpty(pd.getJsonString())) {
+			ResultHomework resultHomework = ResultHomework.parse(pd.getJsonString());
+			PageData homePd = new PageData();
+			homePd.put("HOMEWORK_ID", resultHomework.getHOMEWORK_ID());
+			homePd.put("CLASS_ID", resultHomework.getCLASS_ID());
+			homePd.put("GET_SCORE", resultHomework.getGET_SCORE());
+			homePd.put("GET_SCORE_PERSENT", resultHomework.getGET_SCORE_PERSENT());
+			homePd.put("COMPLETE_DESC", resultHomework.getCOMPLETE_DESC());
+			homePd.put("GET_MAX_SCORE", resultHomework.getGET_MAX_SCORE());
+			homeworkService.edit(homePd);
+			List<PageData> list = homeworkReporkService.findByHomeworkID(homePd);
+			if(list == null || list.size() == 0){
+				// 初始化班級作业数据
+				// 1. 根据班级id 查询班级学生列表
+				List<PageData> student = studentService.findByClassId(homePd);
+				for(PageData ptd : student){
+					ptd.put("STUDENT_NAME", ptd.get("NAME"));
+					ptd.put("STUDENT_NO", ptd.get("SNO"));
+					ptd.put("RANK", student.size() + "");
+					ptd.put("KEYBOARD", ptd.get("KEYPAD_ID"));
+					ptd.put("RIGHT_PERSENT", "0%");
+					ptd.put("GET_SCORE", "0");
+					ptd.put("ANSWER", "");
+					ptd.put("HOMEWORK_ID", resultHomework.getHOMEWORK_ID());
+				}
+				// 2. 根据学生列表生成初始化成绩
+				homeworkReporkService.batchSave(student);
+			}
+			List<ResultStudent> students = resultHomework.getSTUDENTS();
+			for(ResultStudent student:students){
+				// update 学生作业情况
+				PageData tpd = new PageData();
+				tpd.put("STUDENT_NAME", student.getSTUDENT_NAME());
+				tpd.put("STUDENT_NO", student.getSTUDENT_NO());
+				tpd.put("RANK", student.getRANK());
+				tpd.put("KEYBOARD", student.getKEYBOARD());
+				tpd.put("RIGHT_PERSENT", student.getRIGHT_PERSENT());
+				tpd.put("GET_SCORE", student.getGET_SCORE());
+				tpd.put("ANSWER", student.getANSWER());
+				tpd.put("HOMEWORK_ID", resultHomework.getHOMEWORK_ID());
+				homeworkReporkService.update(tpd);
+			}
+			res.setData(resultHomework.getHOMEWORK_ID());
+		}else{
+			res.setDataError();
+		}
+		
 		return res.toJson();
 		
 	}

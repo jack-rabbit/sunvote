@@ -88,7 +88,7 @@ input[type="text"],select {
 		method="post">
 		<input type="hidden" name="ID" id="ID" value="${pd.ID}" /> <input
 			type="hidden" name="CLASS_ID" id="CLASS_ID" value="${pd.CLASS_ID}" />
-		<input type="hidden" name="TERM_ID" id="TERM_ID" value="${pd.TERM_ID}" />
+			<input type="hidden" name="TERM_ID" id="TERM_ID" value="${pd.TERM_ID}" />
 		<div id="zhongxin">
 			<li>
 				<p><span style="color:#f00">*</span>学生姓名:</p>

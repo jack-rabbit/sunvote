@@ -99,33 +99,18 @@
 			</ul>
 		</div>
 		<div class="testpaper tab1">
-			<p>试卷管理<span class="right jiao"></span></p>
+			<p>轻松考<span class="right jiao"></span></p>
 				<ul class="menu_1">
 					<li >
-						<p >轻松考试卷管理</p>
+						<p >试卷管理</p>
 						<ul class="menu_2">
 							<li ><p id="new_paper">出卷</p></li>
 							<li ><p id="qingsongkao_paper">查看所有试卷</p></li>
 							
 						</ul>
 					</li>
-					<li>
-						<p id="jishice_paper">即时测试卷管理</p>
-					</li>
-				</ul>
-			
-		</div>
-		<div class="analyse tab1">
-			<p>
-				测验分析<span class="right jiao"></span>
-			</p>
-			
-			<ul class="menu_1">
 					<li >
-						<p>轻松考统考</p>
-					</li>
-					<li >
-						<p>轻松考班级情况</p>
+						<p>考试情况</p>
 						<ul class="menu_2">
 							<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
 								<c:forEach items="${var.classInfos}" var="var1" varStatus="vs1">
@@ -136,20 +121,62 @@
 							</c:forEach>
 						</ul>
 					</li>
+					
+				</ul>
+			
+		</div>
+		<div class="analyse tab1">
+			<p>
+				即时测<span class="right jiao"></span>
+			</p>
+			
+			<ul class="menu_1">
 					<li>
-						<p>即时测测验分析</p>
-							<ul class="menu_2">
-							<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
-								<c:forEach items="${var.classInfos}" var="var1" varStatus="vs1">
-									<li onclick="event.stopPropagation();report2('${var1.ID}')">
-										<p>${ var1.CLASS_NAME }</p>
-									</li>
-								</c:forEach>
+						<p id="jishice_paper">试卷管理</p>
+					</li>
+					<li>
+						<p>测验分析</p>
+						<ul class="menu_2">
+						<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
+							<c:forEach items="${var.classInfos}" var="var1" varStatus="vs1">
+								<li onclick="event.stopPropagation();report2('${var1.ID}')">
+									<p>${ var1.CLASS_NAME }</p>
+								</li>
 							</c:forEach>
+						</c:forEach>
 						</ul>
 					</li>
 				</ul>
 		</div>
+		
+		
+		<div class="analyse tab1">
+			<p>
+				课后练<span class="right jiao"></span>
+			</p>
+			
+			<ul class="menu_1">
+					<li>
+						<p onclick="event.stopPropagation();monitor('${SCHOOL_ID}')">班长管理</p>
+					</li>
+					<li>
+						<p id="jishice_paper">作业管理</p>
+					</li>
+					<li>
+						<p>作业分析</p>
+						<ul class="menu_2">
+						<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
+							<c:forEach items="${var.classInfos}" var="var1" varStatus="vs1">
+								<li onclick="event.stopPropagation();report2('${var1.ID}')">
+									<p>${ var1.CLASS_NAME }</p>
+								</li>
+							</c:forEach>
+						</c:forEach>
+						</ul>
+					</li>
+				</ul>
+		</div>
+		
 		<div class="analyse tab1">
 			<p>
 				系统设置<span class="right jiao"></span>
@@ -166,9 +193,7 @@
 					<li>
 						<p onclick="event.stopPropagation();pagetemplate('${SCHOOL_ID}')">模板设置</p>
 					</li>
-					<li>
-						<p onclick="event.stopPropagation();monitor('${SCHOOL_ID}')">班长管理</p>
-					</li>
+					
 					<li>
 						<p onclick="event.stopPropagation();other('${SCHOOL_ID}')">其他配置</p>
 					</li>

@@ -154,6 +154,17 @@
 		
 	</select>
 	
+	<select id="listTeacherClass" parameterType="pd" resultType="pd">
+		SELECT
+			sv_sclass.*
+		FROM
+			sv_coursemanagement
+		LEFT JOIN sv_sclass ON sv_coursemanagement.CLASS_ID = sv_sclass.ID
+		WHERE
+			sv_coursemanagement.TEACHER_ID =  #{TEACHER_ID}
+		
+	</select>
+	
 	<!-- 列表(全部) -->
 	<select id="listCourselistPage" parameterType="page" resultType="pd">
 		SELECT

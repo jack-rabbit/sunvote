@@ -1,40 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="HomeworkProblemMapper">
+<mapper namespace="HomeworkReportMapper">
 	
 	<!--表名 -->
 	<sql id="tableName">
-		SV_HOMEWORKPROBLEM
+		SV_HOMEWORKREPORT
 	</sql>
 	
 	<!-- 字段 -->
 	<sql id="Field">
-		CODE,	
+		HOMEWORK_REPORT_ID,	
 		RANK,	
-		P_HOMEWORK_PROBLEM_ID,	
-		NAME,	
-		TYPE,	
-		OPTION_NUM,	
-		RIGHT_ANSWER,	
-		SCORE,	
-		PART_SCORE,	
-		HOMEWORK_ID,	
-		HOMEWORKPROBLEM_ID
+		STUDENT_NAME,	
+		STUDNET_NO,	
+		KEYBOARD,	
+		RIGHT_PERSENT,	
+		GET_SCORE,	
+		ANSWER,	
+		HOMEWORK_ID
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
-		#{CODE},	
+		#{HOMEWORK_REPORT_ID},	
 		#{RANK},	
-		#{P_HOMEWORK_PROBLEM_ID},	
-		#{NAME},	
-		#{TYPE},	
-		#{OPTION_NUM},	
-		#{RIGHT_ANSWER},	
-		#{SCORE},	
-		#{PART_SCORE},	
-		#{HOMEWORK_ID},	
-		#{HOMEWORKPROBLEM_ID}
+		#{STUDENT_NAME},	
+		#{STUDNET_NO},	
+		#{KEYBOARD},	
+		#{RIGHT_PERSENT},	
+		#{GET_SCORE},	
+		#{ANSWER},	
+		#{HOMEWORK_ID}
 	</sql>
 	
 	<!-- 新增-->
@@ -53,7 +49,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			HOMEWORKPROBLEM_ID = #{HOMEWORKPROBLEM_ID}
+			HOMEWORK_REPORT_ID = #{HOMEWORK_REPORT_ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -61,19 +57,34 @@
 		update
 		<include refid="tableName"></include>
 		set 
-			CODE = #{CODE},
-			RANK = #{RANK},
-			P_HOMEWORK_PROBLEM_ID = #{P_HOMEWORK_PROBLEM_ID},
-			NAME = #{NAME},
-			TYPE = #{TYPE},
-			OPTION_NUM = #{OPTION_NUM},
-			RIGHT_ANSWER = #{RIGHT_ANSWER},
-			SCORE = #{SCORE},
-			PART_SCORE = #{PART_SCORE},
-			HOMEWORK_ID = #{HOMEWORK_ID},
-		HOMEWORKPROBLEM_ID = HOMEWORKPROBLEM_ID
+		RANK = #{RANK},
+		STUDENT_NAME = #{STUDENT_NAME},
+		STUDNET_NO = #{STUDNET_NO},
+		KEYBOARD = #{KEYBOARD},
+		RIGHT_PERSENT = #{RIGHT_PERSENT},
+		GET_SCORE = #{GET_SCORE},
+		ANSWER = #{ANSWER},
+		HOMEWORK_ID = #{HOMEWORK_ID}
 		where 
-		HOMEWORKPROBLEM_ID = #{HOMEWORKPROBLEM_ID}
+		HOMEWORK_REPORT_ID = #{HOMEWORK_REPORT_ID}
+	</update>
+	<!-- 修改 -->
+	<update id="update" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+		RANK = #{RANK},
+		STUDENT_NAME = #{STUDENT_NAME},
+		STUDNET_NO = #{STUDNET_NO},
+		KEYBOARD = #{KEYBOARD},
+		RIGHT_PERSENT = #{RIGHT_PERSENT},
+		GET_SCORE = #{GET_SCORE},
+		ANSWER = #{ANSWER},
+		HOMEWORK_ID = #{HOMEWORK_ID}
+		where 
+		HOMEWORK_ID = #{HOMEWORK_ID}
+		and
+		STUDNET_NO = #{STUDNET_NO}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -83,7 +94,16 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			HOMEWORKPROBLEM_ID = #{HOMEWORKPROBLEM_ID}
+			HOMEWORK_REPORT_ID = #{HOMEWORK_REPORT_ID}
+	</select>
+	
+	<select id="findByHomeworkID" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			HOMEWORK_ID = #{HOMEWORK_ID}
 	</select>
 	
 	<!-- 列表 -->
@@ -113,52 +133,42 @@
 		<include refid="tableName"></include>
 	</select>
 	
-	<!-- 列表(全部) -->
-	<select id="listHomeworkProblem" parameterType="pd" resultType="pd">
-		select
-		<include refid="Field"></include>
-		from 
-		<include refid="tableName"></include>
-		where 1 = 1
-			<if test="pd.HOMEWORK_ID != null and pd.HOMEWORK_ID != ''">
-			and	HOMEWORK_ID = #{pd.HOMEWORK_ID}
-			</if>
-		ORDER BY RANK
-	</select>
-	
-	<!-- 列表(全部) -->
-	<select id="listProblem" parameterType="pd" resultType="pd">
-		select
-		RANK,
-		NAME,
-		OPTION_NUM,
-		SCORE,
-		RIGHT_ANSWER
-		from 
-		<include refid="tableName"></include>
-		where 1 = 1
-		<if test="HOMEWORK_ID != null and HOMEWORK_ID != ''">
-			and	HOMEWORK_ID = #{HOMEWORK_ID}
-		</if>
-		<if test="P_HOMEWORK_PROBLEM_ID == null or P_HOMEWORK_PROBLEM_ID == ''">
-			and	P_HOMEWORK_PROBLEM_ID is NULL
-		</if>
-		<if test="P_HOMEWORK_PROBLEM_ID != null and P_HOMEWORK_PROBLEM_ID != ''">
-			and	P_HOMEWORK_PROBLEM_ID = #{P_HOMEWORK_PROBLEM_ID}
-		</if>
-		ORDER BY RANK
-	</select>
+
 	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
 		delete from
 		<include refid="tableName"></include>
 		where 
-			HOMEWORKPROBLEM_ID in
+			HOMEWORK_REPORT_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>
 	</delete>
 	
 	<!-- fh313596790qq(青苔) -->
+	
+	<!-- 新增-->
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values 
+
+	 <foreach collection="list" index="index" item="item" separator=",">
+      (
+      	#{item.HOMEWORK_REPORT_ID},	
+		#{item.RANK},	
+		#{item.STUDENT_NAME},	
+		#{item.STUDNET_NO},	
+		#{item.KEYBOARD},	
+		#{item.RIGHT_PERSENT},	
+		#{item.GET_SCORE},	
+		#{item.ANSWER},	
+		#{item.HOMEWORK_ID}
+       )
+     </foreach>
+     </insert>
+     
 </mapper>

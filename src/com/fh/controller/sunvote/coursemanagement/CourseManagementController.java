@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fh.controller.api.ResponseGson;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
@@ -190,6 +191,25 @@ public class CourseManagementController extends BaseController {
 		mv.addObject("pd", pd);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
+	}
+	
+	
+	/**
+	 * 获取作业详情
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/teacherClass", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String homework() throws Exception {
+		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
+		PageData pageData = this.getPageData();
+		List<PageData> list = coursemanagementService.listTeacherClass(pageData);
+		res.setData(list);
+		return res.toJson();
+		
 	}
 	
 	/**去新增页面

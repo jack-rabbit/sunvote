@@ -21,6 +21,12 @@
 		COMPLETE_COUNT,	
 		ALL_SCORE,	
 		TEACHER_ID,	
+		HOMEWORK_DESC,	
+		COMPLETE_DESC,	
+		SUMBIT_DATE,	
+		GET_SCORE,	
+		GET_SCORE_PERSENT,	
+		GET_MAX_SCORE,	
 		HOMEWORK_ID
 	</sql>
 	
@@ -38,6 +44,12 @@
 		#{COMPLETE_COUNT},	
 		#{ALL_SCORE},	
 		#{TEACHER_ID},	
+		#{HOMEWORK_DESC},	
+		#{COMPLETE_DESC},	
+		#{SUMBIT_DATE},	
+		#{GET_SCORE},	
+		#{GET_SCORE_PERSENT},	
+		#{GET_MAX_SCORE},	
 		#{HOMEWORK_ID}
 	</sql>
 	
@@ -65,18 +77,43 @@
 		update
 		<include refid="tableName"></include>
 		set 
+			<if test="CODE != null and CODE != ''">
 			CODE = #{CODE},
+			</if><if test="NAME != null and NAME != ''">
 			NAME = #{NAME},
+			</if><if test="SUBJECT_ID != null and SUBJECT_ID != ''">
 			SUBJECT_ID = #{SUBJECT_ID},
+			</if><if test="CLASS_ID != null and CLASS_ID != ''">
 			CLASS_ID = #{CLASS_ID},
+			</if><if test="GRADE_ID != null and GRADE_ID != ''">
 			GRADE_ID = #{GRADE_ID},
+			</if><if test="SCHOOL_ID != null and SCHOOL_ID != ''">
 			SCHOOL_ID = #{SCHOOL_ID},
+			</if><if test="COMPLETE_DATE != null and COMPLETE_DATE != ''">
 			COMPLETE_DATE = #{COMPLETE_DATE},
+			</if><if test="CREATE_DATE != null and CREATE_DATE != ''">
 			CREATE_DATE = #{CREATE_DATE},
+			</if><if test="MODIFY_DATE != null and MODIFY_DATE != ''">
 			MODIFY_DATE = #{MODIFY_DATE},
+			</if><if test="COMPLETE_COUNT != null and COMPLETE_COUNT != ''">
 			COMPLETE_COUNT = #{COMPLETE_COUNT},
+			</if><if test="ALL_SCORE != null and ALL_SCORE != ''">
 			ALL_SCORE = #{ALL_SCORE},
+			</if><if test="TEACHER_ID != null and TEACHER_ID != ''">
 			TEACHER_ID = #{TEACHER_ID},
+			</if><if test="HOMEWORK_DESC != null and HOMEWORK_DESC != ''">
+			HOMEWORK_DESC = #{HOMEWORK_DESC},
+			</if><if test="COMPLETE_DESC != null and COMPLETE_DESC != ''">
+			COMPLETE_DESC = #{COMPLETE_DESC},
+			</if><if test="SUMBIT_DATE != null and SUMBIT_DATE != ''">
+			SUMBIT_DATE = #{SUMBIT_DATE},
+			</if><if test="GET_SCORE != null and GET_SCORE != ''">
+			GET_SCORE = #{GET_SCORE},
+			</if><if test="GET_SCORE_PERSENT != null and GET_SCORE_PERSENT != ''">
+			GET_SCORE_PERSENT = #{GET_SCORE_PERSENT},
+			</if><if test="GET_MAX_SCORE != null and GET_MAX_SCORE != ''">
+			GET_MAX_SCORE = #{GET_MAX_SCORE},
+			</if>
 		HOMEWORK_ID = HOMEWORK_ID
 		where 
 		HOMEWORK_ID = #{HOMEWORK_ID}
@@ -118,22 +155,22 @@
 		from 
 		<include refid="tableName"></include>
 		where 1 = 1
-		<if test="pd.SUBJECT_ID != null and pd.SUBJECT_ID != ''"><!-- 关键词检索 -->
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''"><!-- 关键词检索 -->
 			and SUBJECT_ID = #{SUBJECT_ID}
 		</if>
-		<if test="pd.CLASS_ID != null and pd.CLASS_ID != ''"><!-- 关键词检索 -->
+		<if test="CLASS_ID != null and CLASS_ID != ''"><!-- 关键词检索 -->
 			and CLASS_ID = #{CLASS_ID}
 		</if>
-		<if test="pd.GRADE_ID != null and pd.GRADE_ID != ''"><!-- 关键词检索 -->
+		<if test="GRADE_ID != null and GRADE_ID != ''"><!-- 关键词检索 -->
 			and GRADE_ID = #{GRADE_ID}
 		</if>
-		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''"><!-- 关键词检索 -->
+		<if test="SCHOOL_ID != null and SCHOOL_ID != ''"><!-- 关键词检索 -->
 			and SCHOOL_ID = #{SCHOOL_ID}
 		</if>
-		<if test="pd.TEACHER_ID != null and pd.TEACHER_ID != ''"><!-- 关键词检索 -->
+		<if test="TEACHER_ID != null and TEACHER_ID != ''"><!-- 关键词检索 -->
 			and TEACHER_ID = #{TEACHER_ID}
 		</if>
-		<if test="pd.COMPLETE != null and pd.COMPLETE != ''"><!-- 关键词检索 -->
+		<if test="COMPLETE != null and COMPLETE != ''"><!-- 关键词检索 -->
 			and COMPLETE_DATE &gt; #{COMPLETE_DATE}
 		</if>
 		
@@ -148,29 +185,27 @@
 			SUBJECT_ID,	
 			CLASS_ID,	
 			COMPLETE_DATE,	
-			COMPLETE_COUNT,	
 			ALL_SCORE,	
-			TEACHER_ID,	
 			HOMEWORK_ID
 		from 
 		<include refid="tableName"></include>
 		where 1 = 1
-		<if test="pd.SUBJECT_ID != null and pd.SUBJECT_ID != ''"><!-- 关键词检索 -->
+		<if test="SUBJECT_ID != null and SUBJECT_ID != ''"><!-- 关键词检索 -->
 			and SUBJECT_ID = #{SUBJECT_ID}
 		</if>
-		<if test="pd.CLASS_ID != null and pd.CLASS_ID != ''"><!-- 关键词检索 -->
+		<if test="CLASS_ID != null and CLASS_ID != ''"><!-- 关键词检索 -->
 			and CLASS_ID = #{CLASS_ID}
 		</if>
-		<if test="pd.GRADE_ID != null and pd.GRADE_ID != ''"><!-- 关键词检索 -->
+		<if test="GRADE_ID != null and GRADE_ID != ''"><!-- 关键词检索 -->
 			and GRADE_ID = #{GRADE_ID}
 		</if>
-		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''"><!-- 关键词检索 -->
+		<if test="SCHOOL_ID != null and SCHOOL_ID != ''"><!-- 关键词检索 -->
 			and SCHOOL_ID = #{SCHOOL_ID}
 		</if>
-		<if test="pd.TEACHER_ID != null and pd.TEACHER_ID != ''"><!-- 关键词检索 -->
+		<if test="TEACHER_ID != null and TEACHER_ID != ''"><!-- 关键词检索 -->
 			and TEACHER_ID = #{TEACHER_ID}
 		</if>
-		<if test="pd.COMPLETE != null and pd.COMPLETE != ''"><!-- 关键词检索 -->
+		<if test="COMPLETE != null and COMPLETE != ''"><!-- 关键词检索 -->
 			and COMPLETE_DATE &gt; #{COMPLETE_DATE}
 		</if>
 		

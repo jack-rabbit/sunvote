@@ -1,12 +1,15 @@
 package com.fh.service.sunvote.homework.impl;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
+import com.fh.service.sunvote.homework.HomeworkReportManager;
 import com.fh.util.PageData;
-import com.fh.service.sunvote.homework.HomeworkManager;
 
 /** 
  * 说明： 作业
@@ -14,8 +17,8 @@ import com.fh.service.sunvote.homework.HomeworkManager;
  * 创建时间：2019-03-07
  * @version
  */
-@Service("homeworkService")
-public class HomeworkService implements HomeworkManager{
+@Service("homeworkReporService")
+public class HomeworkReportService implements HomeworkReportManager{
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -25,7 +28,7 @@ public class HomeworkService implements HomeworkManager{
 	 * @throws Exception
 	 */
 	public void save(PageData pd)throws Exception{
-		dao.save("HomeworkMapper.save", pd);
+		dao.save("HomeworkReportMapper.save", pd);
 	}
 	
 	/**删除
@@ -33,7 +36,7 @@ public class HomeworkService implements HomeworkManager{
 	 * @throws Exception
 	 */
 	public void delete(PageData pd)throws Exception{
-		dao.delete("HomeworkMapper.delete", pd);
+		dao.delete("HomeworkReportMapper.delete", pd);
 	}
 	
 	/**修改
@@ -41,7 +44,15 @@ public class HomeworkService implements HomeworkManager{
 	 * @throws Exception
 	 */
 	public void edit(PageData pd)throws Exception{
-		dao.update("HomeworkMapper.edit", pd);
+		dao.update("HomeworkReportMapper.edit", pd);
+	}
+	
+	/**修改
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void update(PageData pd)throws Exception{
+		dao.update("HomeworkReportMapper.update", pd);
 	}
 	
 	/**列表
@@ -50,7 +61,7 @@ public class HomeworkService implements HomeworkManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> list(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("HomeworkMapper.datalistPage", page);
+		return (List<PageData>)dao.findForList("HomeworkReportMapper.datalistPage", page);
 	}
 	
 	/**列表(全部)
@@ -59,7 +70,7 @@ public class HomeworkService implements HomeworkManager{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("HomeworkMapper.listAll", pd);
+		return (List<PageData>)dao.findForList("HomeworkReportMapper.listAll", pd);
 	}
 	
 	/**列表(全部)
@@ -67,8 +78,8 @@ public class HomeworkService implements HomeworkManager{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<PageData> qlistAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("HomeworkMapper.qlistAll", pd);
+	public List<PageData> findByHomeworkID(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("HomeworkReportMapper.findByHomeworkID", pd);
 	}
 	
 	/**通过id获取数据
@@ -76,7 +87,7 @@ public class HomeworkService implements HomeworkManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("HomeworkMapper.findById", pd);
+		return (PageData)dao.findForObject("HomeworkReportMapper.findById", pd);
 	}
 	
 	/**批量删除
@@ -84,7 +95,12 @@ public class HomeworkService implements HomeworkManager{
 	 * @throws Exception
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.delete("HomeworkMapper.deleteAll", ArrayDATA_IDS);
+		dao.delete("HomeworkReportMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	@Override
+	public void batchSave(List<PageData> pd) throws Exception {
+		dao.save("HomeworkReportMapper.batchSave", pd);
 	}
 	
 }

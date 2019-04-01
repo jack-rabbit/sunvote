@@ -162,7 +162,7 @@
 		function edit(Id){
 			window.top.modal.init({
 			'title':'添加学生',
-			'url':'<%=basePath%>student/goEdit2.do?ID='+Id,
+			'url':'<%=basePath%>student/goEdit2.do?class_id=${pd.CLASS_ID}&term_id=${pd.TERM_ID}&ID='+Id,
 			func:function() {
 				tosearch();
 			}

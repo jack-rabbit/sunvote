@@ -1,8 +1,11 @@
 package com.fh.service.sunvote.term.impl;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
@@ -69,6 +72,14 @@ public class TermService implements TermManager{
 		return (PageData)dao.findForObject("TermMapper.findById", pd);
 	}
 	
+	/**通过id获取数据
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData findCurrentId()throws Exception{
+		return (PageData)dao.findForObject("TermMapper.findCurrentId",null);
+	}
+	
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
@@ -76,6 +87,6 @@ public class TermService implements TermManager{
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("TermMapper.deleteAll", ArrayDATA_IDS);
 	}
-	
+
 }
 
