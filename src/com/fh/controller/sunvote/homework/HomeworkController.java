@@ -155,6 +155,23 @@ public class HomeworkController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/goEdit2")
+	public ModelAndView goEdit2() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = homeworkService.findById(pd); // 根据ID读取
+		mv.setViewName("sunvote/homework/homework_edit2");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}
 
 	/**
 	 * 批量删除
