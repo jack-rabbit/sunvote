@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fh.controller.api.ResponseGson;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.service.sunvote.homework.HomeworkManager;
@@ -51,9 +52,6 @@ public class HomeworkController extends BaseController {
 	@RequestMapping(value = "/save")
 	public ModelAndView save() throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "新增Homework");
-		if (!Jurisdiction.buttonJurisdiction(menuUrl, "add")) {
-			return null;
-		} // 校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -89,9 +87,6 @@ public class HomeworkController extends BaseController {
 	@RequestMapping(value = "/edit")
 	public ModelAndView edit() throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "修改Homework");
-		if (!Jurisdiction.buttonJurisdiction(menuUrl, "edit")) {
-			return null;
-		} // 校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -110,8 +105,6 @@ public class HomeworkController extends BaseController {
 	@RequestMapping(value = "/list")
 	public ModelAndView list(Page page) throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "列表Homework");
-		// if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
-		// //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -267,5 +260,37 @@ public class HomeworkController extends BaseController {
 		pd.put("STUDENTS", data);
 		Gson gson = new Gson();
 		return gson.toJson(pd);
+	}
+	
+	/**
+	 * 列表
+	 * 
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/listdata", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String listdata(Page page) throws Exception {
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String keywords = pd.getString("keywords"); // 关键词检索条件
+		if (null != keywords && !"".equals(keywords)) {
+			pd.put("keywords", keywords.trim());
+		}
+		page.setPd(pd);
+		List<PageData> varList = homeworkService.list(page); // 列出Homework列表
+		Gson gson = new Gson();
+		return gson.toJson(varList);
+	}
+	
+	@RequestMapping(value = "/savedata")
+	public String savedata() throws Exception {
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("HOMEWORK_ID", this.get32UUID()); // 主键
+		homeworkService.save(pd);
+		ResponseGson<String> responseGson = new ResponseGson<String>();
+		responseGson.setData(pd.getString("HOMEWORK_ID"));
+		return responseGson.toJson();
 	}
 }
