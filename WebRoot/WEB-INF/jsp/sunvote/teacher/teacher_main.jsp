@@ -94,16 +94,16 @@
 				</ul>
 		</div>
 		<div class="analyse tab1">
-			<p>
+			<p >
 				课后练<span class="right jiao"></span>
 			</p>
 			
 			<ul class="menu_1">
 					<li>
-						<p id="practice_do">布置练习</p>
+						<p id="practice_manage" onclick="event.stopPropagation();homeWork('${SCHOOL_ID}')">练习列表</p>
 					</li>
 					<li>
-						<p id="practice_manage">练习管理</p>
+						<p id="practice_do" >布置练习</p>
 					</li>
 					<li>
 						<p id="practice_report">练习报表</p>
@@ -175,6 +175,14 @@
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();
 			}
+		}
+		function homeWork(schoolId){
+			//var path = "../school/goEdit2.do?ID=" + schoolId ;
+
+			var path = '<%=basePath%>homework/list.do?ID=' + schoolId ;
+			
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
 		}
 		
 		function report(classId){
