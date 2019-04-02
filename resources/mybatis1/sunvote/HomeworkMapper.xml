@@ -27,6 +27,7 @@
 		GET_SCORE,	
 		GET_SCORE_PERSENT,	
 		GET_MAX_SCORE,	
+		QUESTIOM_COUNT,	
 		HOMEWORK_ID
 	</sql>
 	
@@ -50,6 +51,7 @@
 		#{GET_SCORE},	
 		#{GET_SCORE_PERSENT},	
 		#{GET_MAX_SCORE},	
+		#{QUESTIOM_COUNT},	
 		#{HOMEWORK_ID}
 	</sql>
 	
@@ -113,6 +115,8 @@
 			GET_SCORE_PERSENT = #{GET_SCORE_PERSENT},
 			</if><if test="GET_MAX_SCORE != null and GET_MAX_SCORE != ''">
 			GET_MAX_SCORE = #{GET_MAX_SCORE},
+			</if><if test="QUESTIOM_COUNT != null and QUESTIOM_COUNT != ''">
+			QUESTIOM_COUNT = #{QUESTIOM_COUNT},
 			</if>
 		HOMEWORK_ID = HOMEWORK_ID
 		where 
@@ -136,15 +140,23 @@
 		from 
 		<include refid="tableName"></include>
 		where 1=1
-		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
-			and
-				(
-				<!--	根据需求自己加检索条件
-					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or 
-					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
-				-->
-				)
+		<if test="pd.SUBJECT_ID != null and pd.SUBJECT_ID != ''"><!-- 关键词检索 -->
+			and SUBJECT_ID = #{pd.SUBJECT_ID}
+		</if>
+		<if test="pd.CLASS_ID != null and pd.CLASS_ID != ''"><!-- 关键词检索 -->
+			and CLASS_ID = #{pd.CLASS_ID}
+		</if>
+		<if test="pd.GRADE_ID != null and pd.GRADE_ID != ''"><!-- 关键词检索 -->
+			and GRADE_ID = #{pd.GRADE_ID}
+		</if>
+		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''"><!-- 关键词检索 -->
+			and SCHOOL_ID = #{pd.SCHOOL_ID}
+		</if>
+		<if test="pd.TEACHER_ID != null and pd.TEACHER_ID != ''"><!-- 关键词检索 -->
+			and TEACHER_ID = #{pd.TEACHER_ID}
+		</if>
+		<if test="pd.COMPLETE != null and pd.COMPLETE != ''"><!-- 关键词检索 -->
+			and COMPLETE_DATE &gt; #{pd.COMPLETE_DATE}
 		</if>
 	</select>
 	

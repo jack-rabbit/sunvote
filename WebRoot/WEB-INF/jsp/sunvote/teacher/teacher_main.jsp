@@ -179,7 +179,7 @@
 		function homeWork(schoolId){
 			//var path = "../school/goEdit2.do?ID=" + schoolId ;
 
-			var path = '<%=basePath%>homework/list.do?ID=' + schoolId ;
+			var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER.ID}&ID=' + schoolId ;
 			
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();
