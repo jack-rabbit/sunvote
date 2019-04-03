@@ -48,16 +48,20 @@
 				<table class="table table-striped">
 				<col style="width: 10%" />
 				<col style="width: 20%" />
-				<col style="width: 20%" />
-				<col style="width: 20%" />
-				<col style="width: 20%" />
+				<col style="width: 15%" />
+				<col style="width: 15%" />
+				<col style="width: 10%" />
+				<col style="width: 10%" />
+				<col style="width: 10%" />
 				<col style="width: 10%" />
 				<thead>
 					<tr>
 						<th><input type="checkbox"  name='ids' id="ids" />序号</th>
-						<th>测验标题</th>
-						<th>创建时间</th>
-						<th>建议考试时长</th>
+						<th>练习标题</th>
+						<th>布置时间</th>
+						<th>完成时间</th>
+						<th>题目数</th>
+						<th>完成情况</th>
 						<th>总分</th>
 						<th>操作</th>
 					</tr>
@@ -69,23 +73,27 @@
 			<table class="table table-striped">
 				<col style="width: 10%" />
 				<col style="width: 20%" />
-				<col style="width: 20%" />
-				<col style="width: 20%" />
-				<col style="width: 20%" />
+				<col style="width: 15%" />
+				<col style="width: 15%" />
+				<col style="width: 10%" />
+				<col style="width: 10%" />
+				<col style="width: 10%" />
 				<col style="width: 10%" />
 				<tbody>
 				<c:choose>
 					<c:when test="${not empty varList}">
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
-								<td><input type="checkbox" name='ids' id="ids" value="${var.PAPER_ID}"/>${vs.index+1}</td>
-								<td ><a  target="_blank" href="<%=basePath%>paper/iteminfo.do?paper_id=${var.PAPER_ID}">${var.TITLE}</a></td>
+								<td><input type="checkbox" name='ids' id="ids" value="${var.HOMEWORK_ID}"/>${vs.index+1}</td>
+								<td ><a  target="_blank" href="<%=basePath%>paper/iteminfo.do?paper_id=${var.HOMEWORK_ID}">${var.NAME}</a></td>
 								<td >${var.CREATE_DATE}</td>
-								<td >${var.EXAM_TIME}</td>
-								<td >${var.SCORE}</td>
+								<td >${var.COMPLETE_DATE}</td>
+								<td >${var.QUESTIOM_COUNT}</td>
+								<td >${var.COMPLETE_COUNT == "0" ? "未完成":"已完成"}</td>
+								<td >${var.ALL_SCORE}</td>
 								<td>
-								<a onclick="del('${var.PAPER_ID}');"><img src="static/images/remove.png" /></a>
-								<a onclick="del('${var.PAPER_ID}');"><img src="static/images/eidtor.png" /></a>
+								<a onclick="del('${var.HOMEWORK_ID}');"><img src="static/images/remove.png" /></a>
+								<a onclick="del('${var.HOMEWORK_ID}');"><img src="static/images/eidtor.png" /></a>
 								</td>
 							</tr>
 							
