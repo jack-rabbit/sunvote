@@ -2851,6 +2851,7 @@ public class V1 extends BaseController {
 	public String homework() throws Exception {
 		ResponseGson<List<PageData>> res = new ResponseGson<List<PageData>>();
 		PageData pageData = this.getPageData();
+		pageData.put("CODE", pageData.get("HOMEWORK_ID"));
 		List<PageData> list = homeworkproblemService.listProblem(pageData);
 		for(PageData pd : list){
 			if(pd.get("P_HOMEWORK_PROBLEM_ID") != null){
