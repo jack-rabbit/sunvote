@@ -155,8 +155,14 @@
 		<if test="pd.TEACHER_ID != null and pd.TEACHER_ID != ''"><!-- 关键词检索 -->
 			and TEACHER_ID = #{pd.TEACHER_ID}
 		</if>
-		<if test="pd.COMPLETE != null and pd.COMPLETE != ''"><!-- 关键词检索 -->
-			and COMPLETE_DATE &gt; #{pd.COMPLETE_DATE}
+		<if test="pd.COMPLETE_DATE != null and pd.COMPLETE_DATE != ''"><!-- 关键词检索 -->
+			and COMPLETE_DATE = #{pd.COMPLETE_DATE}
+		</if>
+		<if test="pd.STARTDATE != null and pd.STARTDATE != ''"><!-- 关键词检索 -->
+			and COMPLETE_DATE &gt; #{pd.STARTDATE}
+		</if>
+		<if test="pd.ENDDATE != null and pd.ENDDATE != ''"><!-- 关键词检索 -->
+			and COMPLETE_DATE &lt; #{pd.ENDDATE}
 		</if>
 	</select>
 	

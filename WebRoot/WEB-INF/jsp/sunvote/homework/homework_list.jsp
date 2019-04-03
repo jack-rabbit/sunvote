@@ -23,7 +23,8 @@
 <link href="static/css/teach.css" rel="stylesheet">
 </head>
 <body class="no-skin">
-	<form action="../paper/list2.do" method="post" name="Form" id="Form">
+	<form action="homework/list.do" method="post" name="Form" id="Form">
+		<input type="hidden" name="TEACHER_ID" id="TEACHER_ID" value="${pd.TEACHER_ID}"/>
 		<div class="head_box">
 		<div class="box_header">
 			<div class="head_box_l">
@@ -37,9 +38,9 @@
 					<option value="1">完成</option>
 					<option value="2">未完成</option>
 				</select>
-				<input class="date-picker" type="text" placeholder="开始日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.LASTSTART }"/> 
-				<input type="text" class="date-picker" placeholder="结束日期" name="lastEnd" name="lastEnd" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.LASTEND}"/>
-				 <a href="#" onclick="tosearch();"><img
+				<input class="date-picker" type="text" placeholder="开始日期" name="StartDate" id="StartDate" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.STARTDATE }"/> 
+				<input type="text" class="date-picker" placeholder="结束日期" name="EndDate" name="EndDate" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.ENDDATE}"/>
+				 <a onclick="tosearch();"><img
 					src="static/images/search.png" /></a>
 			</div>
 			<div class="clear"></div>
@@ -85,14 +86,14 @@
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
 								<td><input type="checkbox" name='ids' id="ids" value="${var.HOMEWORK_ID}"/>${vs.index+1}</td>
-								<td ><a  target="_blank" href="<%=basePath%>paper/iteminfo.do?paper_id=${var.HOMEWORK_ID}">${var.NAME}</a></td>
+								<td ><a  target="_blank" href="<%=basePath%>homework/iteminfo.do?homework_id=${var.HOMEWORK_ID}">${var.NAME}</a></td>
 								<td >${var.CREATE_DATE}</td>
 								<td >${var.COMPLETE_DATE}</td>
 								<td >${var.QUESTIOM_COUNT}</td>
 								<td >${var.COMPLETE_COUNT == "0" ? "未完成":"已完成"}</td>
 								<td >${var.ALL_SCORE}</td>
 								<td>
-								<a onclick="del('${var.HOMEWORK_ID}');"><img src="static/images/remove.png" /></a>
+								<a onclick="edit('${var.HOMEWORK_ID}');"><img src="static/images/remove.png" /></a>
 								<a onclick="del('${var.HOMEWORK_ID}');"><img src="static/images/eidtor.png" /></a>
 								</td>
 							</tr>
@@ -110,7 +111,7 @@
 			</table>
 			<div class="footer">
 				<div class="creat">
-					<input type="button"  onclick="edit()" value="布置练习" />
+					<input type="button"  onclick="add()" value="布置练习" />
 				</div>
 				<div class="removeAll">
 					<input type="button" onclick="deleteAll()" value="批量删除" />
@@ -145,6 +146,10 @@
 			todayHighlight: true
 		});
 	});
+	
+	function tosearch(){
+		$("#Form").submit();
+	}
 	function edit(Id){
 		window.top.modal.init({
 		'title':'布置练习',
