@@ -137,8 +137,8 @@
 		from 
 		<include refid="tableName"></include>
 		where 1 = 1
-		<if test="HOMEWORK_ID != null and HOMEWORK_ID != ''">
-			and	HOMEWORK_ID = #{HOMEWORK_ID}
+		<if test="CODE != null and CODE != ''">
+			and	CODE = #{CODE}
 		</if>
 		<if test="P_HOMEWORK_PROBLEM_ID == null or P_HOMEWORK_PROBLEM_ID == ''">
 			and	P_HOMEWORK_PROBLEM_ID is NULL

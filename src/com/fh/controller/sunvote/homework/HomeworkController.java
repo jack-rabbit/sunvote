@@ -19,11 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fh.bean.HomeClass;
+import com.fh.bean.Homework;
+import com.fh.bean.HomeworkQuestion;
 import com.fh.controller.api.ResponseGson;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
 import com.fh.service.sunvote.homework.HomeworkManager;
 import com.fh.service.sunvote.homework.HomeworkReportManager;
+import com.fh.service.sunvote.homeworkproblem.HomeworkProblemManager;
 import com.fh.util.AppUtil;
 import com.fh.util.Jurisdiction;
 import com.fh.util.ObjectExcelView;
@@ -42,6 +46,9 @@ public class HomeworkController extends BaseController {
 	private HomeworkManager homeworkService;
 	@Resource(name = "homeworkReporService")
 	private HomeworkReportManager homeworkReporService;
+	
+	@Resource(name="homeworkproblemService")
+	private HomeworkProblemManager homeworkproblemService;
 
 	/**
 	 * 保存
@@ -155,6 +162,7 @@ public class HomeworkController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
+
 	/**
 	 * 去修改页面
 	 * 
@@ -278,7 +286,7 @@ public class HomeworkController extends BaseController {
 		Gson gson = new Gson();
 		return gson.toJson(pd);
 	}
-	
+
 	/**
 	 * 列表
 	 * 
@@ -299,15 +307,65 @@ public class HomeworkController extends BaseController {
 		Gson gson = new Gson();
 		return gson.toJson(varList);
 	}
-	
-	@RequestMapping(value = "/savedata")
+
+	@RequestMapping(value = "/savedata", produces = "application/json;charset=UTF-8")
+	@ResponseBody
 	public String savedata() throws Exception {
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("HOMEWORK_ID", this.get32UUID()); // 主键
+		pd.put("HOMEWORK_ID", this.get32UUID());
 		homeworkService.save(pd);
 		ResponseGson<String> responseGson = new ResponseGson<String>();
 		responseGson.setData(pd.getString("HOMEWORK_ID"));
+		return responseGson.toJson();
+	}
+	
+	@RequestMapping(value = "/uploadHomework", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String uploadHomework() throws Exception {
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String data = pd.getJsonString();
+		ResponseGson<String> responseGson = new ResponseGson<String>();
+		
+		Homework homework = Homework.parse(data);
+		
+		PageData hpd = new PageData();
+		hpd.put("CODE", get32UUID());
+		hpd.put("NAME", homework.getNAME());
+		hpd.put("SUBJECT_ID", homework.getSUBJECT_ID());
+		hpd.put("ALL_SCORE", homework.getALL_SCORE());
+		hpd.put("HOMEWORK_DESC", homework.getHOMEWORK_DESC());
+		hpd.put("QUESTION_COUNT", homework.getQUESTION_COUNT());
+		hpd.put("CREATE_DATE", format.format(new Date()));
+		hpd.put("MODIFY_DATE", format.format(new Date()));
+		hpd.put("COMPLETE_COUNT", 0);
+		hpd.put("TEACHER_ID", homework.getTEACHER_ID());
+		hpd.put("COMPLETE_DESC", "");
+		
+		for(HomeClass homeclass : homework.getCLASSLIST()){
+			hpd.put("CLASS_ID", homeclass.getCLASS_ID());
+			hpd.put("COMPLETE_DATE", homeclass.getCOMPLETE_DATE());
+			hpd.put("HOMEWORK_ID", this.get32UUID());
+			homeworkService.save(hpd);
+		}
+		
+		for(HomeworkQuestion homeworkQuestion:homework.getQUESTIOMS()){
+			PageData qpd = new PageData();
+			qpd.put("RANK", homeworkQuestion.getRANK());
+			qpd.put("CODE", hpd.get("CODE"));
+			qpd.put("NAME", homeworkQuestion.getNAME());
+			qpd.put("OPTION_NUM", homeworkQuestion.getOPTION_NUM());
+			qpd.put("SCORE", homeworkQuestion.getSCORE());
+			qpd.put("RIGHT_ANSWER", homeworkQuestion.getRIGHT_ANSWER());
+			qpd.put("TYPE", homeworkQuestion.getTYPE());
+			qpd.put("HOMEWORKPROBLEM_ID", this.get32UUID());
+			qpd.put("HOMEWORK_ID", hpd.get("CODE"));
+			homeworkproblemService.save(qpd);
+		}
+		
+		responseGson.setData(pd.getString("CODE"));
 		return responseGson.toJson();
 	}
 }
