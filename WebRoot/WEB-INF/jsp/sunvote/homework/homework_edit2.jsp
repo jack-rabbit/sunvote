@@ -7,28 +7,25 @@
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="overflow-x:hidden;">
 	<head>
 	<base href="<%=basePath%>">
 	<!-- 下拉框 -->
 	<link rel="stylesheet" href="static/ace/css/chosen.css" />
 	<!-- jsp文件头和头部 -->
-	<%@ include file="../../system/index/top.jsp"%>
+	
+	<link rel="stylesheet" href="static/css/bootstrap.min.css">
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
 	
 	
 	<link rel="stylesheet" href="static/css/edit.css" />
 	<style>
-		.subject_body_tabel{border-collapse: separate;border-spacing:0 10px;}
-		.subject_body_tabel td{border:1px solid #000;}
-		.subject_body_tabel .first{border-right:0;}
-		.subject_body_tabel .middle{border-left:0;border-right:0;}
-		.subject_body_tabel .last{border-left:0;}
+		
 		
 	</style>
 </head>
-<body class="no-skin">
+<body class="no-skin homework_edit">
 <!-- /section:basics/navbar.layout -->
 <div class="main-container" id="main-container">
 	<!-- /section:basics/sidebar -->
@@ -40,24 +37,61 @@
 					
 					<form action="homework/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="HOMEWORK_ID" id="HOMEWORK_ID" value="${pd.HOMEWORK_ID}"/>
-						<div id="zhongxin" style="padding-top: 13px;">
+						<div id="zhongxin" style="padding-top: 13px;width:80%;margin:0 auto;">
 						<table id="table_report" class="table">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">练习标题</td>
-								<td><input type="text" name="CODE" id="CODE" value="${pd.CODE}" maxlength="255" placeholder="输入练习标题，不超过20个汉字" title="作业代码" style="width:98%;"/></td>
+								<td style="width:95px;text-align: right;padding-top: 13px;">练习标题</td>
+								<td><input type="text" name="CODE" class="form-control" id="CODE" value="${pd.CODE}" maxlength="255" placeholder="输入练习标题，不超过20个汉字" title="作业代码" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">练习说明</td>
-								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="255" placeholder="输入题目说明，如教材第12页1-5题，教辅第5页1-3题，尽量精简，不超过100个汉字" title="作业名称" style="width:98%;"/></td>
+								<td style="width:95px;text-align: right;padding-top: 13px;">练习说明</td>
+								<td><input type="text" name="NAME" class="form-control" id="NAME" value="${pd.NAME}" maxlength="255" placeholder="输入题目说明，如教材第12页1-5题，教辅第5页1-3题，尽量精简，不超过100个汉字" title="作业名称" /></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">指定班级完成时间</td>
+								<td style="width:95px;text-align: right;padding-top: 13px;">指定班级完成时间</td>
 								<td>
 									<div class="classBox">
 										<ul>
-											<li><input type="radio" name="className" value="1" checked="true" /> 1班 <input class="date-picker" type="text" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/></li>
-											<li><input type="radio" name="className" value="1" /> 2班 <input class="date-picker" type="text" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/></li>
-											<li><input type="radio" name="className" value="1" /> 3班 <input class="date-picker" type="text" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/></li>
+											<li>
+												
+												<input type="checkbox" id="class1" name="className" value="1"  />
+												<label for="class1"></label>
+												 <span>1班</span> 
+												 <input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
+											</li>
+											<li>
+												
+												<input type="checkbox" id="class2" name="className" value="1"  />
+												<label for="class2"></label>
+												 <span>2班</span> 
+												 <input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
+											</li>
+											<li>
+												
+												<input type="checkbox" id="class3" name="className" value="1"  />
+												<label for="class3"></label>
+												 <span>3班</span> 
+												 <input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
+											</li>
+											<li>
+												
+												<input type="checkbox" id="class4" name="className" value="1"  />
+												<label for="class4"></label>
+												 <span>4班</span> 
+												 <input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
+											</li>
+											<li>
+												<input type="checkbox" id="class5" name="className" value="1" />
+												<label for="class5"></label>
+												<span>5班</span>
+												<input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
+											</li>
+											<li>
+												<input type="checkbox" id="class6" name="className" value="1" />
+												<label for="class6"></label>
+												<span>6班</span>
+												<input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
+											</li>
 										</ul>
 									</div>
 								
@@ -67,7 +101,7 @@
 						</table>
 						</div>
 						<hr />
-						<div class="subject">
+						<div class="subject" style="width:80%;margin:0 auto;">
 							<table  width="100%">
 								<col width="50%"/>
 								<col width="20%"/>
@@ -75,9 +109,9 @@
 								<col width="10%"/>
 								<thead>
 									<tr>
-										<th><span>题目数量</span><input type="number" value="1"/></th>
-										<th><span>选项个数</span><input type="number" value="1"/></th>
-										<th><span>分值</span><input type="number" value="1"/></th>
+										<th style="text-align:left;"><span>题目数量</span><span class="add">+</span><input type="number" class="w_100" id="que_num" value="1"/><span class="redu">-</span></th>
+										<th><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" id="ans_num" value="4"/><span class="redu">-</span></th>
+										<th><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" id="score" value="1"/><span class="redu">-</span></th>
 										<th></th>
 									</tr>
 								</thead>
@@ -88,20 +122,41 @@
 								<col width="20%"/>
 								<col width="20%"/>
 								<col width="10%"/>
-								<tbody>									
+								<tbody class="subject_body_tbody">									
 									<tr>
 										<td class="first">1</td>
-										<td class="middle">1</td>
-										<td class="middle"><span>选项个数</span><input type="number" value="1"/></td>
-										<td class="middle"><span>分值</span><input type="number" value="1"/></td>
-										<td class="last"><input type="button" value="删除"/></td>
+										<td class="middle">
+											
+											<div class="question question1">
+												
+												<ul>
+													<li class="btn btn-default on">A</li>
+													<li class="btn btn-default">B</li>
+													<li class="btn btn-default">C</li>
+													<li class="btn btn-default">D</li>
+												</ul>
+											</div>
+											
+										</td>
+										<td class="middle"><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" value="4"/><span class="redu">-</span></td>
+										<td class="middle"><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" value="1"/><span class="redu">-</span></td>
+										<td class="last"><a onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
 									</tr>
 									<tr>
 										<td class="first">1</td>
-										<td class="middle">1</td>
-										<td class="middle"><span>选项个数</span><input type="number" value="1"/></td>
-										<td class="middle"><span>分值</span><input type="number" value="1"/></td>
-										<td class="last"><input type="button" value="删除"/></td>
+										<td class="middle">
+											<div class="question question1">
+												<ul>
+													<li class="btn btn-default on">A</li>
+													<li class="btn btn-default">B</li>
+													<li class="btn btn-default">C</li>
+													<li class="btn btn-default">D</li>
+												</ul>
+											</div>
+										</td>
+										<td class="middle"><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" value="4"/><span class="redu">-</span></td>
+										<td class="middle"><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" value="1"/><span class="redu">-</span></td>
+										<td class="last"><a onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -109,7 +164,7 @@
 						<hr />
 						<div>
 							<div style="text-align: center;" colspan="10">
-								<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+								<a class="btn btn-mini btn-primary" onclick="save();">确定布置</a>
 								<a class="btn btn-mini btn-danger" onclick="window.top.modal.remove();">取消</a>
 							</div>
 						</div>
@@ -137,6 +192,75 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript">
+		
+		$("input[type='checkbox']").on('click',function(){
+			console.log($(this).attr("checked"));
+			if($(this).prop('checked')){
+				$(this).closest("li").attr("class","checked");
+			}else{
+				$(this).closest("li").removeClass("checked");
+			}
+			
+		});
+		var work={
+			que_num:1,
+			ans_num:4,
+			score:1
+		}
+		//点击+执行操作
+		function creat_work(obj){
+			var _id=obj.siblings(".w_100").attr("id")
+			if(_id=="que_num"){
+				var que_index=$(".subject_body_tbody tr").length+1;
+				$(".subject_body_tbody").append('<tr><td class="first">'+que_index+'</td><td class="middle"><div class="question question'+que_index+'"><ul></ul></div></td><td class="middle"><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" value="'+$("#ans_num").val()+'"/><span class="redu">-</span></td><td class="middle"><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" value="1"/><span class="redu">-</span></td><td class="last"><a onclick="del();"><img src="static/images/remove.png" /></a></td></tr>');
+				for(i=0;i<parseInt($("#ans_num").val());i++){
+					$(".question"+que_index+" ul").append('<li class="btn btn-default">'+String.fromCharCode(0x41 + i)+'</li>')
+				}
+			}
+		}
+		//点击-执行操作
+		function remove_work(obj,index,num){
+			var _id=obj.siblings(".w_100").attr("id")
+			if(_id=="que_num"){	
+				for(i=index;i<(index+num);i++){
+					$(".subject_body_tbody tr").eq(i).remove();
+				}
+			}
+		}
+		$(".add").on("click",function(){
+			var temp_num=0;
+			temp_num=parseInt($(this).siblings(".w_100").val());
+			temp_num+=1;
+			$(this).siblings(".w_100").val(temp_num);
+			
+			if($(this).siblings(".w_100").attr("id")){
+				var _class=$(this).siblings(".w_100").attr("id");
+				
+				$("."+_class).val(temp_num);
+			}
+			creat_work($(this));
+		})
+		$(".redu").on("click",function(){
+			
+			var temp_num=0;
+			temp_num=parseInt($(this).siblings(".w_100").val());
+			temp_num-=1;
+			if(temp_num<=1){
+				temp_num=1;
+			}
+			$(this).siblings(".w_100").val(temp_num);
+			
+			if($(this).siblings(".w_100").attr("id")){
+				var _class=$(this).siblings(".w_100").attr("id");
+				
+				$("."+_class).val(temp_num);
+			}
+			//remove_work($(this),$(".subject_body_tbody tr").length-1,1);
+		})
+		$("#que_num").change(function(){
+			remove_work($(this),$(".subject_body_tbody tr").length-1,1);
+		})
+		
 		
 		function save(){
 			if($("#CODE").val()==""){
