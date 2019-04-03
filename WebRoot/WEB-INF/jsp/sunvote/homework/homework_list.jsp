@@ -8,7 +8,7 @@
 			+ path + "/";
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
 <base href="<%=basePath%>">
 <!-- 下拉框 -->
@@ -154,6 +154,7 @@
 		window.top.modal.init({
 		'title':'布置练习',
 		'width':1200,
+		'height':600,
 		'url':'<%=basePath%>homework/goEdit2.do?school_id=${pd.SCHOOL_ID}&ID='+Id,
 		func:function() {
 			tosearch();
