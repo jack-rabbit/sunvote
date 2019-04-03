@@ -150,6 +150,11 @@
 	function tosearch(){
 		$("#Form").submit();
 	}
+	function add(Id){
+		var path = '<%=basePath%>homework/goEdit2.do?school_id=${pd.SCHOOL_ID}&ID='+Id;
+		parent.$("#mainFrame").attr('src',path);
+		window.top.loading.show();
+	}
 	function edit(Id){
 		window.top.modal.init({
 		'title':'布置练习',

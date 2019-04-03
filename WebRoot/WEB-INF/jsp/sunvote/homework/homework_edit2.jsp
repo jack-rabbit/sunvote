@@ -36,12 +36,12 @@
 					<div class="col-xs-12">
 					
 					<form action="homework/${msg }.do" name="Form" id="Form" method="post">
-						<input type="hidden" name="HOMEWORK_ID" id="HOMEWORK_ID" value="${pd.HOMEWORK_ID}"/>
+						<input type="hidden" name="TEACHER_ID" id="TEACHER_ID" value="${pd.TEACHER_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;width:80%;margin:0 auto;">
 						<table id="table_report" class="table">
 							<tr>
 								<td style="width:95px;text-align: right;padding-top: 13px;">练习标题</td>
-								<td><input type="text" name="CODE" class="form-control" id="CODE" value="${pd.CODE}" maxlength="255" placeholder="输入练习标题，不超过20个汉字" title="作业代码" /></td>
+								<td><input type="text" name="TITLE" class="form-control" id="CODE" value="${pd.CODE}" maxlength="255" placeholder="输入练习标题，不超过20个汉字" title="作业代码" /></td>
 							</tr>
 							<tr>
 								<td style="width:95px;text-align: right;padding-top: 13px;">练习说明</td>
@@ -164,6 +164,7 @@
 						<hr />
 						<div>
 							<div style="text-align: center;" colspan="10">
+								
 								<a class="btn btn-mini btn-primary" onclick="save();">确定布置</a>
 								<a class="btn btn-mini btn-danger" onclick="window.top.modal.remove();">取消</a>
 							</div>
@@ -182,7 +183,6 @@
 </div>
 <!-- /.main-container -->
 
-
 	<!-- 页面底部js¨ -->
 	<%@ include file="../../system/index/foot.jsp"%>
 	<!-- 下拉框 -->
@@ -192,8 +192,43 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript">
-		
-		$("input[type='checkbox']").on('click',function(){
+		var saveData={
+				    "NAME": "",
+				    "SUBJECT_ID": "",
+				    "ALL_SCORE": "",
+				    "TEACHER_ID":"",
+				    "HOMEWORK_DESC": "",
+				    "CLASSLIST": [
+				        {
+				            "CLASS_ID": "",
+				            "COMPLETE_DATE": ""
+				        },
+				        {
+				            "CLASS_ID": "",
+				            "COMPLETE_DATE": ""
+				        }
+				    ],
+				    "QUESTION_COUNT": "",
+				    "QUESTIONS": [
+				        {
+				            "RANK": "",
+				            "NAME": "",
+				            "OPTION_NUM": "",
+				            "SCORE": "",
+				            "RIGHT_ANSWER": "",
+				            "TYPE": ""
+				        },
+				        {
+				            "RANK": "",
+				            "NAME": "",
+				            "OPTION_NUM": "",
+				            "SCORE": "",
+				            "RIGHT_ANSWER": "",
+				            "TYPE": ""
+				        }
+				    ]
+		};
+		$(document).on('click',"input[type='checkbox']",function(){
 			console.log($(this).attr("checked"));
 			if($(this).prop('checked')){
 				$(this).closest("li").attr("class","checked");
@@ -509,11 +544,33 @@
 		}
 		
 		$(function() {
+			window.top.loading.remove();
 			//日期框
-			$('.date-picker').datepicker({
-				autoclose: true,
-				todayHighlight: true
+			
+			$(document).on("focus",".date-picker",function(){
+				$(this).datepicker({
+					autoclose: true,
+					todayHighlight: true
+				});			
 			});
+	
+			$.ajax({
+				url:'<%=basePath%>/coursemanagement/teacherClass',
+				type:"post",
+				data:{teacher_id:"08b418184e5044c7b419caa830b834a7"},
+				success:function(res){
+					console.log(res);
+					if(res.data.length>0){
+						var _html="";
+						$.each(res.data,function(k,v){
+							_html+='<li><input type="checkbox" id="class'+k+'" name="className" value="'+v.ID+'"><label for="class'+k+'"></label><span>'+v.CLASS_NAME+'</span><input class="date-picker" type="text" style="width:150px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""></li>';
+							
+						});
+						$(".classBox ul").html(_html);
+					}
+				}
+			});
+			
 		});
 		</script>
 </body>

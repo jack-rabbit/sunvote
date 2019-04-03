@@ -174,7 +174,8 @@ public class HomeworkController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd = homeworkService.findById(pd); // 根据ID读取
+		pd.put("TEACHER_ID", geTeacherID());
+//		pd = homeworkService.findById(pd); // 根据ID读取
 		mv.setViewName("sunvote/homework/homework_edit2");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
