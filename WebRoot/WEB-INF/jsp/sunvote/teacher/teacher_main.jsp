@@ -187,7 +187,7 @@
 		function homeWork(schoolId){
 			//var path = "../school/goEdit2.do?ID=" + schoolId ;
 
-			var path = '<%=basePath%>homework/goEdit2.do?teacher_id=${pd.TEACHER.ID}&ID=' + schoolId ;
+			var path = '<%=basePath%>homework/goAdd2.do?teacher_id=${pd.TEACHER.ID}&ID=' + schoolId ;
 			
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();

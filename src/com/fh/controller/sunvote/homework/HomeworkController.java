@@ -113,7 +113,7 @@ public class HomeworkController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername() + "列表Homework");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		pd = this.getPageData();
+		pd = this.getPageData();	
 		String keywords = pd.getString("keywords"); // 关键词检索条件
 		if (null != keywords && !"".equals(keywords)) {
 			pd.put("keywords", keywords.trim());
@@ -139,6 +139,23 @@ public class HomeworkController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		mv.setViewName("sunvote/homework/homework_edit");
+		mv.addObject("msg", "save");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 * 去新增页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/goAdd2")
+	public ModelAndView goAdd2() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/homework/homework_edit2");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -174,7 +191,7 @@ public class HomeworkController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd = homeworkService.findById(pd); // 根据ID读取
-		pd.put("PROBLEMS", homeworkproblemService.listProblem(pd));
+		pd.put("QUESTIONS", homeworkproblemService.listProblem(pd));
 		pd.put("TEACHER_ID", geTeacherID());
 		mv.setViewName("sunvote/homework/homework_edit2");
 		mv.addObject("msg", "edit");
@@ -372,7 +389,7 @@ public class HomeworkController extends BaseController {
 					homeworkproblemService.save(qpd);
 				}
 
-				responseGson.setData(pd.getString("CODE"));
+				responseGson.setData(hpd.getString("CODE"));
 			} else {
 				responseGson.setDataError();
 			}

@@ -41,11 +41,11 @@
 						<table id="table_report" class="table">
 							<tr>
 								<td style="width:95px;text-align: right;padding-top: 13px;">练习标题</td>
-								<td><input type="text" name="NAME" class="form-control" id="NAME" value="${pd.CODE}" maxlength="255" placeholder="输入练习标题，不超过20个汉字" title="作业代码" /></td>
+								<td><input type="text" name="NAME" class="form-control" id="NAME" value="${pd.NAME}" maxlength="255" placeholder="输入练习标题，不超过20个汉字" title="作业代码" /></td>
 							</tr>
 							<tr>
 								<td style="width:95px;text-align: right;padding-top: 13px;">练习说明</td>
-								<td><input type="text" name=HOMEWORK_DESC class="form-control" id="HOMEWORK_DESC" value="${pd.NAME}" maxlength="255" placeholder="输入题目说明，如教材第12页1-5题，教辅第5页1-3题，尽量精简，不超过100个汉字" title="作业名称" /></td>
+								<td><input type="text" name=HOMEWORK_DESC class="form-control" id="HOMEWORK_DESC" value="${pd.HOMEWORK_DESC}" maxlength="255" placeholder="输入题目说明，如教材第12页1-5题，教辅第5页1-3题，尽量精简，不超过100个汉字" title="作业名称" /></td>
 							</tr>
 							<tr>
 								<td style="width:95px;text-align: right;padding-top: 13px;">指定班级完成时间</td>
@@ -171,6 +171,10 @@
 						</div>
 						<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
 					</form>
+					
+					
+					${pd}
+					
 					</div>
 					<!-- /.col -->
 				</div>
@@ -235,6 +239,7 @@
 			}
 		});
 	}
+	
 	</script>
 </body>
 </html>
