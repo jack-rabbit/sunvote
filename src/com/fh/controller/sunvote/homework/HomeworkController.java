@@ -46,8 +46,8 @@ public class HomeworkController extends BaseController {
 	private HomeworkManager homeworkService;
 	@Resource(name = "homeworkReporService")
 	private HomeworkReportManager homeworkReporService;
-	
-	@Resource(name="homeworkproblemService")
+
+	@Resource(name = "homeworkproblemService")
 	private HomeworkProblemManager homeworkproblemService;
 
 	/**
@@ -93,11 +93,10 @@ public class HomeworkController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit")
 	public ModelAndView edit() throws Exception {
-		logBefore(logger, Jurisdiction.getUsername() + "修改Homework");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		homeworkService.edit(pd);
+
 		mv.addObject("msg", "success");
 		mv.setViewName("save_result");
 		return mv;
@@ -175,6 +174,7 @@ public class HomeworkController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd = homeworkService.findById(pd); // 根据ID读取
+		pd.put("PROBLEMS", homeworkproblemService.listProblem(pd));
 		mv.setViewName("sunvote/homework/homework_edit2");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
@@ -319,7 +319,7 @@ public class HomeworkController extends BaseController {
 		responseGson.setData(pd.getString("HOMEWORK_ID"));
 		return responseGson.toJson();
 	}
-	
+
 	@RequestMapping(value = "/uploadHomework", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String uploadHomework() throws Exception {
@@ -328,44 +328,56 @@ public class HomeworkController extends BaseController {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String data = pd.getJsonString();
 		ResponseGson<String> responseGson = new ResponseGson<String>();
-		
+
 		Homework homework = Homework.parse(data);
-		
+
 		PageData hpd = new PageData();
-		hpd.put("CODE", get32UUID());
-		hpd.put("NAME", homework.getNAME());
-		hpd.put("SUBJECT_ID", homework.getSUBJECT_ID());
-		hpd.put("ALL_SCORE", homework.getALL_SCORE());
-		hpd.put("HOMEWORK_DESC", homework.getHOMEWORK_DESC());
-		hpd.put("QUESTION_COUNT", homework.getQUESTION_COUNT());
-		hpd.put("CREATE_DATE", format.format(new Date()));
-		hpd.put("MODIFY_DATE", format.format(new Date()));
-		hpd.put("COMPLETE_COUNT", 0);
-		hpd.put("TEACHER_ID", homework.getTEACHER_ID());
-		hpd.put("COMPLETE_DESC", "");
-		
-		for(HomeClass homeclass : homework.getCLASSLIST()){
-			hpd.put("CLASS_ID", homeclass.getCLASS_ID());
-			hpd.put("COMPLETE_DATE", homeclass.getCOMPLETE_DATE());
-			hpd.put("HOMEWORK_ID", this.get32UUID());
-			homeworkService.save(hpd);
+		if (homework != null) {
+			hpd.put("CODE", get32UUID());
+			hpd.put("NAME", homework.getNAME());
+			hpd.put("SUBJECT_ID", homework.getSUBJECT_ID());
+			hpd.put("ALL_SCORE", homework.getALL_SCORE());
+			hpd.put("HOMEWORK_DESC", homework.getHOMEWORK_DESC());
+			hpd.put("QUESTION_COUNT", homework.getQUESTION_COUNT());
+			hpd.put("CREATE_DATE", format.format(new Date()));
+			hpd.put("MODIFY_DATE", format.format(new Date()));
+			hpd.put("COMPLETE_COUNT", 0);
+			hpd.put("TEACHER_ID", homework.getTEACHER_ID());
+			hpd.put("COMPLETE_DESC", "");
+
+			if (homework.getCLASSLIST() != null
+					&& homework.getCLASSLIST().size() > 0
+					&& homework.getQUESTIONS() != null
+					&& homework.getQUESTIONS().size() > 0) {
+				for (HomeClass homeclass : homework.getCLASSLIST()) {
+					hpd.put("CLASS_ID", homeclass.getCLASS_ID());
+					hpd.put("COMPLETE_DATE", homeclass.getCOMPLETE_DATE());
+					hpd.put("HOMEWORK_ID", this.get32UUID());
+					homeworkService.save(hpd);
+				}
+
+				for (HomeworkQuestion homeworkQuestion : homework
+						.getQUESTIONS()) {
+					PageData qpd = new PageData();
+					qpd.put("RANK", homeworkQuestion.getRANK());
+					qpd.put("CODE", hpd.get("CODE"));
+					qpd.put("NAME", homeworkQuestion.getNAME());
+					qpd.put("OPTION_NUM", homeworkQuestion.getOPTION_NUM());
+					qpd.put("SCORE", homeworkQuestion.getSCORE());
+					qpd.put("RIGHT_ANSWER", homeworkQuestion.getRIGHT_ANSWER());
+					qpd.put("TYPE", homeworkQuestion.getTYPE());
+					qpd.put("HOMEWORKPROBLEM_ID", this.get32UUID());
+					qpd.put("HOMEWORK_ID", hpd.get("CODE"));
+					homeworkproblemService.save(qpd);
+				}
+
+				responseGson.setData(pd.getString("CODE"));
+			} else {
+				responseGson.setDataError();
+			}
+		} else {
+			responseGson.setDataError();
 		}
-		
-		for(HomeworkQuestion homeworkQuestion:homework.getQUESTIOMS()){
-			PageData qpd = new PageData();
-			qpd.put("RANK", homeworkQuestion.getRANK());
-			qpd.put("CODE", hpd.get("CODE"));
-			qpd.put("NAME", homeworkQuestion.getNAME());
-			qpd.put("OPTION_NUM", homeworkQuestion.getOPTION_NUM());
-			qpd.put("SCORE", homeworkQuestion.getSCORE());
-			qpd.put("RIGHT_ANSWER", homeworkQuestion.getRIGHT_ANSWER());
-			qpd.put("TYPE", homeworkQuestion.getTYPE());
-			qpd.put("HOMEWORKPROBLEM_ID", this.get32UUID());
-			qpd.put("HOMEWORK_ID", hpd.get("CODE"));
-			homeworkproblemService.save(qpd);
-		}
-		
-		responseGson.setData(pd.getString("CODE"));
 		return responseGson.toJson();
 	}
 }

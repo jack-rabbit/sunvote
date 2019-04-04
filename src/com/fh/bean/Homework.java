@@ -14,7 +14,7 @@ public class Homework {
 	private List<HomeClass> CLASSLIST;
 	private String QUESTION_COUNT;
 	private String TEACHER_ID;
-	private List<HomeworkQuestion> QUESTIOMS;
+	private List<HomeworkQuestion> QUESTIONS;
 
 	public void setCODE(String CODE) {
 		this.CODE = CODE;
@@ -73,11 +73,11 @@ public class Homework {
 	}
 
 	public void setQUESTIOMS(List<HomeworkQuestion> QUESTIOMS) {
-		this.QUESTIOMS = QUESTIOMS;
+		this.QUESTIONS = QUESTIOMS;
 	}
 
-	public List<HomeworkQuestion> getQUESTIOMS() {
-		return QUESTIOMS;
+	public List<HomeworkQuestion> getQUESTIONS() {
+		return QUESTIONS;
 	}
 
 	
