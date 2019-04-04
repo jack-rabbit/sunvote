@@ -113,7 +113,7 @@ public class HomeworkController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername() + "列表Homework");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		pd = this.getPageData();	
+		pd = this.getPageData();
 		String keywords = pd.getString("keywords"); // 关键词检索条件
 		if (null != keywords && !"".equals(keywords)) {
 			pd.put("keywords", keywords.trim());
@@ -143,7 +143,7 @@ public class HomeworkController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
-	
+
 	/**
 	 * 去新增页面
 	 * 
@@ -390,6 +390,93 @@ public class HomeworkController extends BaseController {
 				}
 
 				responseGson.setData(hpd.getString("CODE"));
+			} else {
+				responseGson.setDataError();
+			}
+		} else {
+			responseGson.setDataError();
+		}
+		return responseGson.toJson();
+	}
+
+	@RequestMapping(value = "/updateHomework", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String updateHomework() throws Exception {
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String data = pd.getJsonString();
+		ResponseGson<String> responseGson = new ResponseGson<String>();
+
+		Homework homework = Homework.parse(data);
+
+		PageData hpd = new PageData();
+		if (homework != null) {
+			if (homework.getHOMEWORK_ID() != null
+					&& !"".equals(homework.getHOMEWORK_ID().trim())) {
+				hpd.put("HOMEWORK_ID", homework.getHOMEWORK_ID());
+				hpd = homeworkService.findById(hpd);
+				if(hpd != null){
+					hpd.put("NAME", homework.getNAME());
+					hpd.put("SUBJECT_ID", homework.getSUBJECT_ID());
+					hpd.put("ALL_SCORE", homework.getALL_SCORE());
+					hpd.put("HOMEWORK_DESC", homework.getHOMEWORK_DESC());
+					hpd.put("QUESTION_COUNT", homework.getQUESTION_COUNT());
+					hpd.put("CREATE_DATE", format.format(new Date()));
+					hpd.put("MODIFY_DATE", format.format(new Date()));
+					hpd.put("COMPLETE_COUNT", 0);
+					hpd.put("TEACHER_ID", homework.getTEACHER_ID());
+					hpd.put("COMPLETE_DESC", "");
+					if(homeworkService.findByCode(hpd).size() > 1){
+						hpd.put("CODE", get32UUID());
+						for (HomeClass homeclass : homework.getCLASSLIST()) {
+							hpd.put("CLASS_ID", homeclass.getCLASS_ID());
+							hpd.put("COMPLETE_DATE", homeclass.getCOMPLETE_DATE());
+							homeworkService.edit(hpd);
+						}
+						for (HomeworkQuestion homeworkQuestion : homework
+								.getQUESTIONS()) {
+							PageData qpd = new PageData();
+							qpd.put("RANK", homeworkQuestion.getRANK());
+							qpd.put("CODE", hpd.get("CODE"));
+							qpd.put("NAME", homeworkQuestion.getNAME());
+							qpd.put("OPTION_NUM", homeworkQuestion.getOPTION_NUM());
+							qpd.put("SCORE", homeworkQuestion.getSCORE());
+							qpd.put("RIGHT_ANSWER",
+									homeworkQuestion.getRIGHT_ANSWER());
+							qpd.put("TYPE", homeworkQuestion.getTYPE());
+							qpd.put("HOMEWORKPROBLEM_ID", this.get32UUID());
+							qpd.put("HOMEWORK_ID", hpd.get("CODE"));
+							homeworkproblemService.save(qpd);
+						}
+						responseGson.setData(hpd.getString("CODE"));
+					}else{
+						for (HomeClass homeclass : homework.getCLASSLIST()) {
+							hpd.put("CLASS_ID", homeclass.getCLASS_ID());
+							hpd.put("COMPLETE_DATE", homeclass.getCOMPLETE_DATE());
+							homeworkService.edit(hpd);
+						}
+						homeworkproblemService.deleteByCode(hpd);
+						for (HomeworkQuestion homeworkQuestion : homework
+								.getQUESTIONS()) {
+							PageData qpd = new PageData();
+							qpd.put("RANK", homeworkQuestion.getRANK());
+							qpd.put("CODE", hpd.get("CODE"));
+							qpd.put("NAME", homeworkQuestion.getNAME());
+							qpd.put("OPTION_NUM", homeworkQuestion.getOPTION_NUM());
+							qpd.put("SCORE", homeworkQuestion.getSCORE());
+							qpd.put("RIGHT_ANSWER",
+									homeworkQuestion.getRIGHT_ANSWER());
+							qpd.put("TYPE", homeworkQuestion.getTYPE());
+							qpd.put("HOMEWORKPROBLEM_ID", this.get32UUID());
+							qpd.put("HOMEWORK_ID", hpd.get("CODE"));
+							homeworkproblemService.save(qpd);
+						}
+						responseGson.setData(hpd.getString("CODE"));
+					}
+				}else{
+					responseGson.setDataError();
+				}
 			} else {
 				responseGson.setDataError();
 			}

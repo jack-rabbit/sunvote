@@ -1,8 +1,11 @@
 package com.fh.service.sunvote.homework.impl;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
@@ -85,6 +88,11 @@ public class HomeworkService implements HomeworkManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("HomeworkMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	@Override
+	public List<PageData> findByCode(PageData pd) throws Exception {
+		return (List<PageData>)dao.findForList("HomeworkMapper.findByCode", pd);
 	}
 	
 }

@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 public class Homework {
 
+	private String HOMEWORK_ID;
 	private String CODE;
 	private String NAME;
 	private String SUBJECT_ID;
@@ -72,7 +73,7 @@ public class Homework {
 		return QUESTION_COUNT;
 	}
 
-	public void setQUESTIOMS(List<HomeworkQuestion> QUESTIOMS) {
+	public void setQUESTIONS(List<HomeworkQuestion> QUESTIOMS) {
 		this.QUESTIONS = QUESTIOMS;
 	}
 
@@ -92,6 +93,16 @@ public class Homework {
 
 	public void setQUESTION_COUNT(String qUESTION_COUNT) {
 		QUESTION_COUNT = qUESTION_COUNT;
+	}
+	
+	
+
+	public String getHOMEWORK_ID() {
+		return HOMEWORK_ID;
+	}
+
+	public void setHOMEWORK_ID(String hOMEWORK_ID) {
+		HOMEWORK_ID = hOMEWORK_ID;
 	}
 
 	public static Homework parse(String json) {
