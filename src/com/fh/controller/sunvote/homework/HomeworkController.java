@@ -157,6 +157,7 @@ public class HomeworkController extends BaseController {
 		pd = this.getPageData();
 		mv.setViewName("sunvote/homework/homework_edit2");
 		mv.addObject("msg", "save");
+		mv.addObject("operation", "add");
 		mv.addObject("pd", pd);
 		return mv;
 	}
@@ -195,6 +196,28 @@ public class HomeworkController extends BaseController {
 		pd.put("TEACHER_ID", geTeacherID());
 		mv.setViewName("sunvote/homework/homework_edit2");
 		mv.addObject("msg", "edit");
+		mv.addObject("operation", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/goView")
+	public ModelAndView goView() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = homeworkService.findById(pd); // 根据ID读取
+		pd.put("QUESTIONS", homeworkproblemService.listProblem(pd));
+		pd.put("TEACHER_ID", geTeacherID());
+		mv.setViewName("sunvote/homework/homework_edit2");
+		mv.addObject("msg", "edit");
+		mv.addObject("operation", "view");
 		mv.addObject("pd", pd);
 		return mv;
 	}
