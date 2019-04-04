@@ -56,6 +56,14 @@
 			HOMEWORKPROBLEM_ID = #{HOMEWORKPROBLEM_ID}
 	</delete>
 	
+	<!-- 删除-->
+	<delete id="deleteByCode" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			HOMEWORK_ID = #{CODE}
+	</delete>
+	
 	<!-- 修改 -->
 	<update id="edit" parameterType="pd">
 		update
