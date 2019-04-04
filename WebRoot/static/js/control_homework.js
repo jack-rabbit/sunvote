@@ -26,6 +26,7 @@
 				}
 			}
 			else if(_id=="ans_num"){//新增选项
+				alert(work.que_num);
 				for(j=1;j<=work.que_num;j++){	//轮询每道题目
 					var now_length=$(".question"+j+" ul").find(".btn").length; //获取当前题目选项个数
 					if(now_length<work.ans_num){   //当前题目选项个数小于数字框中个数，则把选项个数增加到数字框中的个数

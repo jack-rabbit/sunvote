@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -52,6 +54,14 @@
 								<td>
 									<div class="classBox">
 										<ul>
+											<c:if test="${pd.CLASS_ID != ''}">
+												<li class="checked">
+													<input type="checkbox" checked="true" id="class0" name="className" value="${pd.CLASS_ID}"  />
+													<label for="class0"></label>
+													 <span>${myelfun:findClassName(pd.CLASS_ID)}</span> 
+													 <input class="date-picker" type="text" class="form-control" style="width:150px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.COMPLETE_DATE}"/>
+												</li>
+											</c:if>
 											<!-- <li>
 												
 												<input type="checkbox" id="class1" name="className" value="1"  />
@@ -122,42 +132,38 @@
 								<col width="20%"/>
 								<col width="20%"/>
 								<col width="10%"/>
-								<tbody class="subject_body_tbody">									
-									<!-- <tr>
-										<td class="first">1</td>
-										<td class="middle">
-											
-											<div class="question question1">
-												
-												<ul>
-													<li class="btn btn-default on">A</li>
-													<li class="btn btn-default">B</li>
-													<li class="btn btn-default">C</li>
-													<li class="btn btn-default">D</li>
-												</ul>
-											</div>
-											
-										</td>
-										<td class="middle"><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" value="4"/><span class="redu">-</span></td>
-										<td class="middle"><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" value="1"/><span class="redu">-</span></td>
-										<td class="last"><a onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
-									</tr>
-									<tr>
-										<td class="first">1</td>
-										<td class="middle">
-											<div class="question question1">
-												<ul>
-													<li class="btn btn-default on">A</li>
-													<li class="btn btn-default">B</li>
-													<li class="btn btn-default">C</li>
-													<li class="btn btn-default">D</li>
-												</ul>
-											</div>
-										</td>
-										<td class="middle"><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" value="4"/><span class="redu">-</span></td>
-										<td class="middle"><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" value="1"/><span class="redu">-</span></td>
-										<td class="last"><a onclick="del('${var.ID}');"><img src="static/images/remove.png" /></a></td>
-									</tr>-->
+								<tbody class="subject_body_tbody">
+									<c:choose>
+										<c:when test="${not empty pd.PROBLEMS}">
+											<c:forEach items="${pd.PROBLEMS}" var="var" varStatus="vs">
+												<tr>
+													<td class="first">${var.RANK}</td>
+													<td class="middle">
+														<div class="question question${var.RANK}">
+															<ul>
+																<c:forEach var="i" begin="1" end="${var.OPTION_NUM}">
+																	<c:set var="a" value="fn:substring('ABCDEFGHI',i-1,i)"/>
+																	
+																	<li class="btn btn-default <c:if test="${fn:contains(var.RIGHT_ANSWER, a)}"> on </c:if>">${a}</li>
+																</c:forEach>
+																
+															</ul>
+														</div>
+														
+													</td>
+													<td class="middle"><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" value="${var.OPTION_NUM}"/><span class="redu">-</span></td>
+													<td class="middle"><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" value="${var.SCORE}"/><span class="redu">-</span></td>
+													<td class="last"><a class="remove"><img src="static/images/remove.png" /></a></td>
+												</tr>
+											</c:forEach>
+										</c:when>
+										<c:otherwise>
+											<tr class="main_info">
+												<td colspan="100" class="center">没有相关数据</td>
+											</tr>
+										</c:otherwise>
+									</c:choose>									
+									
 								</tbody>
 							</table>
 						</div>
@@ -196,7 +202,7 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<!--页面交互-->
-	<script src="static/js/control_homework.js?t=12"></script>
+	<script src="static/js/control_homework.js?t=1"></script>
 	<script>
 	$(function() {
 		window.top.loading.remove();
@@ -207,11 +213,11 @@
 				todayHighlight: true
 			});			
 		});
-
+	if('${pd.CLASS_ID}'==''){
 		$.ajax({         //获取该名教师下的班级信息
 			url:'<%=basePath%>coursemanagement/teacherClass',
 			type:"get",
-			data:{teacher_id:"08b418184e5044c7b419caa830b834a7"},
+			data:{teacher_id:'${pd.TEACHER_ID}'},
 			success:function(res){
 				console.log(res);
 				if(res.data.length>0){
@@ -224,6 +230,8 @@
 				}
 			}
 		});
+	}
+		
 		
 	});
 	

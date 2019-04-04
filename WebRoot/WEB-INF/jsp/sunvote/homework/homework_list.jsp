@@ -151,7 +151,7 @@
 		$("#Form").submit();
 	}
 	function add(Id){
-		var path = '<%=basePath%>homework/goEdit2.do?school_id=${pd.SCHOOL_ID}&ID='+Id;
+		var path = '<%=basePath%>homework/goAdd2.do?school_id=${pd.SCHOOL_ID}&HOMEWORK_ID='+Id;
 		parent.$("#mainFrame").attr('src',path);
 		window.top.loading.show();
 	}
