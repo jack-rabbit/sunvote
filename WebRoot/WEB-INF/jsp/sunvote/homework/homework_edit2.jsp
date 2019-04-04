@@ -245,20 +245,36 @@
 			dataType:"text",
 			data:{"JSON":data},
 			success:function(res){
-				alert("保存成功");
-				console.log(res);
+				var res=JSON.parse(res);
+				if(res.message=="success"){
+					alert(res.message);
+					console.log(res);
+					
+					var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER_ID}';
+					parent.$("#mainFrame").attr('src',path);
+					window.top.loading.show();
+				}
+				
 			}
 		});
 	}
 	function up_data(data){
 		$.ajax({         //获取该名教师下的班级信息
-			url:'<%=basePath%>homework/uploadHomework',
+			url:'<%=basePath%>homework/updateHomework',
 			type:"post",
 			dataType:"text",
 			data:{"JSON":data},
 			success:function(res){
-				alert("保存成功");
-				console.log(res);
+				var res=JSON.parse(res);
+				if(res.message=="success"){
+					alert(res.message);
+					console.log(res);
+					
+					var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER_ID}';
+					parent.$("#mainFrame").attr('src',path);
+					window.top.loading.show();
+					
+				}
 			}
 		});
 	}
