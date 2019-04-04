@@ -86,14 +86,16 @@
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
 								<td><input type="checkbox" name='ids' id="ids" value="${var.HOMEWORK_ID}"/>${vs.index+1}</td>
-								<td ><a  target="_blank" href="<%=basePath%>homework/iteminfo.do?homework_id=${var.HOMEWORK_ID}">${var.NAME}</a></td>
+								<td ><a  target="_blank" href="<%=basePath%>homework/goView.do?homework_id=${var.HOMEWORK_ID}">${var.NAME}</a></td>
 								<td >${var.CREATE_DATE}</td>
 								<td >${var.COMPLETE_DATE}</td>
 								<td >${var.QUESTION_COUNT}</td>
 								<td >${var.COMPLETE_COUNT == "0" ? "未完成":"已完成"}</td>
 								<td >${var.ALL_SCORE}</td>
 								<td>
-								<a onclick="edit('${var.HOMEWORK_ID}');"><img src="static/images/eidtor.png" /></a>
+								<c:if test="${var.COMPLETE_COUNT == '0'}">
+									<a onclick="edit('${var.HOMEWORK_ID}');"><img src="static/images/eidtor.png" /></a>
+								</c:if>
 								<a onclick="del('${var.HOMEWORK_ID}');"><img src="static/images/remove.png" /></a>
 								</td>
 							</tr>
