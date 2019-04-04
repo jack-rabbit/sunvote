@@ -27,7 +27,7 @@
 		GET_SCORE,	
 		GET_SCORE_PERSENT,	
 		GET_MAX_SCORE,	
-		QUESTIOM_COUNT,	
+		QUESTION_COUNT,	
 		HOMEWORK_ID
 	</sql>
 	
@@ -51,7 +51,7 @@
 		#{GET_SCORE},	
 		#{GET_SCORE_PERSENT},	
 		#{GET_MAX_SCORE},	
-		#{QUESTIOM_COUNT},	
+		#{QUESTION_COUNT},	
 		#{HOMEWORK_ID}
 	</sql>
 	
@@ -115,8 +115,8 @@
 			GET_SCORE_PERSENT = #{GET_SCORE_PERSENT},
 			</if><if test="GET_MAX_SCORE != null and GET_MAX_SCORE != ''">
 			GET_MAX_SCORE = #{GET_MAX_SCORE},
-			</if><if test="QUESTIOM_COUNT != null and QUESTIOM_COUNT != ''">
-			QUESTIOM_COUNT = #{QUESTIOM_COUNT},
+			</if><if test="QUESTION_COUNT != null and QUESTION_COUNT != ''">
+			QUESTION_COUNT = #{QUESTION_COUNT},
 			</if>
 		HOMEWORK_ID = HOMEWORK_ID
 		where 

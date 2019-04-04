@@ -89,7 +89,7 @@
 								<td ><a  target="_blank" href="<%=basePath%>homework/iteminfo.do?homework_id=${var.HOMEWORK_ID}">${var.NAME}</a></td>
 								<td >${var.CREATE_DATE}</td>
 								<td >${var.COMPLETE_DATE}</td>
-								<td >${var.QUESTIOM_COUNT}</td>
+								<td >${var.QUESTION_COUNT}</td>
 								<td >${var.COMPLETE_COUNT == "0" ? "未完成":"已完成"}</td>
 								<td >${var.ALL_SCORE}</td>
 								<td>

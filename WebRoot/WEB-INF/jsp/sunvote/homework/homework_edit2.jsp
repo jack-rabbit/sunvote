@@ -134,15 +134,15 @@
 								<col width="10%"/>
 								<tbody class="subject_body_tbody">
 									<c:choose>
-										<c:when test="${not empty pd.PROBLEMS}">
-											<c:forEach items="${pd.PROBLEMS}" var="var" varStatus="vs">
+										<c:when test="${not empty pd.QUESTIONS}">
+											<c:forEach items="${pd.QUESTIONS}" var="var" varStatus="vs">
 												<tr>
 													<td class="first">${var.RANK}</td>
 													<td class="middle">
 														<div class="question question${var.RANK}">
 															<ul>
 																<c:forEach var="i" begin="1" end="${var.OPTION_NUM}">
-																	<c:set var="a" value="fn:substring('ABCDEFGHI',i-1,i)"/>
+																	<c:set var="a" value="${fn:substring('ABCDEFGHI',i-1,i)}"/>
 																	
 																	<li class="btn btn-default <c:if test="${fn:contains(var.RIGHT_ANSWER, a)}"> on </c:if>">${a}</li>
 																</c:forEach>

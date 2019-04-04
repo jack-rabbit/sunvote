@@ -331,4 +331,8 @@ public class Myelfun {
 			return "" ;
 		}
 	}
+	
+	public static String jstlInt2Char(int i){
+		return "" + ('A' + (i - 1));
+	}
 }
