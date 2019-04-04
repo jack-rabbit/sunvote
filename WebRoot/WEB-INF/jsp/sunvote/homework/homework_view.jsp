@@ -62,46 +62,7 @@
 													 <input class="date-picker" type="text" class="form-control" style="width:150px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.COMPLETE_DATE}"/>
 												</li>
 											</c:if>
-											<!-- <li>
-												
-												<input type="checkbox" id="class1" name="className" value="1"  />
-												<label for="class1"></label>
-												 <span>1班</span> 
-												 <input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
-											</li>
-											<li>
-												
-												<input type="checkbox" id="class2" name="className" value="1"  />
-												<label for="class2"></label>
-												 <span>2班</span> 
-												 <input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
-											</li>
-											<li>
-												
-												<input type="checkbox" id="class3" name="className" value="1"  />
-												<label for="class3"></label>
-												 <span>3班</span> 
-												 <input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
-											</li>
-											<li>
-												
-												<input type="checkbox" id="class4" name="className" value="1"  />
-												<label for="class4"></label>
-												 <span>4班</span> 
-												 <input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
-											</li>
-											<li>
-												<input type="checkbox" id="class5" name="className" value="1" />
-												<label for="class5"></label>
-												<span>5班</span>
-												<input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
-											</li>
-											<li>
-												<input type="checkbox" id="class6" name="className" value="1" />
-												<label for="class6"></label>
-												<span>6班</span>
-												<input class="date-picker" type="text" class="form-control" style="width:200px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""/>
-											</li> -->
+											
 										</ul>
 									</div>
 								
@@ -119,9 +80,9 @@
 								<col width="10%"/>
 								<thead>
 									<tr>
-										<th style="text-align:left;"><span>题目数量</span><span class="add">+</span><input type="number" class="w_100" id="que_num" value="${pd.QUESTION_COUNT==null?0:pd.QUESTION_COUNT}"/><span class="redu">-</span></th>
-										<th><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" id="ans_num" value="4"/><span class="redu">-</span></th>
-										<th><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" id="score" value="1"/><span class="redu">-</span></th>
+										<th style="text-align:left;"><span>题目数量</span><input type="number" class="w_100" id="que_num" value="${pd.QUESTION_COUNT==null?0:pd.QUESTION_COUNT}"/></th>
+										<th><span>选项个数</span><input type="number" class="w_100 ans_num" id="ans_num" value="4"/></th>
+										<th><span>分值</span><input type="number" class="w_100 score" id="score" value="1"/></th>
 										<th></th>
 									</tr>
 								</thead>
@@ -151,9 +112,9 @@
 														</div>
 														
 													</td>
-													<td class="middle"><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" value="${var.OPTION_NUM}"/><span class="redu">-</span></td>
-													<td class="middle"><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" value="${var.SCORE}"/><span class="redu">-</span></td>
-													<td class="last"><a class="remove"><img src="static/images/remove.png" /></a></td>
+													<td class="middle"><span>选项个数</span><input type="number" class="w_100 ans_num" value="${var.OPTION_NUM}"/></td>
+													<td class="middle"><span>分值</span><input type="number" class="w_100 score" value="${var.SCORE}"/></td>
+													<td class="last"></td>
 												</tr>
 											</c:forEach>
 										</c:when>
@@ -171,8 +132,8 @@
 						<div>
 							<div style="text-align: center;" colspan="10">
 								
-								<a class="btn btn-mini btn-primary" onclick="save();">确定布置</a>
-								<a class="btn btn-mini btn-danger" onclick="window.top.modal.remove();">取消</a>
+								
+								<a class="btn btn-mini btn-danger" onclick="back();">退出</a>
 							</div>
 						</div>
 						<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
@@ -202,82 +163,19 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<!--页面交互-->
-	<script src="static/js/control_homework.js?t=1"></script>
+
 	<script>
-	var homework_id="${pd.HOMEWORK_ID}";
 	
 	$(function() {
 		window.top.loading.remove();
-		work.que_num=parseInt($("#que_num").val());
-		//日期框
-		$(document).on("focus",".date-picker",function(){
-			$(this).datepicker({
-				autoclose: true,
-				todayHighlight: true
-			});			
-		});
-	if(${pd.CLASS_ID==null}==true){
-		$.ajax({         //获取该名教师下的班级信息
-			url:'<%=basePath%>coursemanagement/teacherClass',
-			type:"get",
-			data:{teacher_id:"${pd.TEACHER_ID}"},
-			success:function(res){
-				console.log(res);
-				if(res.data.length>0){
-					var _html="";
-					$.each(res.data,function(k,v){
-						_html+='<li><input type="checkbox" id="class'+k+'" name="className" value="'+v.ID+'"><label for="class'+k+'"></label><span>'+v.CLASS_NAME+'</span><input class="date-picker" type="text" style="width:150px;text-align:center;" placeholder="完成日期" name="lastStart" id="lastStart" data-date-format="yyyy-mm-dd" readonly="readonly" value=""></li>';
-						
-					});
-					$(".classBox ul").html(_html);
-				}
-			}
-		});
-	}
-		
-		
 	});
+	function back(){
+		var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER_ID}';
+		parent.$("#mainFrame").attr('src',path);
+		window.top.loading.show();
+	}
 	
-	function save_data(data){
-		$.ajax({         //获取该名教师下的班级信息
-			url:'<%=basePath%>homework/uploadHomework',
-			type:"post",
-			dataType:"text",
-			data:{"JSON":data},
-			success:function(res){
-				var res=JSON.parse(res);
-				if(res.message=="success"){
-					alert(res.message);
-					console.log(res);
-					
-					var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER_ID}';
-					parent.$("#mainFrame").attr('src',path);
-					window.top.loading.show();
-				}
-				
-			}
-		});
-	}
-	function up_data(data){
-		$.ajax({         //获取该名教师下的班级信息
-			url:'<%=basePath%>homework/updateHomework',
-			type:"post",
-			dataType:"text",
-			data:{"JSON":data},
-			success:function(res){
-				var res=JSON.parse(res);
-				if(res.message=="success"){
-					alert(res.message);
-					console.log(res);
-					
-					var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER_ID}';
-					parent.$("#mainFrame").attr('src',path);
-					window.top.loading.show();
-					
-				}
-			}
-		});
-	}
+	
 	
 	</script>
 </body>

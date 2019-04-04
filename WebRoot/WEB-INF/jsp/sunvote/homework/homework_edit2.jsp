@@ -172,7 +172,7 @@
 							<div style="text-align: center;" colspan="10">
 								
 								<a class="btn btn-mini btn-primary" onclick="save();">确定布置</a>
-								<a class="btn btn-mini btn-danger" onclick="window.top.modal.remove();">取消</a>
+								<a class="btn btn-mini btn-danger" onclick="back()">取消</a>
 							</div>
 						</div>
 						<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
@@ -237,7 +237,11 @@
 		
 		
 	});
-	
+	function back(){
+		var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER_ID}';
+		parent.$("#mainFrame").attr('src',path);
+		window.top.loading.show();
+	}
 	function save_data(data){
 		$.ajax({         //获取该名教师下的班级信息
 			url:'<%=basePath%>homework/uploadHomework',

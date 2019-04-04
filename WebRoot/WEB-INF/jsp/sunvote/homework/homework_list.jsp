@@ -86,7 +86,7 @@
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
 								<td><input type="checkbox" name='ids' id="ids" value="${var.HOMEWORK_ID}"/>${vs.index+1}</td>
-								<td ><a  target="_blank" href="<%=basePath%>homework/goView.do?homework_id=${var.HOMEWORK_ID}">${var.NAME}</a></td>
+								<td ><a  onclick="view('<%=basePath%>homework/goView.do?homework_id=${var.HOMEWORK_ID}')">${var.NAME}</a></td>
 								<td >${var.CREATE_DATE}</td>
 								<td >${var.COMPLETE_DATE}</td>
 								<td >${var.QUESTION_COUNT}</td>
@@ -164,6 +164,11 @@
 	}
 	function add(Id){
 		var path = '<%=basePath%>homework/goAdd2.do?teacher_id='+Id;
+		parent.$("#mainFrame").attr('src',path);
+		window.top.loading.show();
+	}
+	function view(url){
+		var path = url
 		parent.$("#mainFrame").attr('src',path);
 		window.top.loading.show();
 	}
