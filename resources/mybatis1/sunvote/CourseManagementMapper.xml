@@ -162,6 +162,7 @@
 		LEFT JOIN sv_sclass ON sv_coursemanagement.CLASS_ID = sv_sclass.ID
 		WHERE
 			sv_coursemanagement.TEACHER_ID =  #{TEACHER_ID}
+		order by sv_sclass.CLASS_CODE
 		
 	</select>
 	

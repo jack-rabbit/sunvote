@@ -242,7 +242,7 @@ public class HomeworkController extends BaseController {
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if (null != DATA_IDS && !"".equals(DATA_IDS)) {
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
-			homeworkService.deleteAll(ArrayDATA_IDS);
+			homeworkService.deleteHomeworkAll(ArrayDATA_IDS);
 			pd.put("msg", "ok");
 		} else {
 			pd.put("msg", "no");

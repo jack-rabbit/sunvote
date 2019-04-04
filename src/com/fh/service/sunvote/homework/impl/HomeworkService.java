@@ -47,6 +47,22 @@ public class HomeworkService implements HomeworkManager{
 		dao.update("HomeworkMapper.edit", pd);
 	}
 	
+	/**修改
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void deleteHomework(PageData pd)throws Exception{
+		dao.update("HomeworkMapper.deleteHomework", pd);
+	}
+	
+	/**修改
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void deleteHomeworkAll(String[] ArrayDATA_IDS)throws Exception{
+		dao.update("HomeworkMapper.deleteHomework", ArrayDATA_IDS);
+	}
+	
 	/**列表
 	 * @param page
 	 * @throws Exception

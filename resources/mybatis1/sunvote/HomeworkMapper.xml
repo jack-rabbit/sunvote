@@ -123,6 +123,27 @@
 		HOMEWORK_ID = #{HOMEWORK_ID}
 	</update>
 	
+	
+	<!-- 修改 -->
+	<update id="deleteHomework" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set IS_DELETE = '1'
+		where 
+		HOMEWORK_ID = #{HOMEWORK_ID}
+	</update>
+	<!-- 修改 -->
+	<update id="deleteHomeworkAll" parameterType="String">
+		update
+		<include refid="tableName"></include>
+		set IS_DELETE = '1'
+		where 
+		HOMEWORK_ID in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</update>
+	
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
@@ -174,6 +195,8 @@
 		<if test="pd.ENDDATE != null and pd.ENDDATE != ''"><!-- 关键词检索 -->
 			and COMPLETE_DATE &lt; #{pd.ENDDATE}
 		</if>
+		
+		and IS_DELETE != '1'
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -202,18 +225,21 @@
 			and COMPLETE_DATE &gt; #{COMPLETE_DATE}
 		</if>
 		
+		and IS_DELETE != '1'
 		
 	</select>
 	
 	<!-- 列表(全部) -->
 	<select id="qlistAll" parameterType="pd" resultType="pd">
 		select
+			COMPLETE_COUNT,
 			CODE,	
 			NAME,	
 			SUBJECT_ID,	
 			CLASS_ID,	
 			COMPLETE_DATE,	
 			ALL_SCORE,	
+			QUESTION_COUNT,	
 			HOMEWORK_ID
 		from 
 		<include refid="tableName"></include>
@@ -237,7 +263,7 @@
 			and COMPLETE_DATE &gt; #{COMPLETE_DATE}
 		</if>
 		
-		
+		and IS_DELETE != '1'
 	</select>
 	
 	<!-- 批量删除 -->

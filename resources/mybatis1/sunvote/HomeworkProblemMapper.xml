@@ -137,6 +137,7 @@
 	<!-- 列表(全部) -->
 	<select id="listProblem" parameterType="pd" resultType="pd">
 		select
+		HOMEWORKPROBLEM_ID,
 		RANK,
 		NAME,
 		OPTION_NUM,

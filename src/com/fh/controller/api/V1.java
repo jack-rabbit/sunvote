@@ -261,10 +261,18 @@ public class V1 extends BaseController {
 				res.setData(pageData);
 				// 填充数据到返回数据中
 			} else if(headerMaster != null && headerMaster.get("HEADMASTER_ID") != null){
-				headerMaster.put("PASSWORD", "");
 				headerMaster.put("role", "headermaster");
 				List<PageData> classInfoList = sclassService.listAll(headerMaster);
+				for(PageData pttd : classInfoList){
+					pttd.put("CLASS_ID", pttd.get("ID"));
+					pttd.remove("ID");
+					pttd.remove("HEADMASTER_ID");
+					pttd.remove("SCHOOL_ID");
+					pttd.remove("CLASS_TYPE");
+				}
 				headerMaster.put("classInfoList", classInfoList);
+				headerMaster.remove("USERNAME");
+				headerMaster.remove("PASSWORD");
 				res.setData(headerMaster);
 				
 			}else{

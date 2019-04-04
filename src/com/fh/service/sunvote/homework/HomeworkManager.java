@@ -29,6 +29,16 @@ public interface HomeworkManager{
 	 * @throws Exception
 	 */
 	public void edit(PageData pd)throws Exception;
+	/**修改
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void deleteHomework(PageData pd)throws Exception;
+	/**修改
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void deleteHomeworkAll(String[] ArrayDATA_IDS)throws Exception;
 	
 	/**列表
 	 * @param page
