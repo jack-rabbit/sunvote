@@ -196,7 +196,7 @@
 			and COMPLETE_DATE &lt; #{pd.ENDDATE}
 		</if>
 		
-		and IS_DELETE != '1'
+		and IS_DELETE is  null
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -225,7 +225,7 @@
 			and COMPLETE_DATE &gt; #{COMPLETE_DATE}
 		</if>
 		
-		and IS_DELETE != '1'
+		and IS_DELETE is  null
 		
 	</select>
 	
@@ -263,7 +263,7 @@
 			and COMPLETE_DATE &gt; #{COMPLETE_DATE}
 		</if>
 		
-		and IS_DELETE != '1'
+		and IS_DELETE is  null
 	</select>
 	
 	<!-- 批量删除 -->
