@@ -111,7 +111,7 @@
 			</table>
 			<div class="footer">
 				<div class="creat">
-					<input type="button"  onclick="add()" value="布置练习" />
+					<input type="button"  onclick="add('${pd.TEACHER_ID}')" value="布置练习" />
 				</div>
 				<div class="removeAll">
 					<input type="button" onclick="deleteAll()" value="批量删除" />
@@ -151,7 +151,7 @@
 		$("#Form").submit();
 	}
 	function add(Id){
-		var path = '<%=basePath%>homework/goAdd2.do?school_id=${pd.SCHOOL_ID}&HOMEWORK_ID='+Id;
+		var path = '<%=basePath%>homework/goAdd2.do?teacher_id='+Id;
 		parent.$("#mainFrame").attr('src',path);
 		window.top.loading.show();
 	}

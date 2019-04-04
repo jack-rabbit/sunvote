@@ -54,7 +54,7 @@
 								<td>
 									<div class="classBox">
 										<ul>
-											<c:if test="${pd.CLASS_ID != ''}">
+											<c:if test="${pd.CLASS_ID != null}">
 												<li class="checked">
 													<input type="checkbox" checked="true" id="class0" name="className" value="${pd.CLASS_ID}"  />
 													<label for="class0"></label>
@@ -119,7 +119,7 @@
 								<col width="10%"/>
 								<thead>
 									<tr>
-										<th style="text-align:left;"><span>题目数量</span><span class="add">+</span><input type="number" class="w_100" id="que_num" value="0"/><span class="redu">-</span></th>
+										<th style="text-align:left;"><span>题目数量</span><span class="add">+</span><input type="number" class="w_100" id="que_num" value="${pd.QUESTION_COUNT==null?0:pd.QUESTION_COUNT}"/><span class="redu">-</span></th>
 										<th><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" id="ans_num" value="4"/><span class="redu">-</span></th>
 										<th><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" id="score" value="1"/><span class="redu">-</span></th>
 										<th></th>
@@ -179,7 +179,7 @@
 					</form>
 					
 					
-					${pd}
+					
 					
 					</div>
 					<!-- /.col -->
@@ -204,8 +204,11 @@
 	<!--页面交互-->
 	<script src="static/js/control_homework.js?t=1"></script>
 	<script>
+	var homework_id="${pd.HOMEWORK_ID}";
+	
 	$(function() {
 		window.top.loading.remove();
+		work.que_num=parseInt($("#que_num").val());
 		//日期框
 		$(document).on("focus",".date-picker",function(){
 			$(this).datepicker({
@@ -213,11 +216,11 @@
 				todayHighlight: true
 			});			
 		});
-	if('${pd.CLASS_ID}'==''){
+	if(${pd.CLASS_ID==null}==true){
 		$.ajax({         //获取该名教师下的班级信息
 			url:'<%=basePath%>coursemanagement/teacherClass',
 			type:"get",
-			data:{teacher_id:'${pd.TEACHER_ID}'},
+			data:{teacher_id:"${pd.TEACHER_ID}"},
 			success:function(res){
 				console.log(res);
 				if(res.data.length>0){
@@ -236,6 +239,18 @@
 	});
 	
 	function save_data(data){
+		$.ajax({         //获取该名教师下的班级信息
+			url:'<%=basePath%>homework/uploadHomework',
+			type:"post",
+			dataType:"text",
+			data:{"JSON":data},
+			success:function(res){
+				alert("保存成功");
+				console.log(res);
+			}
+		});
+	}
+	function up_data(data){
 		$.ajax({         //获取该名教师下的班级信息
 			url:'<%=basePath%>homework/uploadHomework',
 			type:"post",

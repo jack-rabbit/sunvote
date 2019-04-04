@@ -26,7 +26,7 @@
 				}
 			}
 			else if(_id=="ans_num"){//新增选项
-				alert(work.que_num);
+				//alert($("#que_num").val());
 				for(j=1;j<=work.que_num;j++){	//轮询每道题目
 					var now_length=$(".question"+j+" ul").find(".btn").length; //获取当前题目选项个数
 					if(now_length<work.ans_num){   //当前题目选项个数小于数字框中个数，则把选项个数增加到数字框中的个数
@@ -46,6 +46,7 @@
 			}else{
 				if(_id.siblings(".w_100").attr("class").indexOf("ans_num")>-1){ //没有id，但是class中含有ans_num，则为单个题目中的选项设置框
 					var _index=_id.closest("tr").index()+1;
+					console.log(_index);
 					for(i=index;i<=num;i++){
 						$(".question"+_index+" ul").append('<li class="btn btn-default">'+String.fromCharCode(0x41 + i-1)+'</li>')
 					}
@@ -98,24 +99,30 @@
 			if(_that.siblings(".w_100").attr("id")){
 				//将下面的数字框的值设置成标题栏数字框的值
 				var _class=_that.siblings(".w_100").attr("id");
-				$("."+_class).val(temp_num);
+				
 				//题目数
 				if(_class=="que_num"){
 					work.que_num=temp_num;
-					creat_work(_class,work.que_num,work.que_num);
+					creat_work(_class,work.que_num,work.que_num);					
 				}
 				//选项数
 				if(_class=="ans_num"){
+					if(temp_num>=10){
+						temp_num=9;
+					}
 					work.ans_num=temp_num;
 					creat_work(_class,work.ans_num,work.ans_num);
-				}				
+				}	
+				$("."+_class).val(temp_num);
 			}
 			else{
 				if(_that.siblings(".w_100").attr("class").indexOf("ans_num")>-1){
 					creat_work(_that,temp_num,temp_num);
 				}
 			}
-			
+			if(work.que_num!=0){
+				$(".main_info").remove();
+			}
 		})
 		//点击-按钮
 		$(document).on("click",".redu",function(){
@@ -148,7 +155,9 @@
 					remove_work(_that,temp_num,temp_num);
 				}
 			}
-			
+			if(work.que_num!=0){
+				$(".main_info").remove();
+			}
 		})
 		$(document).on("click",".remove",function(){
 			var _that=$(this);
@@ -172,6 +181,9 @@
 			var old_num=parseInt(work.que_num);
 			var _temp=now_num-old_num;
 			
+			if(now_num!=0){
+				$(".main_info").remove();
+			}
 			if(_temp>0){
 				creat_work($(this).attr("id"),(old_num+1),now_num);
 			}else{
@@ -185,7 +197,9 @@
 			var now_num=parseInt($("#ans_num").val());
 			var old_num=parseInt(work.ans_num);
 			var _temp=now_num-old_num;
-			
+			if(now_num>=10){
+				now_num=9;	
+			}
 			$(".ans_num").val(now_num);
 			work.ans_num=now_num;
 			
@@ -311,7 +325,18 @@
 			saveData.QUESTIONS=QUESTIONS;
 			
 			//console.log(saveData);
-			save_data(JSON.stringify(saveData));
+			if(homework_id==""){
+				save_data(JSON.stringify(saveData));
+				//console.log("保存");
+			}
+			else{
+				//console.log("更新");
+				saveData.HOMEWORK_ID=homework_id;
+				up_data(JSON.stringify(saveData));
+			}
+				
+			
+			
 			
 			
 		}
