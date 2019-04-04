@@ -309,7 +309,9 @@
 			saveData.QUESTION_COUNT=work.que_num;
 			saveData.QUESTIONS=QUESTIONS;
 			
-			console.log(saveData);
+			//console.log(saveData);
+			save_data(JSON.stringify(saveData));
+			
 			
 		}
 		

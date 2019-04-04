@@ -192,7 +192,7 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<!--页面交互-->
-	<script src="static/js/control_homework.js"></script>
+	<script src="static/js/control_homework.js?t=12"></script>
 	<script>
 	$(function() {
 		window.top.loading.remove();
@@ -205,7 +205,7 @@
 		});
 
 		$.ajax({         //获取该名教师下的班级信息
-			url:'<%=basePath%>/coursemanagement/teacherClass',
+			url:'<%=basePath%>coursemanagement/teacherClass',
 			type:"get",
 			data:{teacher_id:"08b418184e5044c7b419caa830b834a7"},
 			success:function(res){
@@ -222,6 +222,19 @@
 		});
 		
 	});
+	
+	function save_data(data){
+		$.ajax({         //获取该名教师下的班级信息
+			url:'<%=basePath%>homework/uploadHomework',
+			type:"post",
+			dataType:"text",
+			data:{"JSON":data},
+			success:function(res){
+				alert("保存成功");
+				console.log(res);
+			}
+		});
+	}
 	</script>
 </body>
 </html>
