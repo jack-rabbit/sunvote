@@ -175,6 +175,7 @@ public class HomeworkController extends BaseController {
 		pd = this.getPageData();
 		pd = homeworkService.findById(pd); // 根据ID读取
 		pd.put("PROBLEMS", homeworkproblemService.listProblem(pd));
+		pd.put("TEACHER_ID", geTeacherID());
 		mv.setViewName("sunvote/homework/homework_edit2");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);

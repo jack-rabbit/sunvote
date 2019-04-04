@@ -100,10 +100,10 @@
 			
 			<ul class="menu_1">
 					<li>
-						<p id="practice_manage" onclick="event.stopPropagation();homeWork('${SCHOOL_ID}')">练习列表</p>
+						<p id="practice_manage" onclick="event.stopPropagation();homeWorkList('${SCHOOL_ID}')">练习列表</p>
 					</li>
 					<li>
-						<p id="practice_do" >布置练习</p>
+						<p id="practice_do" onclick="event.stopPropagation();homeWork('${SCHOOL_ID}')">布置练习</p>
 					</li>
 					<li>
 						<p id="practice_report">练习报表</p>
@@ -176,10 +176,18 @@
 				window.top.loading.show();
 			}
 		}
-		function homeWork(schoolId){
+		function homeWorkList(schoolId){
 			//var path = "../school/goEdit2.do?ID=" + schoolId ;
 
 			var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER.ID}&ID=' + schoolId ;
+			
+				$("#mainFrame").attr('src',path);
+				window.top.loading.show();
+		}
+		function homeWork(schoolId){
+			//var path = "../school/goEdit2.do?ID=" + schoolId ;
+
+			var path = '<%=basePath%>homework/goEdit2.do?teacher_id=${pd.TEACHER.ID}&ID=' + schoolId ;
 			
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();

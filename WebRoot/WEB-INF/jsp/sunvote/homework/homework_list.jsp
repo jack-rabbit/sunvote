@@ -93,8 +93,8 @@
 								<td >${var.COMPLETE_COUNT == "0" ? "未完成":"已完成"}</td>
 								<td >${var.ALL_SCORE}</td>
 								<td>
-								<a onclick="edit('${var.HOMEWORK_ID}');"><img src="static/images/remove.png" /></a>
-								<a onclick="del('${var.HOMEWORK_ID}');"><img src="static/images/eidtor.png" /></a>
+								<a onclick="edit('${var.HOMEWORK_ID}');"><img src="static/images/eidtor.png" /></a>
+								<a onclick="del('${var.HOMEWORK_ID}');"><img src="static/images/remove.png" /></a>
 								</td>
 							</tr>
 							
@@ -150,18 +150,17 @@
 	function tosearch(){
 		$("#Form").submit();
 	}
-	function edit(Id){
-		window.top.modal.init({
-		'title':'布置练习',
-		'width':1200,
-		'height':600,
-		'url':'<%=basePath%>homework/goEdit2.do?school_id=${pd.SCHOOL_ID}&ID='+Id,
-		func:function() {
-			tosearch();
-		}
-		});
-		window.top.modal.show();
+	function add(Id){
+		var path = '<%=basePath%>homework/goEdit2.do?school_id=${pd.SCHOOL_ID}&ID='+Id;
+		parent.$("#mainFrame").attr('src',path);
+		window.top.loading.show();
 	}
+	function edit(Id){
+		var path = '<%=basePath%>homework/goEdit2.do?school_id=${pd.SCHOOL_ID}&ID='+Id;
+		parent.$("#mainFrame").attr('src',path);
+		window.top.loading.show();
+	}
+	
 	</script>
 
 

@@ -16,6 +16,8 @@
 	<%@ include file="../../system/index/top.jsp"%>
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
+	<!-- 编辑页样式覆盖 -->
+	<link rel="stylesheet" href="static/css/edit.css" />
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
@@ -30,7 +32,7 @@
 					<form action="headmaster/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="HEADMASTER_ID" id="HEADMASTER_ID" value="${pd.HEADMASTER_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
-						<table id="table_report" class="table table-striped table-bordered table-hover">
+						<table id="table_report" class="table">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">姓名:</td>
 								<td><input type="text" name="NAME" id="NAME" value="${pd.NAME}" maxlength="255" placeholder="这里输入姓名" title="姓名" style="width:98%;"/></td>
@@ -42,15 +44,7 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">密码:</td>
 								<td><input type="text" name="PASSWORD" id="PASSWORD" value="${pd.PASSWORD}" maxlength="255" placeholder="这里输入密码" title="密码" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">所在学校:</td>
-								<td><input type="text" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}" maxlength="255" placeholder="这里输入所在学校" title="所在学校" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">权限:</td>
-								<td><input type="text" name="PERMISSION" id="PERMISSION" value="${pd.PERMISSION}" maxlength="255" placeholder="这里输入权限" title="权限" style="width:98%;"/></td>
-							</tr>
+							</tr>							
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">联系电话:</td>
 								<td><input type="text" name="PHONE" id="PHONE" value="${pd.PHONE}" maxlength="255" placeholder="这里输入联系电话" title="联系电话" style="width:98%;"/></td>
@@ -58,7 +52,7 @@
 							<tr>
 								<td style="text-align: center;" colspan="10">
 									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
-									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+									<a class="btn btn-mini btn-danger" onclick="window.top.modal.remove();">取消</a>
 								</td>
 							</tr>
 						</table>
@@ -87,7 +81,7 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript">
-		$(top.hangge());
+		
 		//保存
 		function save(){
 			if($("#NAME").val()==""){
@@ -120,26 +114,7 @@
 				$("#PASSWORD").focus();
 			return false;
 			}
-			if($("#SCHOOL_ID").val()==""){
-				$("#SCHOOL_ID").tips({
-					side:3,
-		            msg:'请输入所在学校',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#SCHOOL_ID").focus();
-			return false;
-			}
-			if($("#PERMISSION").val()==""){
-				$("#PERMISSION").tips({
-					side:3,
-		            msg:'请输入权限',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#PERMISSION").focus();
-			return false;
-			}
+			
 			if($("#PHONE").val()==""){
 				$("#PHONE").tips({
 					side:3,
