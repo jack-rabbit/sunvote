@@ -111,10 +111,10 @@
 			</table>
 			<div class="footer">
 				<div class="creat">
-					<input type="button"  onclick="add()" value="布置练习" />
+					<input type="button"  onclick="add('${pd.TEACHER_ID}')" value="布置练习" />
 				</div>
 				<div class="removeAll">
-					<input type="button" onclick="deleteAll()" value="批量删除" />
+					<input type="button" onclick="del()" value="批量删除" />
 				</div>
 				<div class="page_box">
 					
@@ -147,11 +147,21 @@
 		});
 	});
 	
+	$('#ids').on('click', function(){
+		var th_checked = $("#ids").prop('checked');//checkbox inside "TH" table header
+		
+		$(".table_box .table").find('tbody > tr').each(function(){
+			var row = this;
+			if(th_checked) $(row).find('input[type=checkbox]').eq(0).prop('checked', true);
+			else $(row).find('input[type=checkbox]').eq(0).prop('checked', false);
+		});
+	});
+	
 	function tosearch(){
 		$("#Form").submit();
 	}
 	function add(Id){
-		var path = '<%=basePath%>homework/goAdd2.do?school_id=${pd.SCHOOL_ID}&HOMEWORK_ID='+Id;
+		var path = '<%=basePath%>homework/goAdd2.do?teacher_id='+Id;
 		parent.$("#mainFrame").attr('src',path);
 		window.top.loading.show();
 	}
@@ -159,6 +169,38 @@
 		var path = '<%=basePath%>homework/goEdit2.do?school_id=${pd.SCHOOL_ID}&HOMEWORK_ID='+Id;
 		parent.$("#mainFrame").attr('src',path);
 		window.top.loading.show();
+	}
+	function del(Id){
+		window.top.remove.init({"title":"删除","func":function(success){
+			if(success){
+				var str = '';
+				for(var i=0;i < document.getElementsByName('ids').length;i++){
+				  if(document.getElementsByName('ids')[i].checked){
+				  	if(str=='') str += document.getElementsByName('ids')[i].value;
+				  	else str += ',' + document.getElementsByName('ids')[i].value;
+				  }
+				}
+				if(str==''){
+					
+				}else{
+					$.ajax({
+							type: "POST",
+							url: '<%=basePath%>homework/deleteAll.do?tm='+new Date().getTime(),
+					    	data: {DATA_IDS:str},
+							dataType:'json',
+							//beforeSend: validateData,
+							cache: false,
+							success: function(data){
+								tosearch();
+							}
+						});
+				}
+			}
+			else{
+				console.log("false");
+			}
+		}});
+		window.top.remove.show();
 	}
 	
 	</script>
