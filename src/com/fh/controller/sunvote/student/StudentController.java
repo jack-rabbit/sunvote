@@ -135,6 +135,9 @@ public class StudentController extends BaseController {
 		PageData tpd = getPageData();
 		PageData pd = new PageData();
 		String termID = tpd.getString("TERM_ID");
+		if(termID == null || "".equals(termID.trim())){
+			termID = getTermId();
+		}
 		String classID = tpd.getString("CLASS_ID");
 		if (null != file && !file.isEmpty()) {
 			String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
@@ -157,6 +160,8 @@ public class StudentController extends BaseController {
 						if (savePd.values().size() > 0) {
 							String studentId = this.get32UUID();
 							savePd.put("ID", studentId);
+							savePd.put("CLASS_ID", classID);
+							
 							studentService.save(savePd);
 
 							if (classID != null && termID != null) {

@@ -287,7 +287,7 @@
 			sv_homework
 		LEFT JOIN sv_homeworkreport ON sv_homework.HOMEWORK_ID = sv_homeworkreport.HOMEWORK_ID
 		WHERE
-			sv_homework.CLASS_ID = #{CLASS_ID}
+			sv_homework.CLASS_ID = #{CLASS_ID} and sv_homework.COMPLETE_COUNT > 0
 		ORDER BY sv_homework.COMPLETE_DATE,sv_homework.HOMEWORK_ID,sv_homeworkreport.STUDNET_NO
 	
 	</select>

@@ -2912,7 +2912,9 @@ public class V1 extends BaseController {
 					ptd.put("HOMEWORK_ID", resultHomework.getHOMEWORK_ID());
 				}
 				// 2. 根据学生列表生成初始化成绩
-				homeworkReporkService.batchSave(student);
+				if(student.size() > 0){
+					homeworkReporkService.batchSave(student);
+				}
 			}
 			List<ResultStudent> students = resultHomework.getSTUDENTS();
 			for(ResultStudent student:students){
