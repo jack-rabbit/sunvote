@@ -2895,6 +2895,7 @@ public class V1 extends BaseController {
 			homePd.put("GET_SCORE_PERSENT", resultHomework.getGET_SCORE_PERSENT());
 			homePd.put("COMPLETE_DESC", resultHomework.getCOMPLETE_DESC());
 			homePd.put("GET_MAX_SCORE", resultHomework.getGET_MAX_SCORE());
+			homePd.put("COMPLETE_COUNT", "1");
 			homeworkService.edit(homePd);
 			List<PageData> list = homeworkReporkService.findByHomeworkID(homePd);
 			if(list == null || list.size() == 0){
@@ -2903,6 +2904,7 @@ public class V1 extends BaseController {
 				List<PageData> student = studentService.findByClassId(homePd);
 				for(PageData ptd : student){
 					ptd.put("STUDENT_NAME", ptd.get("NAME"));
+					ptd.put("HOMEWORK_REPORT_ID", this.get32UUID());
 					ptd.put("STUDENT_NO", ptd.get("SNO"));
 					ptd.put("RANK", student.size() + "");
 					ptd.put("KEYBOARD", ptd.get("KEYPAD_ID"));

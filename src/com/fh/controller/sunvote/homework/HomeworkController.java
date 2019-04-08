@@ -247,14 +247,18 @@ public class HomeworkController extends BaseController {
 		for(PageData ptd : list){
 			ptd.put("CLASS_ID", ptd.get("ID"));
 			ptd.put("TEACHER_ID", pd.get("TEACHER_ID"));
-			List<PageData> dataList = homeworkService.report(ptd);
-			ptd.put("DETAIL", dataList);
-			ptd.remove("TEACHER_ID");
-			ptd.remove("CLASS_TYPE");
-			ptd.remove("BASESTATION_ID");
-			ptd.remove("SCHOOL_ID");
-			ptd.remove("GRADE_ID");
-			ptd.remove("ID");
+			List<PageData> homeworkList = homeworkService.listAll(ptd);
+			for(PageData hpd:homeworkList){
+				List<PageData> dataList = homeworkService.report(hpd);
+				hpd.put("STUDENTS", dataList);
+				hpd.remove("TEACHER_ID");
+				hpd.remove("CLASS_TYPE");
+				hpd.remove("BASESTATION_ID");
+				hpd.remove("SCHOOL_ID");
+				hpd.remove("GRADE_ID");
+				hpd.remove("ID");
+			}
+			ptd.put("HOMEWORKS", homeworkList);
 		}
 		pd.put("CLASS", list);
 		pd.remove("JSON");
