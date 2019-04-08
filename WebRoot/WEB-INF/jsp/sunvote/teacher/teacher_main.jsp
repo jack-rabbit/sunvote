@@ -100,13 +100,13 @@
 			
 			<ul class="menu_1">
 					<li>
-						<p id="practice_manage" onclick="event.stopPropagation();homeWorkList('${SCHOOL_ID}')">练习列表</p>
+						<p id="practice_manage" onclick="event.stopPropagation();homeWorkList('${pd.TEACHER.SCHOOL_ID}')">练习列表</p>
 					</li>
 					<li>
-						<p id="practice_do" onclick="event.stopPropagation();homeWork('${SCHOOL_ID}')">布置练习</p>
+						<p id="practice_do" onclick="event.stopPropagation();homeWork('${pd.TEACHER.SCHOOL_ID}')">布置练习</p>
 					</li>
 					<li>
-						<p id="practice_report" onclick="event.stopPropagation();homeReport('${SCHOOL_ID}')">练习报表</p>
+						<p id="practice_report" onclick="event.stopPropagation();homeReport('${pd.TEACHER.SCHOOL_ID}')">练习报表</p>
 					</li>
 				</ul>
 		</div>
@@ -160,6 +160,8 @@
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+	
+	
 	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 	<script
 		src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -194,7 +196,7 @@
 		}
 		
 		function homeReport(schoolId){
-			var path = '<%=basePath%>homework/report.do?teacher_id=${pd.TEACHER.ID}&ID=' + schoolId ;
+			var path = '<%=basePath%>homework/report.do?teacher_id=${pd.TEACHER.ID}&ID='+schoolId;
 			
 			$("#mainFrame").attr('src',path);
 			window.top.loading.show();

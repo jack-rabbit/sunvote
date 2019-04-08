@@ -245,7 +245,7 @@ public class HomeworkController extends BaseController {
 		pd.put("TEACHER_ID", getTeacherID());
 		List<PageData> list = coursemanagementService.listTeacherClass(pd);
 		for(PageData ptd : list){
-			ptd.put("CLASS_ID", pd.get("ID"));
+			ptd.put("SCHOOL_ID", pd.get("ID"));
 			ptd.put("TEACHER_ID", pd.get("TEACHER_ID"));
 			List<PageData> dataList = homeworkService.listAll(ptd);
 			ptd.put("DETAIL", dataList);

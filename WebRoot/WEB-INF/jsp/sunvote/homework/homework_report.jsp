@@ -28,30 +28,21 @@
 <style>
 	.font span{    font-size: 12px;
     font-weight: initial;color:#000;}
+    .search_btn{width:30px;}
+    .btn{margin:0 5px;}
 	</style>
 </head>
 
 <body style="background:#fff;">
-	<div>
-	
-	  <!-- Nav tabs -->
-	  <ul class="nav nav-tabs" role="tablist">
-	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-	    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-	    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-	    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-	  </ul>
-	
-	  <!-- Tab panes 
-	  <div class="tab-content">
-	    <div role="tabpanel" class="tab-pane active" id="home">...</div>
-	    <div role="tabpanel" class="tab-pane" id="profile">...</div>
-	    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-	    <div role="tabpanel" class="tab-pane" id="settings">...</div>
-	  </div>-->
-	
+	<div style="padding-top:3%;">
+		<ul>
+			<c:forEach items="${pd.CLASS}" var="var" varStatus="vs">
+				<li class="btn btn-primary btn-lg">${var.CLASS_NAME}</li>
+			</c:forEach>
+				
+		</ul>
 	</div>
-
+	<hr />
 	<div style="padding:20px 20px;">
 		<form action="report/report.do" method="post" name="Form" id="Form" style="margin-bottom:0;">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
@@ -63,6 +54,8 @@
 				
 					<td><div style="width:150px;text-align:center;"><span>学生人数: ${info.STUDENT_NUM}</span></div></td>
 					<td></td>
+					
+				
 					<c:if test="${not empty subjectInfos}">
 						<td>
 							<select class="chosen-select form-control" name="SUBJECT_ID" id="SUBJECT_ID" data-placeholder="这里输入所属学校">
@@ -85,11 +78,13 @@
 						type="text" data-date-format="yyyy-mm-dd" readonly="readonly"
 						style="width:88px;" placeholder="结束日期" title="结束日期" /></td>
 					<td style="vertical-align:top;padding-left:2px"><a
-						class="btn btn-light btn-xs" onclick="tosearch();" title="检索"><i
-							id="nav-search-icon"
-							class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
+						class="btn btn-light btn-xs" onclick="tosearch();" title="检索"><img src="static/images/search.png" alt="" class="search_btn" /></a></td>
+					<td><li class="btn btn-default btn-sm">上一周</li></td>
+					<td><li class="btn btn-primary btn-sm">本一周</li></td>
+					<td><li class="btn btn-default btn-sm">下一周</li></td>
 				</tr>
 			</table>
+			<hr />
 			<table id="simple-table"
 				class="table table-bordered table-hover"
 				style="margin-top:0px;margin-bottom:0px;">
