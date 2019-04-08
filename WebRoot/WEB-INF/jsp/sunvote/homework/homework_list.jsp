@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -47,13 +48,14 @@
 			</div>
 			<div style="padding:0 5%;background:#fff;">
 				<table class="table table-striped">
-				<col style="width: 10%" />
+				<col style="width: 8%" />
 				<col style="width: 20%" />
 				<col style="width: 15%" />
 				<col style="width: 15%" />
 				<col style="width: 10%" />
+				<col style="width: 7%" />
 				<col style="width: 10%" />
-				<col style="width: 10%" />
+				<col style="width: 5%" />
 				<col style="width: 10%" />
 				<thead>
 					<tr>
@@ -61,6 +63,7 @@
 						<th>练习标题</th>
 						<th>布置时间</th>
 						<th>完成时间</th>
+						<th>班级</th>
 						<th>题目数</th>
 						<th>完成情况</th>
 						<th>总分</th>
@@ -72,13 +75,14 @@
 		</div>
 		<div class="table_box">
 			<table class="table table-striped">
-				<col style="width: 10%" />
+				<col style="width: 8%" />
 				<col style="width: 20%" />
 				<col style="width: 15%" />
 				<col style="width: 15%" />
 				<col style="width: 10%" />
+				<col style="width: 7%" />
 				<col style="width: 10%" />
-				<col style="width: 10%" />
+				<col style="width: 5%" />
 				<col style="width: 10%" />
 				<tbody>
 				<c:choose>
@@ -86,9 +90,10 @@
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
 								<td><input type="checkbox" name='ids' id="ids" value="${var.HOMEWORK_ID}"/>${vs.index+1}</td>
-								<td ><a  target="_blank" href="<%=basePath%>homework/goView.do?homework_id=${var.HOMEWORK_ID}">${var.NAME}</a></td>
+								<td ><a  onclick="view('<%=basePath%>homework/goView.do?homework_id=${var.HOMEWORK_ID}')">${var.NAME}</a></td>
 								<td >${var.CREATE_DATE}</td>
 								<td >${var.COMPLETE_DATE}</td>
+								<td >${myelfun:findClassName(var.CLASS_ID)}</td>
 								<td >${var.QUESTION_COUNT}</td>
 								<td >${var.COMPLETE_COUNT == "0" ? "未完成":"已完成"}</td>
 								<td >${var.ALL_SCORE}</td>
@@ -164,6 +169,11 @@
 	}
 	function add(Id){
 		var path = '<%=basePath%>homework/goAdd2.do?teacher_id='+Id;
+		parent.$("#mainFrame").attr('src',path);
+		window.top.loading.show();
+	}
+	function view(url){
+		var path = url
 		parent.$("#mainFrame").attr('src',path);
 		window.top.loading.show();
 	}
