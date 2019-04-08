@@ -110,6 +110,11 @@ public class HomeworkService implements HomeworkManager{
 	public List<PageData> findByCode(PageData pd) throws Exception {
 		return (List<PageData>)dao.findForList("HomeworkMapper.findByCode", pd);
 	}
+
+	@Override
+	public List<PageData> report(PageData pd) throws Exception {
+		return (List<PageData>)dao.findForList("HomeworkMapper.report", pd);
+	}
 	
 }
 

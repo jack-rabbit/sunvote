@@ -134,6 +134,7 @@
 					</c:choose>
 				</tbody>
 			</table>
+			${pd }
 			<div id="scrollableTable"></div>
 		</form>
 	</div>

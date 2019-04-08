@@ -278,5 +278,19 @@
 		</foreach>
 	</delete>
 	
+	
+	<select id="report" parameterType="pd" resultType="pd">
+	
+		SELECT
+				*
+		FROM
+			sv_homework
+		LEFT JOIN sv_homeworkreport ON sv_homework.HOMEWORK_ID = sv_homeworkreport.HOMEWORK_ID
+		WHERE
+			sv_homework.CLASS_ID = #{CLASS_ID}
+		ORDER BY sv_homework.COMPLETE_DATE,sv_homework.HOMEWORK_ID,sv_homeworkreport.STUDNET_NO
+	
+	</select>
+	
 	<!-- fh313596790qq(青苔) -->
 </mapper>

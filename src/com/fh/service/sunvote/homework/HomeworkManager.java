@@ -55,6 +55,11 @@ public interface HomeworkManager{
 	 * @param pd
 	 * @throws Exception
 	 */
+	public List<PageData> report(PageData pd)throws Exception;
+	/**列表(全部)
+	 * @param pd
+	 * @throws Exception
+	 */
 	public List<PageData> qlistAll(PageData pd)throws Exception;
 	
 	/**通过id获取数据
