@@ -221,6 +221,25 @@ public class HomeworkController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
+	
+	
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/report")
+	public ModelAndView report() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+	
+		mv.setViewName("sunvote/homework/homework_report");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+
 
 	/**
 	 * 批量删除
@@ -321,12 +340,22 @@ public class HomeworkController extends BaseController {
 	@ResponseBody
 	public String getHomeReport() throws Exception {
 		PageData pd = this.getPageData();
-		pd = homeworkService.findById(pd);
-		List<PageData> data = homeworkReporService.findByHomeworkID(pd);
-		pd.put("STUDENTS", data);
+		if(pd.get("HOMEWORK_ID") != null && !"".equals(pd.get("HOMEWORK_ID").toString().trim())){
+			pd = homeworkService.findById(pd);
+			if(pd != null){
+				List<PageData> data = homeworkReporService.findByHomeworkID(pd);
+				pd.put("STUDENTS", data);
+			}else{
+				pd.put("HOMEWORK_ID", "no");
+			}
+		}else{
+			pd.put("HOMEWORK_ID", "no data"); 
+		}
 		Gson gson = new Gson();
 		return gson.toJson(pd);
 	}
+	
+	
 
 	/**
 	 * 列表

@@ -145,7 +145,7 @@
 		function edit(Id){
 			window.top.modal.init({
 			'title':'修改信息',
-			'url':'<%=basePath%>sclass/edit2.do?ID='+Id,
+			'url':'<%=basePath%>sclass/goEdit2.do?ID='+Id,
 			func:function() {
 				tosearch();
 			}

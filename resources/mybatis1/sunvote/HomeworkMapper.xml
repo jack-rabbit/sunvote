@@ -240,6 +240,7 @@
 			COMPLETE_DATE,	
 			ALL_SCORE,	
 			QUESTION_COUNT,	
+			COMPLETE_DESC,
 			HOMEWORK_ID
 		from 
 		<include refid="tableName"></include>
