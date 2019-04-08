@@ -25,6 +25,7 @@ import com.fh.bean.HomeworkQuestion;
 import com.fh.controller.api.ResponseGson;
 import com.fh.controller.base.BaseController;
 import com.fh.entity.Page;
+import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
 import com.fh.service.sunvote.homework.HomeworkManager;
 import com.fh.service.sunvote.homework.HomeworkReportManager;
 import com.fh.service.sunvote.homeworkproblem.HomeworkProblemManager;
@@ -49,6 +50,12 @@ public class HomeworkController extends BaseController {
 
 	@Resource(name = "homeworkproblemService")
 	private HomeworkProblemManager homeworkproblemService;
+	
+	@Resource(name="coursemanagementService")
+	private CourseManagementManager coursemanagementService;
+	
+	@Resource(name="homeworkReporService")
+	private HomeworkReportManager homeworkReporkService;
 
 	/**
 	 * 保存
@@ -193,7 +200,7 @@ public class HomeworkController extends BaseController {
 		pd = this.getPageData();
 		pd = homeworkService.findById(pd); // 根据ID读取
 		pd.put("QUESTIONS", homeworkproblemService.listProblem(pd));
-		pd.put("TEACHER_ID", geTeacherID());
+		pd.put("TEACHER_ID", getTeacherID());
 		mv.setViewName("sunvote/homework/homework_edit2");
 		mv.addObject("msg", "edit");
 		mv.addObject("operation", "edit");
@@ -214,7 +221,7 @@ public class HomeworkController extends BaseController {
 		pd = this.getPageData();
 		pd = homeworkService.findById(pd); // 根据ID读取
 		pd.put("QUESTIONS", homeworkproblemService.listProblem(pd));
-		pd.put("TEACHER_ID", geTeacherID());
+		pd.put("TEACHER_ID", getTeacherID());
 		mv.setViewName("sunvote/homework/homework_view");
 		mv.addObject("msg", "edit");
 		mv.addObject("operation", "view");
@@ -235,7 +242,16 @@ public class HomeworkController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-	
+		pd.put("TEACHER_ID", getTeacherID());
+		List<PageData> list = coursemanagementService.listTeacherClass(pd);
+		for(PageData ptd : list){
+			ptd.put("CLASS_ID", pd.get("ID"));
+			ptd.put("TEACHER_ID", pd.get("TEACHER_ID"));
+			List<PageData> dataList = homeworkService.listAll(ptd);
+			ptd.put("DETAIL", dataList);
+		}
+		pd.put("CLASS", list);
+		
 		mv.setViewName("sunvote/homework/homework_report");
 		mv.addObject("pd", pd);
 		return mv;

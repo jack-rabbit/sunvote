@@ -663,7 +663,7 @@ public class TeacherController extends BaseController {
 	public Object info() throws Exception {
 		PageData pd = this.getPageData();
 		ResponseGson<PageData> res = new ResponseGson();
-		pd.put("ID", this.geTeacherID());
+		pd.put("ID", this.getTeacherID());
 		PageData pageData = teacherService.findById(pd);
 		if (pageData != null && pageData.getString("ID") != null) {
 			pageData.put("PASSWORD", "");// 返回参数中不返回密码

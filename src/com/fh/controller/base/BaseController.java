@@ -98,7 +98,7 @@ public class BaseController {
 		return role;
 	}
 	
-	public String geTeacherID(){
+	public String getTeacherID(){
 		Session session = Jurisdiction.getSession();
 		User user = (User)session.getAttribute(Const.SESSION_USER);
 		if(user != null){
