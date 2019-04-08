@@ -202,7 +202,7 @@ public class HomeworkController extends BaseController {
 	}
 	
 	/**
-	 * 去修改页面
+	 * 去预览页面
 	 * 
 	 * @param
 	 * @throws Exception
@@ -216,6 +216,27 @@ public class HomeworkController extends BaseController {
 		pd.put("QUESTIONS", homeworkproblemService.listProblem(pd));
 		pd.put("TEACHER_ID", geTeacherID());
 		mv.setViewName("sunvote/homework/homework_view");
+		mv.addObject("msg", "edit");
+		mv.addObject("operation", "view");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 * 去查看报表页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/report")
+	public ModelAndView report() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = homeworkService.findById(pd); // 根据ID读取
+		pd.put("QUESTIONS", homeworkproblemService.listProblem(pd));
+		pd.put("TEACHER_ID", geTeacherID());
+		mv.setViewName("sunvote/homework/homework_report");
 		mv.addObject("msg", "edit");
 		mv.addObject("operation", "view");
 		mv.addObject("pd", pd);
