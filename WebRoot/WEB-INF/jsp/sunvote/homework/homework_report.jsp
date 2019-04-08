@@ -19,8 +19,10 @@
 <!-- 下拉框 -->
 <link rel="stylesheet" href="static/ace/css/chosen.css" />
   <link type="text/css" href="static/css/tablescroller.css" rel="stylesheet" />
-<!-- jsp文件头和头部 -->
-<%@ include file="../../system/index/top.jsp"%>
+
+<link
+	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 <style>
@@ -30,6 +32,26 @@
 </head>
 
 <body style="background:#fff;">
+	<div>
+	
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+	    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+	    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+	    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+	  </ul>
+	
+	  <!-- Tab panes 
+	  <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane active" id="home">...</div>
+	    <div role="tabpanel" class="tab-pane" id="profile">...</div>
+	    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+	    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+	  </div>-->
+	
+	</div>
+
 	<div style="padding:20px 20px;">
 		<form action="report/report.do" method="post" name="Form" id="Form" style="margin-bottom:0;">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
@@ -69,7 +91,7 @@
 				</tr>
 			</table>
 			<table id="simple-table"
-				class="table table-striped table-bordered table-hover"
+				class="table table-bordered table-hover"
 				style="margin-top:0px;margin-bottom:0px;">
 				<thead>
 					<tr>
