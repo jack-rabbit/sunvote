@@ -245,13 +245,29 @@ public class HomeworkController extends BaseController {
 		pd.put("TEACHER_ID", getTeacherID());
 		List<PageData> list = coursemanagementService.listTeacherClass(pd);
 		for(PageData ptd : list){
+<<<<<<< HEAD
 			ptd.put("ClASS_ID", pd.get("ID"));
+=======
+			ptd.put("CLASS_ID", ptd.get("ID"));
+>>>>>>> bd553929bab8314313b820c4fd78254ca1640230
 			ptd.put("TEACHER_ID", pd.get("TEACHER_ID"));
-			List<PageData> dataList = homeworkService.listAll(ptd);
-			ptd.put("DETAIL", dataList);
+			List<PageData> homeworkList = homeworkService.listAll(ptd);
+			for(PageData hpd:homeworkList){
+				List<PageData> dataList = homeworkService.report(hpd);
+				hpd.put("STUDENTS", dataList);
+				hpd.remove("TEACHER_ID");
+				hpd.remove("CLASS_TYPE");
+				hpd.remove("BASESTATION_ID");
+				hpd.remove("SCHOOL_ID");
+				hpd.remove("GRADE_ID");
+				hpd.remove("ID");
+			}
+			ptd.put("HOMEWORKS", homeworkList);
 		}
 		pd.put("CLASS", list);
-		
+		pd.remove("JSON");
+		pd.remove("JSON");
+		pd.remove("ID");
 		mv.setViewName("sunvote/homework/homework_report");
 		mv.addObject("pd", pd);
 		return mv;
