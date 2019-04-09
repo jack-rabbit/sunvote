@@ -29,6 +29,7 @@ import com.fh.service.sunvote.coursemanagement.CourseManagementManager;
 import com.fh.service.sunvote.homework.HomeworkManager;
 import com.fh.service.sunvote.homework.HomeworkReportManager;
 import com.fh.service.sunvote.homeworkproblem.HomeworkProblemManager;
+import com.fh.service.sunvote.student.StudentManager;
 import com.fh.util.AppUtil;
 import com.fh.util.Jurisdiction;
 import com.fh.util.ObjectExcelView;
@@ -56,6 +57,9 @@ public class HomeworkController extends BaseController {
 	
 	@Resource(name="homeworkReporService")
 	private HomeworkReportManager homeworkReporkService;
+	
+	@Resource(name="studentService")
+	private StudentManager studentService;
 
 	/**
 	 * 保存
@@ -247,7 +251,12 @@ public class HomeworkController extends BaseController {
 		for(PageData ptd : list){
 
 			ptd.put("CLASS_ID", ptd.get("ID"));
-
+			List<PageData> studentList = studentService.findByClassId(ptd);
+			int studentNum = 0 ;
+			if(studentList != null){
+				studentNum = studentList.size();
+			}
+			ptd.put("STUDENT_NUM", studentNum);
 			ptd.put("TEACHER_ID", pd.get("TEACHER_ID"));
 			List<PageData> homeworkList = homeworkService.listAll(ptd);
 			for(PageData hpd:homeworkList){

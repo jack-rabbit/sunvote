@@ -58,6 +58,27 @@ public class HeadmasterController extends BaseController {
 		return mv;
 	}
 	
+	/**保存
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/save2")
+	public ModelAndView save2() throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"新增Headmaster");
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("HEADMASTER_ID", this.get32UUID());	//主键
+		headmasterService.save(pd);
+		PageData classPageData = new PageData();
+		classPageData.put("ID", pd.get("CLASS_ID"));
+		classPageData.put("HEADMASTER_ID", pd.get("HEADMASTER_ID"));
+		headmasterService.updateHeaderMaster(classPageData);
+		mv.addObject("msg","success");
+		mv.setViewName("save_result2");
+		return mv;
+	}
+	
 	/**删除
 	 * @param out
 	 * @throws Exception
@@ -129,7 +150,7 @@ public class HeadmasterController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		List<PageData>	varList = headmasterService.list(page);	//列出Headmaster列表
+		List<PageData>	varList = headmasterService.listClass(page);	//列出Headmaster列表
 		mv.setViewName("sunvote/headmaster/headmaster_list2");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
@@ -151,6 +172,23 @@ public class HeadmasterController extends BaseController {
 		return mv;
 	}	
 	
+	/**去新增页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goAdd2")
+	public ModelAndView goAdd2()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("sunvote/headmaster/headmaster_edit2");
+		List<PageData> classes = headmasterService.listNoHeaderClass(pd);
+		mv.addObject("classes",classes);
+		mv.addObject("msg", "save2");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
+	
 	 /**去修改页面
 	 * @param
 	 * @throws Exception
@@ -162,6 +200,27 @@ public class HeadmasterController extends BaseController {
 		pd = this.getPageData();
 		pd = headmasterService.findById(pd);	//根据ID读取
 		mv.setViewName("sunvote/headmaster/headmaster_edit");
+		mv.addObject("msg", "edit");
+		mv.addObject("pd", pd);
+		return mv;
+	}	
+	
+	/**去修改页面
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/goEdit2")
+	public ModelAndView goEdit2()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = headmasterService.findById(pd);	//根据ID读取
+		PageData classPageData = headmasterService.findClassByHeaderId(pd);
+		pd.put("CLASS_ID", classPageData.get("ID"));
+		pd.put("CLASS_NAME", classPageData.get("CLASS_NAME"));
+		List<PageData> classes = headmasterService.listNoHeaderClass(pd);
+		mv.addObject("classes",classes);
+		mv.setViewName("sunvote/headmaster/headmaster_edit2");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;

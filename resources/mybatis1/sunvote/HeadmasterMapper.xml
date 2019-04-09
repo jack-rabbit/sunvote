@@ -78,6 +78,16 @@
 	</select>
 	
 	<!-- 通过ID获取数据 -->
+	<select id="findClassByHeaderId" parameterType="pd" resultType="pd">
+		select 
+		 *
+		from 
+		 sv_sclass
+		where 
+			HEADMASTER_ID = #{HEADMASTER_ID}
+	</select>
+	
+	<!-- 通过ID获取数据 -->
 	<select id="findByUsenameAndPassword" parameterType="pd" resultType="pd">
 		select 
 		<include refid="Field"></include>
@@ -105,6 +115,28 @@
 		</if>
 	</select>
 	
+	<!-- 列表 -->
+	<select id="dataClasslistPage" parameterType="page" resultType="pd">
+		select
+		NAME,
+		USERNAME,
+		PASSWORD,
+		sv_headmaster.SCHOOL_ID,
+		PERMISSION,
+		PHONE,
+		KEYPAD_ID,
+		sv_headmaster.HEADMASTER_ID,
+		sv_sclass.CLASS_NAME,
+		sv_sclass.ID
+		from 
+		<include refid="tableName"></include>
+		INNER JOIN sv_sclass ON sv_sclass.HEADMASTER_ID = sv_headmaster.HEADMASTER_ID
+		where 1=1
+		<if test="pd.SCHOOL_ID != null and pd.SCHOOL_ID != ''">
+			and sv_headmaster.SCHOOL_ID = #{pd.SCHOOL_ID}
+		</if>
+	</select>
+	
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
@@ -116,6 +148,30 @@
 			and SCHOOL_ID = #{SCHOOL_ID}
 		</if>
 	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listNoHeaderClass" parameterType="pd" resultType="pd">
+		select
+			ID,CLASS_NAME
+		from 
+		 sv_sclass
+		where 1 = 1
+		<if test="SCHOOL_ID != null and SCHOOL_ID != ''">
+			and SCHOOL_ID = #{SCHOOL_ID}
+		</if>
+		and HEADMASTER_ID is NULL
+	</select>
+	
+	<!-- 修改 -->
+	<update id="updateHeaderMaster" parameterType="pd">
+		update
+			sv_sclass
+		set 
+			HEADMASTER_ID = #{HEADMASTER_ID}
+		where 
+		 		ID = #{ID}
+	</update>
+	
 	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
