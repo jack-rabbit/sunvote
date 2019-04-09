@@ -106,7 +106,7 @@
 						<p id="practice_do" onclick="event.stopPropagation();homeWork('${pd.TEACHER.SCHOOL_ID}')">布置练习</p>
 					</li>
 					<li>
-						<p id="practice_report" onclick="event.stopPropagation();homeReport('${pd.TEACHER.SCHOOL_ID}')">练习报表</p>
+						<p id="practice_report" onclick="event.stopPropagation();homeReport()">练习报表</p>
 					</li>
 				</ul>
 		</div>
@@ -195,8 +195,8 @@
 				window.top.loading.show();
 		}
 		
-		function homeReport(schoolId){
-			var path = '<%=basePath%>homework/report.do?teacher_id=${pd.TEACHER.ID}&ID='+schoolId;
+		function homeReport(){
+			var path = '<%=basePath%>homework/report.do';
 			
 			$("#mainFrame").attr('src',path);
 			window.top.loading.show();
