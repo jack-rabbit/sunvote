@@ -61,11 +61,25 @@
 		</div>
 		<div class="content_b">
 			<div class="form_box">
-				<form action="" method="post" name="loginbox" id="loginbox">
-					<input type="text" name="loginname" id="loginname" value=""
-						placeholder="用户名" /> <input type="password" name="password"
-						id="password" placeholder="密   码" value="" /> <a href="#"
-						onclick="severCheck();" class="login_btn">登录</a>
+				<form action="" method="post" name="loginbox" id="loginbox" >
+					<div class="name_box">
+						<input type="text" name="loginname" id="loginname" value="" placeholder="用户名"  autoComplete="off"/>
+						<svg t="1554790328236" class="icon_down" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2161" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32"><defs><style type="text/css"></style></defs><path d="M863.321996 251.674996 194.108395 251.674996 528.677333 621.186771Z" p-id="2162" fill="#333333"></path></svg>
+					</div>
+					<div class="psw_box">
+						<input type="password" name="password" id="password" placeholder="密   码" value="" autoComplete="off"/>
+						<div class="rember">
+							<input type="checkbox" id="rem_flag"/>
+							<span>记住密码</span>
+						</div>
+					</div>
+					<a href="#" onclick="severCheck();" class="login_btn">登录</a>
+					
+					<div class="history">
+						<ul>
+
+						</ul>
+					</div>
 				</form>
 
 			</div>
@@ -87,6 +101,33 @@
    		    	severCheck();
    		    }
    		}
+   		
+   		$(".icon_down").click(function(){
+   			$("#loginname").focus();
+   			
+   		});
+   		$("#loginname").focus(function(){
+   			var _html="";
+   			var u_list=JSON.parse(storage.getItem('userNameList'));
+   			for(var i=0;i<u_list.length;i++){
+   				_html+='<li>'+u_list[i]+'</li>';
+   			}
+   			$(".history ul").html(_html);
+   			$(".history").toggle();
+   		});
+   		
+   		
+   		$(document).on('hover','.history li',function(){
+   			var p_list=JSON.parse(storage.getItem('passWordList'));
+   			$("#loginname").val($(this).text());
+   			$("#password").val(p_list[$(this).index()]);
+   			//$(".history").hide();
+   		})
+   		$("#loginname").blur(function(){
+   			$(".history").hide();
+   		})
+
+   		
    		//客户端校验
 		function check() {
 
@@ -139,7 +180,8 @@
 					cache: false,
 					success: function(data){
 						if("success" == data.result){
-							saveCookie();
+							if($("#rem_flag").prop("checked"))   //如果选择了记住密码
+								saveCookie();
 							if(data.teacher != null){
 								window.location.href="main/teacher";
 							}else if(data.admin != null){
@@ -180,15 +222,58 @@
 			}
 		}
 		
+		var storage=window.localStorage;
+		var userNameList=[];
+		var passWordList=[];
+		
+		//console.log(JSON.parse(storage.getItem('userNameList')));
+		
 		function saveCookie() {
-			if ($("#saveid").attr("checked")) {
-				$.cookie('loginname', $("#loginname").val(), {
+			if(!window.localStorage){
+	            alert("浏览器不支持localstorage");
+	            
+	        }else{
+	            //主逻辑业务
+	        	
+	            userNameList=JSON.parse(storage.getItem('userNameList'));
+	            passWordList=JSON.parse(storage.getItem('passWordList'));
+	            
+	           
+	            if(userNameList==null){
+	            	var userNameList=[];
+	        		var passWordList=[];
+	            	userNameList.push($("#loginname").val());
+	            	passWordList.push($("#password").val());
+	            	
+	            	storage.setItem('userNameList',JSON.stringify(userNameList));
+	            	storage.setItem('passWordList',JSON.stringify(passWordList));
+	            }else{
+	            	
+	            	if(userNameList.indexOf($("#loginname").val())>-1){
+		            	return false;
+		            }else{	            	
+		            	userNameList.push($("#loginname").val());
+		            	passWordList.push($("#password").val());
+		            	storage.setItem('userNameList',JSON.stringify(userNameList));
+		            	storage.setItem('passWordList',JSON.stringify(passWordList));
+		            }
+	            }
+	            
+	           
+	            
+	            //console.log(userNameList);
+	            
+	            
+	            
+	        }
+			
+				/*$.cookie('loginname', $("#loginname").val(), {
 					expires : 7
 				});
 				$.cookie('password', $("#password").val(), {
 					expires : 7
-				});
-			}
+				});*/
+			
 		}
 	</script>
 		<script type="text/javascript"

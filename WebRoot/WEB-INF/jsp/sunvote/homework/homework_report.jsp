@@ -64,7 +64,7 @@
 					<td><div style="width:150px;text-align:center;">课程统计: ${fn:length(var.HOMEWORKS)}</div></td>
 					<td><div style="width:150px;text-align:center;">班级名册: ${var.CLASS_NAME}</div></td>
 				
-					<td><div style="width:150px;text-align:center;"><span>学生人数: ${INDE.STUDENT_NUM}</span></div></td>
+					<td><div style="width:150px;text-align:center;"><span>学生人数: ${var.STUDENT_NUM}</span></div></td>
 					<td></td>
 					
 				
@@ -125,22 +125,20 @@
 						<td class="center"><div style="width:150px;"></div></td>
 						<td class="center"><div style="width:80px;"></div></td>
 						<c:forEach items="${var.HOMEWORKS}" var="var_h" varStatus="vs">
-							<td class="center"><div style="width:80px;margin:0 auto;">${var.AVG_SCORE}</div></td>
+							<td class="center"><div style="width:80px;margin:0 auto;">${var_h.GET_SCORE}</div></td>
 						</c:forEach>
 					</tr>
 					<tr>
 						<td class="center"><div style="width:150px;">班级课程平均得分率</div></td>
 						<td class="center"><div style="width:150px;"></div></td>
 						<td class="center"><div style="width:80px;"></div></td>
-						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center"><div style="width:80px;margin:0 auto;"><fmt:formatNumber type="number"
-									value="${var.TOTAL_SCORE == 0 ? 0: (var.AVG_SCORE / var.TOTAL_SCORE * 100)}"
-									maxFractionDigits="2" />%</div></td>
+						<c:forEach items="${var.HOMEWORKS}" var="var_h" varStatus="vs">
+							<td class="center"><div style="width:80px;margin:0 auto;">${var_h.GET_SCORE_PERSENT }</div></td>
 						</c:forEach>
 					</tr>
 
 					<c:choose>
-						<c:when test="${not empty studentList}">
+						<c:when test="${not empty $var.HOMEWORKS}">
 							<c:forEach items="${studentList}" var="var" varStatus="vs">
 								<tr>
 									<%-- <td class="center"><a
