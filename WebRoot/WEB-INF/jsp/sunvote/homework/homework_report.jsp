@@ -80,7 +80,7 @@
 					<td style="vertical-align:top;padding-left:2px"><a
 						class="btn btn-light btn-xs" onclick="tosearch();" title="检索"><img src="static/images/search.png" alt="" class="search_btn" /></a></td>
 					<td><li class="btn btn-default btn-sm">上一周</li></td>
-					<td><li class="btn btn-primary btn-sm">本一周</li></td>
+					<td><li class="btn btn-primary btn-sm">本周</li></td>
 					<td><li class="btn btn-default btn-sm">下一周</li></td>
 				</tr>
 			</table>
