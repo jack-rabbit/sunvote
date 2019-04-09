@@ -348,7 +348,7 @@
 		}
 	
 		function monitor(school_id){
-			var path = "../headmaster/list.do?school_id=" + school_id ;
+			var path = "../headmaster/listcs.do?school_id=" + school_id ;
 				$("#mainFrame").attr('src',path);
 				window.top.loading.show();
 		}

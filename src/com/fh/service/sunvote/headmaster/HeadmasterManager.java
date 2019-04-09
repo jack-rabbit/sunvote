@@ -30,11 +30,27 @@ public interface HeadmasterManager{
 	 */
 	public void edit(PageData pd)throws Exception;
 	
+	/**修改
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void updateHeaderMaster(PageData pd)throws Exception;
+	
 	/**列表
 	 * @param page
 	 * @throws Exception
 	 */
 	public List<PageData> list(Page page)throws Exception;
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	public List<PageData> listClass(Page page)throws Exception;
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	public List<PageData> listNoHeaderClass(PageData pd)throws Exception;
 	
 	/**列表(全部)
 	 * @param pd
@@ -47,6 +63,11 @@ public interface HeadmasterManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
+	/**通过id获取数据
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData findClassByHeaderId(PageData pd)throws Exception;
 	
 	/**通过id获取数据
 	 * @param pd

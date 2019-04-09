@@ -1,8 +1,11 @@
 package com.fh.service.sunvote.headmaster.impl;
 
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.fh.dao.DaoSupport;
 import com.fh.entity.Page;
 import com.fh.util.PageData;
@@ -84,6 +87,30 @@ public class HeadmasterService implements HeadmasterManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("HeadmasterMapper.deleteAll", ArrayDATA_IDS);
+	}
+
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<PageData> listClass(Page page) throws Exception {
+		return (List<PageData>)dao.findForList("HeadmasterMapper.dataClasslistPage", page);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<PageData> listNoHeaderClass(PageData pd) throws Exception {
+		return (List<PageData>)dao.findForList("HeadmasterMapper.listNoHeaderClass", pd);
+	}
+
+	@Override
+	public void updateHeaderMaster(PageData pd) throws Exception {
+		dao.update("HeadmasterMapper.updateHeaderMaster", pd);
+		
+	}
+
+	@Override
+	public PageData findClassByHeaderId(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("HeadmasterMapper.findClassByHeaderId", pd);
 	}
 	
 }
