@@ -289,7 +289,7 @@
 		WHERE
 			sv_homework.CLASS_ID = #{CLASS_ID} and sv_homework.COMPLETE_COUNT > 0
 			<if test="HOMEWORK_ID != null and HOMEWORK_ID != ''"><!-- 关键词检索 -->
-				and HOMEWORK_ID = #{HOMEWORK_ID}
+				and sv_homework.HOMEWORK_ID = #{HOMEWORK_ID}
 			</if>
 		ORDER BY sv_homework.COMPLETE_DATE,sv_homework.HOMEWORK_ID,sv_homeworkreport.STUDNET_NO
 	
