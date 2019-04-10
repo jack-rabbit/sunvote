@@ -302,58 +302,65 @@ public class HomeworkController extends BaseController {
 		}
 		pd.put("CLASSES", list);
 		
-		// 对应班级数据
-		PageData data = new PageData();
-		List<PageData> studentList = studentService.findByClassId(pd);
-		
-		List<PageData> homeworkList = homeworkService.listAll(pd);
-		List<PageData> dataList = homeworkService.report(pd);
-		for(PageData stuPd:studentList){
-			double all = 0 ;
-			double get = 0;
-			for(PageData dpd : dataList){
-				if(dpd.get("STUDENT_ID").equals(stuPd.get("ID"))){
-					stuPd.put(dpd.get("HOMEWORK_ID"), dpd.get("STUDENT_SCORE"));
-					try{
-						get += Double.parseDouble(dpd.get("STUDENT_SCORE").toString());
-					}catch(Exception ex){
-						
-					}
-					try{
-						all += Double.parseDouble(dpd.get("PAPER_SCORE").toString());
-					}catch(Exception ex){
-						
+		if (pd.get("CLASS_ID") != null) {
+			// 对应班级数据
+			PageData data = new PageData();
+			List<PageData> studentList = studentService.findByClassId(pd);
+
+			List<PageData> homeworkList = homeworkService.listAll(pd);
+			List<PageData> dataList = homeworkService.report(pd);
+			for (PageData stuPd : studentList) {
+				double all = 0;
+				double get = 0;
+				for (PageData dpd : dataList) {
+					if (dpd.get("STUDENT_ID").equals(stuPd.get("ID"))) {
+						stuPd.put(dpd.get("HOMEWORK_ID"),
+								dpd.get("STUDENT_SCORE"));
+						try {
+							get += Double.parseDouble(dpd.get("STUDENT_SCORE")
+									.toString());
+						} catch (Exception ex) {
+
+						}
+						try {
+							all += Double.parseDouble(dpd.get("PAPER_SCORE")
+									.toString());
+						} catch (Exception ex) {
+
+						}
 					}
 				}
+				stuPd.put("STUDENT_ALL_SCORE", get);
+				stuPd.put("PAPER_ALL_SCORE", all);
+				stuPd.remove("SCHOOL_ID");
+				stuPd.remove("SEX");
+				stuPd.remove("CLASS_ID");
+				stuPd.remove("NUMBER");
+				stuPd.remove("ID");
 			}
-			stuPd.put("STUDENT_ALL_SCORE", get);
-			stuPd.put("PAPER_ALL_SCORE", all);
-			stuPd.remove("SCHOOL_ID");
-			stuPd.remove("SEX");
-			stuPd.remove("CLASS_ID");
-			stuPd.remove("NUMBER");
-			stuPd.remove("ID");
+			for (PageData hpd : homeworkList) {
+				hpd.remove("QUESTION_COUNT");
+				hpd.remove("COMPLETE_COUNT");
+				hpd.remove("SUBJECT_ID");
+				hpd.remove("SCHOOL_ID");
+				hpd.remove("GRADE_ID");
+				hpd.remove("SUMBIT_DATE");
+				hpd.remove("MODIFY_DATE");
+				hpd.remove("TEACHER_ID");
+				hpd.remove("CREATE_DATE");
+				hpd.remove("CLASS_ID");
+				hpd.remove("CODE");
+				hpd.remove("GET_MAX_SCORE");
+				hpd.remove("HOMEWORK_DESC");
+				hpd.remove("COMPLETE_DESC");
+			}
+			data.put("HOMEWORKS", homeworkList);//
+			data.put("STUDENTS", studentList);
+			pd.put("DATA", data);
+		}else{
+			pd.put("CLASS_ID", "");
 		}
-		for(PageData hpd: homeworkList){
-			hpd.remove("QUESTION_COUNT");
-			hpd.remove("COMPLETE_COUNT");
-			hpd.remove("SUBJECT_ID");
-			hpd.remove("SCHOOL_ID");
-			hpd.remove("GRADE_ID");
-			hpd.remove("SUMBIT_DATE");
-			hpd.remove("MODIFY_DATE");
-			hpd.remove("TEACHER_ID");
-			hpd.remove("CREATE_DATE");
-			hpd.remove("CLASS_ID");
-			hpd.remove("CODE");
-			hpd.remove("GET_MAX_SCORE");
-			hpd.remove("HOMEWORK_DESC");
-			hpd.remove("COMPLETE_DESC");
-		}
-		data.put("HOMEWORKS", homeworkList);// 
-		data.put("STUDENTS", studentList);
 		pd.remove("JSON");
-		pd.put("DATA", data);
 		mv.setViewName("sunvote/homework/homework_report");
 		mv.addObject("pd", pd);
 		return mv;
