@@ -81,5 +81,11 @@ public interface HeadmasterManager{
 	 */
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception;
 	
+	/**批量删除
+	 * @param ArrayDATA_IDS
+	 * @throws Exception
+	 */
+	public void deleteAllCLassHeaderMaster(String[] ArrayDATA_IDS)throws Exception;
+	
 }
 

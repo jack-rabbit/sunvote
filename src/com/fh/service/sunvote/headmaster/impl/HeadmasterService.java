@@ -88,6 +88,14 @@ public class HeadmasterService implements HeadmasterManager{
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("HeadmasterMapper.deleteAll", ArrayDATA_IDS);
 	}
+	
+	/**批量删除
+	 * @param ArrayDATA_IDS
+	 * @throws Exception
+	 */
+	public void deleteAllCLassHeaderMaster(String[] ArrayDATA_IDS)throws Exception{
+		dao.update("HeadmasterMapper.deleteAllCLassHeaderMaster", ArrayDATA_IDS);
+	}
 
 	
 	@Override

@@ -309,11 +309,25 @@ public class HomeworkController extends BaseController {
 		List<PageData> homeworkList = homeworkService.listAll(pd);
 		List<PageData> dataList = homeworkService.report(pd);
 		for(PageData stuPd:studentList){
+			double all = 0 ;
+			double get = 0;
 			for(PageData dpd : dataList){
 				if(dpd.get("STUDENT_ID").equals(stuPd.get("ID"))){
-					stuPd.put(dpd.get("HOMEWORK_ID"), dpd.get("GET_SCORE"));
+					stuPd.put(dpd.get("HOMEWORK_ID"), dpd.get("STUDENT_SCORE"));
+					try{
+						get += Double.parseDouble(dpd.get("STUDENT_SCORE").toString());
+					}catch(Exception ex){
+						
+					}
+					try{
+						all += Double.parseDouble(dpd.get("PAPER_SCORE").toString());
+					}catch(Exception ex){
+						
+					}
 				}
 			}
+			stuPd.put("STUDENT_ALL_SCORE", get);
+			stuPd.put("PAPER_ALL_SCORE", all);
 			stuPd.remove("SCHOOL_ID");
 			stuPd.remove("SEX");
 			stuPd.remove("CLASS_ID");
@@ -338,7 +352,7 @@ public class HomeworkController extends BaseController {
 		}
 		data.put("HOMEWORKS", homeworkList);// 
 		data.put("STUDENTS", studentList);
-		
+		pd.remove("JSON");
 		pd.put("DATA", data);
 		mv.setViewName("sunvote/homework/homework_report");
 		mv.addObject("pd", pd);

@@ -172,6 +172,15 @@
 		 		ID = #{ID}
 	</update>
 	
+	<update id="deleteCLassHeaderMaster" parameterType="pd">
+		update
+			sv_sclass
+		set 
+			HEADMASTER_ID = NULL
+		where 
+		 		HEADMASTER_ID = #{HEADMASTER_ID}
+	</update>
+	
 	
 	<!-- 批量删除 -->
 	<delete id="deleteAll" parameterType="String">
@@ -183,6 +192,18 @@
                  #{item}
 		</foreach>
 	</delete>
+	
+	<update id="deleteAllCLassHeaderMaster" parameterType="String">
+		update
+			sv_sclass
+		set 
+			HEADMASTER_ID = NULL
+		where 
+		 		HEADMASTER_ID in 
+ 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+               #{item}
+		</foreach>
+	</update>
 	
 	<!-- fh313596790qq(青苔) -->
 </mapper>
