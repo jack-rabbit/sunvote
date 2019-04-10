@@ -130,7 +130,7 @@
 										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
 									</td> --%>
 									<td class="center"><div style="width:150px;cursor:hand"><a
-										 onclick="student('${info.CLASS_ID}','${var.STUDENT_ID}')">${var.NAME}</a></div>
+										 onclick="student('${pd.CLASS_ID}','${var.STUDENT_ID}')">${var.NAME}</a></div>
 									</td>
 									<td class="center"><div style="width:150px;"><fmt:formatNumber type="number"
 											value="${var.PAPER_ALL_SCORE == 0 ? 0: (var.STUDENT_ALL_SCORE / var.PAPER_ALL_SCORE * 100)}"
@@ -289,20 +289,17 @@
 		
 		function student(classid,studentid){
 		
-			var url = "<%=basePath%>homework/student.do?studentid=" + studentid + "&class_id=" + classid ;
+			var url = "<%=basePath%>homework/student.do?STUDENT_ID=" + studentid + "&CLASS_ID=" + classid ;
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
-			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
-			var SUBJECT_ID = $("#SUBJECT_ID").val();
-			if(SUBJECT_ID != null && SUBJECT_ID != ''){
-				url = url + "&SUBJECT_ID="+ SUBJECT_ID ;
-			}
-			window.self.location.href = url;
+			url = url + "&START_DATE=" + startDate + "&END_DATE=" + endDate ;
+			
+			window.location.href = url;
 			window.top.loading.show();
 		}
 		
 		function paper(class_id,testpaper_id){
-			var url = "<%=basePath%>report/test_report?TestID=" + testpaper_id + "&class_id=" + class_id;
+			var url = "<%=basePath%>homework/homework_report?TestID=" + testpaper_id + "&class_id=" + class_id;
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
 			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
