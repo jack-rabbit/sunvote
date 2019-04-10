@@ -37,23 +37,21 @@
 
 <body style="background:#fff;">
 	
-	
 <div style="padding-top:3%;">
 
   <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    
+  <ul class="nav nav-tabs" role="tablist" style="padding-bottom:3%">
     
     <c:forEach items="${pd.CLASSES}" var="var" varStatus="vs">
-		<li role="presentation" class="${vs.index==0?'active':''}"><a href="#${var.CLASS_ID}" aria-controls="${var.CLASS_ID}" role="tab" data-toggle="tab">${var.CLASS_NAME}</a></li>
+		<li class="btn ${pd.CLASS_ID==var.CLASS_ID?'btn-primary':'btn-default'} }btn-default btn-lg" onclick="homeReport('${var.CLASS_ID}')">${var.CLASS_NAME}</li>
 	</c:forEach>
     
   </ul>
 
 
 			<div style="padding:20px 20px;">
-		<form action="report/report.do" method="post" name="Form" id="Form" style="margin-bottom:0;">
-			<input type="hidden" name="CLASSID" id="CLASSID" value="${var.ID}" />
+		<form action="homework/report.do" method="post" name="Form" id="Form" style="margin-bottom:0;">
+			<input type="hidden" name="CLASSID" id="CLASSID" value="${pd.CLASS_ID}" />
 			<input type="hidden" name="ROLE" id="ROLE" value="${pd.ROLE}" />
 			<table style="margin-top:5px;margin-bottom:20px;">
 				<tr>
@@ -78,9 +76,9 @@
 						style="width:88px;" placeholder="结束日期" title="结束日期" /></td>
 					<td style="vertical-align:top;padding-left:2px"><a
 						class="btn btn-light btn-xs" onclick="tosearch();" title="检索"><img src="static/images/search.png" alt="" class="search_btn" /></a></td>
-					<td><li class="btn btn-default btn-sm">上一周</li></td>
-					<td><li class="btn btn-primary btn-sm">本周</li></td>
-					<td><li class="btn btn-default btn-sm">下一周</li></td>
+					<td><li class="btn btn-default btn-sm" onclick="tosearch_week(-1)">上一周</li></td>
+					<td><li class="btn btn-primary btn-sm" onclick="tosearch_week(0)">本周</li></td>
+					<td><li class="btn btn-default btn-sm" onclick="tosearch_week(1)">下一周</li></td>
 				</tr>
 			</table>
 			<hr />
@@ -135,11 +133,11 @@
 										 onclick="student('${info.CLASS_ID}','${var.STUDENT_ID}')">${var.NAME}</a></div>
 									</td>
 									<td class="center"><div style="width:150px;"><fmt:formatNumber type="number"
-											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
+											value="${var.PAPER_ALL_SCORE == 0 ? 0: (var.STUDENT_ALL_SCORE / var.PAPER_ALL_SCORE * 100)}"
 											maxFractionDigits="2" />%</div></td>
-									<td class="center"><div style="width:80px;margin:0 auto;">${var.GET_SCORE_PERSENT }</div></td>
+									<td class="center"><div style="width:80px;margin:0 auto;">${var.PAPER_ALL_SCORE}</div></td>
 									<c:forEach items="${pd.DATA.HOMEWORKS}" var="var1" varStatus="vs1">
-										<td class="center"><div style="width:180px;margin:0 auto;"><c:set var="TEST_ID"
+										<td class="center"><div style="width:80px;margin:0 auto;"><c:set var="TEST_ID"
 												value="${var1.HOMEWORK_ID}" /> ${var[TEST_ID] }</div></td>
 									</c:forEach>
 								</tr>
@@ -158,116 +156,7 @@
 
 </div>
 	
-	<hr />
-	<div style="padding:20px 20px;">
-		<form action="report/report.do" method="post" name="Form" id="Form" style="margin-bottom:0;">
-			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
-			<input type="hidden" name="ROLE" id="ROLE" value="${pd.ROLE}" />
-			<table style="margin-top:5px;margin-bottom:20px;">
-				<tr>
-					<td><div style="width:150px;text-align:center;">课程统计: ${info.testsize}</div></td>
-					<td><div style="width:150px;text-align:center;">班级名册: ${info.CLASS_NAME}</div></td>
-				
-					<td><div style="width:150px;text-align:center;"><span>学生人数: ${info.STUDENT_NUM}</span></div></td>
-					<td></td>
-					
-				
-					<c:if test="${not empty subjectInfos}">
-						<td>
-							<select class="chosen-select form-control" name="SUBJECT_ID" id="SUBJECT_ID" data-placeholder="这里输入所属学校">
-										<option value="">全部</option>
-										<c:forEach var="item" items="${subjectInfos}">
-											<option value="${item.SUBJECT_ID}" <c:if test="${pd.SUBJECT_ID == item.SUBJECT_ID }">selected = ture</c:if>>${item.SCNAME}</option>
-										</c:forEach>
-							</select>
-						</td>
-					</c:if>
-					<td style="padding-left:2px;">
-					<input
-						class="span10 date-picker" name="lastStart" id="lastStart"
-						value="${start_date}" type="text" data-date-format="yyyy-mm-dd"
-						readonly="readonly" style="width:88px;" placeholder="开始日期"
-						title="开始日期" />
-						</td>
-					<td style="padding-left:2px;"><input
-						class="span10 date-picker" name="lastEnd" id="lastEnd" value="${end_date}"
-						type="text" data-date-format="yyyy-mm-dd" readonly="readonly"
-						style="width:88px;" placeholder="结束日期" title="结束日期" /></td>
-					<td style="vertical-align:top;padding-left:2px"><a
-						class="btn btn-light btn-xs" onclick="tosearch();" title="检索"><img src="static/images/search.png" alt="" class="search_btn" /></a></td>
-					<td><li class="btn btn-default btn-sm">上一周</li></td>
-					<td><li class="btn btn-primary btn-sm">本周</li></td>
-					<td><li class="btn btn-default btn-sm">下一周</li></td>
-				</tr>
-			</table>
-			<hr />
-			<table id="simple-table"
-				class="table table-bordered table-hover"
-				style="margin-top:0px;margin-bottom:0px;">
-				<thead>
-					<tr>
-						<th class="center th_name"><div style="width:150px;">姓名</div></th>
-						<th class="center "><div style="width:150px;">课程平均得分率</div></th>
-						<th class="center"><div style="width:80px;">课程总分</div></th>
-						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<th class="center kc"><a
-								 onclick="paper('${info.CLASS_ID}','${var.TESTPAPER_ID}');"><div style="width:180px;     margin: 0 auto;cursor:hand" class="font">${var.NAME}</br><span>${var.CREATE_DATE}</span></div></a></th>
-						</c:forEach>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="center"><div style="width:150px;">班级课程总分</div></td>
-						<td class="center"><div style="width:150px;"></div></td>
-						<td class="center"><div style="width:80px;"></div></td>
-						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center"><div style="width:80px;margin:0 auto;">${var.TOTAL_SCORE}</div></td>
-						</c:forEach>
-					</tr>
-					<tr>
-						<td class="center"><div style="width:150px;">班级课程平均分</div></td>
-						<td class="center"><div style="width:150px;"></div></td>
-						<td class="center"><div style="width:80px;"></div></td>
-						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center"><div style="width:80px;margin:0 auto;">${var.AVG_SCORE}</div></td>
-						</c:forEach>
-					</tr>
-					<tr>
-						<td class="center"><div style="width:150px;">班级课程平均得分率</div></td>
-						<td class="center"><div style="width:150px;"></div></td>
-						<td class="center"><div style="width:80px;"></div></td>
-						<c:forEach items="${testpaperList}" var="var" varStatus="vs">
-							<td class="center"><div style="width:80px;margin:0 auto;"><fmt:formatNumber type="number"
-									value="${var.TOTAL_SCORE == 0 ? 0: (var.AVG_SCORE / var.TOTAL_SCORE * 100)}"
-									maxFractionDigits="2" />%</div></td>
-						</c:forEach>
-					</tr>
-
-					<c:choose>
-						<c:when test="${not empty studentList}">
-							<c:forEach items="${studentList}" var="var" varStatus="vs">
-								<tr>
-									<%-- <td class="center"><a
-										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
-									</td> --%>
-									<td class="center"><div style="width:150px;cursor:hand"><a
-										 onclick="student('${info.CLASS_ID}','${var.STUDENT_ID}')">${var.NAME}</a></div>
-									</td>
-									<td class="center"><div style="width:150px;"><fmt:formatNumber type="number"
-											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
-											maxFractionDigits="2" />%</div></td>
-									<td class="center"><div style="width:80px;margin:0 auto;">${var.GETSCORE }</div></td>
-									<c:forEach items="${testpaperList}" var="var1" varStatus="vs1">
-										<td class="center"><div style="width:180px;margin:0 auto;"><c:set var="TEST_ID"
-												value="${var1.TESTPAPER_ID}" /> ${var[TEST_ID] }</div></td>
-									</c:forEach>
-								</tr>
-							</c:forEach>
-						</c:when>
-					</c:choose>
-				</tbody>
-			</table>
-			${pd }
+	
 			<div id="scrollableTable"></div>
 		</form>
 	</div>
@@ -365,21 +254,37 @@
 			return Math.round(avg / total * 100)/100 + '%' ;
 		}
 		
+		function homeReport(classId){
+			var path = '<%=basePath%>homework/report.do?CLASS_ID='+classId;
+			console.log(path);
+			parent.$("#mainFrame").attr('src',path);
+			window.top.loading.show();
+		}
+		
 		function tosearch(){
-			var url = "<%=basePath%>report/report.do?classid=${info.CLASS_ID}" ;
+			console.log('${pd.CLASS_ID}');
+			var url = "<%=basePath%>homework/report.do?CLASS_ID=${pd.CLASS_ID}" ;
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
-			var subject_id =  $("#SUBJECT_ID").val();
-			url = url + "&start_date=" + startDate ;
+			//var subject_id =  $("#SUBJECT_ID").val();
+			url = url + "&START_DATE=" + startDate ;
 			if(endDate != null){
-				url = url + "&end_date=" + endDate;
+				url = url + "&END_DATE=" + endDate;
 			}
-			if(subject_id != null){
-				url = url + "&SUBJECT_ID=" + subject_id;
-			}
-			if(role == "admin"){
-				url = url + "&ROLE=admin" ;
-			}
+			console.log(url);
+			window.location.href = url;
+			window.top.loading.show();
+			/* $("#Form").sumbit(); */
+		}
+		function tosearch_week(type){
+			console.log('${pd.CLASS_ID}');
+			var url = "<%=basePath%>homework/report.do?CLASS_ID=${pd.CLASS_ID}" ;
+			//var startDate = $("#lastStart").val();
+			//var endDate =  $("#lastEnd").val();
+			//var subject_id =  $("#SUBJECT_ID").val();
+			url = url + "&CURRENT_WEEK=" + type ;
+			
+			console.log(url);
 			window.location.href = url;
 			window.top.loading.show();
 			/* $("#Form").sumbit(); */

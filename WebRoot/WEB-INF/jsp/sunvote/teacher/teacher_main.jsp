@@ -196,7 +196,7 @@
 		}
 		
 		function homeReport(){
-			var path = '<%=basePath%>homework/report.do';
+			var path = '<%=basePath%>homework/report.do?';
 			
 			$("#mainFrame").attr('src',path);
 			window.top.loading.show();
