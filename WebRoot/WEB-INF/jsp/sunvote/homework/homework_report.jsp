@@ -262,7 +262,7 @@
 		}
 		
 		function tosearch(){
-			console.log('${pd.CLASS_ID}');
+			
 			var url = "<%=basePath%>homework/report.do?CLASS_ID=${pd.CLASS_ID}" ;
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
@@ -271,17 +271,14 @@
 			if(endDate != null){
 				url = url + "&END_DATE=" + endDate;
 			}
-			console.log(url);
+
 			window.location.href = url;
 			window.top.loading.show();
 			/* $("#Form").sumbit(); */
 		}
-		function tosearch_week(type){
+		function tosearch_week(type){   //上一周 本周 下一周
 			console.log('${pd.CLASS_ID}');
 			var url = "<%=basePath%>homework/report.do?CLASS_ID=${pd.CLASS_ID}" ;
-			//var startDate = $("#lastStart").val();
-			//var endDate =  $("#lastEnd").val();
-			//var subject_id =  $("#SUBJECT_ID").val();
 			url = url + "&CURRENT_WEEK=" + type ;
 			
 			console.log(url);
@@ -292,7 +289,7 @@
 		
 		function student(classid,studentid){
 		
-			var url = "<%=basePath%>report/student_report?studentid=" + studentid + "&class_id=" + classid ;
+			var url = "<%=basePath%>homework/student.do?studentid=" + studentid + "&class_id=" + classid ;
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
 			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
