@@ -225,7 +225,7 @@
 			and COMPLETE_DATE = #{COMPLETE_DATE}
 		</if>
 		<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
-			and COMPLETE_DATE &lt; #{START_DATE}
+			and COMPLETE_DATE &gt; #{START_DATE}
 		</if>
 		<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
 			and COMPLETE_DATE &lt; #{END_DATE}
@@ -311,7 +311,7 @@
 				and STUDENT_ID = #{STUDENT_ID}
 			</if>
 			<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
-				and COMPLETE_DATE &lt; #{START_DATE}
+				and COMPLETE_DATE &gt; #{START_DATE}
 			</if>
 			<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
 				and COMPLETE_DATE &lt; #{END_DATE}

@@ -380,8 +380,6 @@ public class HomeworkController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("TEACHER_ID", getTeacherID());
-		
-		
 		if(pd.get("CURRENT_WEEK") == null && pd.get("START_DATE") == null && pd.get("END_DATE") == null){
 			pd.put("CURRENT_WEEK", "0");
 			String currentWeek = pd.getString("CURRENT_WEEK");
@@ -394,8 +392,15 @@ public class HomeworkController extends BaseController {
 			pd.put("START_DATE", getWeekStart(current));
 			pd.put("END_DATE", getWeekEnd(current));
 		}
-		List<PageData> dataList = homeworkService.report(pd);
-		pd.put("DATA", dataList);
+		
+		if(pd.get("STUDENT_ID") != null){
+			List<PageData> dataList = homeworkService.report(pd);
+			pd.put("DATA", dataList);
+		}
+		if(pd.get("CLASS_ID") != null){
+			List<PageData> studentList = studentService.findByClassId(pd);
+			pd.put("STUDENTS", studentList);
+		}
 		pd.remove("JSON");
 		mv.setViewName("sunvote/homework/homework_student_report");
 		mv.addObject("pd", pd);
@@ -416,7 +421,6 @@ public class HomeworkController extends BaseController {
 		pd = this.getPageData();
 		pd.put("TEACHER_ID", getTeacherID());
 		
-		
 		if(pd.get("CURRENT_WEEK") == null && pd.get("START_DATE") == null && pd.get("END_DATE") == null){
 			pd.put("CURRENT_WEEK", "0");
 			String currentWeek = pd.getString("CURRENT_WEEK");
@@ -429,8 +433,15 @@ public class HomeworkController extends BaseController {
 			pd.put("START_DATE", getWeekStart(current));
 			pd.put("END_DATE", getWeekEnd(current));
 		}
-		List<PageData> dataList = homeworkService.report(pd);
-		pd.put("DATA", dataList);
+		if(pd.get("HOMEWORK_ID") != null){
+			List<PageData> dataList = homeworkService.report(pd);
+			pd.put("DATA", dataList);
+		}
+		if(pd.get("CLASS_ID") != null){
+			List<PageData> studentList = studentService.findByClassId(pd);
+			pd.put("STUDENTS", studentList);
+		}
+		
 		pd.remove("JSON");
 		mv.setViewName("sunvote/homework/homework_item_report");
 		mv.addObject("pd", pd);
