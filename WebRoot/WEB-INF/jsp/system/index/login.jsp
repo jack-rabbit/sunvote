@@ -63,8 +63,8 @@
 			<div class="form_box">
 				<form action="" method="post" name="loginbox" id="loginbox">
 					<input type="text" name="loginname" id="loginname" value=""
-						placeholder="用户名" /> <input type="password" name="password"
-						id="password" placeholder="密   码" value="" /> <a href="#"
+						placeholder="用户名" autocomplete = "off"/> <input type="password" name="password"
+						id="password" placeholder="密   码" value="" autocomplete = "off"/> <a href="#"
 						onclick="severCheck();" class="login_btn">登录</a>
 				</form>
 

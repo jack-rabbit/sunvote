@@ -218,7 +218,8 @@ public class HeadmasterController extends BaseController {
 		PageData classPageData = headmasterService.findClassByHeaderId(pd);
 		pd.put("CLASS_ID", classPageData.get("ID"));
 		pd.put("CLASS_NAME", classPageData.get("CLASS_NAME"));
-		List<PageData> classes = headmasterService.listNoHeaderClass(pd);
+		List<PageData> classes = new ArrayList();
+		classes.add(classPageData);
 		mv.addObject("classes",classes);
 		mv.setViewName("sunvote/headmaster/headmaster_edit2");
 		mv.addObject("msg", "edit");

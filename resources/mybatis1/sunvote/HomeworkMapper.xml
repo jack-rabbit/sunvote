@@ -221,12 +221,16 @@
 		<if test="TEACHER_ID != null and TEACHER_ID != ''"><!-- 关键词检索 -->
 			and TEACHER_ID = #{TEACHER_ID}
 		</if>
-		<if test="COMPLETE != null and COMPLETE != ''"><!-- 关键词检索 -->
-			and COMPLETE_DATE &gt; #{COMPLETE_DATE}
+		<if test="COMPLETE_DATE != null and COMPLETE_DATE != ''"><!-- 关键词检索 -->
+			and COMPLETE_DATE = #{COMPLETE_DATE}
 		</if>
-		
-		and IS_DELETE is  null
-		
+		<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
+			and COMPLETE_DATE &lt; #{START_DATE}
+		</if>
+		<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
+			and COMPLETE_DATE &lt; #{END_DATE}
+		</if>
+		ORDER BY COMPLETE_DATE DESC
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -291,7 +295,14 @@
 			<if test="HOMEWORK_ID != null and HOMEWORK_ID != ''"><!-- 关键词检索 -->
 				and sv_homework.HOMEWORK_ID = #{HOMEWORK_ID}
 			</if>
-		ORDER BY sv_homework.COMPLETE_DATE,sv_homework.HOMEWORK_ID,sv_homeworkreport.STUDNET_NO
+			<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
+				and COMPLETE_DATE &lt; #{START_DATE}
+			</if>
+			<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
+				and COMPLETE_DATE &lt; #{END_DATE}
+			</if>
+			and sv_homework.COMPLETE_COUNT > 0
+			ORDER BY sv_homework.COMPLETE_DATE ,sv_homework.HOMEWORK_ID,sv_homeworkreport.STUDNET_NO
 	
 	</select>
 	

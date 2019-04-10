@@ -133,7 +133,7 @@
 		function edit(Id){
 			window.top.modal.init({
 			'title':'修改信息',
-			'url':'<%=basePath%>headmaster/goEdit.do?HEADMASTER_ID='+Id,
+			'url':'<%=basePath%>headmaster/goEdit2.do?HEADMASTER_ID='+Id,
 			func:function() {
 				tosearch();
 			}

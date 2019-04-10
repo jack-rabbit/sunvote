@@ -36,7 +36,7 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">班级:</td>
 								<td>
-									<select class="chosen-select form-control" name="CLASS_ID" id="CLASS_ID" disabled="disabled" data-placeholder="这里输入所属学校">
+									<select class="chosen-select form-control" name="CLASS_ID" id="CLASS_ID" <c:if test="${msg eq 'edit'} "> disabled="disabled" </c:if> data-placeholder="这里输入所属学校">
 									<c:forEach var="item" items="${classes}">
 										<option value="${item.ID}"  <c:if test="${pd.CLASS_ID==item.ID}">selected="true"</c:if>>${item.CLASS_NAME}</option>
 									</c:forEach>

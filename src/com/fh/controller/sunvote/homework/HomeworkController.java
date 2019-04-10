@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -234,6 +235,28 @@ public class HomeworkController extends BaseController {
 	}
 
 	
+	public static String getWeekStart(int cur){
+		SimpleDateFormat format  = new SimpleDateFormat("YYYY-MM-dd");  
+		Calendar ca = Calendar.getInstance();  
+		ca.setFirstDayOfWeek(Calendar.MONDAY);  
+		int a = ca.getFirstDayOfWeek();
+		ca.set(Calendar.DAY_OF_WEEK, a); // Sunday  
+		ca.add(Calendar.DATE, cur * 7);
+		String weekEnd = format.format(ca.getTime());  
+		return weekEnd;
+	}
+	
+	public static String getWeekEnd(int cur){
+		SimpleDateFormat format  = new SimpleDateFormat("YYYY-MM-dd");  
+		Calendar ca = Calendar.getInstance();  
+		ca.setFirstDayOfWeek(Calendar.MONDAY);  
+		int a = ca.getFirstDayOfWeek();
+		ca.set(Calendar.DAY_OF_WEEK, a+6); // Sunday  
+		ca.add(Calendar.DATE, cur * 7);
+		String weekEnd = format.format(ca.getTime());  
+		return weekEnd + " 23:59:59";
+	}
+	
 	
 	/**
 	 * 去修改页面
@@ -247,34 +270,76 @@ public class HomeworkController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd.put("TEACHER_ID", getTeacherID());
-		List<PageData> list = coursemanagementService.listTeacherClass(pd);
-		for(PageData ptd : list){
-
-			ptd.put("CLASS_ID", ptd.get("ID"));
-			List<PageData> studentList = studentService.findByClassId(ptd);
-			int studentNum = 0 ;
-			if(studentList != null){
-				studentNum = studentList.size();
-			}
-			ptd.put("STUDENT_NUM", studentNum);
-			ptd.put("TEACHER_ID", pd.get("TEACHER_ID"));
-			List<PageData> homeworkList = homeworkService.listAll(ptd);
-			for(PageData hpd:homeworkList){
-				List<PageData> dataList = homeworkService.report(hpd);
-				hpd.put("STUDENTS", dataList);
-				hpd.remove("TEACHER_ID");
-				hpd.remove("CLASS_TYPE");
-				hpd.remove("BASESTATION_ID");
-				hpd.remove("SCHOOL_ID");
-				hpd.remove("GRADE_ID");
-				hpd.remove("ID");
-			}
-			ptd.put("HOMEWORKS", homeworkList);
+		
+		
+		if(pd.get("CURRENT_WEEK") == null && pd.get("START_DATE") == null && pd.get("END_DATE") == null){
+			pd.put("CURRENT_WEEK", "0");
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}else if(pd.get("CURRENT_WEEK") != null){
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
 		}
-		pd.put("CLASS", list);
-		pd.remove("JSON");
-		pd.remove("JSON");
-		pd.remove("ID");
+		
+		// 班级信息
+		List<PageData> list = coursemanagementService.listTeacherClass(pd);
+		for(PageData temp : list){
+			temp.remove("HEADMASTER_ID");
+			temp.remove("SCHOOL_ID");
+			temp.remove("GRADE_ID");
+			temp.remove("TEACHER_ID");
+			temp.remove("KEYBOARD_TYPE");
+			temp.remove("BASESTATION_ID");
+			temp.put("CLASS_ID", temp.get("ID"));
+			temp.remove("ID");
+		}
+		if(pd.get("CLASS_ID") == null && list.size() > 0){
+			pd.put("CLASS_ID", list.get(0).get("CLASS_ID"));
+		}
+		pd.put("CLASSES", list);
+		
+		// 对应班级数据
+		PageData data = new PageData();
+		List<PageData> studentList = studentService.findByClassId(pd);
+		
+		List<PageData> homeworkList = homeworkService.listAll(pd);
+		List<PageData> dataList = homeworkService.report(pd);
+		for(PageData stuPd:studentList){
+			for(PageData dpd : dataList){
+				if(dpd.get("STUDENT_ID").equals(stuPd.get("ID"))){
+					stuPd.put(dpd.get("HOMEWORK_ID"), dpd.get("GET_SCORE"));
+				}
+			}
+			stuPd.remove("SCHOOL_ID");
+			stuPd.remove("SEX");
+			stuPd.remove("CLASS_ID");
+			stuPd.remove("NUMBER");
+			stuPd.remove("ID");
+		}
+		for(PageData hpd: homeworkList){
+			hpd.remove("QUESTION_COUNT");
+			hpd.remove("COMPLETE_COUNT");
+			hpd.remove("SUBJECT_ID");
+			hpd.remove("SCHOOL_ID");
+			hpd.remove("GRADE_ID");
+			hpd.remove("SUMBIT_DATE");
+			hpd.remove("MODIFY_DATE");
+			hpd.remove("TEACHER_ID");
+			hpd.remove("CREATE_DATE");
+			hpd.remove("CLASS_ID");
+			hpd.remove("CODE");
+			hpd.remove("GET_MAX_SCORE");
+			hpd.remove("HOMEWORK_DESC");
+			hpd.remove("COMPLETE_DESC");
+		}
+		data.put("HOMEWORKS", homeworkList);// 
+		data.put("STUDENTS", studentList);
+		
+		pd.put("DATA", data);
 		mv.setViewName("sunvote/homework/homework_report");
 		mv.addObject("pd", pd);
 		return mv;
