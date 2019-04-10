@@ -193,6 +193,23 @@ public class TeacherController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		teacherService.edit(pd);
+		pd.put("USER_ID", pd.getString("ID")); // ID 主键
+		pd.put("LAST_LOGIN", ""); // 最后登录时间
+		pd.put("IP", ""); // IP
+		pd.put("STATUS", "0"); // 状态
+		pd.put("SKIN", "default");
+		pd.put("RIGHTS", "");
+		pd.put("USERNAME", pd.getString("ACCOUT"));
+		pd.put("ROLE_ID", "57bb1e6f138247a0b05cc721a5da1b64");
+		pd.put("PASSWORD",
+				new SimpleHash("SHA-1", pd.getString("ACCOUT"), pd
+						.getString("PASSWORD")).toString()); // 密码加密
+		
+		if (null == userService.findByUsername(pd)) { // 判断用户名是否存在
+			userService.saveU(pd); // 执行保存
+			FHLOG.save(Jurisdiction.getUsername(),
+					"新增系统用户：" + pd.getString("USERNAME"));
+		}
 		mv.addObject("msg", "success");
 		mv.setViewName("save_result2");
 		return mv;
@@ -564,6 +581,26 @@ public class TeacherController extends BaseController {
 		pd = this.getPageData();
 		pd = teacherService.findById(pd); // 根据ID读取
 		mv.setViewName("sunvote/teacher/teacher_edit2");
+		List<PageData> schools = schoolService.listAll(pd);
+		mv.addObject("schools", schools);
+		mv.addObject("msg", "edit2");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/goEdit3")
+	public ModelAndView goEdit3() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd = teacherService.findById(pd); // 根据ID读取
+		mv.setViewName("sunvote/teacher/teacher_edit3");
 		List<PageData> schools = schoolService.listAll(pd);
 		mv.addObject("schools", schools);
 		mv.addObject("msg", "edit2");

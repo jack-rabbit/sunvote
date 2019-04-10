@@ -336,6 +336,7 @@ public class HomeworkController extends BaseController {
 				stuPd.remove("SEX");
 				stuPd.remove("CLASS_ID");
 				stuPd.remove("NUMBER");
+				stuPd.put("STUDENT_ID", stuPd.get("ID"));
 				stuPd.remove("ID");
 			}
 			for (PageData hpd : homeworkList) {
