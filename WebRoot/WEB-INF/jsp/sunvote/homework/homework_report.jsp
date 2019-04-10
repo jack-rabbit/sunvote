@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -43,50 +44,36 @@
   <ul class="nav nav-tabs" role="tablist">
     
     
-    <c:forEach items="${pd.CLASS}" var="var" varStatus="vs">
-		<li role="presentation" class="${vs.index==0?'active':''}"><a href="#${var.ID}" aria-controls="${var.ID}" role="tab" data-toggle="tab">${var.CLASS_NAME}</a></li>
+    <c:forEach items="${pd.CLASSES}" var="var" varStatus="vs">
+		<li role="presentation" class="${vs.index==0?'active':''}"><a href="#${var.CLASS_ID}" aria-controls="${var.CLASS_ID}" role="tab" data-toggle="tab">${var.CLASS_NAME}</a></li>
 	</c:forEach>
     
   </ul>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-   
-	<c:forEach items="${pd.CLASS}" var="var" varStatus="vs">
-		<div role="tabpanel" class="tab-pane ${vs.index==0?'active':''}" id="${var.ID}">
-			${var.CLASS_NAME}
+
 			<div style="padding:20px 20px;">
 		<form action="report/report.do" method="post" name="Form" id="Form" style="margin-bottom:0;">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${var.ID}" />
 			<input type="hidden" name="ROLE" id="ROLE" value="${pd.ROLE}" />
 			<table style="margin-top:5px;margin-bottom:20px;">
 				<tr>
-					<td><div style="width:150px;text-align:center;">课程统计: ${fn:length(var.HOMEWORKS)}</div></td>
-					<td><div style="width:150px;text-align:center;">班级名册: ${var.CLASS_NAME}</div></td>
+					<td><div style="width:150px;text-align:center;">课程统计: ${fn:length(pd.DATA.HOMEWORKS)}</div></td>
+					<td><div style="width:150px;text-align:center;">班级名册: ${myelfun:findClassName(pd.CLASS_ID)}</div></td>
 				
-					<td><div style="width:150px;text-align:center;"><span>学生人数: ${var.STUDENT_NUM}</span></div></td>
+					<td><div style="width:150px;text-align:center;"><span>学生人数: ${fn:length(pd.DATA.STUDENTS)}</span></div></td>
 					<td></td>
 					
 				
-					<c:if test="${not empty subjectInfos}">
-						<td>
-							<select class="chosen-select form-control" name="SUBJECT_ID" id="SUBJECT_ID" data-placeholder="这里输入所属学校">
-										<option value="">全部</option>
-										<c:forEach var="item" items="${subjectInfos}">
-											<option value="${item.SUBJECT_ID}" <c:if test="${pd.SUBJECT_ID == item.SUBJECT_ID }">selected = ture</c:if>>${item.SCNAME}</option>
-										</c:forEach>
-							</select>
-						</td>
-					</c:if>
+					
 					<td style="padding-left:2px;">
 					<input
 						class="span10 date-picker" name="lastStart" id="lastStart"
-						value="${start_date}" type="text" data-date-format="yyyy-mm-dd"
+						value="${pd.START_DATE}" type="text" data-date-format="yyyy-mm-dd"
 						readonly="readonly" style="width:88px;" placeholder="开始日期"
 						title="开始日期" />
 						</td>
 					<td style="padding-left:2px;"><input
-						class="span10 date-picker" name="lastEnd" id="lastEnd" value="${end_date}"
+						class="span10 date-picker" name="lastEnd" id="lastEnd" value="${pd.END_DATE}"
 						type="text" data-date-format="yyyy-mm-dd" readonly="readonly"
 						style="width:88px;" placeholder="结束日期" title="结束日期" /></td>
 					<td style="vertical-align:top;padding-left:2px"><a
@@ -105,9 +92,9 @@
 						<th class="center th_name"><div style="width:150px;">姓名</div></th>
 						<th class="center "><div style="width:150px;">课程平均得分率</div></th>
 						<th class="center"><div style="width:80px;">课程总分</div></th>
-						<c:forEach items="${var.HOMEWORKS}" var="var_h" varStatus="vs">
+						<c:forEach items="${pd.DATA.HOMEWORKS}" var="var_h" varStatus="vs">
 							<th class="center kc"><a
-								 onclick="paper('${info.CLASS_ID}','${var.TESTPAPER_ID}');"><div style="width:180px;     margin: 0 auto;cursor:hand" class="font">${var_h.NAME}</br><span>${var_h.SUMBIT_DATE}</span></div></a></th>
+								 onclick="paper('${info.CLASS_ID}','${var.TESTPAPER_ID}');"><div style="width:180px;     margin: 0 auto;cursor:hand" class="font">${var_h.NAME}</br><span>${var_h.COMPLETE_DATE}</span></div></a></th>
 						</c:forEach>
 					</tr>
 				</thead>
@@ -116,7 +103,7 @@
 						<td class="center"><div style="width:150px;">班级课程总分</div></td>
 						<td class="center"><div style="width:150px;"></div></td>
 						<td class="center"><div style="width:80px;"></div></td>
-						<c:forEach items="${var.HOMEWORKS}" var="var_h" varStatus="vs">
+						<c:forEach items="${pd.DATA.HOMEWORKS}" var="var_h" varStatus="vs">
 							<td class="center"><div style="width:80px;margin:0 auto;">${var_h.ALL_SCORE}</div></td>
 						</c:forEach>
 					</tr>
@@ -124,7 +111,7 @@
 						<td class="center"><div style="width:150px;">班级课程平均分</div></td>
 						<td class="center"><div style="width:150px;"></div></td>
 						<td class="center"><div style="width:80px;"></div></td>
-						<c:forEach items="${var.HOMEWORKS}" var="var_h" varStatus="vs">
+						<c:forEach items="${pd.DATA.HOMEWORKS}" var="var_h" varStatus="vs">
 							<td class="center"><div style="width:80px;margin:0 auto;">${var_h.GET_SCORE}</div></td>
 						</c:forEach>
 					</tr>
@@ -132,14 +119,14 @@
 						<td class="center"><div style="width:150px;">班级课程平均得分率</div></td>
 						<td class="center"><div style="width:150px;"></div></td>
 						<td class="center"><div style="width:80px;"></div></td>
-						<c:forEach items="${var.HOMEWORKS}" var="var_h" varStatus="vs">
+						<c:forEach items="${pd.DATA.HOMEWORKS}" var="var_h" varStatus="vs">
 							<td class="center"><div style="width:80px;margin:0 auto;">${var_h.GET_SCORE_PERSENT }</div></td>
 						</c:forEach>
 					</tr>
 
 					<c:choose>
-						<c:when test="${not empty $var.HOMEWORKS}">
-							<c:forEach items="${studentList}" var="var" varStatus="vs">
+						<c:when test="${not empty pd.DATA.STUDENTS}">
+							<c:forEach items="${pd.DATA.STUDENTS}" var="var" varStatus="vs">
 								<tr>
 									<%-- <td class="center"><a
 										href="report/student_report?studentid=${var.ID}&class_id=${info.CLASS_ID}">${var.NAME}</a>
@@ -150,10 +137,10 @@
 									<td class="center"><div style="width:150px;"><fmt:formatNumber type="number"
 											value="${var.TOTALSCORE == 0 ? 0: (var.GETSCORE / var.TOTALSCORE * 100)}"
 											maxFractionDigits="2" />%</div></td>
-									<td class="center"><div style="width:80px;margin:0 auto;">${var.GETSCORE }</div></td>
-									<c:forEach items="${testpaperList}" var="var1" varStatus="vs1">
+									<td class="center"><div style="width:80px;margin:0 auto;">${var.GET_SCORE_PERSENT }</div></td>
+									<c:forEach items="${pd.DATA.HOMEWORKS}" var="var1" varStatus="vs1">
 										<td class="center"><div style="width:180px;margin:0 auto;"><c:set var="TEST_ID"
-												value="${var1.TESTPAPER_ID}" /> ${var[TEST_ID] }</div></td>
+												value="${var1.HOMEWORK_ID}" /> ${var[TEST_ID] }</div></td>
 									</c:forEach>
 								</tr>
 							</c:forEach>
@@ -167,9 +154,7 @@
 	</div>
 			
 			
-		</div>
-	</c:forEach>
-  </div>
+
 
 </div>
 	
