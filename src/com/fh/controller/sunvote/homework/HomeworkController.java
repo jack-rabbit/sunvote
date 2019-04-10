@@ -392,19 +392,59 @@ public class HomeworkController extends BaseController {
 			pd.put("START_DATE", getWeekStart(current));
 			pd.put("END_DATE", getWeekEnd(current));
 		}
-		
-		if(pd.get("STUDENT_ID") != null){
-			List<PageData> dataList = homeworkService.report(pd);
-			pd.put("DATA", dataList);
-		}
+		String studentId = pd.getString("STUDENT_ID") ;
+		pd.remove("STUDENT_ID");
+		List<PageData> dataList = homeworkService.report(pd);
+		pd.put("DATA", dataList);
 		if(pd.get("CLASS_ID") != null){
 			List<PageData> studentList = studentService.findByClassId(pd);
 			pd.put("STUDENTS", studentList);
 		}
 		pd.remove("JSON");
+		pd.put("STUDENT_ID", studentId);
 		mv.setViewName("sunvote/homework/homework_student_report");
 		mv.addObject("pd", pd);
+		Gson gson = new Gson();
+		mv.addObject("data",gson.toJson(pd));
 		return mv;
+	}
+	
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/student_data", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String studentData() throws Exception {
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("TEACHER_ID", getTeacherID());
+		if(pd.get("CURRENT_WEEK") == null && pd.get("START_DATE") == null && pd.get("END_DATE") == null){
+			pd.put("CURRENT_WEEK", "0");
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}else if(pd.get("CURRENT_WEEK") != null){
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}
+		String studentId = pd.getString("STUDENT_ID") ;
+		pd.remove("STUDENT_ID");
+		List<PageData> dataList = homeworkService.report(pd);
+		pd.put("DATA", dataList);
+		if(pd.get("CLASS_ID") != null){
+			List<PageData> studentList = studentService.findByClassId(pd);
+			pd.put("STUDENTS", studentList);
+		}
+		pd.remove("JSON");
+		pd.put("STUDENT_ID", studentId);
+		Gson gson = new Gson();
+		return gson.toJson(pd);
 	}
 	
 	
@@ -446,6 +486,41 @@ public class HomeworkController extends BaseController {
 		mv.setViewName("sunvote/homework/homework_item_report");
 		mv.addObject("pd", pd);
 		return mv;
+	}
+	
+	
+	@RequestMapping(value = "/homework_report_data" , produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String homeworkReportData() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("TEACHER_ID", getTeacherID());
+		
+		if(pd.get("CURRENT_WEEK") == null && pd.get("START_DATE") == null && pd.get("END_DATE") == null){
+			pd.put("CURRENT_WEEK", "0");
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}else if(pd.get("CURRENT_WEEK") != null){
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}
+		if(pd.get("HOMEWORK_ID") != null){
+			List<PageData> dataList = homeworkService.report(pd);
+			pd.put("DATA", dataList);
+		}
+		if(pd.get("CLASS_ID") != null){
+			List<PageData> studentList = studentService.findByClassId(pd);
+			pd.put("STUDENTS", studentList);
+		}
+		
+		pd.remove("JSON");
+		Gson gson = new Gson();
+		return gson.toJson(pd);
 	}
 
 

@@ -119,13 +119,15 @@ li {
 	</script>
 	<script src="../static/js/control1.js?a=1"></script>
 	<!-- 日期框 -->
-	<script>
+	<script>	
 	//lay('#version').html('-v'+ laydate.v);
 	//日期范围
 	// laydate.render({
 	//  elem: '#test6'
 	//  ,range: true
 	// });
+	
+	var data = ${data};
 		$(document).ready(function(){
 			window.top.loading.remove();
 		});
