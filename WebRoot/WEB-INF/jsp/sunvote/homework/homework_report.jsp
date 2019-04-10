@@ -32,6 +32,7 @@
     font-weight: initial;color:#000;}
     .search_btn{width:30px;}
     .btn{margin:0 5px;}
+    .center{height:39px;}
 	</style>
 </head>
 
@@ -76,7 +77,7 @@
 						style="width:88px;" placeholder="结束日期" title="结束日期" /></td>
 					<td style="vertical-align:top;padding-left:2px"><a
 						class="btn btn-light btn-xs" onclick="tosearch();" title="检索"><img src="static/images/search.png" alt="" class="search_btn" /></a></td>
-					<td><li class="btn btn-default btn-sm" onclick="tosearch_week(-1)">上一周</li></td>
+					<td><li class="btn ${pd.CURRENT_WEEK==-1?'btn-primary':'btn-default' } btn-default btn-sm" onclick="tosearch_week(-1)">上一周</li></td>
 					<td><li class="btn btn-primary btn-sm" onclick="tosearch_week(0)">本周</li></td>
 					<td><li class="btn btn-default btn-sm" onclick="tosearch_week(1)">下一周</li></td>
 				</tr>
@@ -155,11 +156,10 @@
 
 
 </div>
+
 	
+		
 	
-			<div id="scrollableTable"></div>
-		</form>
-	</div>
 
 	<%@ include file="../../system/index/foot.jsp"%>
 	<script src="static/ace/js/bootbox.js"></script>
@@ -310,11 +310,12 @@
 		$(document).ready(function(){
 			window.top.loading.remove();
 			
-			 var sour = "${testpaperList}";
+			 var sour = "${pd.DATA.HOMEWORKS}";
+			
 			
 			 if(sour != null && sour.length > 3){
 				var _width = $('#mainFrame', parent.document).width()-40;
-				var _heigh = $('#mainFrame', parent.document).height()-100;
+				var _heigh = $('#mainFrame', parent.document).height()-250;
 				var options = {
 	            width: _width,
 	            height: _heigh,

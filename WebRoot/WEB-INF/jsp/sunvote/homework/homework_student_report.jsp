@@ -116,8 +116,9 @@ li {
 	</div>
 	<script type="">
 		var URL = '<%=basePath%>${URL}';
+		var data = ${data};
 	</script>
-	<script src="../static/js/control1.js?a=1"></script>
+	<script src="../static/js/home_control1.js?a=1"></script>
 	<!-- 日期框 -->
 	<script>	
 	//lay('#version').html('-v'+ laydate.v);
@@ -127,7 +128,7 @@ li {
 	//  ,range: true
 	// });
 	
-	var data = ${data};
+	
 		$(document).ready(function(){
 			window.top.loading.remove();
 		});
@@ -136,6 +137,17 @@ li {
 		autoclose : true,
 		todayHighlight : true
 	});
+function student(classid,studentid){
+		
+		var url = "<%=basePath%>homework/student.do?STUDENT_ID=" + studentid + "&CLASS_ID=" + classid ;
+		var startDate = $("#starDate").val();
+		var endDate =  $("#endDate").val();
+		url = url + "&START_DATE=" + startDate + "&END_DATE=" + endDate ;
+		
+		//console.log(url);
+		window.location.href = url;
+		window.top.loading.show();
+	}
 </script>
 
 

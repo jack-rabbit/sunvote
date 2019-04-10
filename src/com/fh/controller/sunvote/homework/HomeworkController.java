@@ -393,7 +393,7 @@ public class HomeworkController extends BaseController {
 			pd.put("END_DATE", getWeekEnd(current));
 		}
 		String studentId = pd.getString("STUDENT_ID") ;
-		pd.remove("STUDENT_ID");
+		//pd.remove("STUDENT_ID");
 		List<PageData> dataList = homeworkService.report(pd);
 		pd.put("DATA", dataList);
 		if(pd.get("CLASS_ID") != null){
