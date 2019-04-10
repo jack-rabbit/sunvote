@@ -287,16 +287,28 @@
 	
 		SELECT
 				sv_homeworkreport.STUDENT_ID,
-				sv_homework.GET_SCORE as PAPER_SCORE,
+				sv_homeworkreport.STUDENT_NAME,
+				sv_homework.ALL_SCORE as PAPER_SCORE,
+				sv_homework.GET_SCORE as AVG_SCORE,
 				sv_homework.HOMEWORK_ID,
+				sv_homework.NAME,
+				sv_homework.GET_MAX_SCORE,
+				sv_homeworkreport.STUDNET_NO,
+				sv_homework.COMPLETE_DATE,
 				sv_homeworkreport.GET_SCORE as STUDENT_SCORE
 		FROM
 			sv_homework
 		LEFT JOIN sv_homeworkreport ON sv_homework.HOMEWORK_ID = sv_homeworkreport.HOMEWORK_ID
 		WHERE
-			sv_homework.CLASS_ID = #{CLASS_ID} and sv_homework.COMPLETE_COUNT > 0
+		   sv_homework.COMPLETE_COUNT > 0
+			<if test="CLASS_ID != null and CLASS_ID != ''"><!-- 关键词检索 -->
+			 	and sv_homework.CLASS_ID = #{CLASS_ID} 
+			</if>
 			<if test="HOMEWORK_ID != null and HOMEWORK_ID != ''"><!-- 关键词检索 -->
 				and sv_homework.HOMEWORK_ID = #{HOMEWORK_ID}
+			</if>
+			<if test="STUDENT_ID != null and STUDENT_ID != ''"><!-- 关键词检索 -->
+				and STUDENT_ID = #{STUDENT_ID}
 			</if>
 			<if test="START_DATE != null and START_DATE != ''"><!-- 关键词检索 -->
 				and COMPLETE_DATE &lt; #{START_DATE}

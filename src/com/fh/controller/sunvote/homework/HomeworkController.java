@@ -302,62 +302,140 @@ public class HomeworkController extends BaseController {
 		}
 		pd.put("CLASSES", list);
 		
-		// 对应班级数据
-		PageData data = new PageData();
-		List<PageData> studentList = studentService.findByClassId(pd);
-		
-		List<PageData> homeworkList = homeworkService.listAll(pd);
-		List<PageData> dataList = homeworkService.report(pd);
-		for(PageData stuPd:studentList){
-			double all = 0 ;
-			double get = 0;
-			for(PageData dpd : dataList){
-				if(dpd.get("STUDENT_ID").equals(stuPd.get("ID"))){
-					stuPd.put(dpd.get("HOMEWORK_ID"), dpd.get("STUDENT_SCORE"));
-					try{
-						get += Double.parseDouble(dpd.get("STUDENT_SCORE").toString());
-					}catch(Exception ex){
-						
-					}
-					try{
-						all += Double.parseDouble(dpd.get("PAPER_SCORE").toString());
-					}catch(Exception ex){
-						
+		if (pd.get("CLASS_ID") != null) {
+			// 对应班级数据
+			PageData data = new PageData();
+			List<PageData> studentList = studentService.findByClassId(pd);
+
+			List<PageData> homeworkList = homeworkService.listAll(pd);
+			List<PageData> dataList = homeworkService.report(pd);
+			for (PageData stuPd : studentList) {
+				double all = 0;
+				double get = 0;
+				for (PageData dpd : dataList) {
+					if (dpd.get("STUDENT_ID").equals(stuPd.get("ID"))) {
+						stuPd.put(dpd.get("HOMEWORK_ID"),
+								dpd.get("STUDENT_SCORE"));
+						try {
+							get += Double.parseDouble(dpd.get("STUDENT_SCORE")
+									.toString());
+						} catch (Exception ex) {
+
+						}
+						try {
+							all += Double.parseDouble(dpd.get("PAPER_SCORE")
+									.toString());
+						} catch (Exception ex) {
+
+						}
 					}
 				}
+				stuPd.put("STUDENT_ALL_SCORE", get);
+				stuPd.put("PAPER_ALL_SCORE", all);
+				stuPd.remove("SCHOOL_ID");
+				stuPd.remove("SEX");
+				stuPd.remove("CLASS_ID");
+				stuPd.remove("NUMBER");
+				stuPd.remove("ID");
 			}
-			stuPd.put("STUDENT_ALL_SCORE", get);
-			stuPd.put("PAPER_ALL_SCORE", all);
-			stuPd.remove("SCHOOL_ID");
-			stuPd.remove("SEX");
-			stuPd.remove("CLASS_ID");
-			stuPd.remove("NUMBER");
-			stuPd.remove("ID");
+			for (PageData hpd : homeworkList) {
+				hpd.remove("QUESTION_COUNT");
+				hpd.remove("COMPLETE_COUNT");
+				hpd.remove("SUBJECT_ID");
+				hpd.remove("SCHOOL_ID");
+				hpd.remove("GRADE_ID");
+				hpd.remove("SUMBIT_DATE");
+				hpd.remove("MODIFY_DATE");
+				hpd.remove("TEACHER_ID");
+				hpd.remove("CREATE_DATE");
+				hpd.remove("CLASS_ID");
+				hpd.remove("CODE");
+				hpd.remove("GET_MAX_SCORE");
+				hpd.remove("HOMEWORK_DESC");
+				hpd.remove("COMPLETE_DESC");
+			}
+			data.put("HOMEWORKS", homeworkList);//
+			data.put("STUDENTS", studentList);
+			pd.put("DATA", data);
+		}else{
+			pd.put("CLASS_ID", "");
 		}
-		for(PageData hpd: homeworkList){
-			hpd.remove("QUESTION_COUNT");
-			hpd.remove("COMPLETE_COUNT");
-			hpd.remove("SUBJECT_ID");
-			hpd.remove("SCHOOL_ID");
-			hpd.remove("GRADE_ID");
-			hpd.remove("SUMBIT_DATE");
-			hpd.remove("MODIFY_DATE");
-			hpd.remove("TEACHER_ID");
-			hpd.remove("CREATE_DATE");
-			hpd.remove("CLASS_ID");
-			hpd.remove("CODE");
-			hpd.remove("GET_MAX_SCORE");
-			hpd.remove("HOMEWORK_DESC");
-			hpd.remove("COMPLETE_DESC");
-		}
-		data.put("HOMEWORKS", homeworkList);// 
-		data.put("STUDENTS", studentList);
 		pd.remove("JSON");
-		pd.put("DATA", data);
 		mv.setViewName("sunvote/homework/homework_report");
 		mv.addObject("pd", pd);
 		return mv;
 	}
+	
+	
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/student")
+	public ModelAndView student() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("TEACHER_ID", getTeacherID());
+		
+		
+		if(pd.get("CURRENT_WEEK") == null && pd.get("START_DATE") == null && pd.get("END_DATE") == null){
+			pd.put("CURRENT_WEEK", "0");
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}else if(pd.get("CURRENT_WEEK") != null){
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}
+		List<PageData> dataList = homeworkService.report(pd);
+		pd.put("DATA", dataList);
+		pd.remove("JSON");
+		mv.setViewName("sunvote/homework/homework_student_report");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/homework_report")
+	public ModelAndView homework_report() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("TEACHER_ID", getTeacherID());
+		
+		
+		if(pd.get("CURRENT_WEEK") == null && pd.get("START_DATE") == null && pd.get("END_DATE") == null){
+			pd.put("CURRENT_WEEK", "0");
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}else if(pd.get("CURRENT_WEEK") != null){
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}
+		List<PageData> dataList = homeworkService.report(pd);
+		pd.put("DATA", dataList);
+		pd.remove("JSON");
+		mv.setViewName("sunvote/homework/homework_item_report");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+
 
 
 	/**
