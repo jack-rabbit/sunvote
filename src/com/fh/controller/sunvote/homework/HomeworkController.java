@@ -365,6 +365,77 @@ public class HomeworkController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
+	
+	
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/student")
+	public ModelAndView student() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("TEACHER_ID", getTeacherID());
+		
+		
+		if(pd.get("CURRENT_WEEK") == null && pd.get("START_DATE") == null && pd.get("END_DATE") == null){
+			pd.put("CURRENT_WEEK", "0");
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}else if(pd.get("CURRENT_WEEK") != null){
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}
+		List<PageData> dataList = homeworkService.report(pd);
+		pd.put("DATA", dataList);
+		pd.remove("JSON");
+		mv.setViewName("sunvote/homework/homework_student_report");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
+	
+	/**
+	 * 去修改页面
+	 * 
+	 * @param
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/homework_report")
+	public ModelAndView homework_report() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		pd.put("TEACHER_ID", getTeacherID());
+		
+		
+		if(pd.get("CURRENT_WEEK") == null && pd.get("START_DATE") == null && pd.get("END_DATE") == null){
+			pd.put("CURRENT_WEEK", "0");
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}else if(pd.get("CURRENT_WEEK") != null){
+			String currentWeek = pd.getString("CURRENT_WEEK");
+			int current = Integer.parseInt(currentWeek);
+			pd.put("START_DATE", getWeekStart(current));
+			pd.put("END_DATE", getWeekEnd(current));
+		}
+		List<PageData> dataList = homeworkService.report(pd);
+		pd.put("DATA", dataList);
+		pd.remove("JSON");
+		mv.setViewName("sunvote/homework/homework_item_report");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+
 
 
 	/**
