@@ -286,7 +286,10 @@
 	<select id="report" parameterType="pd" resultType="pd">
 	
 		SELECT
-				*
+				sv_homeworkreport.STUDENT_ID,
+				sv_homework.GET_SCORE as PAPER_SCORE,
+				sv_homework.HOMEWORK_ID,
+				sv_homeworkreport.GET_SCORE as STUDENT_SCORE
 		FROM
 			sv_homework
 		LEFT JOIN sv_homeworkreport ON sv_homework.HOMEWORK_ID = sv_homeworkreport.HOMEWORK_ID
@@ -301,7 +304,6 @@
 			<if test="END_DATE != null and END_DATE != ''"><!-- 关键词检索 -->
 				and COMPLETE_DATE &lt; #{END_DATE}
 			</if>
-			and sv_homework.COMPLETE_COUNT > 0
 			ORDER BY sv_homework.COMPLETE_DATE ,sv_homework.HOMEWORK_ID,sv_homeworkreport.STUDNET_NO
 	
 	</select>

@@ -89,7 +89,7 @@
 								<td class='center'>${var.PASSWORD}</td>								
 								<td class='center'>${var.PHONE}</td>
 								<td class='center'>${var.CLASS_NAME}</td>
-								<td><a onclick="edit('${var.HEADMASTER_ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a href="#" onclick="del('${var.HEADMASTER_ID}');"><img src="static/images/remove.png" /></a></td>								
+								<td><a onclick="edit('${var.HEADMASTER_ID}');" style="margin-right:10px;"><img src="static/images/eidtor.png" /></a><a onclick="del('${var.HEADMASTER_ID}');"><img src="static/images/remove.png" /></a></td>								
 							</tr>
 
 						</c:forEach>
@@ -150,12 +150,38 @@
 			});
 			window.top.modal.show();
 		}
-		$(function() {
-
-		
-		
-		
-		})
+		function del(Id){
+			window.top.remove.init({"title":"删除","func":function(success){
+				if(success){
+					var str = Id;
+					if(str == ''){
+						for(var i=0;i < document.getElementsByName('ids').length;i++){
+						  if(document.getElementsByName('ids')[i].checked){
+						  	if(str=='') str += document.getElementsByName('ids')[i].value;
+						  	else str += ',' + document.getElementsByName('ids')[i].value;
+						  }
+						}
+					}
+					
+					$.ajax({
+							type: "POST",
+							url: '<%=basePath%>headmaster/deleteAll.do?tm='+new Date().getTime(),
+					    	data: {DATA_IDS:str},
+							dataType:'json',
+							//beforeSend: validateData,
+							cache: false,
+							success: function(data){
+								tosearch();
+							}
+						});
+					
+				}
+				else{
+					console.log("false");
+				}
+			}});
+			window.top.remove.show();
+		}
 
 	</script>
 
