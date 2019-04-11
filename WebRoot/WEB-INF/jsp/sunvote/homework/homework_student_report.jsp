@@ -118,7 +118,7 @@ li {
 		var URL = '<%=basePath%>${URL}';
 		var data = ${data};
 	</script>
-	<script src="../static/js/home_control1.js?a=2"></script>
+	<script src="../static/js/home_control1.js?a=3"></script>
 	<!-- 日期框 -->
 	<script>	
 	//lay('#version').html('-v'+ laydate.v);
@@ -137,7 +137,7 @@ li {
 		autoclose : true,
 		todayHighlight : true
 	});
-function student(classid,studentid){
+	function student(classid,studentid){
 		
 		var url = "<%=basePath%>homework/student.do?STUDENT_ID=" + studentid + "&CLASS_ID=" + classid ;
 		var startDate = $("#starDate").val();

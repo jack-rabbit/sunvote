@@ -25,42 +25,34 @@
 <%@ include file="../../system/index/top.jsp"%>
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
+<link rel="stylesheet" href="static/css/teach.css" />
 <style>
 .table{padding-bottom:0 !important;}
+.dec{font-size:14px;}
 </style>
 </head>
 
 <body style="background:#fff;/* overflow-y:hidden; */">
+	<div class="box_header">
+		<div class="head_box_l">
+			<p>
+				<span class="right_b"></span>${pd.HOMEWORKINFO.NAME}
+			</p>
+			<p class="dec">练习说明: ${pd.HOMEWORKINFO.HOMEWORK_DESC}</p>
+			<p class="dec">收卷时间: ${pd.HOMEWORKINFO.COMPLETE_DATE}</p>
+			
+		</div>	
+		<div class="head_box_r">
+			<p class="dec">班级完成情况: ${pd.HOMEWORKINFO.COMPLETE_DESC}</p>
+			<p class="dec">班级名册：${myelfun:findClassName(pd.CLASS_ID)}</p>
+			<p class="dec">学生人数: ${fn:length(pd.STUDENTS)}</p>
+		</div>					
+		<div class="clear"></div>
+	</div>
 	<div style="padding:20px 20px;">
-
 		<form action="report/report_test.do" method="post" name="Form" id="Form">
 			<input type="hidden" name="CLASSID" id="CLASSID" value="${pd.CLASS_ID}" />
-			<table style="margin-top:5px;">
-				<tr style="height: 30px">
-					<td>测验名称: ${pd.DATA[0].NAME}</td>  
-					<c:if test="${display}">
-					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td>教师: ${teacherPd.NAME}</td> 
-					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td>科目名称: ${subjectPd.CNAME}</td>
-					</c:if>
-				</tr>
-				<tr style="height: 30px">
-					<td>练习说明: ${pd.HOMEWORKINFO.HOMEWORK_DESC}</td>
-				</tr>
-				<tr style="height: 30px">
-					<td>班级完成情况: ${pd.HOMEWORKINFO.COMPLETE_DESC}</td>
-				</tr>
-				<tr style="height: 30px">
-					<td>收卷时间: ${pd.HOMEWORKINFO.COMPLETE_DATE}</td>
-				</tr>
-				<tr style="height: 30px">
-					<td>班级名册：${myelfun:findClassName(pd.CLASS_ID)}</td>
-					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td><span>学生人数: ${fn:length(pd.STUDENTS)}</span></td>
-					
-				</tr>
-			</table>
+			
 			<table id="simple-table"
 				class="table table-bordered table-hover"
 				style="margin-top:0px;margin-bottom:0;">
@@ -74,7 +66,7 @@
 						<th class="center"><div style="width:80px;">得分</div></th>						
 						<c:set value="${ fn:split(pd.DATA[0].ANSWER, ';') }" var="ANSWER" />
 						<c:forEach items="${ANSWER}" var="var" varStatus="vs">
-							<th class="center"><div style="width:80px;margin:0 auto;">题目${vs.index+1}</div></th>
+							<th class="center th_w"><div style="width:80px;margin:0 auto;">题目${vs.index+1}</div></th>
 						</c:forEach>
 						
 					</tr>
@@ -86,16 +78,16 @@
 						<c:when test="${not empty pd.STUDENTS}">
 							<c:forEach items="${pd.STUDENTS}" var="var" varStatus="vs">
 								<tr>
-									<td class="center"><div style="width:80px;">${var.RANK_NUM}</div></td>
+									<td class="center"><div style="width:80px;">${pd.DATA[vs.index].RANK}</div></td>
 									<td class="center"><div style="width:80px;">${var.NAME}</div></td>
 									<td class="center"><div style="width:80px;">${var.SNO}</div></td>
 									<td class="center"><div style="width:80px;">${var.KEYPAD_ID}</div></td>
-									<td class="center"><div style="width:109px;"><fmt:formatNumber type="number" value="${pd.DATA[vs.index].STUDENT_SCORE/pd.DATA[vs.index].PAPER_SCORE*100}" pattern="#.00"/>%</div></td>
+									<td class="center"><div style="width:109px;"><fmt:formatNumber type="number" value="${pd.DATA[vs.index].STUDENT_SCORE/pd.DATA[vs.index].PAPER_SCORE*100}" pattern="0.00"/>%</div></td>
 									<td class="center"><div style="width:80px;">${pd.DATA[vs.index].STUDENT_SCORE}</div></td>
 									
 									<c:forEach items="${ANSWER}" var="var1" varStatus="vs1">
 										<c:set value="${ fn:split(ANSWER[vs1.index], ',') }" var="ANSWER1" />
-										<td class="center" <c:if test="${ANSWER1[1]== '1'}">style="background:#0bb8b9"</c:if>><div style="width:80px;margin:0 auto;">${ANSWER1[0]==""?"--":ANSWER1[0]}</div></td>
+										<td class="center td_w" <c:if test="${ANSWER1[1]== '1'}">style="background:#0bb8b9"</c:if>><div style="width:80px;margin:0 auto;">${ANSWER1[0]==""?"--":ANSWER1[0]}</div></td>
 									</c:forEach>
 									
 									
@@ -141,6 +133,9 @@
         	};
 
        		$("#simple-table").tablescroller(options);
+       		
+       		$(".scrollable-columns-table").css("width","100%");
+       		
 		});
 		$(function() {
 

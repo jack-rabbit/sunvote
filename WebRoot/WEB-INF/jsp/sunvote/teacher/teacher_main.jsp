@@ -38,6 +38,9 @@
 		<div class="out">
 			<a href="../logout"><img src="../static/images/close.png" />退出登录</a>
 		</div>
+		<div class="out" style="margin-right:20px;">
+			<a onclick="editInfo()"><img src="../static/images/psw_edit.png" />个人设置</a>
+		</div>
 		<div class="clear"></div>
 	</div>
 	<div class="content">
@@ -51,8 +54,8 @@
 					<p id="name">${pd.TEACHER.TNAME }</p>
 					<p id="school">${pd.TEACHER.SNAME }</p>
 				</div>
-					<br/>
 			<br/>
+			<br />
 			<br/>
 			</div>
 			
@@ -217,6 +220,17 @@
 			//}
 		}
 		
+		function editInfo(){
+			window.top.modal.init({
+				'title':'个人设置',
+				'url':'<%=basePath%>teacher/goEdit3.do?teacher_id=${pd.TEACHER.ID}',
+				func:function() {
+					//tosearch();
+				}
+				});
+				window.top.modal.show();
+		}
+		
 		$("#time_submit").click(function(){
 			var name = $("#enter_title").val();
 			var time = $("#enter_time").val();
@@ -248,6 +262,8 @@
 				window.top.loading.show();
 			//}
 		});
+		
+		
 		
 		var defaultUrl = '${pd.DEFAULTURL}' ;
 		if(defaultUrl != '' && defaultUrl != ''){
