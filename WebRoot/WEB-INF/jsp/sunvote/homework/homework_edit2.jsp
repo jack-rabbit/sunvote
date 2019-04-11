@@ -20,10 +20,11 @@
 	<!-- 日期框 -->
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
 	
-	
+	<link rel="stylesheet" href="static/css/teach.css" />
 	<link rel="stylesheet" href="static/css/edit.css" />
 	<style>
-		
+		.box_header{position:fixed;top:0;left:0;width:100%;z-index:9999}
+		#Form{margin-top:102px;}
 		
 	</style>
 </head>
@@ -36,7 +37,14 @@
 			<div class="page-content">
 				<div class="row">
 					<div class="col-xs-12">
-					
+					<div class="box_header">
+						<div class="head_box_l">
+							<p>
+								<span class="right_b"></span>布置练习
+							</p>
+						</div>						
+						<div class="clear"></div>
+					</div>
 					<form action="homework/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="TEACHER_ID" id="TEACHER_ID" value="${pd.TEACHER_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;width:80%;margin:0 auto;">

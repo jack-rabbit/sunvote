@@ -225,7 +225,7 @@
 				'title':'个人设置',
 				'url':'<%=basePath%>teacher/goEdit3.do?teacher_id=${pd.TEACHER.ID}',
 				func:function() {
-					//tosearch();
+					parent.location.reload();
 				}
 				});
 				window.top.modal.show();

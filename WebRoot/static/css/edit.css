@@ -18,7 +18,7 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;}
 
-.w_100{width:31px;text-align:center;vertical-align: middle;outline-style:none;}
+.w_100{width:31px;height:31px;text-align:center;vertical-align: middle;outline-style:none;}
 .homework_edit{font-size:18px;}
 .homework_edit .form-control{height:50px;}
 .homework_edit table td,.homework_edit table th{text-align:center;}
