@@ -192,7 +192,7 @@
 				if(typeof(Id) == "undefined"){
 					str = '';
 				}
-				if(str != ''){
+				if(str == ''){
 					for(var i=0;i < document.getElementsByName('ids').length;i++){
 					  if(document.getElementsByName('ids')[i].checked){
 					  	if(str=='') str += document.getElementsByName('ids')[i].value;
