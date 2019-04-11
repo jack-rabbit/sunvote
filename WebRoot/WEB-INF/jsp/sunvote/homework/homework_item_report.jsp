@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="myelfun" uri="/WEB-INF/tld/elfun.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -28,14 +30,14 @@
 </style>
 </head>
 
-<body style="background:#fff;/* overflow-y:hidden; */">${pd }
+<body style="background:#fff;/* overflow-y:hidden; */">
 	<div style="padding:20px 20px;">
 
 		<form action="report/report_test.do" method="post" name="Form" id="Form">
-			<input type="hidden" name="CLASSID" id="CLASSID" value="${info.CLASS_ID}" />
+			<input type="hidden" name="CLASSID" id="CLASSID" value="${pd.CLASS_ID}" />
 			<table style="margin-top:5px;">
 				<tr style="height: 30px">
-					<td>测验名称: ${testpaperInfo.NAME}</td>  
+					<td>测验名称: ${pd.DATA[0].NAME}</td>  
 					<c:if test="${display}">
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>教师: ${teacherPd.NAME}</td> 
@@ -44,12 +46,18 @@
 					</c:if>
 				</tr>
 				<tr style="height: 30px">
-					<td>收卷时间: ${testpaperInfo.END_DATE}</td>
+					<td>练习说明: ${pd.END_DATE}</td>
 				</tr>
 				<tr style="height: 30px">
-					<td>班级名册：${classInfo.CLASS_NAME}</td>
+					<td>班级完成情况: ${pd.END_DATE}</td>
+				</tr>
+				<tr style="height: 30px">
+					<td>收卷时间: ${pd.END_DATE}</td>
+				</tr>
+				<tr style="height: 30px">
+					<td>班级名册：${myelfun:findClassName(pd.CLASS_ID)}</td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td><span>学生人数: ${classInfo.studentNum}</span></td>
+					<td><span>学生人数: ${fn:length(pd.STUDENTS)}</span></td>
 					
 				</tr>
 			</table>
@@ -58,51 +66,39 @@
 				style="margin-top:0px;margin-bottom:0;">
 				<thead>
 					<tr>
-						<th class="center"><div style="width:80px;">姓名</div></th>
 						<th class="center"><div style="width:80px;">排名</div></th>
-						<th class="center"><div style="width:80px;">得分</div></th>
+						<th class="center"><div style="width:80px;">姓名</div></th>
 						<th class="center"><div style="width:80px;">学号</div></th>
 						<th class="center"><div style="width:109px;">键盘</div></th>
-						<!-- <th class="center"><div style="width:80px;">正确率</div></th> -->
-						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
+						<th class="center"><div style="width:80px;">正确率</div></th>
+						<th class="center"><div style="width:80px;">得分</div></th>						
+						<c:set value="${ fn:split(pd.DATA[0].ANSWER, ';') }" var="ANSWER" />
+						<c:forEach items="${ANSWER}" var="var" varStatus="vs">
 							<th class="center"><div style="width:80px;margin:0 auto;">题目${vs.index+1}</div></th>
 						</c:forEach>
-						<!-- <th class="center"><div style="width:150px;">非选择题得分</div></th> -->
-						<th class="center"><div style="width:80px;margin:0 auto;">总分</div></th>
+						
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td class="center"><div style="width:109px;">--</div></td>
-						<td class="center"><div style="width:80px;">--</div></td>
-						<td class="center"><div style="width:80px;">--</div></td>
-						<td class="center"><div style="width:80px;">--</div></td>
-						<!-- <td class="center"></td> -->
-						<td class="center"><div style="width:80px;">--</div></td>
-						<c:forEach items="${questionInfo}" var="var" varStatus="vs">
-							<td class="center"><div style="width:80px;margin:0 auto;"><c:set var="key"><c:out value="${vs.index+1}" /></c:set><fmt:formatNumber type="number"
-									value="${(questionInfo[key] / classInfo.studentNum * 100)}"
-									maxFractionDigits="1" />%</div></td>
-						</c:forEach>
-						<!-- <td class="center"></td> -->
-						<td class="center"><div style="width:80px;margin:0 auto;"></div></td>
-					</tr>
+					
 
 					<c:choose>
-						<c:when test="${not empty studentInfo}">
-							<c:forEach items="${studentInfo}" var="var" varStatus="vs">
+						<c:when test="${not empty pd.STUDENTS}">
+							<c:forEach items="${pd.STUDENTS}" var="var" varStatus="vs">
 								<tr>
-									<td class="center"><div style="width:80px;">${var.NAME}</div></td>
 									<td class="center"><div style="width:80px;">${var.RANK_NUM}</div></td>
-									<td class="center"><div style="width:80px;">${var.GETSCORE}</div></td>
-									<td class="center"><div style="width:80px;">${var.NUMBER}</div></td>
-									<td class="center"><div style="width:109px;">${var.KEYPAD_ID}</div></td>
-									<%-- <td class="center">${var.RIGHT}</td> --%>
-									<c:forEach items="${questionInfo}" var="var1" varStatus="vs1">
-										<td class="center" <c:if test="${var.detail[vs1.index].RIGHT== '1'}">style="background:#0bb8b9"</c:if>div style="width:80px;margin:0 auto;">${var.detail[vs1.index].ANSWER}</div></td>
+									<td class="center"><div style="width:80px;">${var.NAME}</div></td>
+									<td class="center"><div style="width:80px;">${var.SNO}</div></td>
+									<td class="center"><div style="width:80px;">${var.KEYPAD_ID}</div></td>
+									<td class="center"><div style="width:109px;"><fmt:formatNumber type="number" value="${pd.DATA[vs.index].STUDENT_SCORE/pd.DATA[vs.index].PAPER_SCORE*100}" pattern="#.00"/>%</div></td>
+									<td class="center"><div style="width:80px;">${pd.DATA[vs.index].STUDENT_SCORE}</div></td>
+									
+									<c:forEach items="${ANSWER}" var="var1" varStatus="vs1">
+										<c:set value="${ fn:split(ANSWER[vs1.index], ',') }" var="ANSWER1" />
+										<td class="center" <c:if test="${ANSWER1[1]== '1'}">style="background:#0bb8b9"</c:if>div style="width:80px;margin:0 auto;">${ANSWER1[0]}</div></td>
 									</c:forEach>
-									<%-- <td class="center">${var.OTHER_SCORE}</td> --%>
-									<td class="center"><div style="width:80px;margin:0 auto;">${var.GETSCORE}</div></td>
+									
+									
 								</tr>
 							</c:forEach>
 						</c:when>

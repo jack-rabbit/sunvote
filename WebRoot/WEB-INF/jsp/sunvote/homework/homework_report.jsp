@@ -302,7 +302,7 @@
 			var url = "<%=basePath%>homework/homework_report?HOMEWORK_ID=" + testpaper_id + "&CLASS_ID=" + class_id;
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
-			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
+			url = url + "&START_DATE=" + startDate + "&END_DATE=" + endDate ;
 			window.self.location.href = url;
 			window.top.loading.show();
 		}
