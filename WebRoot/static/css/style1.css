@@ -27,5 +27,5 @@ ul{padding:0;}
 .tabel_b .tab_top .col-md-9 .color li{float:left;}
 .tabel_b .tab_top .col-md-9 .color li span{display:inline-block;width:15px;height:6px;vertical-align: middle;margin-left:5px;margin-right:5px;}
 
-.prev{width:50px;height:50px;background:url(../images/prev.png) no-repeat;background-size:100%;position:absolute;top:40%;left:3%;}
-.next{width:50px;height:50px;background:url(../images/next.png) no-repeat;background-size:100%;position:absolute;top:40%;right:3%;}
+.tabel_t .prev{width:50px;height:50px;background:url(../images/prev.png) no-repeat;background-size:100%;position:absolute;top:40%;left:3%;}
+.tabel_t .next{width:50px;height:50px;background:url(../images/next.png) no-repeat;background-size:100%;position:absolute;top:40%;right:3%;}

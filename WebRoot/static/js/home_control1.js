@@ -69,7 +69,7 @@
 		$(".prev").click(function(){
 			 _index-=1;
 			 if(_index<0){
-				 _index=data_temp.data.studentList.length-1;
+				 _index=data_temp.STUDENTS.length-1;
 			 }
 			 student(data.STUDENTS[_index].CLASS_ID,data.STUDENTS[_index].ID);
 		 })

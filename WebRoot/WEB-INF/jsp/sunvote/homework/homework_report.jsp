@@ -77,9 +77,9 @@
 						style="width:88px;" placeholder="结束日期" title="结束日期" /></td>
 					<td style="vertical-align:top;padding-left:2px"><a
 						class="btn btn-light btn-xs" onclick="tosearch();" title="检索"><img src="static/images/search.png" alt="" class="search_btn" /></a></td>
-					<td><li class="btn ${pd.CURRENT_WEEK==-1?'btn-primary':'btn-default' } btn-default btn-sm" onclick="tosearch_week(-1)">上一周</li></td>
-					<td><li class="btn btn-primary btn-sm" onclick="tosearch_week(0)">本周</li></td>
-					<td><li class="btn btn-default btn-sm" onclick="tosearch_week(1)">下一周</li></td>
+					<td><li class="btn ${pd.CURRENT_WEEK==-1?'btn-primary':'btn-default' } btn-sm" onclick="tosearch_week(-1)">上一周</li></td>
+					<td><li class="btn ${pd.CURRENT_WEEK==0?'btn-primary':'btn-default' } btn-sm" onclick="tosearch_week(0)">本周</li></td>
+					<td><li class="btn ${pd.CURRENT_WEEK==1?'btn-primary':'btn-default' } btn-sm" onclick="tosearch_week(1)">下一周</li></td>
 				</tr>
 			</table>
 			<hr />
@@ -93,7 +93,7 @@
 						<th class="center"><div style="width:80px;">课程总分</div></th>
 						<c:forEach items="${pd.DATA.HOMEWORKS}" var="var_h" varStatus="vs">
 							<th class="center kc"><a
-								 onclick="paper('${info.CLASS_ID}','${var.TESTPAPER_ID}');"><div style="width:180px;     margin: 0 auto;cursor:hand" class="font">${var_h.NAME}</br><span>${var_h.COMPLETE_DATE}</span></div></a></th>
+								 onclick="paper('${pd.CLASS_ID}','${var_h.HOMEWORK_ID}');"><div style="width:180px;     margin: 0 auto;cursor:hand" class="font">${var_h.NAME}</br><span>${var_h.COMPLETE_DATE}</span></div></a></th>
 						</c:forEach>
 					</tr>
 				</thead>
@@ -299,7 +299,7 @@
 		}
 		
 		function paper(class_id,testpaper_id){
-			var url = "<%=basePath%>homework/homework_report?TestID=" + testpaper_id + "&class_id=" + class_id;
+			var url = "<%=basePath%>homework/homework_report?HOMEWORK_ID=" + testpaper_id + "&CLASS_ID=" + class_id;
 			var startDate = $("#lastStart").val();
 			var endDate =  $("#lastEnd").val();
 			url = url + "&start_date=" + startDate + "&end_date=" + endDate ;
