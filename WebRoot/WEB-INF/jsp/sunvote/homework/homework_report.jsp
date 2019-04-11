@@ -88,9 +88,9 @@
 						style="width:88px;" placeholder="结束日期" title="结束日期" /></td>
 					<td style="vertical-align:top;padding-left:2px"><a
 						class="btn btn-light btn-xs" onclick="tosearch();" title="检索"><img src="static/images/search.png" alt="" class="search_btn" /></a></td>
-					<td><li class="btn ${pd.CURRENT_WEEK==-1?'btn-primary':'btn-default' } btn-sm" onclick="tosearch_week(-1)">上一周</li></td>
-					<td><li class="btn ${pd.CURRENT_WEEK==0?'btn-primary':'btn-default' } btn-sm" onclick="tosearch_week(0)">本周</li></td>
-					<td><li class="btn ${pd.CURRENT_WEEK==1?'btn-primary':'btn-default' } btn-sm" onclick="tosearch_week(1)">下一周</li></td>
+					<td><li class="btn ${pd.CURRENT_WEEK==-1?'btn-primary':'btn-default' } btn-sm" onclick="tosearch_week(${pd.CURRENT_WEEK-1})">上一周</li></td>
+					
+					<td><li class="btn ${pd.CURRENT_WEEK==1?'btn-primary':'btn-default' } btn-sm" onclick="tosearch_week(${pd.CURRENT_WEEK+1})">下一周</li></td>
 				</tr>
 			</table>
 			<hr />

@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
 	
 	<link rel="stylesheet" href="static/css/teach.css" />
-	<link rel="stylesheet" href="static/css/edit.css" />
+	<link rel="stylesheet" href="static/css/edit.css?a=2" />
 	<style>
 		.box_header{position:fixed;top:0;left:0;width:100%;z-index:9999}
 		#Form{margin-top:102px;}
@@ -127,9 +127,9 @@
 								<col width="10%"/>
 								<thead>
 									<tr>
-										<th style="text-align:left;"><span>题目数量</span><span class="add">+</span><input type="number" class="w_100" id="que_num" value="${pd.QUESTION_COUNT==null?0:pd.QUESTION_COUNT}"/><span class="redu">-</span></th>
-										<th><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" id="ans_num" value="4"/><span class="redu">-</span></th>
-										<th><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" id="score" value="1"/><span class="redu">-</span></th>
+										<th style="text-align:left;"><span>题目数量</span><span class="redu">-</span><input type="number" class="w_100" id="que_num" value="${pd.QUESTION_COUNT==null?0:pd.QUESTION_COUNT}"/><span class="add">+</span></th>
+										<th><span>选项个数</span><span class="redu">-</span><input type="number" class="w_100 ans_num" id="ans_num" value="4"/><span class="add">+</span></th>
+										<th><span>分值</span><span class="redu">-</span><input type="number" class="w_100 score" id="score" value="1"/><span class="add">+</span></th>
 										<th></th>
 									</tr>
 								</thead>
@@ -159,8 +159,8 @@
 														</div>
 														
 													</td>
-													<td class="middle"><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" value="${var.OPTION_NUM}"/><span class="redu">-</span></td>
-													<td class="middle"><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" value="${var.SCORE}"/><span class="redu">-</span></td>
+													<td class="middle"><span>选项个数</span><span class="redu">-</span><input type="number" class="w_100 ans_num" value="${var.OPTION_NUM}"/><span class="add">+</span></td>
+													<td class="middle"><span>分值</span><span class="redu">-</span><input type="number" class="w_100 score" value="${var.SCORE}"/><span class="add">+</span></td>
 													<td class="last"><a class="remove"><img src="static/images/remove.png" /></a></td>
 												</tr>
 											</c:forEach>
@@ -210,7 +210,7 @@
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<!--页面交互-->
-	<script src="static/js/control_homework.js?t=1"></script>
+	<script src="static/js/control_homework.js?t=2"></script>
 	<script>
 	var homework_id="${pd.HOMEWORK_ID}";
 	
@@ -259,7 +259,7 @@
 			success:function(res){
 				var res=JSON.parse(res);
 				if(res.message=="success"){
-					alert(res.message);
+					//alert(res.message);
 					console.log(res);
 					
 					var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER_ID}';
@@ -279,7 +279,7 @@
 			success:function(res){
 				var res=JSON.parse(res);
 				if(res.message=="success"){
-					alert(res.message);
+					//alert(res.message);
 					console.log(res);
 					
 					var path = '<%=basePath%>homework/list.do?teacher_id=${pd.TEACHER_ID}';

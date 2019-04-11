@@ -38,7 +38,7 @@
 		<div class="out">
 			<a href="../logout"><img src="../static/images/close.png" />退出登录</a>
 		</div>
-		<div class="out" style="margin-right:20px;">
+		<div class="out" style="margin-right:20px;cursor: pointer;">
 			<a onclick="editInfo()"><img src="../static/images/psw_edit.png" />个人设置</a>
 		</div>
 		<div class="clear"></div>

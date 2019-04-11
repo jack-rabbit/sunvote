@@ -19,7 +19,7 @@
 			
 			if(_id=="que_num"){    //新增题目
 				for(j=index;j<=num;j++){
-					$(".subject_body_tbody").append('<tr><td class="first">'+j+'</td><td class="middle"><div class="question question'+j+'"><ul></ul></div></td><td class="middle"><span>选项个数</span><span class="add">+</span><input type="number" class="w_100 ans_num" value="'+$("#ans_num").val()+'"/><span class="redu">-</span></td><td class="middle"><span>分值</span><span class="add">+</span><input type="number" class="w_100 score" value="1"/><span class="redu">-</span></td><td class="last"><a class="remove"><img src="static/images/remove.png" /></a></td></tr>');
+					$(".subject_body_tbody").append('<tr><td class="first">'+j+'</td><td class="middle"><div class="question question'+j+'"><ul></ul></div></td><td class="middle"><span>选项个数</span><span class="redu">-</span><input type="number" class="w_100 ans_num" value="'+$("#ans_num").val()+'"/><span class="add">+</span></td><td class="middle"><span>分值</span><span class="redu">-</span><input type="number" class="w_100 score" value="1"/><span class="add">+</span></td><td class="last"><a class="remove"><img src="static/images/remove.png" /></a></td></tr>');
 					for(i=0;i<work.ans_num;i++){
 						$(".question"+j+" ul").append('<li class="btn btn-default">'+String.fromCharCode(0x41 + i)+'</li>')
 					}
