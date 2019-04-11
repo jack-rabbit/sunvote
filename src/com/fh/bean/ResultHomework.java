@@ -12,6 +12,7 @@ public class ResultHomework {
 	private String GET_SCORE_PERSENT;
 	private String COMPLETE_DESC;
 	private String GET_MAX_SCORE;
+	private String ANSWER_PERSENT;
 	private List<ResultStudent> STUDENTS;
 
 	public void setHOMEWORK_ID(String HOMEWORK_ID) {
@@ -70,6 +71,16 @@ public class ResultHomework {
 		return STUDENTS;
 	}
 	
+	
+	
+	public String getANSWER_PERSENT() {
+		return ANSWER_PERSENT;
+	}
+
+	public void setANSWER_PERSENT(String aNSWER_PERSENT) {
+		ANSWER_PERSENT = aNSWER_PERSENT;
+	}
+
 	public static ResultHomework parse(String json){
 		Gson gson = new Gson();
 		return gson.fromJson(json, ResultHomework.class);
@@ -77,6 +88,15 @@ public class ResultHomework {
 
 	public static class ResultStudent {
 		private String STUDENT_NO;
+		private String STUDENT_ID;
+		public String getSTUDENT_ID() {
+			return STUDENT_ID;
+		}
+
+		public void setSTUDENT_ID(String sTUDENT_ID) {
+			STUDENT_ID = sTUDENT_ID;
+		}
+
 		private String STUDENT_NAME;
 		private String KEYBOARD;
 		private String RIGHT_PERSENT;
