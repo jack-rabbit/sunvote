@@ -29,7 +29,6 @@
 			<div class="page-content">
 				<div class="row">
 					<div class="col-xs-12">
-					
 					<form action="teacher/${msg }.do" name="Form" id="Form" method="post">
 						<input type="hidden" name="ID" id="ID" value="${pd.ID}"/>
 						<input type="hidden" name="SCHOOL_ID" id="SCHOOL_ID" value="${pd.SCHOOL_ID}"/>
