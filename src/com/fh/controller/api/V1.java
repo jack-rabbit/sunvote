@@ -2895,6 +2895,7 @@ public class V1 extends BaseController {
 			homePd.put("GET_SCORE_PERSENT", resultHomework.getGET_SCORE_PERSENT());
 			homePd.put("COMPLETE_DESC", resultHomework.getCOMPLETE_DESC());
 			homePd.put("GET_MAX_SCORE", resultHomework.getGET_MAX_SCORE());
+			homePd.put("ANSWER_PERSENT", resultHomework.getANSWER_PERSENT());
 			homePd.put("COMPLETE_COUNT", "1");
 			homeworkService.edit(homePd);
 			List<PageData> list = homeworkReporkService.findByHomeworkID(homePd);
@@ -2911,6 +2912,7 @@ public class V1 extends BaseController {
 					ptd.put("RIGHT_PERSENT", "0%");
 					ptd.put("GET_SCORE", "0");
 					ptd.put("ANSWER", "");
+					ptd.put("WHETHER", "0");
 					ptd.put("HOMEWORK_ID", resultHomework.getHOMEWORK_ID());
 				}
 				// 2. 根据学生列表生成初始化成绩
@@ -2924,12 +2926,14 @@ public class V1 extends BaseController {
 				PageData tpd = new PageData();
 				tpd.put("STUDENT_NAME", student.getSTUDENT_NAME());
 				tpd.put("STUDENT_NO", student.getSTUDENT_NO());
+				tpd.put("STUDENT_ID", student.getSTUDENT_ID());
 				tpd.put("RANK", student.getRANK());
 				tpd.put("KEYBOARD", student.getKEYBOARD());
 				tpd.put("RIGHT_PERSENT", student.getRIGHT_PERSENT());
 				tpd.put("GET_SCORE", student.getGET_SCORE());
 				tpd.put("ANSWER", student.getANSWER());
 				tpd.put("HOMEWORK_ID", resultHomework.getHOMEWORK_ID());
+				tpd.put("WHETHER", "1");
 				homeworkReporkService.update(tpd);
 			}
 			res.setData(resultHomework.getHOMEWORK_ID());

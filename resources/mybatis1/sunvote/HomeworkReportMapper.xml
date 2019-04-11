@@ -17,6 +17,7 @@
 		RIGHT_PERSENT,	
 		GET_SCORE,	
 		ANSWER,	
+		WHETHER,	
 		HOMEWORK_ID
 	</sql>
 	
@@ -30,6 +31,7 @@
 		#{RIGHT_PERSENT},	
 		#{GET_SCORE},	
 		#{ANSWER},	
+		#{WHETHER},	
 		#{HOMEWORK_ID}
 	</sql>
 	
@@ -64,6 +66,7 @@
 		RIGHT_PERSENT = #{RIGHT_PERSENT},
 		GET_SCORE = #{GET_SCORE},
 		ANSWER = #{ANSWER},
+		WHETHER = #{WHETHER},
 		HOMEWORK_ID = #{HOMEWORK_ID}
 		where 
 		HOMEWORK_REPORT_ID = #{HOMEWORK_REPORT_ID}
@@ -167,6 +170,7 @@
 		#{item.GET_SCORE},	
 		#{item.ANSWER},	
 		#{item.HOMEWORK_ID}
+		#{item.WHETHER}
        )
      </foreach>
      </insert>
