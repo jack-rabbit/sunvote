@@ -160,19 +160,10 @@
 						<p onclick="event.stopPropagation();monitor('${SCHOOL_ID}')">班长管理</p>
 					</li>
 					<li>
-						<p id="jishice_paper">作业管理</p>
+						<p id="homework_paper">作业管理</p>
 					</li>
 					<li>
-						<p>作业分析</p>
-						<ul class="menu_2">
-						<c:forEach items="${gradeInfos}" var="var" varStatus="vs">
-							<c:forEach items="${var.classInfos}" var="var1" varStatus="vs1">
-								<li onclick="event.stopPropagation();report2('${var1.ID}')">
-									<p>${ var1.CLASS_NAME }</p>
-								</li>
-							</c:forEach>
-						</c:forEach>
-						</ul>
+						<p id="homework_analysis">作业分析</p>
 					</li>
 				</ul>
 		</div>
@@ -405,6 +396,19 @@
 		
 		$("#qingsongkao_paper").click(function (){
 			var path = "../paper/list4.do?school_id=" + schoolId ;
+			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
+			$("#mainFrame").attr('src',path);
+			window.top.loading.show();
+		});
+		
+		$("#homework_paper").click(function (){
+			var path = "../homework/list.do?school_id=" + schoolId ;
+			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
+			$("#mainFrame").attr('src',path);
+			window.top.loading.show();
+		});
+		$("#homework_analysis").click(function (){
+			var path = "../homework/report.do?school_id=" + schoolId ;
 			//$(".content_r").html('<iframe name="mainFrame" id="mainFrame" frameborder="0" style="width:100%;height:'+$(".content_l").height()+'px;" src=' + path + '></iframe>');
 			$("#mainFrame").attr('src',path);
 			window.top.loading.show();

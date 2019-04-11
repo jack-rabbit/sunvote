@@ -186,9 +186,6 @@ public class TeacherController extends BaseController {
 	@RequestMapping(value = "/edit2")
 	public ModelAndView edit2() throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "修改Teacher");
-		if (!Jurisdiction.buttonJurisdiction(menuUrl, "edit")) {
-			return null;
-		} // 校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -599,6 +596,7 @@ public class TeacherController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		pd.put("ID", pd.get("TEACHER_ID"));
 		pd = teacherService.findById(pd); // 根据ID读取
 		mv.setViewName("sunvote/teacher/teacher_edit3");
 		List<PageData> schools = schoolService.listAll(pd);

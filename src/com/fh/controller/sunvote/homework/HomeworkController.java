@@ -125,6 +125,9 @@ public class HomeworkController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername() + "列表Homework");
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
+		if(pd.get("TEACHER_ID") == null){
+			pd.put("TEACHER_ID", getTeacherID());
+		}
 		pd = this.getPageData();
 		String keywords = pd.getString("keywords"); // 关键词检索条件
 		if (null != keywords && !"".equals(keywords)) {

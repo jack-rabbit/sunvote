@@ -265,7 +265,7 @@ public class LoginController extends BaseController {
 					mv.addObject("user", user);
 					pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
 					if(pd.get("DEFAULTURL") == null){
-						pd.put("DEFAULTURL", "../paper/list2.do");
+						pd.put("DEFAULTURL", "../homework/list.do");
 					}
 					mv.addObject("pd", pd);
 					return mv;
