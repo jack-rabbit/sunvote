@@ -27,18 +27,29 @@
 	rel="stylesheet">
 <!-- 日期框 -->
 <link rel="stylesheet" href="static/ace/css/datepicker.css" />
+
+<link rel="stylesheet" href="static/css/teach.css" />
 <style>
 	.font span{    font-size: 12px;
     font-weight: initial;color:#000;}
     .search_btn{width:30px;}
     .btn{margin:0 5px;}
     .center{height:39px;}
+    .box_header{position:fixed;top:0;left:0;width:100%;z-index:9999;}
+	
 	</style>
 </head>
 
-<body style="background:#fff;">
-	
-<div style="padding-top:3%;">
+<body style="background:#fff;height:auto;">
+<div class="box_header">
+	<div class="head_box_l">
+		<p>
+			<span class="right_b"></span>练习报表
+		</p>
+	</div>						
+	<div class="clear"></div>
+</div>
+<div style="padding-top:3%;margin-top:102px;">
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist" style="padding-bottom:3%">
@@ -315,7 +326,7 @@
 			
 			 if(sour != null && sour.length > 3){
 				var _width = $('#mainFrame', parent.document).width()-40;
-				var _heigh = $('#mainFrame', parent.document).height()-250;
+				var _heigh = $('#mainFrame', parent.document).height()-350;
 				var options = {
 	            width: _width,
 	            height: _heigh,
