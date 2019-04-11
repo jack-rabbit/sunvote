@@ -287,6 +287,7 @@
 	
 		SELECT
 				sv_homeworkreport.STUDENT_ID,
+				sv_homeworkreport.ANSWER,
 				sv_homeworkreport.STUDENT_NAME,
 				sv_homework.ALL_SCORE as PAPER_SCORE,
 				sv_homework.GET_SCORE as AVG_SCORE,
