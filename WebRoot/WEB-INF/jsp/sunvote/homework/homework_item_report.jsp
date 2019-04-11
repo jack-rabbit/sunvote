@@ -46,13 +46,13 @@
 					</c:if>
 				</tr>
 				<tr style="height: 30px">
-					<td>练习说明: ${pd.END_DATE}</td>
+					<td>练习说明: ${pd.HOMEWORKINFO.HOMEWORK_DESC}</td>
 				</tr>
 				<tr style="height: 30px">
-					<td>班级完成情况: ${pd.END_DATE}</td>
+					<td>班级完成情况: ${pd.HOMEWORKINFO.COMPLETE_DESC}</td>
 				</tr>
 				<tr style="height: 30px">
-					<td>收卷时间: ${pd.END_DATE}</td>
+					<td>收卷时间: ${pd.HOMEWORKINFO.COMPLETE_DATE}</td>
 				</tr>
 				<tr style="height: 30px">
 					<td>班级名册：${myelfun:findClassName(pd.CLASS_ID)}</td>
@@ -62,7 +62,7 @@
 				</tr>
 			</table>
 			<table id="simple-table"
-				class="table table-striped table-bordered table-hover"
+				class="table table-bordered table-hover"
 				style="margin-top:0px;margin-bottom:0;">
 				<thead>
 					<tr>
@@ -95,7 +95,7 @@
 									
 									<c:forEach items="${ANSWER}" var="var1" varStatus="vs1">
 										<c:set value="${ fn:split(ANSWER[vs1.index], ',') }" var="ANSWER1" />
-										<td class="center" <c:if test="${ANSWER1[1]== '1'}">style="background:#0bb8b9"</c:if>div style="width:80px;margin:0 auto;">${ANSWER1[0]}</div></td>
+										<td class="center" <c:if test="${ANSWER1[1]== '1'}">style="background:#0bb8b9"</c:if>><div style="width:80px;margin:0 auto;">${ANSWER1[0]==""?"--":ANSWER1[0]}</div></td>
 									</c:forEach>
 									
 									
@@ -128,19 +128,19 @@
 		$(document).ready(function(){
 			window.top.loading.remove();
 			
-			var _heigh = $('#mainFrame', parent.document).height()-120;
+			var _heigh = $('#mainFrame', parent.document).height()-220;
 			//console.log(_heigh);
 			
 			var options = {
             width: '100%',
             height: _heigh,
-            pinnedRows: 2,
-            pinnedCols: 5,
+            pinnedRows: 1,
+            pinnedCols: 6,
             container: "#scrollableTable",
             removeOriginal: true
         	};
 
-//       		$("#simple-table").tablescroller(options);
+       		$("#simple-table").tablescroller(options);
 		});
 		$(function() {
 
