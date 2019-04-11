@@ -60,7 +60,7 @@ public class HomeworkService implements HomeworkManager{
 	 * @throws Exception
 	 */
 	public void deleteHomeworkAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.update("HomeworkMapper.deleteHomework", ArrayDATA_IDS);
+		dao.update("HomeworkMapper.deleteHomeworkAll", ArrayDATA_IDS);
 	}
 	
 	/**列表
@@ -114,6 +114,11 @@ public class HomeworkService implements HomeworkManager{
 	@Override
 	public List<PageData> report(PageData pd) throws Exception {
 		return (List<PageData>)dao.findForList("HomeworkMapper.report", pd);
+	}
+
+	@Override
+	public List<PageData> querySubjectId(PageData pd) throws Exception {
+		return (List<PageData>)dao.findForList("HomeworkMapper.querySubjectId", pd);
 	}
 	
 }

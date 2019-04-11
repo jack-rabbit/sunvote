@@ -168,6 +168,16 @@
 			CODE = #{CODE}
 	</select>
 	
+	
+	<select id="querySubjectId" parameterType="pd" resultType="pd">
+		select 
+		SUBJECT_ID 
+		from 
+		sv_coursemanagement 
+		where TEACHER_ID = #{TEACHER_ID} 
+		GROUP BY SUBJECT_ID
+	</select>
+	
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
@@ -199,8 +209,12 @@
 		<if test="pd.ENDDATE != null and pd.ENDDATE != ''"><!-- 关键词检索 -->
 			and COMPLETE_DATE &lt; #{pd.ENDDATE}
 		</if>
+		<if test="pd.STATUS != null and pd.STATUS != ''"><!-- 关键词检索 -->
+			and COMPLETE_COUNT = #{pd.STATUS}
+		</if>
 		
 		and IS_DELETE is  null
+		ORDER BY COMPLETE_DATE DESC
 	</select>
 	
 	<!-- 列表(全部) -->

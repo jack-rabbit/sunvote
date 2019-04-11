@@ -167,6 +167,9 @@ public class HomeworkController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		// 添加科目ID
+		pd.put("TEACHER_ID", getTeacherID());
+		pd.put("SUBJECT_ID", homeworkService.querySubjectId(pd));
 		mv.setViewName("sunvote/homework/homework_edit2");
 		mv.addObject("msg", "save");
 		mv.addObject("operation", "add");
@@ -174,7 +177,7 @@ public class HomeworkController extends BaseController {
 		return mv;
 	}
 
-	/**
+	/**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 	 * 去修改页面
 	 * 
 	 * @param
@@ -537,9 +540,6 @@ public class HomeworkController extends BaseController {
 	@ResponseBody
 	public Object deleteAll() throws Exception {
 		logBefore(logger, Jurisdiction.getUsername() + "批量删除Homework");
-		if (!Jurisdiction.buttonJurisdiction(menuUrl, "del")) {
-			return null;
-		} // 校验权限
 		PageData pd = new PageData();
 		Map<String, Object> map = new HashMap<String, Object>();
 		pd = this.getPageData();
@@ -691,6 +691,12 @@ public class HomeworkController extends BaseController {
 		if (homework != null) {
 			hpd.put("CODE", get32UUID());
 			hpd.put("NAME", homework.getNAME());
+			if(homework.getSUBJECT_ID() == null){
+				List<PageData> slist = homeworkService.querySubjectId(pd);
+				if(slist.size() > 0){
+					homework.setSUBJECT_ID(slist.get(0).getString("SUBJECT_ID"));
+				}
+			}
 			hpd.put("SUBJECT_ID", homework.getSUBJECT_ID());
 			hpd.put("ALL_SCORE", homework.getALL_SCORE());
 			hpd.put("HOMEWORK_DESC", homework.getHOMEWORK_DESC());

@@ -35,9 +35,9 @@
 			</div>
 			<div class="head_box_r">
 				<select name="status" id="status" style="width:90px;height:26px;margin-right:5px;padding:0;border-color:#aaa;">
-					<option value="0">全部</option>
-					<option value="1">完成</option>
-					<option value="2">未完成</option>
+					<option value="">全部</option>
+					<option value="0" <c:if test="${pd.STATUS=='0'}">selected="true"</c:if>>未完成</option>
+					<option value="1" <c:if test="${pd.STATUS=='1'}">selected="true"</c:if>>完成</option>
 				</select>
 				<input class="date-picker" type="text" placeholder="开始日期" name="StartDate" id="StartDate" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.STARTDATE }"/> 
 				<input type="text" class="date-picker" placeholder="结束日期" name="EndDate" name="EndDate" data-date-format="yyyy-mm-dd" readonly="readonly" value="${pd.ENDDATE}"/>
@@ -188,28 +188,34 @@
 	function del(Id){
 		window.top.remove.init({"title":"删除","func":function(success){
 			if(success){
-				var str = '';
-				for(var i=0;i < document.getElementsByName('ids').length;i++){
-				  if(document.getElementsByName('ids')[i].checked){
-				  	if(str=='') str += document.getElementsByName('ids')[i].value;
-				  	else str += ',' + document.getElementsByName('ids')[i].value;
-				  }
+				var str = Id;
+				if(typeof(Id) == "undefined"){
+					str = '';
 				}
-				if(str==''){
-					
-				}else{
-					$.ajax({
-							type: "POST",
-							url: '<%=basePath%>homework/deleteAll.do?tm='+new Date().getTime(),
-					    	data: {DATA_IDS:str},
-							dataType:'json',
-							//beforeSend: validateData,
-							cache: false,
-							success: function(data){
-								tosearch();
-							}
-						});
+				if(str == ''){
+					for(var i=0;i < document.getElementsByName('ids').length;i++){
+					  if(document.getElementsByName('ids')[i].checked){
+					  	if(str=='') str += document.getElementsByName('ids')[i].value;
+					  	else str += ',' + document.getElementsByName('ids')[i].value;
+					  }
+					}
 				}
+				if(str == ''){
+					return ;
+				}
+				
+				$.ajax({
+						type: "POST",
+						url: '<%=basePath%>homework/deleteAll.do?tm='+new Date().getTime(),
+				    	data: {DATA_IDS:str},
+						dataType:'json',
+						//beforeSend: validateData,
+						cache: false,
+						success: function(data){
+							tosearch();
+						}
+					});
+				
 			}
 			else{
 				console.log("false");
