@@ -28,6 +28,7 @@
 		GET_SCORE_PERSENT,	
 		GET_MAX_SCORE,	
 		QUESTION_COUNT,	
+		ANSWER_PERSENT,	
 		HOMEWORK_ID
 	</sql>
 	
@@ -52,6 +53,7 @@
 		#{GET_SCORE_PERSENT},	
 		#{GET_MAX_SCORE},	
 		#{QUESTION_COUNT},	
+		#{ANSWER_PERSENT},	
 		#{HOMEWORK_ID}
 	</sql>
 	
@@ -117,6 +119,8 @@
 			GET_MAX_SCORE = #{GET_MAX_SCORE},
 			</if><if test="QUESTION_COUNT != null and QUESTION_COUNT != ''">
 			QUESTION_COUNT = #{QUESTION_COUNT},
+			</if><if test="ANSWER_PERSENT != null and ANSWER_PERSENT != ''">
+			ANSWER_PERSENT = #{ANSWER_PERSENT},
 			</if>
 		HOMEWORK_ID = HOMEWORK_ID
 		where 
@@ -288,6 +292,7 @@
 		SELECT
 				sv_homeworkreport.STUDENT_ID,
 				sv_homeworkreport.ANSWER,
+				sv_homeworkreport.RANK,
 				sv_homeworkreport.STUDENT_NAME,
 				sv_homework.ALL_SCORE as PAPER_SCORE,
 				sv_homework.GET_SCORE as AVG_SCORE,
