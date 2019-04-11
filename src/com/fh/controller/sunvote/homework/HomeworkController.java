@@ -482,6 +482,8 @@ public class HomeworkController extends BaseController {
 			pd.put("STUDENTS", studentList);
 		}
 		
+		pd.put("HOMEWORKINFO", homeworkService.findById(pd));
+		
 		pd.remove("JSON");
 		mv.setViewName("sunvote/homework/homework_item_report");
 		mv.addObject("pd", pd);
