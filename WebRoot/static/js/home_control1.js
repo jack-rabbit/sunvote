@@ -60,9 +60,11 @@
 		$("#search").click(function(){
 
 			window.top.loading.show();
-			startDate = $("#starDate").val();
-			endDate = $("#endDate").val();
-			getData(startDate,endDate);
+			//startDate = $("#starDate").val();
+			//endDate = $("#endDate").val();
+			//getData(startDate,endDate);
+			
+			 student(data.STUDENTS[_index].CLASS_ID,data.STUDENTS[_index].ID);
 			
 		})
 		

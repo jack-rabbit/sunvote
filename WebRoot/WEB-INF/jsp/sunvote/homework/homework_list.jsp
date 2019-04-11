@@ -100,9 +100,12 @@
 								<td>
 								<c:if test="${var.COMPLETE_COUNT == '0'}">
 									<a onclick="edit('${var.HOMEWORK_ID}');"><img src="static/images/eidtor.png" /></a>
+									<a onclick="del('${var.HOMEWORK_ID}');"><img src="static/images/remove.png" /></a>
 								</c:if>
-								<a onclick="del('${var.HOMEWORK_ID}');"><img src="static/images/remove.png" /></a>
-								</td>
+								<c:if test="${var.COMPLETE_COUNT == '1'}">
+									<a onclick="del('${var.HOMEWORK_ID}');" style="margin-left: 28px"><img src="static/images/remove.png" /></a>
+								</c:if>
+								
 							</tr>
 							
 						
